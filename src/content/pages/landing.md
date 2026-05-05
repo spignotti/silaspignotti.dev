@@ -1,8 +1,8 @@
 ---
 title: Silas Pignotti
-description: Geo Data Scientist and AI Engineer in Berlin. M.Sc. Geoinformation at BHT Berlin.
+description: Geospatial and automation-focused data scientist in Berlin. M.Sc. Geoinformation at BHT Berlin.
 slug: /
-ogImage: /ogImage.png
+ogImage: /ogImage.svg
 ---
 
 M.Sc. Geoinformation student at BHT Berlin. Spatial analysis, machine learning on geodata, and AI-driven automation.

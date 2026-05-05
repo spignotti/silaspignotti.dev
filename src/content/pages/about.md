@@ -2,7 +2,7 @@
 title: About
 description: Geo Data Scientist in Berlin. M.Sc. Geoinformation at BHT Berlin. Geospatial analysis, ML on satellite imagery, AI workflows.
 slug: /about
-ogImage: /ogImage.png
+ogImage: /ogImage.svg
 ---
 
 # About

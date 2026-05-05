@@ -6,7 +6,7 @@ interface Props {
   imagePath?: string
 }
 
-const { title = SITE.title, description = SITE.description, imagePath = '/ogImage.png' } = Astro.props
+const { title = SITE.title, description = SITE.description, imagePath = '/ogImage.svg' } = Astro.props
 const image = new URL(imagePath, Astro.site).toString()
 
 // Optimize description for SEO (50-155 chars)
