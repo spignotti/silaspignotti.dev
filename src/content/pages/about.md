@@ -13,7 +13,7 @@ ogImage: /ogImage.png
 
 2025–present
 
-KPI automation on industrial plant data (Python, SQL). Migrated manual Excel workflows to reproducible, SQL-based analysis pipelines.
+KPI automation and reporting on industrial plant data (Python, SQL). Replaced manual Excel workflows with reproducible, SQL-based analysis pipelines for operational decision-making.
 
 ### Construction Management · Büro Tacke e.K.
 
@@ -62,15 +62,15 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 ### AI & Automation
 
-Agentic systems, context engineering, RAG pipelines, prompt engineering. LLM-based tooling for development, analysis, and workflow automation.
+Agentic systems, context engineering, RAG pipelines, workflow automation. LLM-based tooling for analysis and process automation.
 
-`LangChain` `LangGraph` `LiteLLM` `Ollama` `RAG` `MCP` `n8n` `Notion` `Claude Code` `OpenCode` `Codex`
+`LangChain` `LangGraph` `LiteLLM` `Ollama` `RAG` `MCP` `AI Coding Agents`
 
 ### Infrastructure & Tooling
 
 Cloud infrastructure, pipeline orchestration, API development, containerization.
 
-`GCP` `PostgreSQL` `FastAPI` `Docker` `Git/GitHub` `Linux` `Prefect` `MLflow`
+`GCP` `PostgreSQL` `FastAPI` `Docker` `Git/GitHub` `Linux` `Prefect` `MLflow` `Notion`
 
 ### Languages
 
