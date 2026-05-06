@@ -75,7 +75,7 @@ export const technologies: Technologies = {
     { text: 'SQL', logo: 'lucide:database' },
     { text: 'FastAPI', logo: 'si:fastapi' },
     { text: 'Docker', logo: 'si:docker' },
-    { text: 'Git/GitHub', logo: 'mdi:git' },
+    { text: 'Git', logo: 'mdi:git' },
     { text: 'Linux', logo: 'lucide:server' },
     { text: 'Google Colab', logo: 'lucide:file-code' },
   ],
