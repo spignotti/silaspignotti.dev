@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and AI-driven automation — turning geodata into analysis results and operational workflows.
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and AI-driven automation to solve environmental and infrastructure problems with geodata.
 
 ## Experience
 
@@ -44,7 +44,7 @@ Real estate database management, GIS-based site analysis with direct impact on i
 GPA 1.2
 
 - Focus: Geoinformatics, Remote Sensing, Spatial Data Science
-- Thesis (planned): Urban Heat Islands. Deep-learning-based LST downscaling (Landsat→Sentinel-2) and causal analysis of climate adaptation measures in Berlin
+- Thesis in progress: "Urban Heat Islands – Deep-Learning-Based LST Downscaling and Causal Analysis of Climate Adaptation Measures in Berlin"
 
 ### B.Sc. Urban & Regional Planning · TU Berlin
 
@@ -60,19 +60,19 @@ GPA 1.6
 
 Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geoprocessing.
 
-`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `PostGIS` `QGIS` `GeoPandas`
+`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `PostGIS` `QGIS`
 
 ### AI & Automation
 
-Building agentic systems, context-engineering workflows, and LLM-based tooling for operational pipelines.
+Building agentic systems, RAG pipelines, and LLM-integrated workflows for analysis and process automation.
 
-`Python` `Ollama` `MCP` `AI Coding Agents`
+`Ollama` `Claude Code` `LLM APIs`
 
 ### Data Engineering & Tooling
 
-Cloud infrastructure, pipeline orchestration, API development, and containerization.
+Pipeline orchestration, API development, containerization, and cloud infrastructure for data-intensive workflows.
 
-`GCP` `PostgreSQL` `SQL` `FastAPI` `Docker` `Linux` `Git`
+`GCP` `PostgreSQL` `SQL` `FastAPI` `Docker` `Git` `Linux` `Google Colab`
 
 ### Languages
 

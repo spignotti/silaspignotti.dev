@@ -58,7 +58,6 @@ export type Technologies = Record<string, Category[]>
 export const technologies: Technologies = {
   'Geospatial Data Science': [
     { text: 'Python', logo: 'si:python' },
-    { text: 'SQL', logo: 'lucide:database' },
     { text: 'PyTorch', logo: 'si:pytorch' },
     { text: 'scikit-learn', logo: 'si:scikitlearn' },
     { text: 'Google Earth Engine', logo: 'si:googleearth' },
@@ -66,23 +65,18 @@ export const technologies: Technologies = {
     { text: 'QGIS', logo: 'si:qgis' },
   ],
   'AI & Automation': [
-    { text: 'LangChain', logo: 'lucide:sparkles' },
-    { text: 'LangGraph', logo: 'lucide:waypoints' },
-    { text: 'LiteLLM', logo: 'lucide:bot' },
     { text: 'Ollama', logo: 'lucide:bot' },
-    { text: 'RAG', logo: 'lucide:database' },
-    { text: 'MCP', logo: 'lucide:git-branch' },
-    { text: 'AI Coding Agents', logo: 'lucide:brain' },
+    { text: 'Claude Code', logo: 'lucide:wand-sparkles' },
+    { text: 'LLM APIs', logo: 'lucide:sparkles' },
   ],
   'Data Engineering & Tooling': [
     { text: 'GCP', logo: 'si:googlecloud' },
     { text: 'PostgreSQL', logo: 'si:postgresql' },
+    { text: 'SQL', logo: 'lucide:database' },
     { text: 'FastAPI', logo: 'si:fastapi' },
     { text: 'Docker', logo: 'si:docker' },
     { text: 'Git/GitHub', logo: 'mdi:git' },
     { text: 'Linux', logo: 'lucide:server' },
-    { text: 'Prefect', logo: 'lucide:settings' },
-    { text: 'MLflow', logo: 'lucide:brain' },
-    { text: 'Notion', logo: 'lucide:file-text' },
+    { text: 'Google Colab', logo: 'lucide:file-code' },
   ],
 }
