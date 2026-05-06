@@ -6,7 +6,9 @@ category: "Geospatial"
 tags:
   - "Python"
   - "FastAPI"
-  - "LangChain"
+  - "GeoPandas"
+  - "OpenAI API"
+  - "HTMX"
   - "SQLite"
 github: "https://github.com/spignotti/urbanIQ"
 coverIcon: "building-2"
@@ -20,22 +22,16 @@ screenshots:
 
 ## Problem
 
-Geodata on Berlin's districts is scattered across multiple sources (statistics offices, OpenStreetMap, public administration). Anyone needing a quick overview has to manually aggregate and join datasets.
+Geodata aggregation, clipping, and preparation is one of the biggest time sinks in urban planning projects. Data is scattered across multiple geoportals, APIs, and formats. Even for technically proficient analysts, harmonizing datasets into a usable format takes hours. For non-technical stakeholders in city administration, it is often impossible without GIS support.
 
 ## Solution
 
-NLP-driven geodata aggregation. Users ask a natural-language question, the system identifies relevant datasets, retrieves them, performs spatial joins, and delivers a structured district analysis.
+A geodata aggregation system that accepts natural-language queries, identifies relevant data sources, retrieves and clips data to the requested spatial level, harmonizes formats and CRS, and outputs unified geodata packages with metadata reports. Web interface for non-technical users.
 
 ## Result
 
-Automated district profiles from a single question. Connects LLM-based query logic with spatial data processing in one tool.
+From a single question to a complete, harmonized geodata package with documentation. Demonstrates that LLM-based query parsing combined with automated geodata pipelines can eliminate the manual aggregation bottleneck in urban planning workflows.
 
-## Lessons Learned
+## Technical Details
 
-- LangChain's abstraction helped prototype the NLP-to-query pipeline quickly, but the chain logic became hard to debug once multiple datasets were involved. For a production system, a simpler prompt-based approach with explicit query construction would be more maintainable.
-- Spatial joins are the bottleneck. Aggregating multiple geodatasets per district is fast individually, but chaining five or six joins in sequence scales poorly. Pre-computing district profiles and updating incrementally would be the better architecture.
-- HTMX was a good fit for this kind of tool: server-rendered HTML fragments, no frontend build step, minimal JavaScript. Fast to build and easy to maintain.
-
-## Deep Dive
-
-The query pipeline works in three stages. First, the user's natural-language question is parsed by an LLM to identify which datasets are relevant (demographics, infrastructure, green space, etc.). Second, the system retrieves the corresponding geodata from local sources or APIs, performs spatial joins against Berlin's district boundaries (LOR planning areas), and aggregates metrics per district. Third, results are formatted as a structured district profile and rendered via HTMX. The LangChain integration handles the first stage: a chain that maps questions to dataset identifiers and aggregation functions. The spatial processing in stage two is pure GeoPandas with SQLite caching for previously computed joins.
+Four services. NLP service parses natural-language requests via OpenAI GPT to identify required datasets and spatial levels. Data service orchestrates retrieval from Berlin Geoportal WFS and OpenStreetMap Overpass API. Processing service handles CRS transformation, spatial clipping, and schema normalization. Metadata service generates reports on data quality and usage guidance. FastAPI backend with SQLModel ORM, Alembic migrations, HTMX frontend, Docker deployment.

@@ -5,12 +5,15 @@ description: "Cross-city transfer of tree species classification using Sentinel-
 category: "Geospatial"
 tags:
   - "Python"
+  - "PyTorch"
   - "scikit-learn"
+  - "XGBoost"
+  - "1D-CNN"
   - "Google Earth Engine"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
 tagline: "Cross-city transfer of urban tree genus classification. Can a model trained in Berlin classify trees in Leipzig?"
-featured: true
+featured: false
 year: 2026
 completed: true
 downloads:
@@ -20,22 +23,16 @@ downloads:
 
 ## Problem
 
-Cities need tree cadastres for informed urban tree management, but manual field surveys are expensive and don't scale. Satellite-based classification using Sentinel-2 data offers an alternative, but models trained on one city typically fail when applied to another due to domain shift. No systematic baselines existed to quantify this cross-city transfer gap for urban tree genus classification.
+Cities need tree cadastres for informed urban tree management, but manual field surveys are expensive and do not scale. Satellite-based classification using Sentinel-2 data offers an alternative, but current approaches focus on species detection, not genus classification, which is critical for environmental and urban planning. Additionally, models trained on one city typically fail when applied to another due to domain shift. No systematic baselines existed to quantify this cross-city transfer gap.
 
 ## Solution
 
-Fully reproducible ML pipeline built on multitemporal Sentinel-2 composites (12 months, 10 bands + 13 vegetation indices) and municipal tree cadastres from Berlin (905k trees) and Leipzig (168k trees), 17 genus-level classes. XGBoost and 1D-CNN compared under strict spatial block CV across three experiments: source optimization, zero-shot transfer, and fine-tuning with stratified target data fractions. Built entirely on open data.
+Reproducible ML pipeline built on multitemporal Sentinel-2 composites (12 months, 10 bands + 13 vegetation indices) and municipal tree cadastres from Berlin (905k trees) and Leipzig (168k trees), 17 genus-level classes. XGBoost and 1D-CNN compared under strict spatial block CV across three experiments: source optimization, zero-shot transfer, and fine-tuning with stratified target data fractions. Includes a cadastre cleaning methodology for dead tree detection and GPS position correction. Built entirely on open data.
 
 ## Result
 
 XGBoost weighted F1 = 0.751 in Berlin under spatial block CV, exceeding published benchmarks despite higher class count and stricter evaluation. Zero-shot transfer to Leipzig: XGBoost -49.8%, 1D-CNN -37.4%. Fine-tuning sweet spot at 25-50% local data. Pipeline design (class balancing: +18 pp F1, spatial evaluation, feature engineering) contributes more to performance than algorithm or hyperparameter choice.
 
-## Lessons Learned
+## Technical Details
 
-- Pipeline design matters more than algorithm choice. Class balancing alone added +18 pp weighted F1. Spatial block CV, feature engineering, and preprocessing decisions had more impact than hyperparameter tuning or switching between XGBoost and 1D-CNN.
-- Spatial autocorrelation is the silent accuracy killer in remote sensing ML. Standard random CV inflated accuracy by double digits. Spatial block CV with 1200 m blocks caught this. Straightforward to implement, unclear why it's still not standard practice in the field.
-- Zero-shot transfer confirmed what the literature suspected but rarely quantified: domain shift between cities is severe (up to -50% F1). The practical sweet spot for fine-tuning was 25-50% local data, not full retraining.
-
-## Deep Dive
-
-The transfer experiment used three sequential stages. Source-domain optimization in Berlin compared XGBoost (50 importance-ranked features from 276 candidates) and 1D-CNN (full 144-feature temporal sequences) under spatial block CV. Zero-shot transfer applied Berlin-trained models directly to Leipzig data without adaptation. Fine-tuning used stratified Leipzig data fractions (10%, 25%, 50%, 100%) against from-scratch baselines. The 1D-CNN retained more performance under zero-shot transfer (-37.4% vs. -49.8% for XGBoost), suggesting that learned temporal representations generalize better than handcrafted spectral features. Feature importance analysis confirmed this: XGBoost relied heavily on absolute spectral values (NDVI magnitude), while the CNN encoded relative temporal patterns (phenological shape). The fine-tuning recovery followed a power-law curve, with diminishing returns beyond 50% local data.
+Three-stage pipeline. Source-domain optimization in Berlin compares XGBoost (50 importance-ranked features from 276 candidates) and 1D-CNN (full 144-feature temporal sequences) under spatial block CV with 1200 m blocks. Standard random CV inflated accuracy by double digits — spatial block CV caught this. Zero-shot transfer applies Berlin-trained models directly to Leipzig without adaptation. Fine-tuning uses stratified Leipzig data fractions against from-scratch baselines, with recovery following a power-law curve. The cadastre cleaning step handles dead tree detection and GPS position correction, which directly contributed to training data quality and the strong source-domain performance.

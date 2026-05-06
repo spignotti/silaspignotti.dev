@@ -6,34 +6,29 @@ category: "AI/Automation"
 tags:
   - "Python"
   - "Typer"
-  - "LiteLLM"
+  - "Semantic Scholar"
+  - "OpenAlex"
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
 tagline: "CLI tool for automated literature search with structured reports and BibTeX export."
-featured: true
+featured: false
 year: 2026
 completed: true
 ---
 
 ## Problem
 
-Literature search is one of the most time-consuming parts of academic work. Finding relevant papers means cycling between keyword searches, scanning abstracts, following citation chains, and filtering for quality. For a new topic, this easily takes days before the actual reading begins.
+Literature search is one of the most time-consuming parts of academic work. For a new topic, the standard workflow means decomposing a research question into search terms, manually cycling between databases, scanning hundreds of abstracts, following citation chains, and filtering for relevance. Existing AI research tools increasingly automate parts of this, but the full pipeline from question to curated, ranked paper set with PDFs and exportable references remains manual work.
 
 ## Solution
 
-Open-source CLI tool that automates the literature search workflow. Takes a research question, generates search queries via LLM, retrieves papers from Semantic Scholar, filters and ranks results by relevance, and produces a structured report with export to common formats. Supports iterative refinement, where results from one round inform the next.
+Open-source CLI tool that automates the full literature search pipeline. Takes a research question, decomposes it into multiple search strategies via LLM, retrieves papers from Semantic Scholar and OpenAlex, screens and ranks results by relevance against the original question, and produces a structured report with BibTeX/RIS export and downloaded PDFs. Supports citation graph expansion and iterative refinement.
 
 ## Result
 
-Reproducible literature sets from a single command. Published on PyPI, MIT license. Reduces initial literature search from days to minutes. Query and filtering logic stay transparent and reproducible.
+From research question to curated paper set in minutes instead of days. Published on PyPI (MIT license). One-command workflow: input a question, get a ranked report with PDFs, references, and per-paper analysis. Reproducible and resumable via pipeline checkpoints.
 
-## Lessons Learned
+## Technical Details
 
-- Semantic Scholar's API is powerful but has quirks: rate limits, inconsistent metadata coverage, and papers that exist in the web UI but not in the API. Building error handling and fallback logic was as much work as the core search pipeline.
-- LLM-generated search queries consistently outperform hand-written ones for exploratory searches. The model finds synonym variations and related terms that a manual search would miss.
-- The biggest usability improvement was adding the report format. A structured Markdown document with categorized papers, key findings, and citation-ready references. Raw paper lists are useless without synthesis.
-
-## Deep Dive
-
-The pipeline runs in four stages. Query generation decomposes the research question into multiple search strategies via LLM (keyword-based, concept-based, methodological). Retrieval runs Semantic Scholar API calls with pagination, deduplication, and metadata enrichment (citation count, publication year, open access status). Filtering and ranking uses LLM-based relevance scoring against the original research question, with configurable thresholds. Report generation produces structured Markdown output with paper summaries, categorization by subtopic, and BibTeX export. Each stage is independently cacheable, so iterative refinement doesn't repeat expensive API calls.
+Four-stage pipeline. Query generation decomposes the research question into keyword-based, concept-based, and methodological search strategies via LLM (routed through LiteLLM for provider-agnostic API access). Multi-source discovery retrieves candidates from Semantic Scholar and OpenAlex with deduplication and source tracking. Screening and ranking uses LLM-based relevance scoring with configurable selection modes (top-percent, top-k, threshold). Report generation produces structured Markdown with per-paper analysis, synthesis, BibTeX/RIS export, and Zotero integration. Each stage is independently cacheable, and runs are resumable from saved state checkpoints.
