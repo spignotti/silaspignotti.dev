@@ -6,11 +6,9 @@ category: "AI/Automation"
 tags:
   - "Python"
   - "FastAPI"
-  - "PyVRP"
-  - "Supabase"
   - "Docker"
   - "Streamlit"
-  - "OpenRouteService"
+  - "Supabase"
 coverIcon: "workflow"
 tagline: "Optimal routes, real constraints."
 featured: false

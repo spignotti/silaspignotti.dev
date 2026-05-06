@@ -8,13 +8,9 @@ tags:
   - "PyTorch"
   - "Google Earth Engine"
   - "GCP"
-  - "Landsat"
-  - "Sentinel-2"
-  - "Deep Learning"
-  - "Remote Sensing"
 coverIcon: "satellite"
 tagline: "Resolving urban heat at street level."
-featured: false
+featured: true
 year: 2026
 completed: false
 ---

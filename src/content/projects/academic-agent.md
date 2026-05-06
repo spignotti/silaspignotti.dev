@@ -5,20 +5,13 @@ description: "Full-scope academic agent built around Zotero as the data layer vi
 category: AI/Automation
 tags:
   - Python
-  - OpenCode
-  - Semantic Scholar
   - Zotero
-  - PaperQA2
   - LaTeX
 github: https://github.com/spignotti/academic-agent
 coverIcon: book-open-check
 year: 2026
 completed: true
 featured: false
----
-
-**Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a LaTeX writing pipeline. 43+ tools, 8 skills, 190 tests.**
-
 ---
 
 ## Problem

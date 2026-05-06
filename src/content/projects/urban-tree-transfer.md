@@ -5,12 +5,8 @@ description: "Cross-city transfer of tree species classification using Sentinel-
 category: "Geospatial"
 tags:
   - "Python"
-  - "XGBoost"
   - "scikit-learn"
-  - "GeoPandas"
-  - "Rasterio"
   - "Google Earth Engine"
-  - "1D-CNN"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
 tagline: "Cross-city transfer of urban tree genus classification. Can a model trained in Berlin classify trees in Leipzig?"

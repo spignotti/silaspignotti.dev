@@ -1,18 +1,16 @@
 ---
 title: "litresearch"
 slug: "litresearch"
-description: "Open-source CLI for automated literature research. From research question to curated paper set with report and BibTeX export. Published on PyPI."
+description: "Open-source CLI for automated literature research. Generates structured reports and BibTeX exports from a research question. Published on PyPI."
 category: "AI/Automation"
 tags:
   - "Python"
   - "Typer"
   - "LiteLLM"
-  - "Semantic Scholar"
-  - "pypdf"
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
-tagline: "Automated literature search from a research question to a curated, deduplicated source set."
+tagline: "CLI tool for automated literature search with structured reports and BibTeX export."
 featured: true
 year: 2026
 completed: true
@@ -32,7 +30,7 @@ Reproducible literature sets from a single command. Published on PyPI, MIT licen
 
 ## Lessons Learned
 
-- Semantic Scholar's API is powerful but has quirks: rate limits, inconsistent metadata coverage, and papers that exist in the web UI but not in the API. Building robust error handling and fallback logic was as much work as the core search pipeline.
+- Semantic Scholar's API is powerful but has quirks: rate limits, inconsistent metadata coverage, and papers that exist in the web UI but not in the API. Building error handling and fallback logic was as much work as the core search pipeline.
 - LLM-generated search queries consistently outperform hand-written ones for exploratory searches. The model finds synonym variations and related terms that a manual search would miss.
 - The biggest usability improvement was adding the report format. A structured Markdown document with categorized papers, key findings, and citation-ready references. Raw paper lists are useless without synthesis.
 

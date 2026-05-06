@@ -1,11 +1,13 @@
 ---
 title: About
-description: Geo Data Scientist in Berlin. M.Sc. Geoinformation at BHT Berlin. Geospatial analysis, ML on satellite imagery, AI workflows.
+description: Geospatial analysis, machine learning, and AI workflows. M.Sc. Geoinformation at BHT Berlin.
 slug: /about
 ogImage: /ogImage.svg
 ---
 
 # About
+
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I work at the intersection of spatial analysis, machine learning, and AI-driven automation, building tools and pipelines that turn geodata into analysis results and operational workflows.
 
 ## Experience
 
@@ -66,7 +68,7 @@ Agentic systems, context engineering, RAG pipelines, workflow automation. LLM-ba
 
 `LangChain` `LangGraph` `LiteLLM` `Ollama` `RAG` `MCP` `AI Coding Agents`
 
-### Infrastructure & Tooling
+### Data Engineering & Tooling
 
 Cloud infrastructure, pipeline orchestration, API development, containerization.
 

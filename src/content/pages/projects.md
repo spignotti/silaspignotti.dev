@@ -1,10 +1,10 @@
 ---
-title: My Projects
+title: Projects
 description: Selected projects in geospatial analysis, machine learning, and AI tooling.
 slug: /projects
 ogImage: /ogImage.svg
 ---
 
-## My Projects
+## Projects
 
 Selected projects in geospatial analysis, machine learning, and AI tooling.

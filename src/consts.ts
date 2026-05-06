@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: 'Silas Pignotti',
   description:
-    'Geospatial and automation-focused data scientist building spatial analytics, ML systems, and AI-driven workflows for real-world urban and infrastructure use cases.',
+    'Geospatial and automation-focused student building spatial analytics, analysis tools, and AI-driven workflows for urban and infrastructure use cases.',
   href: 'https://silaspignotti.dev',
   author: 'Silas Pignotti',
   locale: 'en-US',
@@ -72,20 +72,17 @@ export const technologies: Technologies = {
     { text: 'Ollama', logo: 'lucide:bot' },
     { text: 'RAG', logo: 'lucide:database' },
     { text: 'MCP', logo: 'lucide:git-branch' },
-    { text: 'n8n', logo: 'lucide:workflow' },
-    { text: 'Notion', logo: 'lucide:file-text' },
-    { text: 'Claude Code', logo: 'lucide:terminal' },
-    { text: 'OpenCode', logo: 'lucide:wand-sparkles' },
-    { text: 'Codex', logo: 'lucide:code' },
+    { text: 'AI Coding Agents', logo: 'lucide:brain' },
   ],
-  'Infrastructure & Tooling': [
+  'Data Engineering & Tooling': [
     { text: 'GCP', logo: 'si:googlecloud' },
     { text: 'PostgreSQL', logo: 'si:postgresql' },
     { text: 'FastAPI', logo: 'si:fastapi' },
     { text: 'Docker', logo: 'si:docker' },
-    { text: 'Git', logo: 'mdi:git' },
+    { text: 'Git/GitHub', logo: 'mdi:git' },
     { text: 'Linux', logo: 'lucide:server' },
     { text: 'Prefect', logo: 'lucide:settings' },
     { text: 'MLflow', logo: 'lucide:brain' },
+    { text: 'Notion', logo: 'lucide:file-text' },
   ],
 }

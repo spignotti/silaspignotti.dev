@@ -5,7 +5,6 @@ description: "AI-native project management built on the PARA principle. Reusable
 category: "AI/Automation"
 tags:
   - "Notion"
-  - "Notion AI"
 coverIcon: "layout-dashboard"
 tagline: "Project management built on PARA: reusable AI Skills, persistent project memory, human-in-the-loop checkpoints."
 year: 2025

@@ -1,6 +1,6 @@
 ---
 title: Silas Pignotti
-description: Geospatial and automation-focused data scientist in Berlin. M.Sc. Geoinformation at BHT Berlin.
+description: Geospatial and automation-focused student in Berlin. M.Sc. Geoinformation at BHT Berlin.
 slug: /
 ogImage: /ogImage.svg
 ---
@@ -15,7 +15,7 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 ### AI & Automation
 
-Agentic systems, context engineering, RAG pipelines, prompt engineering. LLM-based tooling for development, analysis, and workflow automation.
+Agentic systems, context engineering, RAG pipelines, workflow automation. LLM-based tooling for analysis and process automation.
 
 ### Data Engineering & Tooling
 
