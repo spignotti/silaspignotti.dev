@@ -1,14 +1,14 @@
 ---
 title: "PARA PM System"
 slug: "para-pm-system"
-description: "AI-native project management built on the PARA principle. Reusable AI Skills, persistent project memory, human-in-the-loop workflows."
+description: "Personal knowledge and project management system built on PARA with AI-powered content routing and persistent project memory."
 category: "AI/Automation"
 tags:
   - "Notion"
   - "Python"
   - "Notion API"
 coverIcon: "layout-dashboard"
-tagline: "Project management built on PARA: reusable AI Skills, persistent project memory, human-in-the-loop checkpoints."
+tagline: "One system for all projects. PARA-based knowledge management with AI-powered routing."
 year: 2025
 completed: false
 ---

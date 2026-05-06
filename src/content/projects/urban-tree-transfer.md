@@ -1,7 +1,7 @@
 ---
 title: "Urban Tree Transfer"
 slug: "urban-tree-transfer"
-description: "Cross-city transfer of tree species classification using Sentinel-2. End-to-end ML pipeline with spatial block CV across Berlin and Leipzig."
+description: "Cross-city transfer of urban tree genus classification using Sentinel-2. End-to-end ML pipeline with spatial block CV across Berlin and Leipzig."
 category: "Geospatial"
 tags:
   - "Python"
@@ -12,7 +12,7 @@ tags:
   - "Google Earth Engine"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
-tagline: "Cross-city transfer of urban tree genus classification. Can a model trained in Berlin classify trees in Leipzig?"
+tagline: "Can a model trained in Berlin classify trees in Leipzig? Cross-city transfer of urban tree genus classification."
 featured: false
 year: 2026
 completed: true

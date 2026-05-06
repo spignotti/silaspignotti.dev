@@ -1,7 +1,7 @@
 ---
 title: "litresearch"
 slug: "litresearch"
-description: "Open-source CLI for automated literature research. Generates structured reports and BibTeX exports from a research question. Published on PyPI."
+description: "Open-source CLI for automated literature research. Structured reports and BibTeX exports from a research question. Published on PyPI."
 category: "AI/Automation"
 tags:
   - "Python"
@@ -11,7 +11,7 @@ tags:
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
-tagline: "CLI tool for automated literature search with structured reports and BibTeX export."
+tagline: "From research question to curated paper set in minutes, not days."
 featured: false
 year: 2026
 completed: true

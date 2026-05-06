@@ -1,7 +1,7 @@
 ---
 title: "DispoAI"
 slug: "dispoai"
-description: "AI-assisted route optimization for container logistics. VRP solver with live map UI, built for a real waste management company."
+description: "Route optimization for container logistics. VRP solver generating optimized daily tours from order and fleet data."
 category: "AI/Automation"
 tags:
   - "Python"
@@ -10,7 +10,7 @@ tags:
   - "Docker"
   - "Supabase"
 coverIcon: "workflow"
-tagline: "Optimal routes, real constraints."
+tagline: "Same daily workload, fewer vehicles. Route optimization for container logistics."
 featured: true
 year: 2026
 completed: false

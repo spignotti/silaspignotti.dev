@@ -1,7 +1,7 @@
 ---
 title: Academic Agent
 slug: academic-agent
-description: "Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a LaTeX writing pipeline."
+description: "Academic agent with custom MCP server for Zotero, tag-scoped RAG via PaperQA2, and a LaTeX writing pipeline."
 category: AI/Automation
 tags:
   - Python
@@ -11,6 +11,7 @@ tags:
   - PaperQA2
 github: https://github.com/spignotti/academic-agent
 coverIcon: book-open-check
+tagline: "DOI to citation in one workflow. Three-layer academic agent built around Zotero."
 year: 2026
 completed: true
 featured: true

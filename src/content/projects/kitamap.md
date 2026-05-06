@@ -1,7 +1,7 @@
 ---
 title: "kitamap"
 slug: "kitamap"
-description: "GIS-based analysis of childcare availability in Berlin: ETL pipelines, time series forecasting, and accessibility analysis."
+description: "Open-data analysis of childcare availability in Berlin: demographic forecasting, accessibility mapping, and supply-demand gap identification."
 category: "Geospatial"
 tags:
   - "Python"
@@ -12,7 +12,7 @@ tags:
 github: "https://github.com/spignotti/kitamap"
 demo: "https://pinea.app.carto.com/map/81885962-c7a8-4639-8124-372e0caa6e60"
 coverIcon: "map-pin"
-tagline: "Spatial analysis of daycare supply in Berlin. Coverage assessment, demand forecasting, and accessibility mapping."
+tagline: "Open data vs. official planning: reproducing Berlin's daycare study with freely available data."
 year: 2024
 completed: true
 screenshots:

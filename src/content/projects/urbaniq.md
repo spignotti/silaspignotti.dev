@@ -1,18 +1,19 @@
 ---
 title: "urbanIQ"
 slug: "urbaniq"
-description: "NLP-driven geodata aggregation for Berlin's districts. Natural-language queries to automated spatial analysis and district profiles."
+description: "Natural-language geodata aggregation for Berlin. Automated spatial analysis and district profiles from a single query."
 category: "Geospatial"
 tags:
   - "Python"
   - "FastAPI"
   - "GeoPandas"
   - "OpenAI API"
+  - "LangChain"
   - "HTMX"
   - "SQLite"
 github: "https://github.com/spignotti/urbanIQ"
 coverIcon: "building-2"
-tagline: "Analyzing Berlin's districts. One question instead of ten datasets."
+tagline: "One question instead of ten datasets. Natural-language access to Berlin's geodata."
 year: 2025
 completed: true
 screenshots:

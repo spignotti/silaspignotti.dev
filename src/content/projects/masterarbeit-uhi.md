@@ -1,7 +1,7 @@
 ---
 title: "Urban Heat Island Downscaling"
 slug: "masterarbeit-uhi"
-description: "Deep learning-based LST downscaling from Landsat to Sentinel-2 resolution with causal analysis of climate adaptation measures in Berlin."
+description: "Deep-learning-based LST downscaling from Landsat to Sentinel-2 resolution with causal analysis of climate adaptation measures in Berlin."
 category: "Geospatial"
 tags:
   - "Python"
