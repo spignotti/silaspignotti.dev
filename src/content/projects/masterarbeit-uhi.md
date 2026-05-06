@@ -29,4 +29,4 @@ In progress (M.Sc. thesis). Target: reproducible Berlin UHI map at 10m resolutio
 
 ## Technical Details
 
-Data stack: Landsat 8/9 thermal bands, Sentinel-2 optical bands, Berlin Geoportal (ISU5 land use), DWD climate stations. Cloud-based ML pipeline on GCP (Vertex AI for training, BigQuery for data management), with experiment tracking and MLOps workflows. The downscaling model operates in the 3D urban context — building heights, surface materials, and vegetation structure inform temperature predictions beyond what spectral data alone can capture. Preprocessing via Google Earth Engine.
+Data stack: Landsat 8/9 thermal bands, Sentinel-2 optical bands, Berlin Geoportal (ISU5 land use), DWD climate stations. Cloud-based ML pipeline on GCP (Vertex AI for training, BigQuery for data management), with experiment tracking and MLOps workflows. The downscaling model operates in the 3D urban context: building heights, surface materials, and vegetation structure inform temperature predictions beyond what spectral data alone can capture. Preprocessing via Google Earth Engine.

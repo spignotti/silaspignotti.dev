@@ -11,7 +11,7 @@ tags:
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
-tagline: "From research question to curated paper set in minutes, not days."
+tagline: "From research question to filtered and ranked paper set in minutes, not days."
 featured: false
 year: 2026
 completed: true
@@ -19,7 +19,7 @@ completed: true
 
 ## Problem
 
-Literature search is one of the most time-consuming parts of academic work. For a new topic, the standard workflow means decomposing a research question into search terms, manually cycling between databases, scanning hundreds of abstracts, following citation chains, and filtering for relevance. Existing AI research tools increasingly automate parts of this, but the full pipeline from question to curated, ranked paper set with PDFs and exportable references remains manual work.
+Literature search is one of the most time-consuming parts of academic work. For a new topic, the standard workflow means decomposing a research question into search terms, manually cycling between databases, scanning hundreds of abstracts, following citation chains, and filtering for relevance. Existing AI research tools increasingly automate parts of this, but the full pipeline from question to filtered, ranked paper set with PDFs and exportable references remains manual work.
 
 ## Solution
 
@@ -27,7 +27,7 @@ Open-source CLI tool that automates the full literature search pipeline. Takes a
 
 ## Result
 
-From research question to curated paper set in minutes instead of days. Published on PyPI (MIT license). One-command workflow: input a question, get a ranked report with PDFs, references, and per-paper analysis. Reproducible and resumable via pipeline checkpoints.
+From research question to relevant paper selection in minutes instead of days. Published on PyPI (MIT license). One-command workflow: input a question, get a ranked report with PDFs, references, and per-paper analysis. Reproducible and resumable via pipeline checkpoints.
 
 ## Technical Details
 

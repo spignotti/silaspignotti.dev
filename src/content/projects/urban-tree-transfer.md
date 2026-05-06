@@ -27,7 +27,7 @@ Cities need tree cadastres for informed urban tree management, but manual field 
 
 ## Solution
 
-Reproducible ML pipeline built on multitemporal Sentinel-2 composites (12 months, 10 bands + 13 vegetation indices) and municipal tree cadastres from Berlin (905k trees) and Leipzig (168k trees), 17 genus-level classes. XGBoost and 1D-CNN compared under strict spatial block CV across three experiments: source optimization, zero-shot transfer, and fine-tuning with stratified target data fractions. Includes a cadastre cleaning methodology for dead tree detection and GPS position correction. Built entirely on open data.
+Reproducible ML pipeline built on multitemporal Sentinel-2 composites (12 months, 10 bands + 13 vegetation indices) and municipal tree cadastres from Berlin (905k trees) and Leipzig (168k trees), 17 genus-level classes. XGBoost and 1D-CNN compared under strict spatial block CV across three experiments: source optimization, zero-shot transfer, and fine-tuning with stratified target data fractions. Includes a cadastre cleaning method for dead tree detection and GPS position correction. Built entirely on open data.
 
 ## Result
 
@@ -35,4 +35,4 @@ XGBoost weighted F1 = 0.751 in Berlin under spatial block CV, exceeding publishe
 
 ## Technical Details
 
-Three-stage pipeline. Source-domain optimization in Berlin compares XGBoost (50 importance-ranked features from 276 candidates) and 1D-CNN (full 144-feature temporal sequences) under spatial block CV with 1200 m blocks. Standard random CV inflated accuracy by double digits — spatial block CV caught this. Zero-shot transfer applies Berlin-trained models directly to Leipzig without adaptation. Fine-tuning uses stratified Leipzig data fractions against from-scratch baselines, with recovery following a power-law curve. The cadastre cleaning step handles dead tree detection and GPS position correction, which directly contributed to training data quality and the strong source-domain performance.
+Three-stage pipeline. Source-domain optimization in Berlin compares XGBoost (50 importance-ranked features from 276 candidates) and 1D-CNN (full 144-feature temporal sequences) under spatial block CV with 1200 m blocks. Standard random CV inflated accuracy by double digits. Spatial block CV caught this. Zero-shot transfer applies Berlin-trained models directly to Leipzig without adaptation. Fine-tuning uses stratified Leipzig data fractions against from-scratch baselines, with recovery following a power-law curve. The cadastre cleaning step handles dead tree detection and GPS position correction, which directly contributed to training data quality and the strong source-domain performance.

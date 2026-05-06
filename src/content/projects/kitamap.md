@@ -25,7 +25,7 @@ downloads:
 
 ## Problem
 
-Berlin's district offices produce daycare planning studies, but the underlying data and methodology are not publicly accessible. Without transparent foundations, planning decisions about new daycare locations lack verifiable evidence. The question: can an open-data-only approach reproduce the official findings?
+Berlin's district offices produce daycare planning studies, but the underlying data and methods are not publicly accessible. Without transparent foundations, planning decisions about new daycare locations lack verifiable evidence. The question: can an open-data-only approach reproduce the official findings?
 
 ## Solution
 
