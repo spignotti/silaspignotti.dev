@@ -5,7 +5,7 @@ slug: /
 ogImage: /ogImage.svg
 ---
 
-M.Sc. Geoinformation student at BHT Berlin. Spatial analysis, machine learning on geodata, and AI-driven automation.
+M.Sc. Geoinformation graduate. Spatial analysis, machine learning on geodata, and AI-driven automation.
 
 ## What I Do
 
