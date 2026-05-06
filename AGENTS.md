@@ -64,6 +64,13 @@ public/          # static assets (fonts, images)
 - `/design` loads `frontend-design`, references the base template lineage, and implements UI work using existing local patterns first
 - `/design` runs SEO/integrity checks for touched routes, validates, then commits and pushes
 
+## Content Workflow (Internal)
+
+- Use `portfolio-writer` skill for writing and revising website content (project pages, static pages)
+- The portfolio-writer handles voice, structure, and drafting; it invokes `de-ai` for post-draft polishing
+- Use `/deploy` for the publishing pipeline after content is finalized
+- `de-ai` is also available globally for text polishing outside website content
+
 ## Security Workflow (Internal)
 
 - No always-on security skill is required for normal static content/design changes
