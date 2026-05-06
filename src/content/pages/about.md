@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I work at the intersection of spatial analysis, machine learning, and AI-driven automation, building tools and pipelines that turn geodata into analysis results and operational workflows.
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and AI-driven automation — turning geodata into analysis results and operational workflows.
 
 ## Experience
 
@@ -41,10 +41,10 @@ Real estate database management, GIS-based site analysis with direct impact on i
 
 2024–2026 (expected)
 
-GPA 1.15
+GPA 1.2
 
 - Focus: Geoinformatics, Remote Sensing, Spatial Data Science
-- Thesis (planned): Urban Heat Islands. Remote Sensing, ML, Cloud Infrastructure
+- Thesis (planned): Urban Heat Islands. Deep-learning-based LST downscaling (Landsat→Sentinel-2) and causal analysis of climate adaptation measures in Berlin
 
 ### B.Sc. Urban & Regional Planning · TU Berlin
 
@@ -58,21 +58,21 @@ GPA 1.6
 
 ### Geospatial Data Science
 
-Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, time series analysis, geodata processing.
+Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geoprocessing.
 
-`Python` `SQL` `PyTorch` `scikit-learn` `Google Earth Engine` `PostGIS` `QGIS`
+`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `PostGIS` `QGIS` `GeoPandas`
 
 ### AI & Automation
 
-Agentic systems, context engineering, RAG pipelines, workflow automation. LLM-based tooling for analysis and process automation.
+Building agentic systems, context-engineering workflows, and LLM-based tooling for operational pipelines.
 
-`LangChain` `LangGraph` `LiteLLM` `Ollama` `RAG` `MCP` `AI Coding Agents`
+`Python` `Ollama` `MCP` `AI Coding Agents`
 
 ### Data Engineering & Tooling
 
-Cloud infrastructure, pipeline orchestration, API development, containerization.
+Cloud infrastructure, pipeline orchestration, API development, and containerization.
 
-`GCP` `PostgreSQL` `FastAPI` `Docker` `Git/GitHub` `Linux` `Prefect` `MLflow` `Notion`
+`GCP` `PostgreSQL` `SQL` `FastAPI` `Docker` `Linux` `Git`
 
 ### Languages
 
