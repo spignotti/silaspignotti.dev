@@ -1,24 +1,25 @@
 ---
-title: "Academic Agent"
-slug: "academic-agent"
-description: "Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a Pandoc-based writing pipeline."
-category: "AI/Automation"
+title: Academic Agent
+slug: academic-agent
+description: "Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a LaTeX writing pipeline."
+category: AI/Automation
 tags:
-  - "Python"
-  - "OpenCode"
-  - "Zotero"
-  - "Semantic Scholar"
-  - "PaperQA2"
-  - "Pandoc"
-github: "https://github.com/spignotti/academic-agent"
-coverIcon: "book-open-check"
-tagline: "Zotero-first academic workflow from DOI ingest to citation-ready drafts."
-featured: true
+  - Python
+  - OpenCode
+  - Semantic Scholar
+  - Zotero
+  - PaperQA2
+  - LaTeX
+github: https://github.com/spignotti/academic-agent
+coverIcon: book-open-check
 year: 2026
-completed: false
+completed: true
+featured: false
 ---
 
-Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a Pandoc-based writing pipeline.
+**Full-scope academic agent built around Zotero as the data layer via a custom MCP server, with PaperQA2 for local tag-scoped RAG and a LaTeX writing pipeline. 43+ tools, 8 skills, 190 tests.**
+
+---
 
 ## Problem
 
@@ -32,19 +33,19 @@ This project is explicitly not about generating papers end to end. The point is 
 
 ## Solution
 
-An OpenCode-based agent built around three modules, all routed through a custom MCP server (`zotero-companion`) that exposes Zotero as the data layer.
+An OpenCode-based agent with 43+ MCP tools organized into 8 skills, all routed through a custom MCP server (`zotero-companion`) that exposes Zotero as the data layer.
 
 The first module makes Zotero the database. Items, PDFs, tags, and notes live there with no parallel state on the agent side. Semantic Scholar fills metadata gaps and provides open-access PDF downloads when Zotero cannot resolve a DOI directly, so the agent has two paths to a PDF for any given DOI. Tags follow a flat namespace convention (`area/*`, `topic/*`, `project/*`, `status/*`) so the library can be sliced by project or by topic without rebuilding collection trees.
 
 The second module handles retrieval. Instead of a custom embedding pipeline, the agent points PaperQA2 at a symlink farm built from the Zotero PDF storage. Retrieval is scoped by tag, so a query against `project/masterthesis` only sees that project's papers. Indexes are cached per scope and rebuilt incrementally.
 
-The third module covers writing. Project workspaces under `~/academic-workspace/projects/<slug>/` give each piece of work its own scoped `library.bib` (auto-exported via Better BibTeX), a `drafts/` folder, and a Pandoc build pipeline. Citation lookup, draft assistance, and Markdown-to-PDF/DOCX rendering connect the retrieved literature to the actual writing.
-
-Beyond writing, the same skill surface extends to scientific layout, infographic generation, and plotting, each as a separate OpenCode skill on top of the same scoped library.
+The third module covers research and writing. Project workspaces under `~/academic-workspace/projects/<slug>/` give each piece of work its own scoped `library.bib` (auto-exported via Better BibTeX), a `drafts/` folder for LaTeX documents, a `state.md` tracking research questions and progress, and a git repo with auto-commits at milestones. Research sessions combine RAG queries with citation key resolution into structured reports saved as `research/YYYY-MM-DD-<topic>.md`. The writing pipeline runs on LaTeX + BibTeX: citation lookup returns `\cite{key}` candidates matched against the scoped bibliography, and `latexmk` builds the final PDF.
 
 ## Result
 
-A single agent that carries a paper from DOI to citation. A DOI returns a fully tagged Zotero item with verified metadata and PDF. A project query returns a PaperQA2 answer sourced from the local library, with citation keys ready to drop into a draft. A Markdown draft renders to a formatted PDF or DOCX with bibliography pulled from the scoped `library.bib`. No own SQLite, no custom metadata tables, no hand-rolled embeddings. Zotero stays the single source of truth and every layer above it routes through MCP.
+A single agent that carries a paper from DOI to citation. A DOI returns a fully tagged Zotero item with verified metadata and PDF. A project query returns a PaperQA2 answer sourced from the local library, with citation keys ready to drop into a LaTeX draft. A research session produces a structured report with Q&A, source excerpts, and `\cite{}` keys linked to the scoped `library.bib`. A `.tex` draft builds to a formatted PDF with bibliography via `latexmk`. No own SQLite, no custom metadata tables, no hand-rolled embeddings. Zotero stays the single source of truth and every layer above it routes through MCP. 43+ tools, 8 skills, 190 tests.
+
+---
 
 ## Lessons Learned
 
@@ -59,6 +60,6 @@ The MCP server (`zotero-companion`) is the center of the system. It exposes Zote
 
 Retrieval sits on top. PaperQA2 builds its index over a symlink farm pointing at the actual PDFs in Zotero's storage, so the agent reads the same files Zotero manages. A query is parameterized by a tag scope: a project tag, a topic tag, or a combination with union or intersection semantics. Indexes are cached per scope, so repeat queries inside the same project stay fast.
 
-Project workspaces close the loop. Each piece of academic work gets a folder under `~/academic-workspace/projects/<slug>/` with its own `project.yaml` (title, slug, CSL style, created_at), a scoped `library.bib`, a `drafts/` folder for Markdown documents, and a `build/` folder for Pandoc outputs. The slug is identical to the Zotero `project/<slug>` tag, which is the only coupling between the database and the local working environment. From there the writing skill sees only the scoped library, PaperQA2 answers only from the scoped PDFs, and citation keys come from stable Better BibTeX identifiers.
+Project workspaces close the loop. Each piece of academic work gets a folder under `~/academic-workspace/projects/<slug>/` with its own `state.md` (research questions, key findings, open decisions, progress), a scoped `library.bib`, a `drafts/` folder for LaTeX documents, and a git repo that auto-commits at milestones like research reports and bibliography refreshes. The slug is identical to the Zotero `project/<slug>` tag, which is the only coupling between the database and the local working environment. Research sessions read the project memory, build a scoped RAG index, run queries, resolve citation keys against `library.bib`, write a structured report, and commit the result. The writing pipeline builds on top: LaTeX + BibTeX with `\cite{key}` lookup against the scoped bibliography and `latexmk` for PDF output.
 
 The non-goals shape the system as much as the goals: no own SQLite, no parallel metadata model, no hand-rolled embeddings, no web UI, no end-to-end paper generation. Whenever a feature threatened to grow past that boundary, the answer was usually to push it back into Zotero.
