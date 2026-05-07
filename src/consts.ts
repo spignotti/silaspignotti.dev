@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: 'Silas Pignotti',
   description:
-    'Geospatial and automation-focused student building spatial analytics, analysis tools, and AI-driven workflows for urban and infrastructure use cases.',
+    'Geospatial and automation-focused graduate developing spatial analytics, analysis tools, and AI-assisted workflows for urban and infrastructure use cases.',
   href: 'https://silaspignotti.dev',
   author: 'Silas Pignotti',
   locale: 'en-US',

@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I design and develop tools and workflows that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
 
 ## Experience
 
@@ -70,7 +70,7 @@ Building agentic systems, RAG pipelines, and LLM-integrated workflows for analys
 
 ### Data Engineering & Tooling
 
-Pipeline orchestration, API development, containerization, and cloud infrastructure for data-intensive workflows.
+Pipeline development, containerization, and cloud compute for data-intensive workflows.
 
 `GCP` `PostgreSQL` `SQL` `FastAPI` `Docker` `Git` `Linux` `Google Colab`
 

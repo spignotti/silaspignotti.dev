@@ -1,6 +1,6 @@
 ---
 title: Silas Pignotti
-description: Building spatial analytics, ML pipelines, and automation tools.
+description: Spatial analytics, ML pipelines, and automation workflows.
 slug: /
 ogImage: /ogImage.svg
 ---
@@ -19,7 +19,7 @@ Building agentic systems, RAG pipelines, and LLM-integrated workflows for analys
 
 ### Data Engineering & Tooling
 
-Pipeline orchestration, API development, containerization, and cloud infrastructure for data-intensive workflows.
+Pipeline development, containerization, and cloud compute for data-intensive workflows.
 
 ## Get in Touch
 
