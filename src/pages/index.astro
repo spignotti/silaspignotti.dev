@@ -33,7 +33,7 @@ const extractSection = (title: string) => {
   return normalizedBody.match(regex)?.[1]?.trim() ?? ''
 }
 
-const whatIDoSection = extractSection('What I Do')
+const whatIDoSection = extractSection('Focus Areas')
 const whatIDoItems = whatIDoSection
   .split(/\n###\s+/)
   .map((part, index) => {
@@ -69,9 +69,9 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
   </section>
 
   {whatIDoItems.length > 0 && (
-    <section aria-labelledby="what-i-do-heading" class="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8 lg:px-12">
+    <section aria-labelledby="focus-areas-heading" class="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8 lg:px-12">
       <div class="mb-6">
-        <h2 id="what-i-do-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">What I Do</h2>
+        <h2 id="focus-areas-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Focus Areas</h2>
       </div>
       <ul class="grid grid-cols-1 gap-3.5 md:grid-cols-3 md:gap-4" role="list">
         {whatIDoItems.map((item) => (
@@ -88,7 +88,7 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
     <div class="mb-4 flex items-end justify-between gap-4">
       <div>
         <h2 id="skills-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">
-          Skills & Technologies
+          Technologies
         </h2>
         <p class="mt-2 text-sm text-muted-foreground sm:text-base">
           Core tools and platforms I use for geospatial analysis, machine learning, and automation.
@@ -121,8 +121,7 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
     </section>
   )}
 
-  <section aria-labelledby="landing-cta-heading" class="mx-auto w-full max-w-7xl px-4 pb-2 sm:px-8 lg:px-12">
-    <h2 id="landing-cta-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Get in Touch</h2>
+  <section class="mx-auto w-full max-w-7xl px-4 pb-2 sm:px-8 lg:px-12">
     {ctaText && <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{ctaText.replace(/\s*Based in Berlin\.\s*$/, '').trim()}</p>}
     <p class="mt-4 text-base text-muted-foreground">Based in Berlin.</p>
     <div class="mt-5 flex flex-wrap gap-3">

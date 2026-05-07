@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 M.Sc. Geoinformation graduate. Spatial analysis, machine learning on geodata, and automation.
 
-## What I Do
+## Focus Areas
 
 ### Geospatial Data Science
 
