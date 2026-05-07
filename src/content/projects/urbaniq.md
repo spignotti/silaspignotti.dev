@@ -1,7 +1,7 @@
 ---
 title: "urbanIQ"
 slug: "urbaniq"
-description: "Natural-language geodata aggregation for Berlin. Automated spatial analysis and district profiles from a single query."
+description: "Natural-language geodata aggregation for Berlin. Automated spatial analysis and district profiles from natural-language queries."
 category: "Geospatial"
 tags:
   - "Python"
@@ -13,7 +13,7 @@ tags:
   - "SQLite"
 github: "https://github.com/spignotti/urbanIQ"
 coverIcon: "building-2"
-tagline: "One question instead of ten datasets. Natural-language access to Berlin's geodata."
+tagline: "Natural-language geodata aggregation for Berlin with automated spatial analysis."
 year: 2025
 completed: true
 screenshots:
@@ -31,7 +31,7 @@ A geodata aggregation system that accepts natural-language queries, identifies r
 
 ## Result
 
-From a single question to a complete, harmonized geodata package with documentation. Demonstrates that LLM-based query parsing combined with automated geodata pipelines can eliminate the manual aggregation bottleneck in urban planning workflows.
+Accepts a natural-language query and returns a harmonized geodata package with metadata documentation. Shows that LLM-based query parsing with automated geodata pipelines reduces the manual effort in urban planning data preparation.
 
 ## Technical Details
 

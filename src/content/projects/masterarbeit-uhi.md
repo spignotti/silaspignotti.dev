@@ -9,7 +9,7 @@ tags:
   - "Google Earth Engine"
   - "GCP"
 coverIcon: "satellite"
-tagline: "M.Sc. thesis: Resolving urban heat at street level."
+tagline: "M.Sc. thesis: Deep-learning-based LST downscaling from Landsat to Sentinel-2 resolution for Berlin."
 featured: true
 year: 2026
 completed: false

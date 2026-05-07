@@ -11,7 +11,7 @@ tags:
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
-tagline: "From research question to filtered and ranked paper set in minutes, not days."
+tagline: "CLI tool for automated literature search: structured reports and BibTeX exports from a research question."
 featured: false
 year: 2026
 completed: true
@@ -27,7 +27,7 @@ Open-source CLI tool that automates the full literature search pipeline. Takes a
 
 ## Result
 
-From research question to relevant paper selection in minutes instead of days. Published on PyPI (MIT license). One-command workflow: input a question, get a ranked report with PDFs, references, and per-paper analysis. Reproducible and resumable via pipeline checkpoints.
+Published on PyPI (MIT license). CLI workflow: input a research question, get a ranked report with PDFs, references, and per-paper analysis. Pipeline runs are reproducible and resumable from saved checkpoints.
 
 ## Technical Details
 

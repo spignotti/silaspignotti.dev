@@ -1,14 +1,14 @@
 ---
 title: "PARA PM System"
 slug: "para-pm-system"
-description: "Personal knowledge and project management system built on PARA with AI-powered content routing and persistent project memory."
+description: "Personal knowledge and project management system built on PARA with automated content routing and persistent project memory."
 category: "AI/Automation"
 tags:
   - "Notion"
   - "Python"
   - "Notion API"
 coverIcon: "layout-dashboard"
-tagline: "One system for all projects. PARA-based knowledge management with AI-powered routing."
+tagline: "PARA-based knowledge management in Notion with automated content routing."
 year: 2025
 completed: false
 ---

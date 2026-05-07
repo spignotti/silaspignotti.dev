@@ -11,7 +11,7 @@ tags:
   - PaperQA2
 github: https://github.com/spignotti/academic-agent
 coverIcon: book-open-check
-tagline: "DOI to citation in one workflow. Three-layer academic agent built around Zotero."
+tagline: "Academic agent with Zotero MCP server, tag-scoped RAG, and LaTeX writing pipeline."
 year: 2026
 completed: true
 featured: true
@@ -27,7 +27,7 @@ Three-layer academic agent centered on Zotero as the single source of truth. Lay
 
 ## Result
 
-A single agent that carries a paper from DOI to citation. 43+ MCP tools, 8 skills, 190 tests. A DOI returns a fully tagged Zotero item with verified metadata and PDF. A project query returns a RAG answer sourced from the local library with citation keys ready for LaTeX. A research session produces a structured report with Q&A, source excerpts, and \cite{} keys linked to the scoped library.bib.
+Zotero MCP server with 43+ tools, 8 skills, 190 tests. A DOI resolves to a tagged Zotero item with verified metadata and PDF. Project-scoped RAG returns answers with citation keys for LaTeX. Research sessions produce structured reports with Q&A, source excerpts, and \cite{} keys linked to the scoped library.bib.
 
 ## Technical Details
 

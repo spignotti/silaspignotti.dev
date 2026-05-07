@@ -33,7 +33,7 @@ Analysis pipeline combining demographic forecasting of child population per plan
 
 ## Result
 
-The open-data approach identified nearly the same underserved districts as the district office's closed-data study. Built in a few weeks with freely available data, demonstrating that open data can match resource-intensive official analyses for daycare planning. Interactive map and project report available.
+The open-data approach identified nearly the same underserved districts as the district office's closed-data study. Built in a few weeks with freely available data. Interactive map and project report available.
 
 ## Technical Details
 

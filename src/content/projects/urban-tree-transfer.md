@@ -12,7 +12,7 @@ tags:
   - "Google Earth Engine"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
-tagline: "Can a model trained in Berlin classify trees in Leipzig? Cross-city transfer of urban tree genus classification."
+tagline: "Cross-city transfer learning for urban tree genus classification using Sentinel-2 time series."
 featured: false
 year: 2026
 completed: true

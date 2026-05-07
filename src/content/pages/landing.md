@@ -1,11 +1,11 @@
 ---
 title: Silas Pignotti
-description: Building spatial analytics, ML pipelines, and AI-driven automation tools.
+description: Building spatial analytics, ML pipelines, and automation tools.
 slug: /
 ogImage: /ogImage.svg
 ---
 
-M.Sc. Geoinformation graduate. Spatial analysis, machine learning on geodata, and AI-driven automation.
+M.Sc. Geoinformation graduate. Spatial analysis, machine learning on geodata, and automation.
 
 ## What I Do
 
@@ -23,7 +23,7 @@ Pipeline orchestration, API development, containerization, and cloud infrastruct
 
 ## Get in Touch
 
-Open for roles in geospatial data science, analytics, and AI-driven automation. Based in Berlin.
+Open for roles in geospatial data science and analytics. Based in Berlin.
 
 [linkedin.com/in/silas-pignotti](http://linkedin.com/in/silas-pignotti)
 [pignottisilas@gmail.com](mailto:pignottisilas@gmail.com)

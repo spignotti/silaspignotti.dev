@@ -10,7 +10,7 @@ tags:
   - "Docker"
   - "Supabase"
 coverIcon: "workflow"
-tagline: "Same daily workload, fewer vehicles. Route optimization for container logistics."
+tagline: "VRP solver for container logistics: optimized daily tours from order and fleet data."
 featured: true
 year: 2026
 completed: false
@@ -26,7 +26,7 @@ Web application with a VRP solver backend that generates optimized daily routes 
 
 ## Result
 
-In progress. First test runs against dispatcher-planned baselines show that optimized routes cover the same daily workload with fewer vehicles, freeing capacity without adding resources.
+In progress. First test runs against dispatcher-planned baselines show optimized routes covering the same daily workload with fewer vehicles.
 
 ## Technical Details
 

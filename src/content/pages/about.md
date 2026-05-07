@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and AI-driven automation to solve environmental and infrastructure problems with geodata.
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I build tools and pipelines that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
 
 ## Experience
 
@@ -21,7 +21,7 @@ KPI automation and reporting on industrial plant data (Python, SQL). Replaced ma
 
 2023–2025
 
-AI-powered database maintenance, GIS-based analyses for funding applications, project oversight for a sustainable housing development (51 units, €11.5M).
+LLM-assisted database maintenance, GIS-based analyses for funding applications, project oversight for a sustainable housing development (51 units, €11.5M).
 
 ### Location Development · LOKATION:S
 
