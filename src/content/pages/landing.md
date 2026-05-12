@@ -5,25 +5,25 @@ slug: /
 ogImage: /ogImage.svg
 ---
 
-M.Sc. Geoinformation graduate. Spatial analysis, machine learning on geodata, and automation.
+Geospatial Data Science · Remote Sensing · AI Automation
 
 ## Focus Areas
 
 ### Geospatial Data Science
 
-Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geoprocessing.
+Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geospatial data workflows.
 
 ### AI & Automation
 
-Building agentic systems, RAG pipelines, and LLM-integrated workflows for analysis and process automation.
+Building agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
 ### Data Engineering & Tooling
 
-Pipeline development, containerization, and cloud compute for data-intensive workflows.
+ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
 
-## Get in Touch
+## Open for Opportunities
 
-Open for roles in geospatial data science and analytics. Based in Berlin.
+Open for technical roles at the intersection of Geospatial Data Science, Remote Sensing, and AI Automation.
 
 [linkedin.com/in/silas-pignotti](http://linkedin.com/in/silas-pignotti)
 [pignottisilas@gmail.com](mailto:pignottisilas@gmail.com)
