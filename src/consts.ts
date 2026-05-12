@@ -65,18 +65,18 @@ export const technologies: Technologies = {
     { text: 'QGIS', logo: 'si:qgis' },
   ],
   'AI & Automation': [
-    { text: 'Ollama', logo: 'lucide:bot' },
     { text: 'Claude Code', logo: 'lucide:wand-sparkles' },
     { text: 'LLM APIs', logo: 'lucide:sparkles' },
+    { text: 'Ollama', logo: 'lucide:bot' },
+    { text: 'Notion', logo: 'si:notion' },
   ],
   'Data Engineering & Tooling': [
-    { text: 'GCP', logo: 'si:googlecloud' },
-    { text: 'PostgreSQL', logo: 'si:postgresql' },
     { text: 'SQL', logo: 'lucide:database' },
-    { text: 'FastAPI', logo: 'si:fastapi' },
     { text: 'Docker', logo: 'si:docker' },
     { text: 'Git', logo: 'mdi:git' },
     { text: 'Linux', logo: 'lucide:server' },
+    { text: 'Google Cloud', logo: 'si:googlecloud' },
     { text: 'Google Colab', logo: 'lucide:file-code' },
+    { text: 'FastAPI', logo: 'si:fastapi' },
   ],
 }

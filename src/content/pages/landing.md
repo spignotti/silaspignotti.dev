@@ -20,10 +20,3 @@ Building agentic systems, workflow automation, and LLM-integrated tools for rese
 ### Data Engineering & Tooling
 
 ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
-
-## Open for Opportunities
-
-Open for technical roles at the intersection of Geospatial Data Science, Remote Sensing, and AI Automation.
-
-[linkedin.com/in/silas-pignotti](http://linkedin.com/in/silas-pignotti)
-[pignottisilas@gmail.com](mailto:pignottisilas@gmail.com)

@@ -58,22 +58,22 @@ GPA 1.6
 
 ### Geospatial Data Science
 
-Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geoprocessing.
+Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geospatial data workflows.
 
-`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `PostGIS` `QGIS`
+`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `QGIS` `PostGIS`
 
 ### AI & Automation
 
-Building agentic systems, RAG pipelines, and LLM-integrated workflows for analysis and process automation.
+Building agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
-`Ollama` `Claude Code` `LLM APIs`
+`Claude Code` `LLM APIs` `Ollama` `Notion`
 
 ### Data Engineering & Tooling
 
-Pipeline development, containerization, and cloud compute for data-intensive workflows.
+ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
 
-`GCP` `PostgreSQL` `SQL` `FastAPI` `Docker` `Git` `Linux` `Google Colab`
+`SQL` `Docker` `Git` `Linux` `Google Cloud` `Google Colab` `FastAPI`
 
 ### Languages
 
-German (native), English (fluent)
+German (native), English (full professional proficiency)
