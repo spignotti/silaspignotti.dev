@@ -14,7 +14,7 @@ coverIcon: book-open-check
 tagline: "Academic agent with Zotero MCP server, tag-scoped RAG, and LaTeX writing pipeline."
 year: 2026
 completed: true
-featured: true
+featured: false
 ---
 
 ## Problem
