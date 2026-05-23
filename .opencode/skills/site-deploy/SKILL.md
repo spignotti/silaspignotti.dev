@@ -156,13 +156,13 @@ Trigger `security-review` only when changes touch:
 Always run build gate:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Run check gate for schema-sensitive or structural changes:
 
 ```bash
-npm run check
+pnpm run check
 ```
 
 If any gate fails: stop, report, do not commit.
@@ -178,7 +178,7 @@ Push to `main` unless `--skip-push`.
 
 ## Non-negotiable safety rules
 
-- Never run `npm install`
+- Never run `pnpm install`
 - Never run `brew install`
-- Never mutate system Node/npm/toolchains
+- Never mutate system Node/pnpm/toolchains
 - Never bypass checks without explicit request

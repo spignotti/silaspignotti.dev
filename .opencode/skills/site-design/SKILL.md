@@ -83,13 +83,13 @@ If triggered, run `security-review` before final commit.
 Always run build gate:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Run check gate for structural or larger frontend/config changes (unless `--skip-check`):
 
 ```bash
-npm run check
+pnpm run check
 ```
 
 If a gate fails: stop, report, do not commit.
@@ -110,7 +110,7 @@ Push to `main` unless `--skip-push`.
 
 ## Non-negotiable safety rules
 
-- Never run `npm install` in this workflow
+- Never run `pnpm install` in this workflow
 - Never run `brew install` in this workflow
-- Never mutate system Node/npm/toolchains in this workflow
+- Never mutate system Node/pnpm/toolchains in this workflow
 - Never bypass checks/hooks without explicit user request

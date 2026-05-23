@@ -167,8 +167,8 @@ Single command:
 
 ## Validation
 
-- `npm run build` (required before commit)
-- `npm run check` (schema/structure changes and larger pushes)
+- `pnpm run build` (required before commit)
+- `pnpm run check` (schema/structure changes and larger pushes)
 
 ## Constraints
 

@@ -27,7 +27,7 @@ Supported optional flags:
 
 Safety:
 
-- Never run `npm install` in this flow.
+- Never run `pnpm install` in this flow.
 - Never run `brew install` in this flow.
 - Never mutate global system toolchains in this flow.
-- Run validation directly via `npm run build` (and `npm run check` when needed).
+- Run validation directly via `pnpm run build` (and `pnpm run check` when needed).

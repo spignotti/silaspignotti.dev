@@ -23,16 +23,16 @@ Central professional presence for recruiters, freelance clients, and the develop
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 
 # Build for production
-npm run build
+pnpm run build
 
 # Run type checking
-npm run check
+pnpm run check
 ```
 
 ## Project Structure

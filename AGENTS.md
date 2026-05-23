@@ -15,7 +15,7 @@ Personal portfolio website. Central professional presence for recruiters, freela
 
 - Astro 5.x
 - Node.js 24+
-- npm — default package manager
+- pnpm — default package manager
 - TypeScript via Astro tooling
 - TailwindCSS (via theme)
 - React (islands for interactivity)
@@ -46,10 +46,10 @@ public/          # static assets (fonts, images)
 
 ## Validation
 
-- `npm run build` — required validation gate before every commit
-- `npm run check` — run for structural changes, content schema changes, and before larger pushes
-- `npm run dev` — local development server (port 3010)
-- `npm run preview` — preview the production build locally
+- `pnpm run build` — required validation gate before every commit
+- `pnpm run check` — run for structural changes, content schema changes, and before larger pushes
+- `pnpm run dev` — local development server (port 3010)
+- `pnpm run preview` — preview the production build locally
 
 ## Deploy Workflow (Internal)
 
