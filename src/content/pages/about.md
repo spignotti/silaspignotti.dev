@@ -7,7 +7,7 @@ ogImage: /ogImage.svg
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I design and develop tools and workflows that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
+M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I design tools and workflows that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
 
 ## Experience
 
@@ -64,7 +64,7 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 ### AI & Automation
 
-Building agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
+Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
 `Claude Code` `LLM APIs` `Ollama` `Notion`
 

@@ -15,7 +15,7 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 ### AI & Automation
 
-Building agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
+Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
 ### Data Engineering & Tooling
 
