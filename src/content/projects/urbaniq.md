@@ -35,4 +35,4 @@ Accepts a natural-language query and returns a harmonized geodata package with m
 
 ## Technical Details
 
-Four services. NLP service parses natural-language requests via OpenAI GPT to identify required datasets and spatial levels. Data service orchestrates retrieval from Berlin Geoportal WFS and OpenStreetMap Overpass API. Processing service handles CRS transformation, spatial clipping, and schema normalization. Metadata service generates reports on data quality and usage guidance. FastAPI backend with SQLModel ORM, Alembic migrations, HTMX frontend, Docker deployment.
+Four-stage pipeline. NLP layer parses natural-language requests via OpenAI GPT to identify required datasets and spatial levels. Data retrieval orchestrates downloads from Berlin Geoportal WFS and OpenStreetMap Overpass API. Spatial processing handles CRS transformation, clipping, and schema normalization via GeoPandas. A metadata module generates reports on data quality and usage guidance. Built with FastAPI and HTMX.

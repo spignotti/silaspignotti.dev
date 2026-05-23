@@ -30,4 +30,4 @@ In progress. First test runs against dispatcher-planned baselines show optimized
 
 ## Technical Details
 
-FastAPI backend with PyVRP as the routing solver, handling capacity constraints, time windows, and multi-stop tours. Geocoding pipeline normalizes addresses via Nominatim and computes travel time matrices via OpenRouteService. Supabase manages order and fleet data. The application is containerized with Docker for deployment.
+PyVRP as the routing solver, handling capacity constraints, time windows, and multi-stop tours. Geocoding pipeline normalizes addresses via Nominatim and computes travel time matrices via OpenRouteService. FastAPI serves the optimization results, Supabase manages order and fleet data.
