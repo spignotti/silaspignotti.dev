@@ -54,7 +54,7 @@ public/          # static assets (fonts, images)
 ## Content Workflow (Internal)
 
 - Describe content changes in natural language: "change this text", "add a new project", "update the about page"
-- `portfolio-writer` handles voice, structure, and drafting; it invokes `de-ai` for post-draft polishing
+- `portfolio-writer` handles voice, structure, and drafting; it may invoke `de-ai` (optional, light mode) for post-draft polishing
 - Draft-only requests ("draft a text") stay in chat; publish requests are persisted by `site-deploy`, which normalizes content, processes media, validates, commits, and pushes
 - `de-ai` is also available globally for text polishing outside website content
 
