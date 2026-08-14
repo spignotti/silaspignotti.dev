@@ -100,3 +100,9 @@ Context7 MCP is available in this project. When working with any external librar
 - Blocker: GitHub profile and repo structure should be presentable before website goes live.
 - No CMS or admin UI (content managed in Notion, exported as Markdown)
 - No i18n / multi-language support in v1
+
+## Notion Integration
+
+Loading project context from Notion at session start (/start). Run /start to see project memory and open tasks.
+
+Notion Page ID: 52f4ca2e5a3e458cbb425fcc87142015
