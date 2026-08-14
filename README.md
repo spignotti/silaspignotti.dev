@@ -66,7 +66,7 @@ Both collections use type-safe schemas defined in `src/content.config.ts`.
 1. detect whether pasted content is a page update, project update, or batch update
 2. normalize messy Notion markdown wrappers automatically
 3. route content to the correct `src/content/...` destination
-4. run optional media/cover steps when needed
+4. process media for explicitly provided file mappings (`--file`)
 5. run publish checks + validation
 6. commit and push to `main`
 

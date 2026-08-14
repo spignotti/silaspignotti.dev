@@ -26,9 +26,10 @@ Given content in chat, handle the complete publish workflow end-to-end:
 - Optional command flags:
   - `--dry-run`
   - `--skip-media`
-  - `--skip-check`
   - `--skip-push`
   - `--message "..."`
+  - `--file "inbox/source.png -> screenshot-01.png"` (repeatable)
+  - `--move`
 
 ## Repository contracts
 
@@ -37,13 +38,14 @@ Given content in chat, handle the complete publish workflow end-to-end:
 - `src/content/pages/landing.md` (slug: `/`)
 - `src/content/pages/about.md` (slug: `/about`)
 - `src/content/pages/projects.md` (slug: `/projects`)
-- `src/content/pages/contact.md` (slug: `/contact`)
 
 ### Projects
 
 - `src/content/projects/<slug>.md`
 
-### Project Schema (required)
+### Project schema (source of truth: `src/content.config.ts`)
+
+Required:
 
 ```yaml
 title: "Project Name"
@@ -51,16 +53,20 @@ slug: "project-slug"
 description: "Brief description for SEO and cards"
 category: "Geospatial" | "AI/Automation"
 tags: ["Tag1", "Tag2", ...]
-github: "https://github.com/..."
 ```
 
-### Project Schema (optional)
+Optional:
 
 ```yaml
+github: "https://github.com/..."
 tagline: "Short tagline for project cards"
 demo: "https://demo-url.com"
 paper: "https://paper-url.com"
 pypi: "https://pypi.org/project/..."
+year: 2025
+completed: true        # default: true
+featured: false        # default: false
+coverIcon: "terminal"  # default: layers
 downloads:
   - label: "Download Label"
     href: "/path/to/file.pdf"
@@ -69,45 +75,24 @@ screenshots:
     alt: "Description of screenshot"
 ```
 
-### Project Schema (auto-assigned)
+### Valid coverIcon values
 
-```yaml
-coverIcon: "auto-selected-from-category"  # Default: code-2
-year: 2025  # Auto-detected or provided
-completed: true  # Default: true
-featured: false  # Default: false
-```
+`layers`, `terminal`, `satellite`, `map-pin`, `file-search`, `layout-dashboard`, `wand-2`, `trees`, `building-2`, `book-open-check`, `workflow`
 
-### Published Media
+Default when omitted: `layers`. Any other value fails the content-schema build.
+
+### Published media
 
 - Project screenshots: `public/projects/<slug>/<files>`
 - All media referenced in frontmatter must exist at the specified path
 
-## Icon Selection (auto)
-
-The system selects `coverIcon` based on category and tags:
-
-**Geospatial projects:**
-- `map-pin` (default for location/mapping projects)
-- `satellite` (for satellite/remote sensing)
-- `building-2` (for urban/architecture)
-- `layers` (for layer-based tools)
-
-**AI/Automation projects:**
-- `terminal` (default for CLI/code tools)
-- `wand-2` (for AI generation tools)
-- `sparkles` (for AI/ML features)
-- `workflow` (for automation)
-
-Icons are never reused. If multiple projects could use the same icon, select the next available from the category's list.
-
 ## Phase 1 — Infer scope
 
 1. **Page deploy**
-   - frontmatter `slug` equals `/`, `/about`, `/projects`, `/contact`
+   - frontmatter `slug` equals `/`, `/about`, `/projects`
    - or title indicates one of these pages
 2. **Project deploy**
-   - project-shaped keys (`category`, `tags`, `github`)
+   - project-shaped keys (`category`, `tags`, ...)
    - or slug is not one of the fixed page slugs
 3. **Ambiguous**
    - ask exactly one targeted question
@@ -124,17 +109,22 @@ Icons are never reused. If multiple projects could use the same icon, select the
 
 Only when files are provided and `--skip-media` is not set:
 
-1. Check `inbox/` folder for new files
-2. Move screenshots to `public/projects/<slug>/`
-3. Move PDFs/docs to `public/projects/<slug>/`
-4. Update screenshot paths in frontmatter
+1. Check `inbox/` for new source files
+2. For each file run the existing media script with explicit mappings:
+
+```bash
+pnpm run process:project-media -- --slug <slug> --file "inbox/source.png -> screenshot-01.png" --file "inbox/report.pdf -> report.pdf" [--move] [--dry-run]
+```
+
+The script moves/copies files into `public/projects/<slug>/` and updates the project's `screenshots`/`downloads` frontmatter. Destination must be a file name only (no nested paths).
 
 ## Phase 4 — Publish integrity checks
 
 For touched routes verify:
 
-- required frontmatter keys exist
+- required frontmatter keys exist and pass the content schema
 - URL fields are valid URLs
+- `coverIcon` is one of the valid values listed above
 - screenshots have alt text
 - no obvious secrets in content
 - page/project slugs resolve correctly
@@ -146,20 +136,22 @@ Do **not** run for normal content deploys.
 Trigger `security-review` only when changes touch:
 - form/user-input handling
 - API/server route behavior
-- file upload/processing
+- file upload/processing logic (beyond the standard media script)
 - auth/access control
 - external script injection
 - redirect/header behavior
 
 ## Phase 5 — Validation gates
 
-Always run build gate:
+Node 24 is the project standard (`verify:node` gates `build`/`check`). If the active Node is not 24, stop with the script's error message — never install or mutate a toolchain.
+
+Always run the build gate:
 
 ```bash
 pnpm run build
 ```
 
-Run check gate for schema-sensitive or structural changes:
+Run the check gate for schema-sensitive or structural changes (new project, schema field, category/icon changes):
 
 ```bash
 pnpm run check
@@ -169,12 +161,14 @@ If any gate fails: stop, report, do not commit.
 
 ## Phase 6 — Commit and push
 
+Stage only intended files (never `git add -A` or `git commit -a`).
+
 Commit message defaults:
 
 - page: `content(page): update <route>`
 - project: `content(project): upsert <slug>`
 
-Push to `main` unless `--skip-push`.
+Push to `main` unless `--skip-push`. Pushing to `main` triggers the GitHub Pages deploy workflow.
 
 ## Non-negotiable safety rules
 
@@ -182,3 +176,4 @@ Push to `main` unless `--skip-push`.
 - Never run `brew install`
 - Never mutate system Node/pnpm/toolchains
 - Never bypass checks without explicit request
+- Never stage `AGENTS.md` (it carries uncommitted local changes)

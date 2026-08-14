@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
 import { PROJECT_CATEGORIES } from '@/lib/project-categories'
+import { PROJECT_COVER_ICONS, PROJECT_COVER_ICON_DEFAULT } from '@/lib/project-icons'
 
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
@@ -25,7 +26,7 @@ const projects = defineCollection({
       demo: z.string().url().optional(),
       paper: z.string().url().optional(),
       pypi: z.string().url().optional(),
-      coverIcon: z.string().default('code-2'),
+      coverIcon: z.enum(PROJECT_COVER_ICONS).default(PROJECT_COVER_ICON_DEFAULT),
       tagline: z.string().optional(),
       year: z.number().optional(),
       completed: z.boolean().default(true),

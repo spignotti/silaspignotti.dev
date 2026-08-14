@@ -1,7 +1,8 @@
 ---
 import { cn } from '@/lib/utils'
+import { PROJECT_COVER_ICON_MAP } from '@/lib/project-icons'
 import type { CollectionEntry } from 'astro:content'
-import { Calendar, Layers, Terminal, Satellite, MapPin, FileSearch, LayoutDashboard, Wand2, Trees, Building2, BookOpenCheck } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 
 interface Props {
   project: CollectionEntry<'projects'>
@@ -18,21 +19,7 @@ const tags = project.data.tags.slice(0, tagLimit)
 const remainingTags = project.data.tags.length - tagLimit
 const displayYear = project.data.completed ? project.data.year : 'Ongoing'
 
-// Icon mapping for coverIcon
-const iconMap: Record<string, typeof Building2> = {
-  'layers': Layers,
-  'terminal': Terminal,
-  'satellite': Satellite,
-  'map-pin': MapPin,
-  'file-search': FileSearch,
-  'layout-dashboard': LayoutDashboard,
-  'wand-2': Wand2,
-  'trees': Trees,
-  'building-2': Building2,
-  'book-open-check': BookOpenCheck,
-}
-
-const IconComponent = iconMap[project.data.coverIcon] || Layers
+const IconComponent = PROJECT_COVER_ICON_MAP[project.data.coverIcon]
 ---
 
 <a
