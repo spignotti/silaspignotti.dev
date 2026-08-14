@@ -1,25 +1,23 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import type { ProjectCategory } from '@/lib/project-categories'
+
+type FilterCategory = 'All' | ProjectCategory
 
 interface CategoryFilterProps {
-  categories: readonly ['All', 'Geospatial', 'AI/Automation']
+  categories: readonly FilterCategory[]
 }
 
 export default function CategoryFilter({ categories }: CategoryFilterProps) {
-  const [activeCategory, setActiveCategory] = useState<string>('All')
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>('All')
 
-  const handleFilter = (category: string) => {
+  const handleFilter = (category: FilterCategory) => {
     setActiveCategory(category)
-    
-    const items = document.querySelectorAll('.project-item')
+
+    const items = document.querySelectorAll<HTMLElement>('.project-item')
     items.forEach((item) => {
-      const el = item as HTMLElement
-      const itemCategory = el.dataset.category
-      if (category === 'All' || itemCategory === category) {
-        el.style.display = 'block'
-      } else {
-        el.style.display = 'none'
-      }
+      const itemCategory = item.dataset.category
+      item.classList.toggle('hidden', category !== 'All' && itemCategory !== category)
     })
   }
 
@@ -28,6 +26,8 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
       {categories.map((category) => (
         <button
           key={category}
+          type="button"
+          aria-pressed={activeCategory === category}
           onClick={() => handleFilter(category)}
           className={cn(
             'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200',

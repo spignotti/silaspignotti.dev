@@ -1,5 +1,6 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
+import { PROJECT_CATEGORIES } from '@/lib/project-categories'
 
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
@@ -18,7 +19,7 @@ const projects = defineCollection({
       title: z.string(),
       description: z.string(),
       slug: z.string(),
-      category: z.enum(['Geospatial', 'AI/Automation']),
+      category: z.enum(PROJECT_CATEGORIES),
       tags: z.array(z.string()),
       github: z.string().url().optional(),
       demo: z.string().url().optional(),

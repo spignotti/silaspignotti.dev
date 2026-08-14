@@ -117,8 +117,8 @@ export function InfiniteScroll({
           <div ref={contentRef} className="flex shrink-0">
             {children}
           </div>
-          <div className="flex shrink-0">{children}</div>
-          <div className="flex shrink-0">{children}</div>
+          <div aria-hidden="true" className="flex shrink-0">{children}</div>
+          <div aria-hidden="true" className="flex shrink-0">{children}</div>
         </motion.div>
       </div>
       {showFade && (

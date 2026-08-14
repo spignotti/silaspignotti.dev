@@ -5,7 +5,7 @@ import Link from '@/components/Link.astro'
 import Skills from '@/components/react/skills'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { getCollection } from 'astro:content'
-import { SITE } from '@/consts'
+import { extractSection, requireSection, splitItems } from '@/lib/markdown-sections'
 
 const currentUrl = Astro.url
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/')
@@ -27,27 +27,18 @@ if (!page) {
 
 const normalizedBody = (page.body ?? '').replace(/\r\n/g, '\n')
 
-const extractSection = (title: string) => {
-  const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`##\\s+${escaped}\\s*([\\s\\S]*?)(?=\\n##\\s+|$)`)
-  return normalizedBody.match(regex)?.[1]?.trim() ?? ''
-}
-
-const whatIDoSection = extractSection('Focus Areas')
-const whatIDoItems = whatIDoSection
-  .split(/\n###\s+/)
-  .map((part, index) => {
-    const normalizedPart = (index === 0 ? part.replace(/^###\s+/, '') : part).trim()
-    if (!normalizedPart) return null
-    const [title, ...rest] = normalizedPart.split('\n')
+const whatIDoSection = requireSection(normalizedBody, 'Focus Areas', 'pages/landing.md')
+const whatIDoItems = splitItems(whatIDoSection)
+  .map((part) => {
+    const [title, ...rest] = part.split('\n')
     return {
       title: title?.trim() ?? '',
       description: rest.join('\n').trim().replace(/\n+/g, ' '),
     }
   })
-  .filter((item): item is { title: string; description: string } => Boolean(item?.title && item?.description))
+  .filter((item): item is { title: string; description: string } => Boolean(item.title && item.description))
 
-const ctaSection = extractSection('Get in Touch')
+const ctaSection = extractSection(normalizedBody, 'Get in Touch')
 const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replace(/\n+/g, ' ')
 ---
 

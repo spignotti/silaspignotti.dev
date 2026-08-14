@@ -5,6 +5,7 @@ import { SITE } from '@/consts'
 import { getCollection } from 'astro:content'
 import { badgeVariants } from '@/components/ui/badge'
 import { Calendar, Award, GraduationCap, Briefcase, Brain } from 'lucide-react'
+import { requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 
 const currentUrl = Astro.url
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/about')
@@ -13,104 +14,81 @@ if (!page) {
   throw new Error('Missing pages/about.md content entry')
 }
 
-// Access raw markdown body - try different properties
-const rawBody = (page.body ?? (page as any).rendered?.body ?? '').replace(/\r\n/g, '\n')
-
-// Helper to extract content between headings
-const extractSection = (title: string) => {
-  const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(?:^|\\n)##\\s+${escaped}\\s*\\n+([\\s\\S]*?)(?=\\n##\\s+(?!#)|$)`)
-  const match = rawBody.match(regex)
-  return match ? match[1].trim() : ''
-}
+// Access raw markdown body
+const rawBody = (page.body ?? '').replace(/\r\n/g, '\n')
 
 // Parse intro - everything between # About and the first ## section
-const bodyWithoutTitle = rawBody.replace(/^#\s+About\s*\n?/, '')
-const firstSectionIndex = bodyWithoutTitle.search(/(?:^|\n)##\s+/)
-const intro = (firstSectionIndex === -1
-  ? bodyWithoutTitle
-  : bodyWithoutTitle.slice(0, firstSectionIndex)).trim()
+const intro = requireIntro(rawBody, 'About', 'pages/about.md')
 
 // Parse Experience
-const experienceSection = extractSection('Experience')
-const experienceItems: { role: string; company: string; date: string; description: string }[] = experienceSection
-  ? experienceSection.split(/\n###\s+/)
-      .filter((part: string) => Boolean(part))
-      .map((part: string) => {
-        // Remove any ### prefix from all lines
-        const cleanPart = part.replace(/^###\s+/gm, '').trim()
-        const lines = cleanPart.split('\n').map((l: string) => l.trim()).filter((l: string) => Boolean(l))
-        if (lines.length === 0) return null
-        
-        const titleLine = lines[0] || ''
-        const date = lines[1] || ''
-        const description = lines.slice(2).join('\n').trim()
-        
-        const [role, company] = titleLine.includes('·') 
-          ? titleLine.split('·').map((s: string) => s.trim())
-          : [titleLine.trim(), '']
-        
-        if (!role) return null
-        return { role, company, date, description }
-      })
-      .filter((item: any): item is { role: string; company: string; date: string; description: string } => Boolean(item))
-  : []
+const experienceSection = requireSection(rawBody, 'Experience', 'pages/about.md')
+const experienceItems: { role: string; company: string; date: string; description: string }[] = splitItems(experienceSection)
+  .map((part: string) => {
+    const lines = part.split('\n').map((l: string) => l.trim()).filter((l: string) => Boolean(l))
+    if (lines.length === 0) return null
 
-// Parse Education  
-const educationSection = extractSection('Education')
-const educationItems = educationSection
-  ? educationSection.split(/\n###\s+/)
-      .filter(Boolean)
-      .map((part: string) => {
-        const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
-        if (lines.length === 0) return null
-        
-        const titleLine = (lines[0] || '').replace(/^###\s*/, '').trim()
-        const date = lines[1] || ''
-        const gpaOrNote = lines[2] || ''
-        const details = lines.slice(3).join('\n').trim()
-        
-        const [degree, institution] = titleLine.includes('·')
-          ? titleLine.split('·').map((s: string) => s.trim())
-          : [titleLine.trim(), '']
-        
-        const gpaMatch = gpaOrNote.match(/GPA\s+([\d.]+)/)
-        const gpa = gpaMatch ? gpaMatch[1] : null
-        
-        if (!degree) return null
-        return { degree, institution, date, gpa, details }
-      })
-      .filter(Boolean)
-  : []
+    const titleLine = lines[0] || ''
+    const date = lines[1] || ''
+    const description = lines.slice(2).join('\n').trim()
+
+    const [role, company] = titleLine.includes('·')
+      ? titleLine.split('·').map((s: string) => s.trim())
+      : [titleLine.trim(), '']
+
+    if (!role) return null
+    return { role, company, date, description }
+  })
+  .filter((item): item is { role: string; company: string; date: string; description: string } => Boolean(item))
+
+// Parse Education
+const educationSection = requireSection(rawBody, 'Education', 'pages/about.md')
+const educationItems = splitItems(educationSection)
+  .map((part: string) => {
+    const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
+    if (lines.length === 0) return null
+
+    const titleLine = (lines[0] || '').replace(/^###\s*/, '').trim()
+    const date = lines[1] || ''
+    const gpaOrNote = lines[2] || ''
+    const details = lines.slice(3).join('\n').trim()
+
+    const [degree, institution] = titleLine.includes('·')
+      ? titleLine.split('·').map((s: string) => s.trim())
+      : [titleLine.trim(), '']
+
+    const gpaMatch = gpaOrNote.match(/GPA\s+([\d.]+)/)
+    const gpa = gpaMatch ? gpaMatch[1] : null
+
+    if (!degree) return null
+    return { degree, institution, date, gpa, details }
+  })
+  .filter((item): item is { degree: string; institution: string; date: string; gpa: string | null; details: string } => Boolean(item))
 
 // Parse Skills
-const skillsSection = extractSection('Skills')
-const skillsItems = skillsSection
-  ? skillsSection.split(/\n###\s+/)
-      .filter(Boolean)
-      .map((part: string) => {
-        const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
-        if (lines.length === 0) return null
-        
-        const title = (lines[0] || '').replace(/^###\s*/, '').trim()
-        const rest = lines.slice(1).join('\n').trim()
-        
-        // Extract description and tags
-        const codeBlockMatch = rest.match(/(`[^`]+`\s*)+/)
-        let description = rest
-        let tags: string[] = []
-        
-        if (codeBlockMatch) {
-          tags = rest.match(/`([^`]+)`/g)?.map((t: string) => t.replace(/`/g, '')) ?? []
-          // Remove the code block from description
-          description = rest.replace(/(`[^`]+`\s*)+/, '').trim()
-        }
-        
-        if (!title) return null
-        return { title, description, tags }
-      })
-      .filter(Boolean)
-  : []
+const skillsSection = requireSection(rawBody, 'Skills', 'pages/about.md')
+const skillsItems = splitItems(skillsSection)
+  .map((part: string) => {
+    const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
+    if (lines.length === 0) return null
+
+    const title = (lines[0] || '').replace(/^###\s*/, '').trim()
+    const rest = lines.slice(1).join('\n').trim()
+
+    // Extract description and tags
+    const codeBlockMatch = rest.match(/(`[^`]+`\s*)+/)
+    let description = rest
+    let tags: string[] = []
+
+    if (codeBlockMatch) {
+      tags = rest.match(/`([^`]+)`/g)?.map((t: string) => t.replace(/`/g, '')) ?? []
+      // Remove the code block from description
+      description = rest.replace(/(`[^`]+`\s*)+/, '').trim()
+    }
+
+    if (!title) return null
+    return { title, description, tags }
+  })
+  .filter((item): item is { title: string; description: string; tags: string[] } => Boolean(item))
 ---
 
 <Layout canonicalUrl={currentUrl}>

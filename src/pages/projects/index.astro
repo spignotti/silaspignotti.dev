@@ -6,6 +6,7 @@ import CategoryFilter from '@/components/react/category-filter'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 import { getAllProjects } from '@/lib/data-utils'
+import { PROJECT_CATEGORIES } from '@/lib/project-categories'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/projects')
 
@@ -17,7 +18,7 @@ const projects = await getAllProjects()
 
 const currentUrl = Astro.url
 
-const categories = ['All', 'Geospatial', 'AI/Automation'] as const
+const categories = ['All', ...PROJECT_CATEGORIES] as const
 ---
 
 <Layout canonicalUrl={currentUrl}>
