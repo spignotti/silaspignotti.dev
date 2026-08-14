@@ -199,7 +199,7 @@ const Navbar = () => {
                   <Separator orientation="vertical" className="hidden h-4! sm:block" />
                   <p className="text-muted-foreground text-base" aria-label="open-source description">
                     <Link
-                      href="https://github.com/silas-workspace/silaspignotti.dev"
+                      href="https://github.com/spignotti/silaspignotti.dev"
                       className="text-foreground"
                       external
                       underline>Open-source</Link

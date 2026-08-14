@@ -10,10 +10,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/silas-workspace/silaspignotti.dev.git"
+    "url": "https://github.com/spignotti/silaspignotti.dev.git"
   },
   "bugs": {
-    "url": "https://github.com/silas-workspace/silaspignotti.dev/issues"
+    "url": "https://github.com/spignotti/silaspignotti.dev/issues"
   },
   "homepage": "https://silaspignotti.dev",
   "name": "silaspignotti.dev",
