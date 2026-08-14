@@ -1,22 +1,20 @@
 ---
 name: portfolio-writer
-description: Writes project pages and static website pages for silaspignotti.dev. Positioning: a student showing real work, not an expert dispensing wisdom. Load when asked to write, rewrite, or revise project pages, the landing page, about page, projects overview, or contact page.
+description: Writes and revises website text for silaspignotti.dev — project pages, landing page, about page, projects overview. Load when the user asks to write, rewrite, or revise website content, or to draft text for a new project: "schreibe einen Text", "ändere diesen Absatz", "Projektseite schreiben", "drafte einen Projekttext", "update the about page".
 ---
 
 # Portfolio Writer
 
-Writes project pages and static website pages for [silaspignotti.dev](http://silaspignotti.dev).
+Writes project pages and static website pages for [silaspignotti.dev](https://silaspignotti.dev).
 
-**Positioning:** A student who shows real work, not an expert who dispenses wisdom.
-
-**When to use:** Silas wants to write or revise a project page (Problem/Solution/Result/Lessons Learned/Deep Dive) or a static website page (Landing, About, Projects, Contact).
+**When to use:** The user asks to write or revise website text — a project page, the landing page, the about page, or the projects overview — or to draft copy for a new project before it is published.
 
 ## Positioning
 
-- Student and aspiring Geo Data Scientist who documents real projects. Not a thought leader, not a lecturer.
 - Competence shows through the work itself: what was built, which decisions were made, what came out of it.
 - "I built this and this is what happened" instead of "This is how you should do it."
 - No lectures, no best-practice guides, no "In this article I'll show you" formulations.
+- Do not invent self-positioning. Read the existing target page before writing and stay consistent with it. If no page exists yet, let the work speak for itself.
 
 ## Voice
 
@@ -37,35 +35,35 @@ Writes project pages and static website pages for [silaspignotti.dev](http://sil
 - No self-praise: "I'm passionate about", "I thrive on", "I love working with". Show the work instead of slapping on labels.
 - **No downgrading.** Do not weaken Silas' real competencies. Context Engineering, Agentic Systems, RAG are not buzzwords — they are real areas of work. Don't reduce everything to "Python and SQL". The work includes ML/DL, not just data pipelines.
 - **No project listings in hero/intro.** Projects are presented on /projects. Intro text describes competencies and working style, not individual projects.
-- **No job title claims as a student.** Avoid role titles like "AI Engineer" or "Geo Data Scientist" in hero/intro. Instead, describe topic areas ("Geospatial · AI · Automation").
+- **No unrequested role titles or self-positioning in hero/intro.** Avoid role titles like "AI Engineer" or "Geo Data Scientist". Instead, describe topic areas ("Geospatial · AI · Automation").
 - **No freelancing or OSS contributor language.** Avoid "Open Source", "Freelance", or "Consulting" as self-description. Use "Data Engineering & Tooling" instead of "Open Source".
 
 ## Page Types
 
 ### Project Pages
 
-Structure: Problem → Solution → Result → Lessons Learned → Deep Dive
+Structure: Problem → Solution → Result → Technical Details
 
 - **Problem:** What is the problem? Why does it exist? Context for someone without prior knowledge. Concise, no dramatization.
 - **Solution:** What was built? How does it work at a high level? Key technical decisions. No code details, but enough depth for technical readers.
 - **Result:** What came out of it? Quantifiable when possible (metrics, numbers, comparisons). What does the project demonstrate?
-- **Lessons Learned:** 2-4 concrete, honest insights. What went well, what didn't, what would be done differently. No generic "I learned the importance of testing". Good example: "Spatial block CV added 3 weeks to the pipeline but caught a 12pp accuracy inflation from spatial autocorrelation." Bad example: "Testing is important and I learned to always test thoroughly."
-- **Deep Dive:** Optional technical deep-dive into one aspect of the project. Methodology, architecture decision, performance analysis. For readers who want to know more. Can stand alone (someone could read only the deep dive).
+- **Technical Details:** Optional section for the technical substance: methodology, architecture decisions, performance analysis. For readers who want to know more.
 
 ### Static Pages
 
 - **Landing:** Hook, what I do (3 areas: Geospatial Data Science, AI & Automation, Data Engineering & Tooling), tech stack, CTA. Concise and confident. No project listing in the intro.
 - **About:** Bio, experience, education, skills. Factual, honest, no LinkedIn pathos. Urban planning background as personal motivation, not as comparison with CS graduates.
 - **Projects:** Overview with short teasers. Each project as a business case: problem, solution, result.
-- **Contact:** Direct, inviting, links to relevant profiles.
 
 ## Workflow
 
-1. **Input:** Silas provides context (project data, notes, repo info, existing content from `src/content/`).
-2. **Draft:** First version in chat. Focus on substance and structure. Don't over-polish.
-3. **Review:** Silas gives feedback. Targeted revisions, no full rewrite.
-4. **Pipeline:** After approval → Content SEO pass → load `de-ai` skill and run in light mode for portfolio/README format.
-5. **Persist:** Write the final text to the target page.
+1. **Input:** The user provides context (project data, notes, repo info, existing content). Read the existing target file in `src/content/` before writing or revising.
+2. **Draft:** First version in chat (or inline when revising). Focus on substance and structure. Don't over-polish.
+3. **Review:** The user gives feedback. Targeted revisions, no full rewrite.
+4. **Deliver:**
+   - Draft-only requests ("draft a text", "rewrite", "Entwurf") end here — output stays in chat, no files change.
+   - Publish requests ("change this text", "add a new project", "update the page") continue: load the `site-deploy` skill to persist the text and publish it.
+5. **Polish (optional):** Load the `de-ai` skill in light mode for portfolio/README format.
 
 ## Tech Tag Rules
 
@@ -80,8 +78,6 @@ Tech tags (inline code blocks on the website) follow a clear abstraction level:
 
 ## SEO Basics (observe during draft)
 
-The Content SEO skill optimizes afterward. But already consider during drafting:
-
 - Primary keyword in the title and first paragraph.
 - H2/H3 structure hierarchical and keyword-aware.
 - Natural language. Don't force keywords.
@@ -95,6 +91,6 @@ The Content SEO skill optimizes afterward. But already consider during drafting:
 
 ## Output
 
-- **Format:** Markdown, matching the page type.
+- **Format:** Markdown with frontmatter matching the schema in `src/content.config.ts`.
 - **Language:** English (website default). German only on instruction.
-- **Length:** As concise as the content allows. Project pages: ~300-600 words for Problem/Solution/Result combined, ~100-200 for Lessons Learned, Deep Dive variable by topic.
+- **Length:** As concise as the content allows. Project pages: ~300-600 words for Problem/Solution/Result combined; Technical Details variable by topic.

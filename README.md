@@ -57,36 +57,24 @@ Both collections use type-safe schemas defined in `src/content.config.ts`.
 
 ## Internal Workflows
 
-### Content publishing
+Workflows are defined as OpenCode skills and trigger from natural language; no slash commands are needed.
 
-- `/deploy`
+### Content and text
 
-`/deploy` will:
+- "Change this text", "add a new project", "update the about page"
+- `portfolio-writer` drafts and revises text (voice, structure, facts)
+- `site-deploy` persists the content, processes media, validates, commits, and pushes to `main`
+- Draft-only requests ("draft a text") stay in chat and are not persisted
 
-1. detect whether pasted content is a page update, project update, or batch update
-2. normalize messy Notion markdown wrappers automatically
-3. route content to the correct `src/content/...` destination
-4. process media for explicitly provided file mappings (`--file`)
-5. run publish checks + validation
-6. commit and push to `main`
+### Frontend and design
 
-### Frontend and design work
-
-- `/design`
-
-`/design` will:
-
-1. load frontend design guidance
-2. reference existing local patterns and template lineage
-3. implement requested UI/frontend/config updates
-4. run SEO/integrity checks for touched routes
-5. validate
-6. commit and push to `main`
+- "Improve the layout", "make the cards responsive"
+- `site-design` implements UI/frontend/config updates using existing local patterns and template lineage, runs SEO/integrity checks, validates, commits, and pushes to `main`
 
 ### Security behavior
 
 No always-on security review runs for normal static changes.
-Security review is triggered only when work touches security-relevant surfaces (forms/input, API/server handlers, file processing, auth/session, external scripts, redirect/header behavior).
+The workflows stop and request a security review before committing when work touches security-relevant surfaces (forms/input, API/server handlers, file processing, auth/session, external scripts, redirect/header behavior).
 
 ## Deployment
 

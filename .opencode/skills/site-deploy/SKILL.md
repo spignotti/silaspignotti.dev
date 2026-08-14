@@ -1,35 +1,26 @@
 ---
 name: site-deploy
-description: Unified portfolio deployment workflow. Auto-detect page/project content, process media, run SEO checks, validate, then commit and push.
+description: Publishes page and project content for silaspignotti.dev. Load when the user wants to change, add, or publish website content — "ändere diesen Text", "neues Projekt anlegen", "update the about page", "veröffentliche das Projekt". Persists content, processes media, validates, commits, and pushes.
 ---
 
 # Site Deploy Skill
 
-Use this skill for **all content publishing** in this repository.
+Publishing contract for all content changes in this repository. Use for **all content persistence**: pages, projects, and media.
 
-Single entrypoint: `/deploy`
+## When to use
+
+- The user asks to change, add, or publish page/project content
+- `portfolio-writer` hands off an approved text for persistence
+- Media files must be moved into `public/projects/`
 
 ## Goal
 
-Given content in chat, handle the complete publish workflow end-to-end:
-
-1. infer content type (page/project)
-2. normalize and route to correct files
+1. infer the target file (page or project)
+2. normalize and persist the content
 3. process media (screenshots, PDFs)
-4. run SEO/integrity checks
+4. run integrity checks
 5. validate
 6. commit and push
-
-## Inputs
-
-- Primary input: content pasted in chat
-- Optional command flags:
-  - `--dry-run`
-  - `--skip-media`
-  - `--skip-push`
-  - `--message "..."`
-  - `--file "inbox/source.png -> screenshot-01.png"` (repeatable)
-  - `--move`
 
 ## Repository contracts
 
@@ -86,31 +77,26 @@ Default when omitted: `layers`. Any other value fails the content-schema build.
 - Project screenshots: `public/projects/<slug>/<files>`
 - All media referenced in frontmatter must exist at the specified path
 
-## Phase 1 — Infer scope
+## Step 1 — Infer target
 
-1. **Page deploy**
-   - frontmatter `slug` equals `/`, `/about`, `/projects`
-   - or title indicates one of these pages
-2. **Project deploy**
-   - project-shaped keys (`category`, `tags`, ...)
-   - or slug is not one of the fixed page slugs
-3. **Ambiguous**
-   - ask exactly one targeted question
+- **Page:** frontmatter `slug` equals `/`, `/about`, `/projects`, or the title clearly indicates one of these pages.
+- **Project:** project-shaped keys (`category`, `tags`, ...) or a slug that is not one of the fixed page slugs.
+- **Ambiguous:** ask exactly one targeted question.
 
-## Phase 2 — Normalize content
+## Step 2 — Normalize content
 
 - drop wrappers like `File target`, `Frontmatter`, `Body Content`
-- if frontmatter in fenced code block, extract as true YAML
-- if body in fenced markdown, extract only body
+- if frontmatter is in a fenced code block, extract it as true YAML
+- if the body is in fenced markdown, extract only the body
 - enforce `.md` output
-- remove local/temp references from final content
+- remove local/temp references from the final content
 
-## Phase 3 — Media processing
+## Step 3 — Media processing
 
-Only when files are provided and `--skip-media` is not set:
+Only when the user provides files:
 
 1. Check `inbox/` for new source files
-2. For each file run the existing media script with explicit mappings:
+2. For each file run the media script with explicit mappings:
 
 ```bash
 pnpm run process:project-media -- --slug <slug> --file "inbox/source.png -> screenshot-01.png" --file "inbox/report.pdf -> report.pdf" [--move] [--dry-run]
@@ -118,7 +104,7 @@ pnpm run process:project-media -- --slug <slug> --file "inbox/source.png -> scre
 
 The script moves/copies files into `public/projects/<slug>/` and updates the project's `screenshots`/`downloads` frontmatter. Destination must be a file name only (no nested paths).
 
-## Phase 4 — Publish integrity checks
+## Step 4 — Integrity checks
 
 For touched routes verify:
 
@@ -129,19 +115,7 @@ For touched routes verify:
 - no obvious secrets in content
 - page/project slugs resolve correctly
 
-### Conditional security review
-
-Do **not** run for normal content deploys.
-
-Trigger `security-review` only when changes touch:
-- form/user-input handling
-- API/server route behavior
-- file upload/processing logic (beyond the standard media script)
-- auth/access control
-- external script injection
-- redirect/header behavior
-
-## Phase 5 — Validation gates
+## Step 5 — Validation gates
 
 Node 24 is the project standard (`verify:node` gates `build`/`check`). If the active Node is not 24, stop with the script's error message — never install or mutate a toolchain.
 
@@ -159,7 +133,7 @@ pnpm run check
 
 If any gate fails: stop, report, do not commit.
 
-## Phase 6 — Commit and push
+## Step 6 — Commit and push
 
 Stage only intended files (never `git add -A` or `git commit -a`).
 
@@ -168,12 +142,23 @@ Commit message defaults:
 - page: `content(page): update <route>`
 - project: `content(project): upsert <slug>`
 
-Push to `main` unless `--skip-push`. Pushing to `main` triggers the GitHub Pages deploy workflow.
+Push to `main`. Pushing to `main` triggers the GitHub Pages deploy workflow.
+
+## Security stop gate
+
+No always-on security review for normal content deploys.
+
+**STOP and ask the user** before committing when the change touches:
+- form/user-input handling
+- API/server route behavior
+- file upload/processing logic (beyond the standard media script)
+- auth/access control
+- external script injection
+- redirect/header behavior
 
 ## Non-negotiable safety rules
 
 - Never run `pnpm install`
 - Never run `brew install`
 - Never mutate system Node/pnpm/toolchains
-- Never bypass checks without explicit request
-- Never stage `AGENTS.md` (it carries uncommitted local changes)
+- Never bypass checks without explicit user request

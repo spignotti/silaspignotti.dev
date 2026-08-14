@@ -1,40 +1,21 @@
 ---
 name: site-design
-description: Unified frontend/design/config workflow for this portfolio. Uses frontend-design guidance, checks base template patterns, validates SEO/integrity, then commits and pushes.
+description: Frontend, design, layout, and visual config work for silaspignotti.dev. Load when the user asks to improve the UI, layout, styling, or responsive behavior — "Layout verbessern", "Cards anpassen", "Dark Mode", "responsive", "Stil ändern". Implements UI changes, validates SEO/integrity, commits, and pushes.
 ---
 
 # Site Design Skill
 
-Use this skill for **all UI/frontend/config requests** in this repository.
+Frontend/design/config workflow for this repository.
 
-Single entrypoint: `/design`
+## When to use
 
-## Goal
-
-Given a design/frontend/config request in chat, deliver implementation-quality changes end-to-end:
-
-1. inspect current local patterns
-2. check relevant template lineage patterns
-3. implement requested frontend/design/config changes
-4. verify SEO/integrity and accessibility for touched routes
-5. validate
-6. commit and push
-
-## Inputs
-
-- Primary input: natural-language request, optional screenshot/mockup
-- Optional flags:
-  - `--dry-run`
-  - `--skip-check`
-  - `--skip-push`
-  - `--message "..."`
-  - `--route "/..."`
-  - `--component "..."`
+- The user asks for UI, frontend, layout, styling, responsive, interaction, or visual config changes
+- Not for content publishing — that is the `site-deploy` skill's job
 
 ## Required workflow
 
-1. Load `frontend-design` skill first.
-2. Read 3-5 relevant files in affected area before editing.
+1. Load the `frontend-design` skill first.
+2. Read 3-5 relevant files in the affected area before editing.
 3. Preserve existing local design system conventions first.
 4. Reference base template capabilities:
    - https://github.com/cojocaru-david/portfolio
@@ -42,7 +23,7 @@ Given a design/frontend/config request in chat, deliver implementation-quality c
 
 ## Change scope
 
-Typical `/design` work includes:
+Typical design work includes:
 
 - page layout and hierarchy improvements
 - card/component visual polish
@@ -50,7 +31,7 @@ Typical `/design` work includes:
 - interaction and animation tuning (respect reduced motion)
 - frontend presentation config related to visuals, metadata handoff, or UX polish
 
-Avoid scope bleed into content-deploy ingestion logic (that belongs to `/deploy`).
+Avoid scope bleed into content-persistence logic (that belongs to the `site-deploy` skill).
 
 ## SEO and integrity checks (always)
 
@@ -63,12 +44,11 @@ For touched routes/components verify:
 - internal links still resolve
 - no accidental route/base-path regressions
 
-## Conditional security review (not always-on)
+## Security stop gate
 
-Do **not** run heavy security review for normal static visual changes.
+No always-on security review for normal static visual changes.
 
-Trigger `security-review` skill only when the change touches security-relevant surface:
-
+**STOP and ask the user** before committing when the change touches security-relevant surface:
 - user input/forms handling
 - API endpoints/server handlers
 - file upload/processing logic
@@ -76,27 +56,25 @@ Trigger `security-review` skill only when the change touches security-relevant s
 - external script/embed injection
 - redirect/header/cookie/security policy behavior
 
-If triggered, run `security-review` before final commit.
-
 ## Validation gates
 
-Always run build gate:
+Always run the build gate:
 
 ```bash
 pnpm run build
 ```
 
-Run check gate for structural or larger frontend/config changes (unless `--skip-check`):
+Run the check gate for structural or larger frontend/config changes:
 
 ```bash
 pnpm run check
 ```
 
-If a gate fails: stop, report, do not commit.
+If a gate fails: stop, report, do not commit. Do not bypass the gates.
 
 ## Commit and push
 
-Stage only intended files.
+Stage only intended files (never `git add -A` or `git commit -a`).
 
 Commit message defaults:
 
@@ -104,13 +82,11 @@ Commit message defaults:
 - `fix(ui): polish layout and responsiveness`
 - `chore(ui): adjust frontend config and seo checks`
 
-Use `--message` override when provided.
-
-Push to `main` unless `--skip-push`.
+Push to `main`. Pushing to `main` triggers the GitHub Pages deploy workflow.
 
 ## Non-negotiable safety rules
 
 - Never run `pnpm install` in this workflow
 - Never run `brew install` in this workflow
 - Never mutate system Node/pnpm/toolchains in this workflow
-- Never bypass checks/hooks without explicit user request
+- Never bypass checks without explicit user request

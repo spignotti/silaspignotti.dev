@@ -51,30 +51,23 @@ public/          # static assets (fonts, images)
 - `pnpm run dev` — local development server (port 3010)
 - `pnpm run preview` — preview the production build locally
 
-## Deploy Workflow (Internal)
+## Content Workflow (Internal)
 
-- Use `/deploy` for content publishing workflows
-- `/deploy` auto-detects whether pasted content is a page update, project update, or batch update
-- `/deploy` normalizes messy Notion markdown wrappers and routes content to the correct `src/content/...` path
-- `/deploy` runs optional media + cover steps when needed, performs publish checks, validates, then commits and pushes
+- Describe content changes in natural language: "change this text", "add a new project", "update the about page"
+- `portfolio-writer` handles voice, structure, and drafting; it invokes `de-ai` for post-draft polishing
+- Draft-only requests ("draft a text") stay in chat; publish requests are persisted by `site-deploy`, which normalizes content, processes media, validates, commits, and pushes
+- `de-ai` is also available globally for text polishing outside website content
 
 ## Design Workflow (Internal)
 
-- Use `/design` for frontend/design/layout/config requests
-- `/design` loads `frontend-design`, references the base template lineage, and implements UI work using existing local patterns first
-- `/design` runs SEO/integrity checks for touched routes, validates, then commits and pushes
-
-## Content Workflow (Internal)
-
-- Use `portfolio-writer` skill for writing and revising website content (project pages, static pages)
-- The portfolio-writer handles voice, structure, and drafting; it invokes `de-ai` for post-draft polishing
-- Use `/deploy` for the publishing pipeline after content is finalized
-- `de-ai` is also available globally for text polishing outside website content
+- Describe UI changes in natural language: "improve the layout", "make the cards responsive"
+- `site-design` loads `frontend-design`, references the base template lineage, and implements UI work using existing local patterns first
+- `site-design` runs SEO/integrity checks for touched routes, validates, then commits and pushes
 
 ## Security Workflow (Internal)
 
-- No always-on security skill is required for normal static content/design changes
-- Trigger `security-review` only when changes touch user input, API/server handlers, file processing, auth/session, external script embeds, or security-relevant redirect/header behavior
+- No always-on security review is required for normal static content/design changes
+- The site workflows stop and request a security review before committing when changes touch user input, API/server handlers, file processing, auth/session, external script embeds, or security-relevant redirect/header behavior
 
 ## Astro Conventions
 
