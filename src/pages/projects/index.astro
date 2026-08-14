@@ -16,12 +16,10 @@ if (!page) {
 
 const projects = await getAllProjects()
 
-const currentUrl = Astro.url
-
 const categories = ['All', ...PROJECT_CATEGORIES] as const
 ---
 
-<Layout canonicalUrl={currentUrl}>
+<Layout>
   <PageHead
     slot="head"
     title={page.data.title}

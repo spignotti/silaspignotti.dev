@@ -7,7 +7,6 @@ import { badgeVariants } from '@/components/ui/badge'
 import { Calendar, Award, GraduationCap, Briefcase, Brain } from 'lucide-react'
 import { requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 
-const currentUrl = Astro.url
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/about')
 
 if (!page) {
@@ -91,7 +90,7 @@ const skillsItems = splitItems(skillsSection)
   .filter((item): item is { title: string; description: string; tags: string[] } => Boolean(item))
 ---
 
-<Layout canonicalUrl={currentUrl}>
+<Layout>
   <PageHead
     slot="head"
     title={page.data.title}

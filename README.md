@@ -13,19 +13,21 @@ Central professional presence for recruiters, freelance clients, and the develop
 ## Tech Stack
 
 - Astro 5.x (static site generator)
-- Node.js 24.x (runtime)
+- Node.js 24.x (runtime, enforced via `.node-version` and `verify:node`)
+- pnpm (package manager)
 - TailwindCSS (styling)
 - React (interactive islands)
 - TypeScript
 - Content Collections (type-safe markdown content)
+- GitHub Pages (hosting)
 
 ## Setup
 
 ```bash
-# Install dependencies
+# Requires Node 24 (see .node-version; your version manager should switch automatically)
 pnpm install
 
-# Start development server
+# Start development server (port 3010)
 pnpm run dev
 
 # Build for production
@@ -88,7 +90,7 @@ Security review is triggered only when work touches security-relevant surfaces (
 
 ## Deployment
 
-Hosted on GitHub Pages. Auto-deploys on push to main via GitHub Actions.
+Hosted on GitHub Pages. GitHub Actions validates every push and pull request (`pnpm install --frozen-lockfile`, `check`, `build`); deploys only on pushes to `main`.
 
 ## License
 

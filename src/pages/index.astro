@@ -7,7 +7,6 @@ import ProjectCard from '@/components/ProjectCard.astro'
 import { getCollection } from 'astro:content'
 import { extractSection, requireSection, splitItems } from '@/lib/markdown-sections'
 
-const currentUrl = Astro.url
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/')
 const featuredProjects = (await getCollection('projects'))
   .filter((project) => project.data.featured)
@@ -42,7 +41,7 @@ const ctaSection = extractSection(normalizedBody, 'Get in Touch')
 const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replace(/\n+/g, ' ')
 ---
 
-<Layout canonicalUrl={currentUrl}>
+<Layout>
   <PageHead
     slot="head"
     title={page.data.title}
