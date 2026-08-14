@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.0.0 <25.0.0"
   },
   "browserslist": "> 0.5%, last 2 versions, Firefox ESR, not dead",
   "keywords": [
@@ -24,10 +24,11 @@
   "packageManager": "pnpm@11.2.2",
   "scripts": {
     "process:project-media": "tsx scripts/process-project-media.ts",
+    "verify:node": "node scripts/ensure-node-version.mjs",
     "dev": "astro dev --port 3010",
     "start": "astro preview",
-    "build": "astro build",
-    "check": "astro check",
+    "build": "pnpm verify:node && astro build",
+    "check": "pnpm verify:node && astro check",
     "preview": "astro preview",
     "astro": "astro",
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore"
@@ -62,7 +63,6 @@
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-icons": "^5.5.0",
-    "rehype-document": "^7.0.3",
     "rehype-external-links": "^3.0.0",
     "rehype-pretty-code": "^0.14.1",
     "remark-emoji": "^5.0.1",

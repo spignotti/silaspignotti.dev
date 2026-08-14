@@ -11,38 +11,11 @@ import rehypePrettyCode from 'rehype-pretty-code'
 import remarkEmoji from 'remark-emoji'
 import remarkMath from 'remark-math'
 import remarkSectionize from 'remark-sectionize'
-import rehypeDocument from 'rehype-document'
 
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 import tailwindcss from "@tailwindcss/vite";
-
-function rehypeDemoteH1AndStripTitle() {
-  return (tree: any) => {
-    const walk = (node: any, parent: any | null, indexInParent: number | null) => {
-      if (!node) return
-      const isElement = node.type === 'element'
-      if (isElement) {
-        if (node.tagName === 'title') {
-          if (parent && Array.isArray(parent.children) && indexInParent !== null && indexInParent > -1) {
-            parent.children.splice(indexInParent, 1)
-            return
-          }
-        }
-        if (node.tagName === 'h1') {
-          node.tagName = 'h2'
-        }
-      }
-      if (Array.isArray(node.children)) {
-        for (let i = node.children.length - 1; i >= 0; i--) {
-          walk(node.children[i], node, i)
-        }
-      }
-    }
-    walk(tree, null, null)
-  }
-}
 
 export default defineConfig({
   output: 'static',
@@ -93,7 +66,6 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      rehypeDocument,
       [
         rehypeExternalLinks,
         {
@@ -101,7 +73,6 @@ export default defineConfig({
           ariaLabel: 'External link'
         },
       ],
-      rehypeDemoteH1AndStripTitle,
       rehypeHeadingIds,
       [
         rehypePrettyCode,
