@@ -5,23 +5,18 @@ import { FaQuestionCircle } from 'react-icons/fa'
 import {
   SiDocker,
   SiFastapi,
+  SiGeopandas,
   SiGit,
   SiGooglecloud,
   SiGoogleearth,
   SiNotion,
+  SiPostgresql,
   SiPython,
   SiPytorch,
   SiQgis,
   SiScikitlearn,
 } from 'react-icons/si'
-import {
-  Bot,
-  Database,
-  FileCode,
-  Server,
-  Sparkles,
-  WandSparkles,
-} from 'lucide-react'
+import { Database, Layers, Server, Sparkles, WandSparkles } from 'lucide-react'
 
 const iconMap: { [key: string]: IconType } = {
   'si:docker': SiDocker,
@@ -29,17 +24,18 @@ const iconMap: { [key: string]: IconType } = {
   'mdi:git': SiGit,
   'si:googlecloud': SiGooglecloud,
   'si:googleearth': SiGoogleearth,
+  'si:geopandas': SiGeopandas,
   'si:notion': SiNotion,
+  'si:postgresql': SiPostgresql,
   'si:python': SiPython,
   'si:pytorch': SiPytorch,
   'si:qgis': SiQgis,
   'si:scikitlearn': SiScikitlearn,
-  'lucide:bot': Bot,
+  'lucide:layers': Layers,
   'lucide:database': Database,
   'lucide:server': Server,
   'lucide:sparkles': Sparkles,
   'lucide:wand-sparkles': WandSparkles,
-  'lucide:file-code': FileCode,
 }
 
 const categories = Object.keys(technologies)

@@ -10,6 +10,7 @@ tags:
   - "XGBoost"
   - "1D-CNN"
   - "Google Earth Engine"
+  - "Rasterio"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
 tagline: "Cross-city transfer learning for urban tree genus classification using Sentinel-2 time series."

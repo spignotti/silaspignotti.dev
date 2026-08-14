@@ -8,6 +8,7 @@ tags:
   - "PyTorch"
   - "Google Earth Engine"
   - "GCP"
+  - "Rasterio"
 coverIcon: "satellite"
 tagline: "What urban context does a thermal model actually need? Ablation study and 10 m LST reconstruction for Berlin."
 featured: true

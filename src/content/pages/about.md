@@ -44,7 +44,7 @@ Real estate database management, GIS-based site analysis with direct impact on i
 GPA 1.2
 
 - Focus: Geoinformatics, Remote Sensing, Spatial Data Science
-- Thesis in progress: "Urban Heat Islands – Deep-Learning-Based LST Downscaling and Causal Analysis of Climate Adaptation Measures in Berlin"
+- Thesis in progress: "Urban-kontextsensitives Downscaling satellitenbasierter Oberflächentemperaturen mit Deep Learning: Eine Ablationsstudie für Berlin"
 
 ### B.Sc. Urban & Regional Planning · TU Berlin
 
@@ -60,19 +60,19 @@ GPA 1.6
 
 Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geospatial data workflows.
 
-`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `QGIS` `PostGIS`
+`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `QGIS` `PostGIS` `GeoPandas` `Rasterio`
 
 ### AI & Automation
 
 Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
-`Claude Code` `LLM APIs` `Ollama` `Notion`
+`Coding Agents` `LLM APIs` `Notion`
 
 ### Data Engineering & Tooling
 
 ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
 
-`SQL` `Docker` `Git` `Linux` `Google Cloud` `Google Colab` `FastAPI`
+`SQL` `Docker` `Git` `Linux` `Google Cloud` `FastAPI`
 
 ### Languages
 

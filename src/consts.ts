@@ -61,13 +61,14 @@ export const technologies: Technologies = {
     { text: 'PyTorch', logo: 'si:pytorch' },
     { text: 'scikit-learn', logo: 'si:scikitlearn' },
     { text: 'Google Earth Engine', logo: 'si:googleearth' },
-    { text: 'PostGIS', logo: 'si:postgresql' },
     { text: 'QGIS', logo: 'si:qgis' },
+    { text: 'PostGIS', logo: 'si:postgresql' },
+    { text: 'GeoPandas', logo: 'si:geopandas' },
+    { text: 'Rasterio', logo: 'lucide:layers' },
   ],
   'AI & Automation': [
-    { text: 'Claude Code', logo: 'lucide:wand-sparkles' },
+    { text: 'Coding Agents', logo: 'lucide:wand-sparkles' },
     { text: 'LLM APIs', logo: 'lucide:sparkles' },
-    { text: 'Ollama', logo: 'lucide:bot' },
     { text: 'Notion', logo: 'si:notion' },
   ],
   'Data Engineering & Tooling': [
@@ -76,7 +77,6 @@ export const technologies: Technologies = {
     { text: 'Git', logo: 'mdi:git' },
     { text: 'Linux', logo: 'lucide:server' },
     { text: 'Google Cloud', logo: 'si:googlecloud' },
-    { text: 'Google Colab', logo: 'lucide:file-code' },
     { text: 'FastAPI', logo: 'si:fastapi' },
   ],
 }
