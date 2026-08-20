@@ -5,7 +5,7 @@ slug: /
 ogImage: /ogImage.svg
 ---
 
-Geospatial Data Science · Remote Sensing · AI Automation
+Geospatial Data Science · Data Analytics · AI & Automation
 
 ## Focus Areas
 
