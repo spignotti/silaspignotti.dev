@@ -17,6 +17,6 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
-### Data Engineering & Tooling
+### Data Engineering & Applied Software
 
-ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
+Building data-backed applications that connect APIs, databases, and operational workflows. Practical work includes deployment, maintenance, monitoring, caching, and performance improvements for a live application.

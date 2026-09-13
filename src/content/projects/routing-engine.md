@@ -1,7 +1,7 @@
 ---
 title: "Routing Engine"
 slug: "routing-engine"
-description: "Production route planning for recurring field-service operations."
+description: "Live planning software for recurring field-service operations, developed and maintained around real operational use."
 category: "AI/Automation"
 tags:
   - "Python"
@@ -11,7 +11,7 @@ tags:
   - "PyVRP"
   - "Docker"
 coverIcon: "workflow"
-tagline: "Production route planning for recurring field-service operations."
+tagline: "Live planning software for recurring field-service operations, developed and maintained around real operational use."
 featured: true
 year: 2026
 completed: false
@@ -23,15 +23,17 @@ Recurring maintenance tours were planned manually from individual addresses, veh
 
 ## Solution
 
-Routing Engine is a web application for planning recurring Fettabscheider maintenance tours. It combines service orders, vehicle types, shift times, breaks and compatibility rules into daily route proposals. The office team reviews the routes on a map, adjusts stops when needed and exports a practical stop list.
+Routing Engine is a web application for planning recurring field-service maintenance tours. It combines service orders, vehicle types, shift times, breaks and compatibility rules into daily route proposals. The office team reviews the routes on a map, adjusts stops when needed and exports a practical stop list.
 
 The project started with a narrow pilot scope. The focus was on a working planning flow and understandable results rather than building a CRM, ERP or generic logistics platform.
 
 ## Result
 
-The application is deployed on a private server and used by the DINO office team through Tailscale Funnel. This moved the project beyond a local prototype: it covers product scoping, implementation, deployment and use in an operational setting.
+The application is deployed on a private server and used by the office team through Tailscale Funnel. This moved the project beyond a local prototype: it covers product scoping, implementation, deployment and use in an operational setting.
 
-The next phase professionalizes the operational side of the application with automated deployments, health checks and monitoring. The goal is a reproducible, maintainable service while the pilot provides feedback on the planning workflow.
+Beyond the initial planning logic, ongoing work focuses on the surrounding application workflow: API and database integration, deployment and server administration, caching and performance improvements, error handling, and maintenance based on reported issues and operational feedback. Git and issue tracking are used as development practice.
+
+The project remains a single live application for one field-service business, not a multi-client platform.
 
 ## Technical Details
 
