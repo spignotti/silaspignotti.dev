@@ -10,7 +10,6 @@
 /.herdr/
 # OpenCode (local-only tooling, not published)
 ~$teaser.pptx
-AGENTS.md
 dist/
 inbox/
 node_modules/
