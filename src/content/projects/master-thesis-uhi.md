@@ -1,7 +1,7 @@
 ---
 title: "Urban Heat Island Downscaling"
 slug: "master-thesis-uhi"
-description: "Five-stage ablation study on urban-context-aware LST downscaling from 100 m to 10 m. Historical thermal reconstruction and adaptation measure evaluation for Berlin."
+description: "Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies."
 category: "Geospatial"
 tags:
   - "Python"
@@ -10,13 +10,13 @@ tags:
   - "GCP"
   - "Rasterio"
 coverIcon: "satellite"
-tagline: "What urban context does a thermal model actually need? Ablation study and 10 m LST reconstruction for Berlin."
+tagline: "Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies."
 featured: true
 year: 2026
 completed: false
 ---
 
-**What urban context does a thermal model actually need? Ablation study and 10 m LST reconstruction for Berlin.**
+**Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies.**
 
 ## Problem
 
@@ -24,11 +24,11 @@ Climate change is intensifying urban heat islands, but the thermal data availabl
 
 ## Solution
 
-Deep learning model that downscales Landsat LST from 100 m to Sentinel-2 resolution (10 m), tested through a five-stage ablation study. Each stage adds one input category to quantify its contribution: spectral indices, 3D building morphology (LoD2), meteorological context (DWD stations), temporal features, and a thermal-aware loss function. A random forest baseline isolates the deep learning contribution. The resulting model generates a historical 10 m LST time series for Berlin, enabling retrospective evaluation of climate adaptation measures (green roofs, street trees, de-sealing) via difference-in-differences analysis.
+Deep learning model that downscales Landsat LST from 100 m to Sentinel-2 resolution (10 m), tested through a five-stage ablation study. Each stage adds one input category to quantify its contribution: spectral indices, 3D building morphology (LoD2), meteorological context (DWD stations), temporal features, and a thermal-aware loss function. A random forest baseline isolates the deep learning contribution. The study design isolates the contribution of individual contextual inputs rather than treating the full feature set as a black box.
 
 ## Result
 
-In progress (M.Sc. thesis, target completion October 2026). Planned deliverables: reproducible 10 m LST maps for Berlin across multiple Landsat scenes, ablation results quantifying the contribution of urban context features to downscaling accuracy, a pre-trained model published on HuggingFace, and effect estimates per adaptation category validated against ECOSTRESS and temporal cross-validation.
+Planned deliverables: reproducible 10 m LST maps for Berlin across multiple Landsat scenes, ablation results quantifying the contribution of urban context features to downscaling accuracy, a pre-trained model published on HuggingFace, and effect estimates per adaptation category validated against ECOSTRESS and temporal cross-validation.
 
 ## Technical Details
 
