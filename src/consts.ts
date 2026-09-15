@@ -70,6 +70,7 @@ export const technologies: Technologies = {
     { text: 'Coding Agents', logo: 'lucide:wand-sparkles' },
     { text: 'LLM APIs', logo: 'lucide:sparkles' },
     { text: 'Notion', logo: 'si:notion' },
+    { text: 'n8n', logo: 'lucide:workflow' },
   ],
   'Data Engineering & Tooling': [
     { text: 'SQL', logo: 'lucide:database' },

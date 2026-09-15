@@ -16,7 +16,7 @@ import {
   SiQgis,
   SiScikitlearn,
 } from 'react-icons/si'
-import { Database, Layers, Server, Sparkles, WandSparkles } from 'lucide-react'
+import { Database, Layers, Server, Sparkles, WandSparkles, Workflow } from 'lucide-react'
 
 const iconMap: { [key: string]: IconType } = {
   'si:docker': SiDocker,
@@ -36,6 +36,7 @@ const iconMap: { [key: string]: IconType } = {
   'lucide:server': Server,
   'lucide:sparkles': Sparkles,
   'lucide:wand-sparkles': WandSparkles,
+  'lucide:workflow': Workflow,
 }
 
 const categories = Object.keys(technologies)

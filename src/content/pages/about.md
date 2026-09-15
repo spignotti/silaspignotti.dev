@@ -66,7 +66,7 @@ Machine learning and deep learning on satellite imagery and geodata. Remote sens
 
 Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
 
-`Coding Agents` `LLM APIs` `Notion`
+`Coding Agents` `LLM APIs` `Notion` `n8n`
 
 ### Data Engineering & Tooling
 
