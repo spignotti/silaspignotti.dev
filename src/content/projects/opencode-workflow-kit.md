@@ -1,54 +1,49 @@
 ---
 title: "OpenCode Workflow Kit"
 slug: "opencode-workflow-kit"
-description: "A practical harness for AI coding agents on OpenCode. Bounded autonomy, Plan/Build separation, and review checkpoints for accountable development."
-category: "AI/Automation"
+description: "Provider-neutral OpenCode workflow for planning, implementation, review, and project-specific development constraints."
+category: "AI & Automation"
 tags:
   - "OpenCode"
+  - "Python"
   - "Git"
+  - "GitHub Actions"
 github: "https://github.com/spignotti/opencode-workflow-kit"
 coverIcon: "workflow"
-tagline: "A practical harness for AI coding agents. Plan, build, and review with bounded autonomy on OpenCode."
+tagline: "Structured plan, build, and review workflows for AI-assisted software development."
 featured: false
 year: 2026
-completed: false
----
-
-**A practical harness for AI coding agents. Plan, build, and review with bounded autonomy on OpenCode.**
-
+completed: true
 ---
 
 ## Problem
 
-Coding agents can produce a lot of code quickly. The difficult part is keeping their work aligned with project constraints and engineering standards. Unsupervised execution is acceptable for experiments, but risky when every change needs to be explainable and reviewable.
+Coding agents can implement changes quickly, but reliable use across larger projects requires more than a prompt. Project constraints, research quality, review, Git workflows and domain-specific rules need to remain consistent across sessions.
 
-A second problem is provider lock-in. Most coding tools bind you to a single provider and a small set of models. You depend on one company's API for your entire workflow, and you pay premium prices for every task even when a cheaper model would do.
+This becomes especially relevant when an agent works semi-autonomously: implementation should follow an approved plan, unexpected conditions should stop execution, and reviews should be independent from the agent that produced the change.
 
 ## Solution
 
-This project turns an AI coding agent from an open-ended executor into a bounded engineering workflow.
+OpenCode Workflow Kit is a provider-neutral workflow configuration built around separate planning, implementation and review responsibilities.
 
-OpenCode provides the open foundation: access to models from different providers, local models, configurable agents, sub-agents, permissions, and prompts. This project adds the workflow discipline around that foundation.
+The core workflow uses two primary agents. **Plan** scopes work, gathers evidence and produces an executable plan. **Build** implements only that approved plan and stops when assumptions or project conditions no longer match.
 
-A Plan/Build workflow with two primary agents:
+Specialized read-only subagents handle research, plan checking, contract review and integration review. Reusable skills provide additional rules for Git workflows, testing, data work, geospatial projects and frontend development.
 
-- **Plan** turns an idea into an explicit, validated execution plan. Routine planning and deeper planning for high-consequence problems are handled by separate modes. Research and investigation are delegated to a review sub-agent, so stronger models are reserved for decisions that need them.
-- **Build** executes only the approved plan. Commits, reviews, and explicit stop conditions make long-running work inspectable and reversible. The workflow stops when assumptions break instead of silently improvising.
-
-Most AI coding tools optimize for delegation: give the agent a task and let it run. This project optimizes for accountable delegation: the agent can work independently, but only inside a defined project frame, with explicit checkpoints, independent review, and a hard stop when something unexpected happens.
+Project setup can also generate a compact technical contract that keeps important architectural and delivery constraints versioned with the repository.
 
 ## Result
 
-The system has been my daily development environment across projects for the past one to two years. It is an evolving extraction of the workflow I actually use, not a speculative framework designed around a single demo. This is the public repository; the personal system contains a few additional fine-tuned variants for private use, but the core workflow is the same.
+The public kit packages the workflow I use across technical projects into a self-contained OpenCode configuration. Version 1.0 is published as an independent repository with installation tooling, validation, tests and CI.
+
+The public version is intentionally separated from my personal configuration. It contains the reusable workflow and project rules, but no provider credentials, model configuration, personal paths or private integrations.
 
 ## Technical Details
 
-**Project frames.** Scaffolds establish conventions, validation, Git workflow, and project boundaries before implementation begins. Work happens only within that frame.
+The repository combines OpenCode agent configuration, Markdown-based prompts and skills, Python validation scripts, Git workflows and GitHub Actions.
 
-**Separated responsibility.** Planning and implementation are different agents with different permissions and different success criteria. The Plan agent produces a validated plan; the Build agent executes it. Neither agent works outside its role.
+Plan and Build agents have separate permissions and success criteria. Review and research subagents operate under read-only evidence-probe permissions, while explicit stop conditions prevent implementation from continuing when the approved plan no longer applies.
 
-**Checkpoints and stop authority.** Commits, reviews, and explicit stop conditions make long-running work inspectable and reversible. Review is separated from implementation and can be assigned to an independent agent or model. The Build agent stops at any point where something unexpected comes up instead of continuing on assumptions. This allows one to two hours of semi-autonomous work without unreviewed changes.
+The repository includes reusable domain packs for data and geospatial work, covering topics such as schema invariants, reproducible transformations, CRS handling, raster alignment, spatial validation and provenance.
 
-**Model routing as workflow design.** Different tasks can use different models and providers. Research and review can be delegated to separate agents or less expensive models, while stronger models are reserved for decisions that need them. Model choice becomes part of the workflow rather than an opaque vendor decision. OpenCode makes it practical to combine hosted, open-weight, and local models without redesigning the workflow around one provider. In practice, a combination of frontier models and open-weight models covers the same workload as a premium cloud plan at roughly 20 to 30 EUR per month, about ten times cheaper.
-
-**Commands and skills** govern behavior: Git conventions, security checks, data handling, and other workflow rules. They are versioned alongside the project so the same standards apply in every session. In the public kit, these are part of the long-term architecture and will be extracted from the private system over time.
+A validation script checks configuration, references and privacy constraints. Unit tests and secret scanning run through CI before changes are merged.

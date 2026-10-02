@@ -1,20 +1,21 @@
 ---
 title: "Urban Tree Transfer"
 slug: "urban-tree-transfer"
-description: "Cross-city transfer of urban tree genus classification using Sentinel-2. End-to-end ML pipeline with spatial block CV across Berlin and Leipzig."
-category: "Geospatial"
+description: "Cross-city transfer of urban tree genus classification using multitemporal Sentinel-2 data, spatial validation, and local fine-tuning."
+category: "Geospatial & Data"
 tags:
   - "Python"
-  - "PyTorch"
   - "scikit-learn"
   - "XGBoost"
+  - "PyTorch"
   - "1D-CNN"
-  - "Google Earth Engine"
+  - "GeoPandas"
   - "Rasterio"
+  - "Google Earth Engine"
 github: "https://github.com/spignotti/urban-tree-transfer"
 coverIcon: "trees"
-tagline: "Cross-city transfer learning for urban tree genus classification using Sentinel-2 time series."
-featured: true
+tagline: "Testing how well Sentinel-2 tree classification transfers between cities and how much local data is needed to recover performance."
+featured: false
 year: 2026
 completed: true
 downloads:
@@ -24,16 +25,34 @@ downloads:
 
 ## Problem
 
-Cities need tree cadastres for informed urban tree management, but manual field surveys are expensive and do not scale. Satellite-based classification using Sentinel-2 data offers an alternative, but current approaches focus on species detection, not genus classification, which is critical for environmental and urban planning. Additionally, models trained on one city typically fail when applied to another due to domain shift. No systematic baselines existed to quantify this cross-city transfer gap.
+Satellite-based tree classification can reduce the amount of field data required for urban tree inventories, but a model that performs well in one city may not transfer reliably to another.
+
+The project investigates this domain shift directly: how much performance is lost when a model trained in Berlin is applied to Leipzig, and how much local target data is needed to recover useful performance.
 
 ## Solution
 
-Reproducible ML pipeline built on multitemporal Sentinel-2 composites (12 months, 10 bands + 13 vegetation indices) and municipal tree cadastres from Berlin (905k trees) and Leipzig (168k trees), 17 genus-level classes. XGBoost and 1D-CNN compared under strict spatial block CV across three experiments: source optimization, zero-shot transfer, and fine-tuning with stratified target data fractions. Includes a cadastre cleaning method for dead tree detection and GPS position correction. Built entirely on open data.
+A reproducible machine-learning pipeline was built around multitemporal Sentinel-2 data and municipal tree cadastres from Berlin and Leipzig.
+
+XGBoost and a temporal 1D-CNN were evaluated under spatial block cross-validation before being transferred between cities. The study then compared zero-shot transfer with fine-tuning at increasing fractions of local Leipzig training data.
+
+Data preparation was treated as part of the modelling problem. The pipeline includes cadastre harmonisation, spatial quality filtering, feature engineering, class balancing and corrections for inaccurate tree positions.
 
 ## Result
 
-XGBoost weighted F1 = 0.751 in Berlin under spatial block CV, exceeding published benchmarks despite higher class count and stricter evaluation. Zero-shot transfer to Leipzig: XGBoost -49.8%, 1D-CNN -37.4%. Fine-tuning sweet spot at 25-50% local data. Pipeline design (class balancing: +18 pp F1, spatial evaluation, feature engineering) contributes more to performance than algorithm or hyperparameter choice.
+XGBoost reached a weighted F1 of 0.751 in Berlin under spatial block cross-validation. Direct transfer to Leipzig reduced performance substantially: by 49.8% for XGBoost and 37.4% for the 1D-CNN.
+
+Adding local Leipzig data recovered much of this gap. For XGBoost, the strongest practical transfer advantage appeared at approximately 25–50% of the local training data; with the complete target dataset, training from scratch became competitive.
+
+The experiments also showed that pipeline and evaluation choices had a large effect on measured performance. Class balancing alone improved weighted F1 by approximately 18 percentage points, while spatial validation prevented the overly optimistic scores produced by random cross-validation.
 
 ## Technical Details
 
-Three-stage pipeline. Source-domain optimization in Berlin compares XGBoost (50 importance-ranked features from 276 candidates) and 1D-CNN (full 144-feature temporal sequences) under spatial block CV with 1200 m blocks. Standard random CV inflated accuracy by double digits. Spatial block CV caught this. Zero-shot transfer applies Berlin-trained models directly to Leipzig without adaptation. Fine-tuning uses stratified Leipzig data fractions against from-scratch baselines, with recovery following a power-law curve. The cadastre cleaning step handles dead tree detection and GPS position correction, which directly contributed to training data quality and the strong source-domain performance.
+The pipeline processes monthly Sentinel-2 L2A composites with spectral bands and vegetation indices together with municipal tree cadastres and canopy-height information. Google Earth Engine is used for satellite-data processing, while GeoPandas and Rasterio support the spatial preprocessing workflow.
+
+The final harmonised dataset contains more than 780,000 trees across Berlin and Leipzig. Spatial quality control includes vegetation plausibility checks, temporal completeness filtering, proximity filtering and canopy-height-based corrections for inaccurate tree coordinates.
+
+For tabular modelling, XGBoost uses an importance-ranked feature subset derived from the multitemporal input data. The deep-learning comparison uses a PyTorch 1D-CNN operating on the full temporal feature sequence.
+
+Evaluation follows three stages: source-domain optimisation under 1,200 m spatial block cross-validation, zero-shot transfer from Berlin to Leipzig, and target-domain fine-tuning using 10%, 25%, 50% and 100% of the available Leipzig training data.
+
+The repository contains the reusable pipeline, tests, experiment outputs and the full project report.

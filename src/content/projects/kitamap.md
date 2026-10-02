@@ -1,18 +1,23 @@
 ---
 title: "kitamap"
 slug: "kitamap"
-description: "Open-data analysis of childcare availability in Berlin: demographic forecasting, accessibility mapping, and supply-demand gap identification."
-category: "Geospatial"
+description: "Open-data spatial analysis of daycare supply, accessibility, and projected demand in Berlin."
+category: "Geospatial & Data"
 tags:
   - "Python"
-  - "scikit-learn"
   - "GeoPandas"
+  - "Shapely"
+  - "scikit-learn"
+  - "Prophet"
+  - "Statsmodels"
   - "OpenRouteService"
+  - "OpenStreetMap"
   - "CARTO"
 github: "https://github.com/spignotti/kitamap"
 demo: "https://pinea.app.carto.com/map/81885962-c7a8-4639-8124-372e0caa6e60"
 coverIcon: "map-pin"
-tagline: "Open data vs. official planning: reproducing Berlin's daycare study with freely available data."
+tagline: "Combining open geodata, demographic forecasting, and walking accessibility to analyse daycare provision in Berlin."
+featured: false
 year: 2024
 completed: true
 screenshots:
@@ -25,16 +30,32 @@ downloads:
 
 ## Problem
 
-Berlin's district offices produce daycare planning studies, but the underlying data and methods are not publicly accessible. Without transparent foundations, planning decisions about new daycare locations lack verifiable evidence. The question: can an open-data-only approach reproduce the official findings?
+Assessing daycare provision requires more than mapping facility locations. Supply, local population, future demographic change and practical accessibility all affect whether an area is sufficiently served.
+
+The project explores how far this type of planning analysis can be reproduced with publicly available data for Berlin.
 
 ## Solution
 
-Analysis pipeline combining demographic forecasting of child population per planning area (horizon: 2034), current daycare capacity mapping, and routing-based accessibility analysis. Results published as an interactive CARTO dashboard showing underserved districts, coverage gaps, and future demand trajectories.
+kitamap combines daycare locations and available capacity information with demographic data and routing-based accessibility analysis.
+
+The workflow prepares facility and administrative data, estimates missing capacity values, projects demographic development to 2034 and calculates 500 m walking-distance catchments around daycare locations.
+
+The resulting indicators are combined at district level and published through an interactive CARTO dashboard.
 
 ## Result
 
-The open-data approach identified nearly the same underserved districts as the district office's closed-data study. Built in a few weeks with freely available data. Interactive map and project report available.
+The project produced a reproducible open-data workflow for comparing daycare supply, projected demand and walking accessibility across Berlin.
+
+The analysis highlights spatial differences in current provision and future demand under the assumptions of the model. The interactive dashboard makes the resulting indicators and spatial patterns accessible alongside the project report.
+
+The results are exploratory rather than a replacement for official daycare planning, particularly because open facility data are incomplete and some capacity values have to be estimated.
 
 ## Technical Details
 
-Three-stage pipeline. ETL extracts and geocodes daycare locations and capacities from OpenStreetMap and Berlin's open data portal. Demographic forecasting compares three time series models, with an ensemble of two selected for the final projection to 2034. OpenRouteService computes 500m walking-distance isochrones for each daycare, producing accessibility scores that account for cross-district reachability. Outputs exported to CARTO for interactive visualization.
+The spatial workflow uses GeoPandas and Shapely to prepare daycare locations, administrative areas and additional OpenStreetMap data.
+
+Where facility capacity is missing, the pipeline estimates values using available facility characteristics and district-level information. Demographic forecasting compares several time-series approaches before selecting the models used for projections to 2034.
+
+OpenRouteService generates 500 m walking-distance isochrones around daycare locations, allowing accessibility to be analysed beyond administrative boundaries.
+
+The final indicators and geometries are exported to CARTO for interactive mapping and comparison. The repository contains the analysis workflow, notebooks, methodology documentation and the accompanying project report.

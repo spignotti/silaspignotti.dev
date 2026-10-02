@@ -1,8 +1,8 @@
 ---
 title: "Routing Engine"
 slug: "routing-engine"
-description: "Live planning software for recurring field-service operations, developed and maintained around real operational use."
-category: "AI/Automation"
+description: "Route planning application for recurring field-service operations, developed from a real maintenance workflow and used by the office team."
+category: "Applied Systems"
 tags:
   - "Python"
   - "FastAPI"
@@ -10,8 +10,8 @@ tags:
   - "Next.js"
   - "PyVRP"
   - "Docker"
-coverIcon: "workflow"
-tagline: "Live planning software for recurring field-service operations, developed and maintained around real operational use."
+coverIcon: "truck"
+tagline: "Route planning application for recurring field-service operations, developed from a real maintenance workflow and used by the office team."
 featured: true
 year: 2026
 completed: false
@@ -19,26 +19,28 @@ completed: false
 
 ## Problem
 
-Recurring maintenance tours were planned manually from individual addresses, vehicle availability and expected service times. The office team needed a usable daily plan, not another complex dispatch platform: feasible routes, a clear stop order and enough control to correct plans before they reached the field.
+Recurring maintenance tours were planned manually from individual addresses, vehicle availability and expected service times. The office team needed a usable daily plan: feasible routes, a clear stop order and enough control to adjust plans before they reached the field.
 
 ## Solution
 
 Routing Engine is a web application for planning recurring field-service maintenance tours. It combines service orders, vehicle types, shift times, breaks and compatibility rules into daily route proposals. The office team reviews the routes on a map, adjusts stops when needed and exports a practical stop list.
 
-The project started with a narrow pilot scope. The focus was on a working planning flow and understandable results rather than building a CRM, ERP or generic logistics platform.
+The first version focused on the core planning workflow rather than replacing the surrounding CRM or ERP systems. Requirements and business rules were derived from the existing operational process and translated into the application's data model and planning logic.
 
 ## Result
 
-The application is deployed on a private server and used by the office team through Tailscale Funnel. This moved the project beyond a local prototype: it covers product scoping, implementation, deployment and use in an operational setting.
+The application was tested with the office team in a one-month pilot. Feedback from real planning work was used to adjust the workflow and route handling. It is now used operationally for recurring maintenance planning.
 
-Beyond the initial planning logic, ongoing work focuses on the surrounding application workflow: API and database integration, deployment and server administration, caching and performance improvements, error handling, and maintenance based on reported issues and operational feedback. Git and issue tracking are used as development practice.
+Development continues around the live workflow, including persistence, API and system boundaries, deployment, monitoring, performance and issues reported during use.
 
-The project remains a single live application for one field-service business, not a multi-client platform.
+The application remains an internal tool for one field-service business, not a general logistics platform.
 
 ## Technical Details
 
-The application combines a Python optimization backend with PyVRP for route generation and FastAPI for the application API. A React and Next.js frontend provides the planning interface, map review and manual route adjustments. Docker packages the application for server deployment. Tailscale Funnel provides controlled remote access for the pilot team.
+The backend uses Python and FastAPI, with PyVRP providing the vehicle-routing solver. The planning model combines service orders, vehicle constraints, working times, breaks and compatibility rules before generating route proposals.
 
-The architecture keeps the solver behind a defined planning contract. Routing, geocoding, imports and exports remain separate boundaries, so providers and implementation details can change without rewriting the planning logic.
+A React and Next.js frontend provides the planning interface, map review and manual route adjustments. Docker packages the application for deployment on private server infrastructure.
 
-> This is a private commercial pilot. Source code and operational data are not publicly available.
+The architecture separates optimization, routing, geocoding, imports and exports behind defined interfaces. This keeps external providers and solver-specific logic separate from the operational planning workflow.
+
+> Source code and operational data are private.
