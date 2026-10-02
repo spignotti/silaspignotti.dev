@@ -5,7 +5,7 @@ import Link from '@/components/Link.astro'
 import Skills from '@/components/react/skills'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { getCollection } from 'astro:content'
-import { extractSection, requireSection, splitItems } from '@/lib/markdown-sections'
+import { extractSection, requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/')
 const featuredProjects = (await getCollection('projects'))
@@ -25,6 +25,15 @@ if (!page) {
 }
 
 const normalizedBody = (page.body ?? '').replace(/\r\n/g, '\n')
+
+// Hero tagline and intro paragraph come from landing.md so the positioning line has one source of truth.
+const hero = requireIntro(normalizedBody, 'Portfolio', 'pages/landing.md')
+const heroParts = hero
+  .split(/\n\s*\n/)
+  .map((part) => part.trim().replace(/\n+/g, ' '))
+  .filter(Boolean)
+const tagline = heroParts[0] ?? ''
+const heroParagraph = heroParts.slice(1).join(' ')
 
 const whatIDoSection = requireSection(normalizedBody, 'Focus Areas', 'pages/landing.md')
 const whatIDoItems = splitItems(whatIDoSection)
@@ -53,9 +62,12 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
     <h1 class="font-custom max-w-4xl text-4xl leading-tight font-bold text-foreground sm:text-5xl lg:text-6xl">
       Portfolio
     </h1>
-    <p class="mt-3 text-lg sm:text-xl text-muted-foreground">
-      Geospatial Data Science · Data Analytics · AI & Automation
-    </p>
+    {tagline && <p class="mt-3 text-lg sm:text-xl text-muted-foreground">{tagline}</p>}
+    {heroParagraph && (
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+        {heroParagraph}
+      </p>
+    )}
   </section>
 
   {whatIDoItems.length > 0 && (
@@ -78,11 +90,8 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
     <div class="mb-4 flex items-end justify-between gap-4">
       <div>
         <h2 id="skills-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">
-          Technologies
+          Tools &amp; Technologies
         </h2>
-        <p class="mt-2 text-sm text-muted-foreground sm:text-base">
-          Core tools and platforms I use for geospatial analysis, machine learning, and automation.
-        </p>
       </div>
     </div>
     <Skills client:load />
@@ -95,6 +104,9 @@ const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replac
           <h2 id="featured-projects-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">
             Projects
           </h2>
+          <p class="mt-2 text-sm text-muted-foreground sm:text-base">
+            Selected technical and applied projects.
+          </p>
         </div>
         <Link href="/projects" class="text-sm font-medium text-primary" underline>
           View all
