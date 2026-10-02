@@ -1,19 +1,22 @@
 ---
 title: "urbanIQ"
 slug: "urbaniq"
-description: "Natural-language geodata aggregation for Berlin. Automated spatial analysis and district profiles from natural-language queries."
-category: "Geospatial"
+description: "Natural-language interface for retrieving, processing, and packaging Berlin geodata from multiple sources."
+category: "AI & Automation"
 tags:
   - "Python"
   - "FastAPI"
   - "GeoPandas"
-  - "OpenAI API"
-  - "LangChain"
-  - "HTMX"
+  - "Shapely"
+  - "SQLModel"
   - "SQLite"
+  - "LangChain"
+  - "OpenAI API"
+  - "HTMX"
 github: "https://github.com/spignotti/urbanIQ"
 coverIcon: "building-2"
-tagline: "Natural-language geodata aggregation for Berlin with automated spatial analysis."
+tagline: "Natural-language access to Berlin geodata through an automated spatial processing pipeline."
+featured: false
 year: 2025
 completed: true
 screenshots:
@@ -23,16 +26,30 @@ screenshots:
 
 ## Problem
 
-Geodata aggregation, clipping, and preparation is one of the biggest time sinks in urban planning projects. Data is scattered across multiple geoportals, APIs, and formats. Even for technically proficient analysts, harmonizing datasets into a usable format takes hours. For non-technical stakeholders in city administration, it is often impossible without GIS support.
+Preparing geodata for urban analysis often requires several separate steps: identifying suitable datasets, retrieving them from different services, selecting the relevant spatial extent, aligning coordinate systems and documenting the resulting data.
+
+These steps require GIS knowledge even when the actual question is relatively simple, such as requesting buildings and public transport stops for a Berlin district.
 
 ## Solution
 
-A geodata aggregation system that accepts natural-language queries, identifies relevant data sources, retrieves and clips data to the requested spatial level, harmonizes formats and CRS, and outputs unified geodata packages with metadata reports. Web interface for non-technical users.
+urbanIQ is a web application that translates natural-language geodata requests into a structured processing workflow.
+
+The system identifies the requested datasets and spatial area, retrieves data from Berlin Geoportal services and OpenStreetMap, applies spatial filtering and coordinate transformations, and packages the processed datasets together with generated metadata.
+
+A browser-based interface allows the workflow to be started without interacting directly with GIS services or APIs.
 
 ## Result
 
-Accepts a natural-language query and returns a harmonized geodata package with metadata documentation. Shows that LLM-based query parsing with automated geodata pipelines reduces the manual effort in urban planning data preparation.
+The project demonstrates an end-to-end workflow from a natural-language request to a downloadable geodata package.
+
+It combines LLM-based request interpretation with deterministic geospatial processing rather than asking the language model to perform the spatial analysis itself. The resulting prototype supports a defined set of Berlin datasets and district-level requests.
 
 ## Technical Details
 
-Four-stage pipeline. NLP layer parses natural-language requests via OpenAI GPT to identify required datasets and spatial levels. Data retrieval orchestrates downloads from Berlin Geoportal WFS and OpenStreetMap Overpass API. Spatial processing handles CRS transformation, clipping, and schema normalization via GeoPandas. A metadata module generates reports on data quality and usage guidance. Built with FastAPI and HTMX.
+FastAPI provides the application backend and separates request handling from the individual processing services. SQLModel and SQLite store jobs, generated packages and registered data sources.
+
+The NLP service uses LangChain and the OpenAI API to map free-text requests to predefined datasets and spatial levels. External connectors handle Berlin Geoportal WFS services and the OpenStreetMap Overpass API.
+
+GeoPandas and Shapely perform the deterministic spatial operations, including clipping, CRS transformation and geometry processing. The processed datasets are exported together with metadata describing their source and use.
+
+The frontend uses server-rendered templates and HTMX for the interaction layer, keeping the application within a Python-centered stack.

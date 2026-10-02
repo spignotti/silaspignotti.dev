@@ -1,37 +1,57 @@
 ---
 title: "Urban Heat Island Downscaling"
 slug: "master-thesis-uhi"
-description: "Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies."
-category: "Geospatial"
+description: "Ablation study of urban-context features for land-surface-temperature downscaling from 100 m to 10 m in Berlin."
+category: "Geospatial & Data"
 tags:
   - "Python"
   - "PyTorch"
-  - "Google Earth Engine"
-  - "GCP"
-  - "Rasterio"
+  - "Planetary Computer"
+  - "odc-stac"
+  - "earthaccess"
+  - "Google Cloud"
+  - "Vertex AI"
+  - "BigQuery"
+  - "Weights & Biases"
 coverIcon: "satellite"
-tagline: "Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies."
+tagline: "Ablation study of urban-context features for 100 m to 10 m land-surface-temperature downscaling in Berlin."
 featured: true
 year: 2026
 completed: false
 ---
 
-**Investigating which elements of urban context improve 10 m land-surface-temperature reconstruction in Berlin through controlled ablation studies.**
-
 ## Problem
 
-Climate change is intensifying urban heat islands, but the thermal data available for city-level planning is too coarse to act on. Landsat provides land surface temperature (LST) at 100 m, enough for regional patterns but not for street-level decisions: which blocks overheat, which interventions cool effectively, where to prioritize. Higher-resolution thermal sensors (ECOSTRESS, drones) lack the revisit frequency or spatial coverage for systematic monitoring. No open, high-resolution thermal baseline exists for Berlin.
+Landsat provides land surface temperature at approximately 100 m resolution. This is sufficient for larger thermal patterns, but too coarse to represent much of the variation introduced by urban morphology, vegetation, shading and surface structure.
+
+The thesis investigates whether additional urban context can improve reconstruction of land surface temperature at 10 m resolution, and which inputs contribute most to that improvement.
 
 ## Solution
 
-Deep learning model that downscales Landsat LST from 100 m to Sentinel-2 resolution (10 m), tested through a five-stage ablation study. Each stage adds one input category to quantify its contribution: spectral indices, 3D building morphology (LoD2), meteorological context (DWD stations), temporal features, and a thermal-aware loss function. A random forest baseline isolates the deep learning contribution. The study design isolates the contribution of individual contextual inputs rather than treating the full feature set as a black box.
+The study uses a fixed 2D U-Net backbone and a five-stage ablation design. The architecture remains constant while additional information is introduced step by step:
+
+1. Sentinel-2 spectral information
+2. urban morphology and surface geometry
+3. shading and solar geometry
+4. meteorological context
+5. a thermal-aware loss function
+
+A random forest provides a non-deep-learning baseline. The aim is not to develop a new neural-network architecture, but to isolate the contribution of different input features and training choices.
 
 ## Result
 
-Planned deliverables: reproducible 10 m LST maps for Berlin across multiple Landsat scenes, ablation results quantifying the contribution of urban context features to downscaling accuracy, a pre-trained model published on HuggingFace, and effect estimates per adaptation category validated against ECOSTRESS and temporal cross-validation.
+The data and preprocessing pipeline is complete. Satellite, meteorological and urban-context data for Berlin have been co-registered into reproducible feature stacks with leakage-free training, validation and test splits.
+
+Model training and the ablation study are currently in progress. A locked Stage-1 probe reached a validation RMSE of 1.193 K compared with 1.526 K for the same-cohort naive baseline. Full Stage-1 training and the later ablation stages are still underway.
+
+The final model will be used to reconstruct a multi-year 10 m LST time series for Berlin. Evaluation of selected climate-adaptation measures is an optional downstream analysis where suitable before-and-after data are available.
 
 ## Technical Details
 
-Five-stage ablation on a shared encoder-decoder architecture. Stage 1: Sentinel-2 spectral bands and vegetation indices as baseline input. Stage 2 adds 3D urban morphology from Berlin's LoD2 building model (heights, footprints, surface fractions). Stage 3 adds meteorological variables from DWD climate stations (air temperature, wind, humidity). Stage 4 introduces temporal encoding across acquisition dates. Stage 5 replaces standard MSE with a thermal-aware loss combining spatial structure preservation (SSIM) and physical consistency. Random forest trained on identical features serves as the non-deep-learning baseline at each stage.
+The data pipeline combines Landsat 8/9 thermal data, Sentinel-2 optical data, Berlin urban-context datasets and DWD meteorological observations. Landsat and Sentinel-2 acquisition uses Planetary Computer STAC with `odc-stac`; ECOSTRESS validation data are accessed through `earthaccess` and NASA CMR.
 
-Data pipeline built on Google Earth Engine for satellite data acquisition, cloud masking, and index computation, exporting to GCP Cloud Storage. Model training on Vertex AI with experiment tracking (MLflow or W&B). Validation uses three independent signals: scale-consistency checks, cross-sensor comparison against ECOSTRESS (70 m), and temporal cross-validation across seasons.
+The current feature release contains co-registered 28-channel stacks covering the warm seasons from 2017 to 2025. Data preparation includes explicit eligibility rules, leakage-free temporal splits and reproducible scaling contracts.
+
+Training runs on Google Cloud using Vertex AI, with experiment tracking in Weights & Biases. Validation combines temporal and spatial holdouts with scale-consistency checks, structural metrics and independent comparison against ECOSTRESS.
+
+> M.Sc. thesis in Geoinformation at BHT Berlin, currently in progress.

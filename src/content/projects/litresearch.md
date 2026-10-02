@@ -1,34 +1,52 @@
 ---
 title: "litresearch"
 slug: "litresearch"
-description: "Open-source CLI for automated literature research. Structured reports and BibTeX exports from a research question. Published on PyPI."
-category: "AI/Automation"
+description: "CLI tool for automated literature research, from research questions to ranked paper sets, structured reports, and reference exports."
+category: "AI & Automation"
 tags:
   - "Python"
   - "Typer"
+  - "LiteLLM"
   - "Semantic Scholar"
   - "OpenAlex"
+  - "Zotero"
+  - "Pydantic"
+  - "pypdf"
 github: "https://github.com/spignotti/litresearch"
 demo: "https://pypi.org/project/litresearch/"
 coverIcon: "file-search"
-tagline: "CLI tool for automated literature search: structured reports and BibTeX exports from a research question."
-featured: false
+tagline: "Automated literature research from research question to ranked papers and structured exports."
+featured: true
 year: 2026
 completed: true
 ---
 
 ## Problem
 
-Literature search is one of the most time-consuming parts of academic work. For a new topic, the standard workflow means decomposing a research question into search terms, manually cycling between databases, scanning hundreds of abstracts, following citation chains, and filtering for relevance. Existing AI research tools increasingly automate parts of this, but the full pipeline from question to filtered, ranked paper set with PDFs and exportable references remains manual work.
+Literature research involves repeated work across search engines, PDFs, reference managers and analysis tools. Starting from a research question means developing search strategies, discovering papers across multiple sources, screening results, following citation links and preparing references for further work.
+
+The project started as a way to make this process reproducible and reduce the amount of manual coordination between these steps.
 
 ## Solution
 
-Open-source CLI tool that automates the full literature search pipeline. Takes a research question, decomposes it into multiple search strategies via LLM, retrieves papers from Semantic Scholar and OpenAlex, screens and ranks results by relevance against the original question, and produces a structured report with BibTeX/RIS export and downloaded PDFs. Supports citation graph expansion and iterative refinement.
+litresearch is a Python CLI that turns one or more research questions into a structured literature-research pipeline.
+
+It generates multiple search strategies, discovers papers through Semantic Scholar and OpenAlex, deduplicates candidates, screens and analyzes them with an LLM, expands relevant citation graphs and ranks the resulting paper set.
+
+The pipeline produces structured reports, BibTeX and RIS references, JSON data, run metrics and available PDFs. Optional Zotero integration exports selected papers directly to a library.
 
 ## Result
 
-Published on PyPI (MIT license). CLI workflow: input a research question, get a ranked report with PDFs, references, and per-paper analysis. Pipeline runs are reproducible and resumable from saved checkpoints.
+litresearch is published on PyPI and maintained as an open-source Python package. The current version provides multi-source discovery, citation expansion, Zotero export, resumable runs and run-level telemetry.
+
+Pipeline state is persisted between stages, allowing interrupted or long-running research jobs to resume without repeating completed work.
 
 ## Technical Details
 
-Four-stage pipeline. Query generation decomposes the research question into keyword-based, concept-based, and methodological search strategies via LLM (routed through LiteLLM for provider-agnostic API access). Multi-source discovery retrieves candidates from Semantic Scholar and OpenAlex with deduplication and source tracking. Screening and ranking uses LLM-based relevance scoring with configurable selection modes (top-percent, top-k, threshold). Report generation produces structured Markdown with per-paper analysis, synthesis, BibTeX/RIS export, and Zotero integration. Each stage is independently cacheable, and runs are resumable from saved state checkpoints.
+The CLI is built with Python and Typer. LLM calls are routed through LiteLLM, keeping model and provider selection configurable outside the research pipeline.
+
+Semantic Scholar and OpenAlex provide independent discovery sources. Candidate records are deduplicated while retaining source provenance. Screening and deeper analysis use configurable selection strategies before citation expansion and final ranking.
+
+Pydantic defines configuration and data contracts across pipeline stages. PDF extraction uses pypdf with configurable token budgets and fallback behavior when full text is unavailable.
+
+Each run stores its intermediate state, generated outputs and operational metrics. This makes the pipeline resumable and provides visibility into source coverage, PDF availability, stage timings and skipped records.
