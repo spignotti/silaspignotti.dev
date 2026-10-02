@@ -7,11 +7,7 @@ Allow: /
 
 # Block access to admin or private directories (if any exist)
 Disallow: /api/
-Disallow: /_astro/
 Disallow: /temp/
-
-# Crawl delay for better server performance
-Crawl-delay: 1
 
 # Sitemap location (single canonical sitemap)
 Sitemap: ${sitemapURL.href}

@@ -1,39 +1,37 @@
 ---
 title: About
-description: Geospatial analysis, machine learning, and AI workflows. M.Sc. Geoinformation at BHT Berlin.
+description: Background, experience, and technical skills across data, geospatial systems, AI, automation, and applied software.
 slug: /about
 ogImage: /ogImage.svg
 ---
 
 # About
 
-M.Sc. Geoinformation student at BHT Berlin. Background in urban and regional planning (TU Berlin). I design tools and workflows that combine spatial analysis, machine learning, and automation to solve environmental and infrastructure problems with geodata.
+I work at the intersection of domain problems, data, and technical implementation. My background combines urban planning, geoinformation, data analysis, machine learning, and applied software development.
+
+I started in urban and regional planning and gradually moved deeper into data and technical work. Today, I mainly work on problems where requirements, data structures, system logic, and implementation need to come together.
+
+I am currently completing an M.Sc. in Geoinformation at BHT Berlin.
 
 ## Experience
+
+### Technical Product & Implementation · DINO Fettabscheider GmbH
+
+2026–present
+
+Designed and implemented a route planning application for recurring maintenance operations. The work included requirements analysis, prioritisation, data modelling, system logic, MVP development, and iteration based on user feedback. The application is now used operationally for maintenance planning.
 
 ### Data Analytics · Interzero Plastics Sorting GmbH
 
 2025–present
 
-KPI automation and reporting on industrial plant data (Python, SQL). Replaced manual Excel workflows with reproducible, SQL-based analysis pipelines for operational decision-making.
+Translate operational KPI requirements into data models and calculation logic in collaboration with management and backend engineering. Build reference implementations in Python and SQL, document business rules, and validate production implementations against reference data.
 
 ### Construction Management · Büro Tacke e.K.
 
 2023–2025
 
-LLM-assisted database maintenance, GIS-based analyses for funding applications, project oversight for a sustainable housing development (51 units, €11.5M).
-
-### Location Development · LOKATION:S
-
-2022–2023
-
-GIS-based site and market analysis for municipal and private stakeholders. Analytical reports, maps, and visualizations for strategic decisions.
-
-### Project Development · KlimaGut AG
-
-2021–2022
-
-Real estate database management, GIS-based site analysis with direct impact on investment decisions.
+Coordinated construction-related tasks between contractors, tenants, property management, and project stakeholders. Also worked on GIS-based analyses and small automation workflows.
 
 ## Education
 
@@ -43,8 +41,9 @@ Real estate database management, GIS-based site analysis with direct impact on i
 
 GPA 1.2
 
-- Focus: Geoinformatics, Remote Sensing, Spatial Data Science
-- Thesis in progress: "Urban-kontextsensitives Downscaling satellitenbasierter Oberflächentemperaturen mit Deep Learning: Eine Ablationsstudie für Berlin"
+Focus on remote sensing, geospatial data science, and machine learning.
+
+Thesis: Urban-context-aware downscaling of satellite-derived land surface temperature with deep learning: an ablation study for Berlin.
 
 ### B.Sc. Urban & Regional Planning · TU Berlin
 
@@ -52,27 +51,25 @@ GPA 1.2
 
 GPA 1.6
 
-- Thesis: "Hidden Champions in Large Cities: A Web-Data-Based Investigation Using Berlin as a Case Study" (Grade: 1.2)
+Thesis: Hidden Champions in Large Cities: A Web-Data-Based Investigation Using Berlin as a Case Study. Grade: 1.2.
 
 ## Skills
 
-### Geospatial Data Science
+### Data & Analytics
 
-Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geospatial data workflows.
-
-`Python` `PyTorch` `scikit-learn` `Google Earth Engine` `QGIS` `PostGIS` `GeoPandas` `Rasterio`
+Python, SQL, relational databases, data modelling, ETL and data pipelines, data visualisation, machine learning
 
 ### AI & Automation
 
-Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
+LLM applications, agentic systems, workflow automation
 
-`Coding Agents` `LLM APIs` `Notion` `n8n`
+### Software & Systems
 
-### Data Engineering & Tooling
+APIs, Git, Docker, deployment, monitoring and observability
 
-ETL workflows, geospatial data integration, feature engineering, and reproducible cloud-based analysis workflows.
+### Geospatial
 
-`SQL` `Docker` `Git` `Linux` `Google Cloud` `FastAPI`
+Spatial analysis, remote sensing, geodata integration, GIS workflows
 
 ### Languages
 

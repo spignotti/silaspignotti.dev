@@ -1,22 +1,26 @@
 ---
 title: Silas Pignotti
-description: Spatial analytics, ML pipelines, and automation workflows.
+description: Technical portfolio across data, geospatial systems, AI, automation, and applied software.
 slug: /
 ogImage: /ogImage.svg
 ---
 
-Geospatial Data Science · Data Analytics · AI & Automation
+# Portfolio
+
+Data · AI · Automation · Geospatial
+
+I work on data-driven tools and workflows, from requirements and data logic to implementation and validation. My work spans geospatial analysis, machine learning, automation, and applied software.
 
 ## Focus Areas
 
-### Geospatial Data Science
+### Data & AI
 
-Machine learning and deep learning on satellite imagery and geodata. Remote sensing, spatial analysis, and geospatial data workflows.
+Data analysis, machine learning, and AI-assisted workflows for operational and research problems.
 
-### AI & Automation
+### Geospatial
 
-Designing agentic systems, workflow automation, and LLM-integrated tools for research, coding, and knowledge management.
+Remote sensing, spatial analysis, and geospatial data workflows, with a focus on urban and environmental applications.
 
-### Data Engineering & Applied Software
+### Systems & Automation
 
-Building data-backed applications that connect APIs, databases, and operational workflows. Practical work includes deployment, maintenance, monitoring, caching, and performance improvements for a live application.
+Translating requirements into data models, system logic, automated workflows, and working applications.

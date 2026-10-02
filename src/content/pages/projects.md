@@ -1,10 +1,10 @@
 ---
 title: Projects
-description: Projects in geospatial analysis, AI, and automation.
+description: Selected technical and applied projects.
 slug: /projects
 ogImage: /ogImage.svg
 ---
 
 ## Projects
 
-Projects in geospatial analysis, machine learning, and AI-driven automation.
+Selected technical and applied projects.
