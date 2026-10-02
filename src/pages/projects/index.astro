@@ -6,6 +6,7 @@ import CategoryFilter from '@/components/react/category-filter'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 import { getAllProjects } from '@/lib/data-utils'
+import { requireSection } from '@/lib/markdown-sections'
 import { PROJECT_CATEGORIES } from '@/lib/project-categories'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/projects')
@@ -15,6 +16,13 @@ if (!page) {
 }
 
 const projects = await getAllProjects()
+
+const normalizedBody = (page.body ?? '').replace(/\r\n/g, '\n')
+// Visible intro comes from the Markdown body so both paragraphs render; frontmatter description stays SEO-only.
+const introParagraphs = requireSection(normalizedBody, 'Projects', 'pages/projects.md')
+  .split(/\n\s*\n/)
+  .map((part) => part.trim().replace(/\n+/g, ' '))
+  .filter(Boolean)
 
 const categories = ['All', ...PROJECT_CATEGORIES] as const
 ---
@@ -36,7 +44,9 @@ const categories = ['All', ...PROJECT_CATEGORIES] as const
 
     <header class="mb-10 mt-6">
       <h1 class="font-custom text-foreground text-4xl font-bold">{page.data.title}</h1>
-      <p class="text-muted-foreground text-md mt-3">{page.data.description}</p>
+      {introParagraphs.map((paragraph) => (
+        <p class="text-muted-foreground text-md mt-3">{paragraph}</p>
+      ))}
     </header>
 
     <!-- Category Filter -->

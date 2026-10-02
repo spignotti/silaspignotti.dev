@@ -8,9 +8,13 @@ import { getCollection } from 'astro:content'
 import { extractSection, requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/')
+const featuredOrder = ['routing-engine', 'master-thesis-uhi', 'litresearch']
 const featuredProjects = (await getCollection('projects'))
   .filter((project) => project.data.featured)
   .sort((a, b) => {
+    const aRank = featuredOrder.indexOf(a.data.slug)
+    const bRank = featuredOrder.indexOf(b.data.slug)
+    if (aRank !== -1 || bRank !== -1) return (aRank === -1 ? Number.MAX_SAFE_INTEGER : aRank) - (bRank === -1 ? Number.MAX_SAFE_INTEGER : bRank)
     const aYear = a.data.year ?? 0
     const bYear = b.data.year ?? 0
     if (bYear !== aYear) return bYear - aYear
