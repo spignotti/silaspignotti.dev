@@ -10,7 +10,6 @@ import {
   Trees,
   Truck,
   Wand2,
-  Workflow,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -25,7 +24,6 @@ export const PROJECT_COVER_ICONS = [
   'trees',
   'building-2',
   'book-open-check',
-  'workflow',
   'truck',
 ] as const
 
@@ -42,9 +40,7 @@ export const PROJECT_COVER_ICON_MAP: Record<ProjectCoverIcon, LucideIcon> = {
   trees: Trees,
   'building-2': Building2,
   'book-open-check': BookOpenCheck,
-  workflow: Workflow,
   truck: Truck,
 }
 
-// decision: workflow kept in the valid set, because opencode-workflow-kit.md uses it as its coverIcon. Alternative: remove it and fall back to the default icon.
 export const PROJECT_COVER_ICON_DEFAULT: ProjectCoverIcon = 'layers'
