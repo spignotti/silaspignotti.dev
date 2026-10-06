@@ -10,6 +10,7 @@ import {
   Trees,
   Truck,
   Wand2,
+  Workflow,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -24,6 +25,7 @@ export const PROJECT_COVER_ICONS = [
   'trees',
   'building-2',
   'book-open-check',
+  'workflow',
   'truck',
 ] as const
 
@@ -40,6 +42,7 @@ export const PROJECT_COVER_ICON_MAP: Record<ProjectCoverIcon, LucideIcon> = {
   trees: Trees,
   'building-2': Building2,
   'book-open-check': BookOpenCheck,
+  workflow: Workflow,
   truck: Truck,
 }
 
