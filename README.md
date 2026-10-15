@@ -5,7 +5,7 @@ Source code for [silaspignotti.dev](https://silaspignotti.dev), the personal por
 ## Tech Stack
 
 - Astro 5 (static site generator)
-- Node.js 24 (runtime, enforced via `.node-version` and `verify:node`)
+- Node.js 24 or newer (minimum enforced by `verify:node`)
 - pnpm (package manager)
 - TypeScript
 - Tailwind CSS 4 (via `@tailwindcss/vite`)
@@ -16,7 +16,7 @@ Source code for [silaspignotti.dev](https://silaspignotti.dev), the personal por
 ## Setup
 
 ```bash
-# Requires Node 24 (see .node-version; your version manager should switch automatically)
+# Requires Node 24 or newer
 pnpm install
 
 # Development server (port 3010)

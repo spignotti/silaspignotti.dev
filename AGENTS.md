@@ -22,7 +22,7 @@ UI work follows `site-design`.
 
 ## Validation
 
-`pnpm run build` is the commit gate (Node 24 via `verify:node`). Run `pnpm run check` when content schemas, structure, or routes change.
+`pnpm run build` is the commit gate (Node 24 or newer via `verify:node`). Run `pnpm run check` when content schemas, structure, or routes change.
 
 ## GitHub
 
