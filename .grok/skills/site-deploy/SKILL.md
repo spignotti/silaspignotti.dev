@@ -32,6 +32,6 @@ Destination is a file name only. The script writes under `public/projects/<slug>
 
 4. Confirm required frontmatter, valid URLs, existing media paths, and screenshot alt text.
 
-Then follow Validation in `AGENTS.md`. Commit the intended files (`content(page): update <route>` or `content(project): upsert <slug>`). Push to `main` to deploy GitHub Pages.
+Work on a dedicated branch, never directly on `main`. Follow Validation in `AGENTS.md`, then commit the intended files (`content(page): update <route>` or `content(project): upsert <slug>`). Open a pull request against `main` and wait for green CI. Merge only after Silas' OK; the merge to `main` deploys GitHub Pages.
 
 Stop and ask before committing if the change goes beyond markdown and this media script.
