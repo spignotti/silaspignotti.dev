@@ -51,6 +51,8 @@ All page and project content is stored as markdown with typed frontmatter:
 
 Schemas are defined in `src/content.config.ts`. `pnpm run check` validates content against them.
 
+This repository is the only source for site copy. A project is published when its Markdown file exists in `src/content/projects/`, and every change lands through a pull request.
+
 ## Deployment
 
 Hosted on GitHub Pages. [GitHub Actions](.github/workflows/deploy.yml) runs `pnpm install --frozen-lockfile`, `check`, and `build` on every pull request and push to `main`, then deploys the built site on pushes to `main`.
