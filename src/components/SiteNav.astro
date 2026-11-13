@@ -39,8 +39,25 @@ function isCurrent(href: string) {
         <span class="nav-toggle-close">Close</span>
       </button>
       <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch color theme">
-        <span class="when-light">Light</span>
-        <span class="when-dark">Dark</span>
+        <svg class="when-light" viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"
+            d="M9.1 1.8a5.3 5.3 0 1 0 5.1 7.1A4.3 4.3 0 0 1 9.1 1.8z"
+          />
+        </svg>
+        <svg class="when-dark" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.25" />
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            d="M8 1.7v1.6M8 12.7v1.6M1.7 8h1.6M12.7 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"
+          />
+        </svg>
       </button>
     </div>
   </div>
