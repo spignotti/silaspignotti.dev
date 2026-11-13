@@ -17,7 +17,7 @@ export const NAV_LINKS: SocialLink[] = [
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { href: 'https://github.com/spignotti', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/silas-pignotti/', label: 'LinkedIn' },
-  { href: 'mailto:pignottisilas@gmail.com', label: 'Email' },
+  { href: 'https://github.com/spignotti', label: 'GitHub', icon: 'github' },
+  { href: 'https://www.linkedin.com/in/silas-pignotti/', label: 'LinkedIn', icon: 'linkedin' },
+  { href: 'mailto:pignottisilas@gmail.com', label: 'Email', icon: 'email' },
 ]

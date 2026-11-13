@@ -8,7 +8,10 @@ export type Site = {
   email: string
 }
 
+export type SocialIcon = 'github' | 'linkedin' | 'email'
+
 export type SocialLink = {
   href: string
   label: string
+  icon?: SocialIcon
 }

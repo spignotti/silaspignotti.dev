@@ -29,23 +29,14 @@
     "check": "pnpm verify:node && astro check",
     "preview": "astro preview",
     "astro": "astro",
-    "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore"
+    "prettier": "prettier --write \"**/*.{ts,css}\" --ignore-path .gitignore"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/markdown-remark": "^6.3.5",
-    "@astrojs/mdx": "^4.3.3",
-    "@expressive-code/plugin-collapsible-sections": "^0.41.3",
-    "@expressive-code/plugin-line-numbers": "^0.41.3",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.9",
-    "astro-expressive-code": "^0.41.3",
     "gray-matter": "^4.0.3",
     "rehype-external-links": "^3.0.0",
-    "rehype-pretty-code": "^0.14.1",
-    "remark-emoji": "^5.0.1",
-    "remark-math": "^6.0.0",
-    "remark-sectionize": "^2.1.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   },
@@ -56,19 +47,6 @@
   },
   "prettier": {
     "semi": false,
-    "singleQuote": true,
-    "plugins": [
-      "prettier-plugin-astro",
-      "prettier-plugin-tailwindcss",
-      "prettier-plugin-astro-organize-imports"
-    ],
-    "overrides": [
-      {
-        "files": "*.astro",
-        "options": {
-          "parser": "astro"
-        }
-      }
-    ]
+    "singleQuote": true
   }
 }
