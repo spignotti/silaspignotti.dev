@@ -1,0 +1,32 @@
+---
+import { SITE, SOCIAL_LINKS } from '@/consts'
+import { withBasePath } from '@/lib/paths'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <p class="meta">{SITE.location}</p>
+    <ul class="footer-links">
+      {
+        SOCIAL_LINKS.map((link) => {
+          const external = link.href.startsWith('http')
+          return (
+            <li>
+              <a
+                href={external ? link.href : withBasePath(link.href)}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
+    <p class="meta">
+      <span class="meta-strong">{year}</span> {SITE.author}
+    </p>
+  </div>
+</footer>

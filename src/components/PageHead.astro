@@ -1,5 +1,6 @@
 ---
 import { SITE } from '@/consts'
+
 interface Props {
   title?: string
   description?: string
@@ -8,28 +9,17 @@ interface Props {
 
 const { title = SITE.title, description = SITE.description, imagePath = '/ogImage.svg' } = Astro.props
 const image = new URL(imagePath, Astro.site).toString()
-
-// Optimize description for SEO (50-155 chars)
 const descTrimmed = description.trim()
-const optimizedDescription = descTrimmed.length > 155
-  ? descTrimmed.slice(0, 152) + '...'
-  : descTrimmed
-
-// Create proper page title, clamp to ~60 chars
-// Special handling for homepage: use custom portfolio title without suffix
-const isHomepage = Astro.url.pathname === '/'
-const homepageTitle = 'Portfolio | Silas Pignotti'
-const rawTitle = isHomepage ? homepageTitle : (title === SITE.title ? SITE.title : `${title} | ${SITE.title}`)
-const pageTitle = rawTitle.length > 60 ? rawTitle.slice(0, 57) + '...' : rawTitle
+const optimizedDescription = descTrimmed.length > 155 ? `${descTrimmed.slice(0, 152)}...` : descTrimmed
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+const rawTitle = path === '/' || title === SITE.title ? SITE.title : `${title} | ${SITE.title}`
+const pageTitle = rawTitle.length > 60 ? `${rawTitle.slice(0, 57)}...` : rawTitle
 ---
 
 <title>{pageTitle}</title>
 <meta name="description" content={optimizedDescription} />
-<!-- robots set globally in base head to avoid duplicates -->
-<meta name="language" content={SITE.locale} />
 <link rel="canonical" href={Astro.url} />
 
-<!-- Open Graph Meta Tags -->
 <meta property="og:title" content={title} />
 <meta property="og:description" content={optimizedDescription} />
 <meta property="og:image" content={image} />
@@ -41,30 +31,27 @@ const pageTitle = rawTitle.length > 60 ? rawTitle.slice(0, 57) + '...' : rawTitl
 <meta property="og:site_name" content={SITE.title} />
 <meta property="og:url" content={Astro.url} />
 
-<!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={optimizedDescription} />
 <meta name="twitter:image" content={image} />
 <meta name="twitter:image:alt" content={title} />
-<meta name="twitter:domain" content={new URL(SITE.href).hostname} />
 
-<!-- Enhanced JSON-LD Structured Data -->
 <script
   type="application/ld+json"
   is:inline
   set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${SITE.href}#website`,
-    "url": SITE.href,
-    "name": SITE.title,
-    "description": optimizedDescription,
-    "inLanguage": SITE.locale,
-    "publisher": {
-      "@type": "Person",
-      "name": SITE.author,
-      "url": SITE.href
-    }
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.href}#website`,
+    url: SITE.href,
+    name: SITE.title,
+    description: SITE.description,
+    inLanguage: SITE.locale,
+    publisher: {
+      '@type': 'Person',
+      name: SITE.author,
+      url: SITE.href,
+    },
   })}
 />

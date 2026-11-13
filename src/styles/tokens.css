@@ -1,0 +1,129 @@
+/* Personal Brand Guide v1.1 — 06.11.2026
+   Custom properties only. No component rules.
+   Light values live on :root. Dark values live on [data-theme="dark"].
+   The media query is a no-script fallback for the system theme. */
+
+:root {
+  color-scheme: light;
+
+  --color-bg: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0eeea;
+  --color-text: #151922;
+  --color-muted: #625d57;
+  --color-border: #e5e2dc;
+  --color-border-strong: #8a857e;
+  --color-accent: #d4724a;
+  --color-accent-text: #9e4d29;
+  --color-on-accent: #151922;
+  --color-success: #33704f;
+  --color-warning: #76600f;
+  --color-danger: #a23446;
+
+  --radius-control: 6px;
+  --radius-card: 12px;
+  --radius-full: 999px;
+
+  --shadow-overlay: 0 8px 32px rgb(0 0 0 / 0.12);
+
+  --font-sans: 'Geist', system-ui, -apple-system, 'SF Pro Text', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, sfmono-regular, menlo, monaco, consolas, 'Liberation Mono',
+    monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --container: 1200px;
+  --text-column: 720px;
+  --section-gap: 64px;
+  --gutter: 16px;
+
+  --text-display: 40px;
+  --leading-display: 1.05;
+  --tracking-display: -0.035em;
+  --text-h1: 32px;
+  --leading-h1: 1.1;
+  --tracking-h1: -0.03em;
+  --text-h2: 32px;
+  --leading-h2: 1.15;
+  --tracking-h2: -0.02em;
+  --text-h3: 22px;
+  --leading-h3: 1.25;
+  --tracking-h3: -0.01em;
+  --text-lead: 18px;
+  --leading-lead: 1.55;
+  --text-body: 16px;
+  --leading-body: 1.6;
+  --text-ui: 14px;
+  --leading-ui: 1.5;
+  --text-label: 12px;
+  --leading-label: 1.4;
+  --tracking-label: 0.01em;
+  --text-mono: 13px;
+  --leading-mono: 1.5;
+  --text-figure: 32px;
+
+  --motion-fast: 120ms;
+  --motion-press: 80ms;
+  --motion-base: 200ms;
+  --motion-enter: 240ms;
+  --motion-exit: 160ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-gap: 96px;
+    --gutter: 24px;
+    --text-display: 64px;
+    --text-h1: 44px;
+  }
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: #0b0c0f;
+  --color-surface: #151514;
+  --color-surface-2: #1d1c1a;
+  --color-text: #eeece8;
+  --color-muted: #a39d95;
+  --color-border: #2a2825;
+  --color-border-strong: #716c66;
+  --color-accent: #e08a62;
+  --color-accent-text: #e08a62;
+  --color-on-accent: #0b0c0f;
+  --color-success: #6db38c;
+  --color-warning: #d4b055;
+  --color-danger: #e2728f;
+  --shadow-overlay: 0 8px 32px rgb(0 0 0 / 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --color-bg: #0b0c0f;
+    --color-surface: #151514;
+    --color-surface-2: #1d1c1a;
+    --color-text: #eeece8;
+    --color-muted: #a39d95;
+    --color-border: #2a2825;
+    --color-border-strong: #716c66;
+    --color-accent: #e08a62;
+    --color-accent-text: #e08a62;
+    --color-on-accent: #0b0c0f;
+    --color-success: #6db38c;
+    --color-warning: #d4b055;
+    --color-danger: #e2728f;
+    --shadow-overlay: 0 8px 32px rgb(0 0 0 / 0.5);
+  }
+}

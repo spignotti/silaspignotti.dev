@@ -1,61 +1,42 @@
 # silaspignotti.dev
 
-Source code for [silaspignotti.dev](https://silaspignotti.dev), the personal portfolio of Silas Pignotti. The site presents selected projects as business cases, a CV, and contact information, focused on geospatial data science, data analytics, and AI & automation.
+Source for [silaspignotti.dev](https://silaspignotti.dev). Copy lives only in `src/content/`.
 
-## Tech Stack
+## Stack
 
-- Astro 5 (static site generator)
-- Node.js 24 or newer (minimum enforced by `verify:node`)
-- pnpm (package manager)
+- Astro 5
+- Node.js 24 or newer (`verify:node`)
+- pnpm
 - TypeScript
-- Tailwind CSS 4 (via `@tailwindcss/vite`)
-- React (interactive islands)
-- Astro Content Collections (type-safe markdown content)
-- GitHub Pages (hosting)
+- Tailwind CSS 4
+- Astro content collections
+- GitHub Pages
 
-## Setup
+## Commands
 
 ```bash
-# Requires Node 24 or newer
 pnpm install
-
-# Development server (port 3010)
 pnpm run dev
-
-# Production build
-pnpm run build
-
-# Type checking
-pnpm run check
+pnpm check
+pnpm build
 ```
 
-## Project Structure
-
-```
-src/
-├── components/       # Reusable Astro components and React islands
-├── content/          # Content Collections (pages, projects)
-├── layouts/          # Page layouts
-├── lib/              # Utility functions
-├── pages/            # Route-based pages
-└── styles/           # Global styles and Tailwind setup
-public/               # Static assets (fonts, images, project media)
-```
+`pnpm run dev` serves the site on port 3010.
 
 ## Content
-
-All page and project content is stored as markdown with typed frontmatter:
 
 - Pages: `src/content/pages/`
 - Projects: `src/content/projects/`
 
-Schemas are defined in `src/content.config.ts`. `pnpm run check` validates content against them.
+Schemas are in `src/content.config.ts`. `pnpm check` validates them. A project is published when its Markdown file exists in `src/content/projects/`.
 
-This repository is the only source for site copy. A project is published when its Markdown file exists in `src/content/projects/`, and every change lands through a pull request.
+## Analytics
+
+`PUBLIC_POSTHOG_KEY` is unset. The site loads no analytics unless that variable is set at build time. There is no fallback key and no host override. When the key is set, the host is `https://eu.i.posthog.com`. Cookieless pageviews only. No session replay. No autocapture.
 
 ## Deployment
 
-Hosted on GitHub Pages. [GitHub Actions](.github/workflows/deploy.yml) runs `pnpm install --frozen-lockfile`, `check`, and `build` on every pull request and push to `main`, then deploys the built site on pushes to `main`.
+Hosted on GitHub Pages. [GitHub Actions](.github/workflows/deploy.yml) runs `pnpm install --frozen-lockfile`, `pnpm check`, and `pnpm build` on pull requests and on pushes to `main`, then deploys on pushes to `main`.
 
 ## License
 

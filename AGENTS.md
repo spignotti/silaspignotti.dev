@@ -1,6 +1,6 @@
 # silaspignotti.dev
 
-Personal portfolio at https://silaspignotti.dev. Static Astro site on GitHub Pages.
+Personal site at https://silaspignotti.dev. Static Astro site on GitHub Pages.
 
 ## Content
 
@@ -12,17 +12,15 @@ This repository is the only source for all site copy: pages in `src/content/page
 - No i18n.
 - Voice: factual, honest, confident. Projects speak for themselves. Full voice and page-structure rules live in `portfolio-writer`; publish steps live in `site-deploy`.
 
-## Design
+## Stack
 
-Fork of https://github.com/cojocaru-david/portfolio. This repo is the source of truth for current behavior; use the template as a capabilities reference before adding UI.
+Astro 5, Tailwind CSS 4, content collections, GitHub Pages. Static-first. Add a client script only when a page needs it. Do not add React unless a tiny inline script cannot do the job.
 
-Keep the site static-first. Add React islands only when a page needs interactivity. Theme is the baseline; v1 is colors, content, and minor layout tweaks.
-
-UI work follows `site-design`. Visual language for graphics, covers, and OG images lives in `docs/style.md`.
+Copy lives only in `src/content/`. Visual tokens live in `src/styles/tokens.css` (Personal Brand Guide v1.1, 06.11.2026). Graphics, covers, and OG images follow `docs/style.md`.
 
 ## Validation
 
-`pnpm run build` is the commit gate (Node 24 or newer via `verify:node`). Run `pnpm run check` when content schemas, structure, or routes change.
+`pnpm check` validates types and content schemas. `pnpm build` is the commit gate (Node 24 or newer via `verify:node`). Run `pnpm check` when content schemas, structure, or routes change.
 
 ## GitHub
 

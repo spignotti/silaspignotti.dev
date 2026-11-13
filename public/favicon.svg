@@ -1,20 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Background circle -->
-  <circle cx="32" cy="32" r="28" stroke="#171717" stroke-width="3" fill="none"/>
-  
-  <!-- Globe lines (representing geospatial) -->
-  <ellipse cx="32" cy="32" rx="12" ry="28" stroke="#171717" stroke-width="2" fill="none"/>
-  <line x1="4" y1="32" x2="60" y2="32" stroke="#171717" stroke-width="2"/>
-  <path d="M 8 20 Q 32 24 56 20" stroke="#171717" stroke-width="1.5" fill="none"/>
-  <path d="M 8 44 Q 32 40 56 44" stroke="#171717" stroke-width="1.5" fill="none"/>
-  
-  <!-- Neural node dots (representing AI/ML) -->
-  <circle cx="32" cy="18" r="3" fill="#171717"/>
-  <circle cx="32" cy="32" r="3" fill="#171717"/>
-  <circle cx="32" cy="46" r="3" fill="#171717"/>
-  
-  <!-- Connection lines from neural nodes -->
-  <line x1="32" y1="21" x2="32" y2="29" stroke="#171717" stroke-width="1.5"/>
-  <line x1="32" y1="35" x2="32" y2="43" stroke="#171717" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="S">
+  <style>
+    .mark { fill: #151922; }
+    @media (prefers-color-scheme: dark) {
+      .mark { fill: #eeece8; }
+    }
+  </style>
+  <path
+    class="mark"
+    transform="translate(5.197 27.482) scale(0.032345 -0.032345)"
+    d="M348 -16Q260 -16 196 15Q132 46 95.5 101.5Q59 157 53 231L185 239Q194 170 235 133Q276 96 350 96Q413 96 447.5 119.5Q482 143 482 188Q482 215 469 236Q456 257 419 275Q382 293 309 310Q221 330 168 355.5Q115 381 91 419.5Q67 458 67 516Q67 578 98 625.5Q129 673 186 699.5Q243 726 323 726Q408 726 467.5 695.5Q527 665 560.5 612Q594 559 602 490L471 484Q464 542 426 578Q388 614 321 614Q265 614 232.5 588Q200 562 200 521Q200 492 213.5 473Q227 454 262 440Q297 426 360 412Q455 391 511 360.5Q567 330 591 289Q615 248 615 195Q615 130 581.5 82.5Q548 35 488.5 9.5Q429 -16 348 -16Z"
+  />
 </svg>

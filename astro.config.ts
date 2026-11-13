@@ -1,8 +1,6 @@
 import { defineConfig } from 'astro/config'
 
 import mdx from '@astrojs/mdx'
-import react from '@astrojs/react'
-import icon from 'astro-icon'
 
 import expressiveCode from 'astro-expressive-code'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
@@ -15,7 +13,7 @@ import remarkSectionize from 'remark-sectionize'
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   output: 'static',
@@ -24,37 +22,28 @@ export default defineConfig({
     '/projects/dispoai': '/projects/routing-engine',
   },
 
-  integrations: [expressiveCode({
-    themes: ['catppuccin-latte', 'ayu-dark'],
-    plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
-    useDarkModeMediaQuery: true,
-    defaultProps: {
-      wrap: true,
-      collapseStyle: 'collapsible-auto',
-      overridesByLang: {
-        'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
-          {
-            showLineNumbers: true,
-          },
+  integrations: [
+    expressiveCode({
+      themes: ['catppuccin-latte', 'ayu-dark'],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => `[data-theme='${theme.type}']`,
+      plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      defaultProps: {
+        wrap: true,
+        collapseStyle: 'collapsible-auto',
+        overridesByLang: {
+          'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
+            {
+              showLineNumbers: true,
+            },
+        },
       },
-    },
-  }), mdx(), react(), icon()],
+    }),
+    mdx(),
+  ],
 
   vite: {
-    plugins: [tailwindcss() as any],
-    optimizeDeps: {
-      include: [
-        "react",
-        "react-dom",
-        "clsx",
-        "framer-motion",
-        "lucide-react",
-        "lodash.debounce",
-        "@radix-ui/react-icons",
-        "@radix-ui/react-separator",
-        "@radix-ui/react-slot"
-      ]
-    },    
+    plugins: [tailwindcss()],
   },
 
   devToolbar: {
@@ -68,7 +57,7 @@ export default defineConfig({
         rehypeExternalLinks,
         {
           target: '_blank',
-          ariaLabel: 'External link'
+          ariaLabel: 'External link',
         },
       ],
       rehypeHeadingIds,
@@ -84,5 +73,4 @@ export default defineConfig({
     ],
     remarkPlugins: [remarkMath, remarkEmoji, remarkSectionize],
   },
-
 })
