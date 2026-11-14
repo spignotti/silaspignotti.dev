@@ -1,31 +1,8 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Silas Pignotti — Data · Geospatial · AI · Automation</title>
-  <desc id="desc">Open Graph image with white background, black logo and typography, and a subtle transparent divider line.</desc>
-
-  <rect width="1200" height="630" fill="#FFFFFF" />
-
-  <g transform="translate(120 168)">
-    <g transform="translate(48 48) scale(1.72) translate(-32 -32)">
-      <circle cx="32" cy="32" r="28" stroke="#111111" stroke-width="3" fill="none" />
-      <ellipse cx="32" cy="32" rx="12" ry="28" stroke="#111111" stroke-width="2" fill="none" />
-      <line x1="4" y1="32" x2="60" y2="32" stroke="#111111" stroke-width="2" />
-      <path d="M 8 20 Q 32 24 56 20" stroke="#111111" stroke-width="1.5" fill="none" />
-      <path d="M 8 44 Q 32 40 56 44" stroke="#111111" stroke-width="1.5" fill="none" />
-      <circle cx="32" cy="18" r="3" fill="#111111" />
-      <circle cx="32" cy="32" r="3" fill="#111111" />
-      <circle cx="32" cy="46" r="3" fill="#111111" />
-      <line x1="32" y1="21" x2="32" y2="29" stroke="#111111" stroke-width="1.5" />
-      <line x1="32" y1="35" x2="32" y2="43" stroke="#111111" stroke-width="1.5" />
-    </g>
-  </g>
-
-  <line x1="120" y1="296" x2="1080" y2="296" stroke="#111111" stroke-opacity="0.32" stroke-width="2" />
-
-  <text x="120" y="384" fill="#111111" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="74" font-weight="700" letter-spacing="-0.02em">
-    Silas Pignotti
-  </text>
-
-  <text x="120" y="446" fill="#111111" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="42" font-weight="500" letter-spacing="-0.01em">
-    Data · Geospatial · AI · Automation
-  </text>
+  <title id="title">Silas Pignotti</title>
+  <desc id="desc">Silas Pignotti. Data, AI, automation, and geospatial work.</desc>
+  <rect width="1200" height="630" fill="#F7F7F5"/>
+  <rect x="96" y="168" width="64" height="4" fill="#D4724A"/>
+  <text x="96" y="292" fill="#151922" font-family="Geist, system-ui, -apple-system, sans-serif" font-size="72" font-weight="600" letter-spacing="-2">Silas Pignotti</text>
+  <text x="96" y="360" fill="#625D57" font-family="Geist, system-ui, -apple-system, sans-serif" font-size="32" font-weight="400">Data · AI · Automation · Geospatial</text>
 </svg>

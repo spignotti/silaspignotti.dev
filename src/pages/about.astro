@@ -2,10 +2,8 @@
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { SITE } from '@/consts'
-import { getCollection } from 'astro:content'
-import { badgeVariants } from '@/components/ui/badge'
-import { Calendar, Award, GraduationCap, Briefcase, Brain } from 'lucide-react'
 import { requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
+import { getCollection } from 'astro:content'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/about')
 
@@ -13,77 +11,71 @@ if (!page) {
   throw new Error('Missing pages/about.md content entry')
 }
 
-// Access raw markdown body
 const rawBody = (page.body ?? '').replace(/\r\n/g, '\n')
-
-// Parse intro - everything between # About and the first ## section
 const intro = requireIntro(rawBody, 'About', 'pages/about.md')
+const introParagraphs = intro
+  .split(/\n\s*\n/)
+  .map((part) => part.trim().replace(/\n+/g, ' '))
+  .filter(Boolean)
 
-// Parse Experience
-const experienceSection = requireSection(rawBody, 'Experience', 'pages/about.md')
-const experienceItems: { role: string; company: string; date: string; description: string }[] = splitItems(experienceSection)
-  .map((part: string) => {
-    const lines = part.split('\n').map((l: string) => l.trim()).filter((l: string) => Boolean(l))
+const experienceItems = splitItems(requireSection(rawBody, 'Experience', 'pages/about.md'))
+  .map((part) => {
+    const lines = part
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
     if (lines.length === 0) return null
-
     const titleLine = lines[0] || ''
-    const date = lines[1] || ''
-    const description = lines.slice(2).join('\n').trim()
-
     const [role, company] = titleLine.includes('·')
-      ? titleLine.split('·').map((s: string) => s.trim())
+      ? titleLine.split('·').map((part) => part.trim())
       : [titleLine.trim(), '']
-
     if (!role) return null
-    return { role, company, date, description }
+    return {
+      role,
+      company,
+      date: lines[1] || '',
+      description: lines.slice(2).join(' ').trim(),
+    }
   })
   .filter((item): item is { role: string; company: string; date: string; description: string } => Boolean(item))
 
-// Parse Education
-const educationSection = requireSection(rawBody, 'Education', 'pages/about.md')
-const educationItems = splitItems(educationSection)
-  .map((part: string) => {
-    const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
+const educationItems = splitItems(requireSection(rawBody, 'Education', 'pages/about.md'))
+  .map((part) => {
+    const lines = part
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
     if (lines.length === 0) return null
-
     const titleLine = (lines[0] || '').replace(/^###\s*/, '').trim()
-    const date = lines[1] || ''
-    const gpaOrNote = lines[2] || ''
-    const details = lines.slice(3).join('\n').trim()
-
     const [degree, institution] = titleLine.includes('·')
-      ? titleLine.split('·').map((s: string) => s.trim())
+      ? titleLine.split('·').map((part) => part.trim())
       : [titleLine.trim(), '']
-
-    const gpaMatch = gpaOrNote.match(/GPA\s+([\d.]+)/)
-    const gpa = gpaMatch ? gpaMatch[1] : null
-
+    const gpaMatch = (lines[2] || '').match(/GPA\s+([\d.]+)/)
     if (!degree) return null
-    return { degree, institution, date, gpa, details }
+    return {
+      degree,
+      institution,
+      date: lines[1] || '',
+      gpa: gpaMatch ? gpaMatch[1] : null,
+      details: lines.slice(gpaMatch ? 3 : 2).join('\n').trim(),
+    }
   })
-  .filter((item): item is { degree: string; institution: string; date: string; gpa: string | null; details: string } => Boolean(item))
+  .filter(
+    (item): item is { degree: string; institution: string; date: string; gpa: string | null; details: string } =>
+      Boolean(item),
+  )
 
-// Parse Skills
-const skillsSection = requireSection(rawBody, 'Skills', 'pages/about.md')
-const skillsItems = splitItems(skillsSection)
-  .map((part: string) => {
-    const lines = part.split('\n').map((l: string) => l.trim()).filter(Boolean)
+const skillsItems = splitItems(requireSection(rawBody, 'Skills', 'pages/about.md'))
+  .map((part) => {
+    const lines = part
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
     if (lines.length === 0) return null
-
     const title = (lines[0] || '').replace(/^###\s*/, '').trim()
     const rest = lines.slice(1).join('\n').trim()
-
-    // Extract description and tags
-    const codeBlockMatch = rest.match(/(`[^`]+`\s*)+/)
-    let description = rest
-    let tags: string[] = []
-
-    if (codeBlockMatch) {
-      tags = rest.match(/`([^`]+)`/g)?.map((t: string) => t.replace(/`/g, '')) ?? []
-      // Remove the code block from description
-      description = rest.replace(/(`[^`]+`\s*)+/, '').trim()
-    }
-
+    const tags = rest.match(/`([^`]+)`/g)?.map((tag) => tag.replace(/`/g, '')) ?? []
+    const description = rest.replace(/(`[^`]+`\s*)+/g, '').trim()
     if (!title) return null
     return { title, description, tags }
   })
@@ -91,12 +83,7 @@ const skillsItems = splitItems(skillsSection)
 ---
 
 <Layout>
-  <PageHead
-    slot="head"
-    title={page.data.title}
-    description={page.data.description}
-    imagePath={page.data.ogImage}
-  />
+  <PageHead slot="head" title={page.data.title} description={page.data.description} imagePath={page.data.ogImage} />
 
   <script
     type="application/ld+json"
@@ -104,7 +91,7 @@ const skillsItems = splitItems(skillsSection)
     set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
-      name: 'Silas Pignotti',
+      name: SITE.author,
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Berlin',
@@ -112,144 +99,93 @@ const skillsItems = splitItems(skillsSection)
       },
       url: SITE.href,
       email: SITE.email,
-      sameAs: [
-        'https://github.com/spignotti',
-        'https://www.linkedin.com/in/silas-pignotti/',
-      ],
+      sameAs: ['https://github.com/spignotti', 'https://www.linkedin.com/in/silas-pignotti/'],
     })}
   />
 
-  <section class="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8 lg:px-12">
-    <h1 class="font-custom mb-8 text-4xl font-bold text-foreground sm:text-5xl">About</h1>
-    
-    <!-- Intro -->
-    {intro && (
-      <div class="mb-12">
-        <div class="prose prose-neutral dark:prose-invert max-w-none">
-          {intro.split('\n\n').filter(Boolean).map((paragraph: string) => (
-            <p class="text-lg leading-relaxed text-foreground/90">{paragraph.replace(/\n/g, ' ')}</p>
-          ))}
-        </div>
-      </div>
-    )}
+  <header class="section measure">
+    <h1 class="h1">{page.data.title}</h1>
+    {
+      introParagraphs.map((paragraph) => (
+        <p class="hero-copy">{paragraph}</p>
+      ))
+    }
+  </header>
 
-    <!-- Experience -->
-    {experienceItems.length > 0 && (
-      <section aria-labelledby="experience-heading" class="mb-12">
-        <div class="mb-6 flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card shadow-sm">
-            <Briefcase className="h-5 w-5 text-primary" />
-          </div>
-          <h2 id="experience-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Experience</h2>
-        </div>
-        
-        <div class="space-y-4">
+  {
+    experienceItems.length > 0 && (
+      <section class="section" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" class="h2">Experience</h2>
+        <div class="stack">
           {experienceItems.map((item) => (
-            <article class="rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-md">
-              <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                <div class="flex-1">
-                  <h3 class="text-lg font-semibold text-foreground">{item.role}</h3>
-                  {item.company && <p class="text-base text-muted-foreground">{item.company}</p>}
-                </div>
-                <div class="flex flex-wrap items-center gap-2">
-                  {item.date && (
-                    <div class="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                      <Calendar className="h-3.5 w-3.5" />
-                      <span>{item.date}</span>
-                    </div>
-                  )}
-                </div>
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="h3">{item.role}</h3>
+                {item.date && <p class="meta">{item.date}</p>}
               </div>
-              {item.description && (
-                <p class="mt-3 text-base leading-relaxed text-foreground/80">{item.description}</p>
-              )}
+              {item.company && <p class="sub">{item.company}</p>}
+              {item.description && <p class="hero-copy">{item.description}</p>}
             </article>
           ))}
         </div>
       </section>
-    )}
+    )
+  }
 
-    <!-- Education -->
-    {educationItems.length > 0 && (
-      <section aria-labelledby="education-heading" class="mb-12">
-        <div class="mb-6 flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card shadow-sm">
-            <GraduationCap className="h-5 w-5 text-primary" />
-          </div>
-          <h2 id="education-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Education</h2>
-        </div>
-        
-        <div class="space-y-4">
-          {educationItems.map((item: typeof educationItems[number]) => (
-            <article class="rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-md">
-              <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                <div class="flex-1">
-                  <h3 class="text-lg font-semibold text-foreground">{item.degree}</h3>
-                  {item.institution && <p class="text-base text-muted-foreground">{item.institution}</p>}
-                </div>
-                <div class="flex flex-col items-end gap-2">
-                  {item.date && (
-                    <div class="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                      <Calendar className="h-3.5 w-3.5" />
-                      <span>{item.date}</span>
-                    </div>
-                  )}
+  {
+    educationItems.length > 0 && (
+      <section class="section" aria-labelledby="education-heading">
+        <h2 id="education-heading" class="h2">Education</h2>
+        <div class="stack">
+          {educationItems.map((item) => (
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="h3">{item.degree}</h3>
+                <div class="entry-meta">
+                  {item.date && <p class="meta">{item.date}</p>}
                   {item.gpa && (
-                    <div class="flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-sm font-semibold text-green-600 dark:text-green-400">
-                      <Award className="h-3.5 w-3.5" />
-                      <span>GPA {item.gpa}</span>
-                    </div>
+                    <p class="meta">
+                      GPA <span class="meta-strong">{item.gpa}</span>
+                    </p>
                   )}
                 </div>
               </div>
-              {item.details && (
-                <div class="mt-3 space-y-1 text-sm text-foreground/70">
-                  {item.details.split('\n').filter((l: string) => l.trim()).map((line: string) => (
-                    <p>{line.replace(/^[-•]\s*/, '')}</p>
-                  ))}
-                </div>
-              )}
+              {item.institution && <p class="sub">{item.institution}</p>}
+              {item.details &&
+                item.details
+                  .split('\n')
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((line) => <p class="hero-copy">{line.replace(/^[-•]\s*/, '')}</p>)}
             </article>
           ))}
         </div>
       </section>
-    )}
+    )
+  }
 
-    <!-- Skills -->
-    {skillsItems.length > 0 && (
-      <section aria-labelledby="skills-heading">
-        <div class="mb-6 flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card shadow-sm">
-            <Brain className="h-5 w-5 text-primary" />
-          </div>
-          <h2 id="skills-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Skills</h2>
-        </div>
-        
-        <div class="grid gap-5 md:grid-cols-2">
-          {skillsItems.map((skill: typeof skillsItems[number]) => {
-            return (
-              <article class="rounded-2xl border border-border/60 bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-md">
-                <div class="flex flex-col gap-3">
-                  <div class="flex-1">
-                    <h3 class="text-base font-semibold text-foreground">{skill.title}</h3>
-                    {skill.description && (
-                      <p class="mt-1 text-sm leading-relaxed text-foreground/70">{skill.description}</p>
-                    )}
-                    
-                    {skill.tags.length > 0 && (
-                      <ul class="mt-3 flex flex-wrap gap-2" role="list">
-                        {skill.tags.map((tag: string) => (
-                          <li class={badgeVariants({ variant: 'secondary' })}>{tag}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </article>
-            )
-          })}
+  {
+    skillsItems.length > 0 && (
+      <section class="section" aria-labelledby="skills-heading">
+        <h2 id="skills-heading" class="h2">Skills</h2>
+        <div class="stack">
+          {skillsItems.map((skill) => (
+            <article class="entry">
+              <div>
+                <h3 class="h3">{skill.title}</h3>
+                {skill.description && <p class="hero-copy">{skill.description}</p>}
+                {skill.tags.length > 0 && (
+                  <ul class="badge-row block">
+                    {skill.tags.map((tag) => (
+                      <li class="badge">{tag}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
-    )}
-  </section>
+    )
+  }
 </Layout>

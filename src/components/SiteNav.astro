@@ -1,0 +1,121 @@
+---
+import { NAV_LINKS } from '@/consts'
+import { withBasePath } from '@/lib/paths'
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+
+function isCurrent(href: string) {
+  if (href === '/') return path === '/'
+  return path === href || path.startsWith(`${href}/`)
+}
+---
+
+<header class="nav">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap nav-bar">
+    <a class="wordmark" href={withBasePath('/')}>Silas Pignotti</a>
+    <nav class="nav-links" aria-label="Primary">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            class="nav-link"
+            href={withBasePath(link.href)}
+            aria-current={isCurrent(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="nav-actions">
+      <button
+        type="button"
+        class="nav-toggle"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="site-nav-panel"
+      >
+        <span class="nav-toggle-open">Menu</span>
+        <span class="nav-toggle-close">Close</span>
+      </button>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch color theme">
+        <svg class="when-light" viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"
+            d="M9.1 1.8a5.3 5.3 0 1 0 5.1 7.1A4.3 4.3 0 0 1 9.1 1.8z"
+          />
+        </svg>
+        <svg class="when-dark" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.25" />
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            d="M8 1.7v1.6M8 12.7v1.6M1.7 8h1.6M12.7 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="wrap nav-panel" id="site-nav-panel" hidden>
+    <nav aria-label="Primary">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            class="nav-link"
+            href={withBasePath(link.href)}
+            aria-current={isCurrent(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement
+  const toggle = document.querySelector('[data-theme-toggle]')
+  const menuButton = document.querySelector('[data-nav-toggle]')
+  const panel = document.getElementById('site-nav-panel')
+
+  function themeLabel() {
+    if (!(toggle instanceof HTMLButtonElement)) return
+    const dark = root.getAttribute('data-theme') === 'dark'
+    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+  }
+
+  themeLabel()
+
+  toggle?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+    root.setAttribute('data-theme', next)
+    root.style.colorScheme = next
+    try {
+      localStorage.setItem('theme', next)
+    } catch {
+      /* storage can be blocked */
+    }
+    themeLabel()
+  })
+
+  menuButton?.addEventListener('click', () => {
+    if (!(menuButton instanceof HTMLButtonElement) || !panel) return
+    const open = menuButton.getAttribute('aria-expanded') === 'true'
+    menuButton.setAttribute('aria-expanded', String(!open))
+    panel.hidden = open
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !(menuButton instanceof HTMLButtonElement) || !panel) return
+    if (menuButton.getAttribute('aria-expanded') !== 'true') return
+    menuButton.setAttribute('aria-expanded', 'false')
+    panel.hidden = true
+    menuButton.focus()
+  })
+</script>

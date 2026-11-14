@@ -1,13 +1,11 @@
 ---
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
-import ProjectCard from '@/components/ProjectCard.astro'
-import CategoryFilter from '@/components/react/category-filter'
 import Layout from '@/layouts/Layout.astro'
-import { getCollection } from 'astro:content'
 import { getAllProjects } from '@/lib/data-utils'
 import { requireSection } from '@/lib/markdown-sections'
+import { withBasePath } from '@/lib/paths'
 import { PROJECT_CATEGORIES } from '@/lib/project-categories'
+import { getCollection } from 'astro:content'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/projects')
 
@@ -16,58 +14,68 @@ if (!page) {
 }
 
 const projects = await getAllProjects()
-
-const normalizedBody = (page.body ?? '').replace(/\r\n/g, '\n')
-// Visible intro comes from the Markdown body so both paragraphs render; frontmatter description stays SEO-only.
-const introParagraphs = requireSection(normalizedBody, 'Projects', 'pages/projects.md')
+const introParagraphs = requireSection((page.body ?? '').replace(/\r\n/g, '\n'), 'Projects', 'pages/projects.md')
   .split(/\n\s*\n/)
   .map((part) => part.trim().replace(/\n+/g, ' '))
   .filter(Boolean)
-
-const categories = ['All', ...PROJECT_CATEGORIES] as const
+const filters = ['All', ...PROJECT_CATEGORIES]
 ---
 
 <Layout>
-  <PageHead
-    slot="head"
-    title={page.data.title}
-    description={page.data.description}
-    imagePath={page.data.ogImage}
-  />
+  <PageHead slot="head" title={page.data.title} description={page.data.description} imagePath={page.data.ogImage} />
 
-  <section class="mx-auto mt-10 w-full max-w-7xl px-4 sm:px-8 md:mt-12 lg:px-12">
-    <Breadcrumbs
-      items={[
-        { label: 'Projects', href: '/projects', icon: 'lucide:folder' },
-      ]}
-    />
+  <header class="measure">
+    <h1 class="h1">{page.data.title}</h1>
+    {introParagraphs.map((paragraph) => <p class="hero-copy">{paragraph}</p>)}
+  </header>
 
-    <header class="mb-10 mt-6">
-      <h1 class="font-custom text-foreground text-4xl font-bold">{page.data.title}</h1>
-      {introParagraphs.map((paragraph) => (
-        <p class="text-muted-foreground text-md mt-3">{paragraph}</p>
-      ))}
-    </header>
+  <div class="filters" role="toolbar" aria-label="Filter projects">
+    {
+      filters.map((filter, index) => (
+        <button type="button" class="filter" data-filter={filter} aria-pressed={index === 0 ? 'true' : 'false'}>
+          {filter}
+        </button>
+      ))
+    }
+  </div>
 
-    <!-- Category Filter -->
-    <CategoryFilter client:load categories={categories} />
-
-    <!-- Projects Grid -->
-    <ul 
-      id="projects-grid"
-      class="grid grid-cols-1 md:grid-cols-2 gap-6"
-      role="list"
-    >
-      {
-        projects.map((project) => (
-          <li 
-            class="project-item"
-            data-category={project.data.category}
-          >
-            <ProjectCard project={project} tagLimit={3} />
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+  <div class="work-list" id="project-list">
+    {
+      projects.map((project) => (
+        <a class="work-row" href={withBasePath(`/projects/${project.data.slug}`)} data-category={project.data.category}>
+          <span class="meta meta-strong">{project.data.completed ? project.data.year : 'Ongoing'}</span>
+          <span>
+            <span class="work-title">{project.data.title}</span>
+            {project.data.tagline && <p class="work-tagline">{project.data.tagline}</p>}
+          </span>
+        </a>
+      ))
+    }
+  </div>
+  <p id="project-empty" class="empty" hidden>No projects in this category.</p>
 </Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]')
+  const items = document.querySelectorAll<HTMLElement>('#project-list [data-category]')
+  const empty = document.getElementById('project-empty')
+
+  function apply(name: string) {
+    let shown = 0
+    items.forEach((item) => {
+      const match = name === 'All' || item.dataset.category === name
+      item.hidden = !match
+      if (match) shown += 1
+    })
+    if (empty) empty.hidden = shown !== 0
+    buttons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.filter === name))
+    })
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.dataset.filter) apply(button.dataset.filter)
+    })
+  })
+</script>

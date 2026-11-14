@@ -8,11 +8,10 @@ export type Site = {
   email: string
 }
 
+export type SocialIcon = 'github' | 'linkedin' | 'email'
+
 export type SocialLink = {
   href: string
   label: string
-}
-
-export type IconMap = {
-  [key: string]: string
+  icon?: SocialIcon
 }

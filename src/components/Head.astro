@@ -1,53 +1,47 @@
 ---
 import { SITE } from '@/consts'
+import { withBasePath } from '@/lib/paths'
 import Favicons from './Favicons.astro'
+import PostHog from './PostHog.astro'
 ---
 
 <head>
+  <script is:inline>
+    ;(function () {
+      var key = 'theme'
+      var root = document.documentElement
+      function systemDark() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+      function apply(theme) {
+        root.setAttribute('data-theme', theme)
+        root.style.colorScheme = theme
+      }
+      try {
+        var stored = localStorage.getItem(key)
+        if (stored === 'dark' || stored === 'light') {
+          apply(stored)
+        } else {
+          apply(systemDark() ? 'dark' : 'light')
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (event) {
+            if (!localStorage.getItem(key)) apply(event.matches ? 'dark' : 'light')
+          })
+        }
+      } catch (error) {
+        apply(systemDark() ? 'dark' : 'light')
+      }
+    })()
+  </script>
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=yes"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow" />
-  <meta name="google" content="notranslate" />
-  <meta name="revisit-after" content="1 days" />
-
-  <!-- SEO Enhancement Tags -->
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="author" content={SITE.author} />
-  <meta name="publisher" content={SITE.title} />
-  <meta name="language" content={SITE.locale} />
-  <meta name="geo.region" content="DE" />
-  <meta name="geo.placename" content={SITE.location} />
-
-  <!-- Mobile and PWA Tags -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content={SITE.title} />
-  <meta
-    name="format-detection"
-    content="telephone=no,date=no,address=no,email=no,url=no"
-  />
-
-  <!-- Theme Colors -->
-  <meta
-    name="theme-color"
-    content="#121212"
-    media="(prefers-color-scheme: dark)"
-  />
-  <meta
-    name="theme-color"
-    content="#ffffff"
-    media="(prefers-color-scheme: light)"
-  />
-  <meta name="msapplication-TileColor" content="#121212" />
-
-  <!-- Feed link -->
+  <meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B0C0F" media="(prefers-color-scheme: dark)" />
+  <link rel="preload" href={withBasePath('/fonts/Geist-Regular.woff2')} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={withBasePath('/fonts/Geist-SemiBold.woff2')} as="font" type="font/woff2" crossorigin />
   <Favicons />
-
   <slot />
+  <PostHog />
 </head>

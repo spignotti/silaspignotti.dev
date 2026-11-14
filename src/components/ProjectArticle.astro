@@ -1,0 +1,90 @@
+---
+import { withBasePath } from '@/lib/paths'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  project: CollectionEntry<'projects'>
+}
+
+const { project } = Astro.props
+const year = project.data.completed ? project.data.year : 'Ongoing'
+const screenshots = project.data.screenshots ?? []
+
+const links: { label: string; href: string; external: boolean }[] = []
+if (project.data.github) links.push({ label: 'GitHub', href: project.data.github, external: true })
+if (project.data.demo) links.push({ label: 'Live demo', href: project.data.demo, external: true })
+if (project.data.pypi) links.push({ label: 'PyPI', href: project.data.pypi, external: true })
+if (project.data.paper) links.push({ label: 'Paper', href: project.data.paper, external: true })
+for (const item of project.data.downloads ?? []) {
+  if (!item.href) continue
+  const external = item.href.startsWith('http')
+  const href = external ? item.href : withBasePath(item.href)
+  if (!href) continue
+  links.push({ label: item.label, href, external })
+}
+---
+
+<article>
+  <p class="trail">
+    <a href={withBasePath('/projects')}>Projects</a>
+    <span aria-hidden="true">/</span>
+    <span>{project.data.title}</span>
+  </p>
+
+  <div class="project-layout">
+    <div>
+      <header class="project-head">
+        <h1 class="h1">{project.data.title}</h1>
+        {project.data.tagline && <p class="lead">{project.data.tagline}</p>}
+        <p class="meta">
+          {year && <span class="meta-strong">{year}</span>}
+          {year && <span aria-hidden="true"> · </span>}
+          <span>{project.data.category}</span>
+        </p>
+        {
+          project.data.tags.length > 0 && (
+            <ul class="badge-row">
+              {project.data.tags.map((tag) => (
+                <li class="badge">{tag}</li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+      <div class="prose block">
+        <slot />
+      </div>
+      {
+        screenshots.length > 0 && (
+          <div class="shots">
+            {screenshots.map((shot) => (
+              <img src={withBasePath(shot.src)} alt={shot.alt} loading="lazy" decoding="async" />
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      links.length > 0 && (
+        <aside class="project-aside" aria-label="Project links">
+          <ul class="project-links">
+            {links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a class="text-link" href={withBasePath('/projects')}>
+            All projects
+          </a>
+        </aside>
+      )
+    }
+  </div>
+</article>

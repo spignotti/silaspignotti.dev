@@ -1,46 +1,32 @@
 ---
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
-import Link from '@/components/Link.astro'
-import Skills from '@/components/react/skills'
-import ProjectCard from '@/components/ProjectCard.astro'
+import { SITE } from '@/consts'
+import { getAllProjects } from '@/lib/data-utils'
+import { withBasePath } from '@/lib/paths'
+import { requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 import { getCollection } from 'astro:content'
-import { extractSection, requireIntro, requireSection, splitItems } from '@/lib/markdown-sections'
 
 const page = (await getCollection('pages')).find((entry) => entry.data.slug === '/')
+const projects = await getAllProjects()
 const featuredOrder = ['routing-engine', 'master-thesis-uhi', 'litresearch']
-const featuredProjects = (await getCollection('projects'))
-  .filter((project) => project.data.featured)
-  .sort((a, b) => {
-    const aRank = featuredOrder.indexOf(a.data.slug)
-    const bRank = featuredOrder.indexOf(b.data.slug)
-    if (aRank !== -1 || bRank !== -1) return (aRank === -1 ? Number.MAX_SAFE_INTEGER : aRank) - (bRank === -1 ? Number.MAX_SAFE_INTEGER : bRank)
-    const aYear = a.data.year ?? 0
-    const bYear = b.data.year ?? 0
-    if (bYear !== aYear) return bYear - aYear
-    const aOngoing = a.data.completed ? 1 : 0
-    const bOngoing = b.data.completed ? 1 : 0
-    return aOngoing - bOngoing
-  })
-  .slice(0, 3)
 
 if (!page) {
   throw new Error('Missing pages/landing.md content entry')
 }
 
 const normalizedBody = (page.body ?? '').replace(/\r\n/g, '\n')
-
-// Hero tagline and intro paragraph come from landing.md so the positioning line has one source of truth.
+// The markdown heading is a section key only. It is not rendered.
 const hero = requireIntro(normalizedBody, 'Portfolio', 'pages/landing.md')
 const heroParts = hero
   .split(/\n\s*\n/)
   .map((part) => part.trim().replace(/\n+/g, ' '))
   .filter(Boolean)
 const tagline = heroParts[0] ?? ''
-const heroParagraph = heroParts.slice(1).join(' ')
+const heroParagraphs = heroParts.slice(1)
 
-const whatIDoSection = requireSection(normalizedBody, 'Focus Areas', 'pages/landing.md')
-const whatIDoItems = splitItems(whatIDoSection)
+const focusSection = requireSection(normalizedBody, 'Focus Areas', 'pages/landing.md')
+const focusItems = splitItems(focusSection)
   .map((part) => {
     const [title, ...rest] = part.split('\n')
     return {
@@ -48,97 +34,98 @@ const whatIDoItems = splitItems(whatIDoSection)
       description: rest.join('\n').trim().replace(/\n+/g, ' '),
     }
   })
-  .filter((item): item is { title: string; description: string } => Boolean(item.title && item.description))
+  .filter((item) => item.title && item.description)
 
-const ctaSection = extractSection(normalizedBody, 'Get in Touch')
-const ctaText = ctaSection.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '').trim().replace(/\n+/g, ' ')
+const withShots = projects.filter((project) => (project.data.screenshots?.length ?? 0) > 0)
+const shotSlugs = new Set(withShots.map((project) => project.data.slug))
+const featuredProjects = projects
+  .filter((project) => project.data.featured && !shotSlugs.has(project.data.slug))
+  .sort((a, b) => {
+    const aRank = featuredOrder.indexOf(a.data.slug)
+    const bRank = featuredOrder.indexOf(b.data.slug)
+    if (aRank !== -1 || bRank !== -1) {
+      return (aRank === -1 ? Number.MAX_SAFE_INTEGER : aRank) - (bRank === -1 ? Number.MAX_SAFE_INTEGER : bRank)
+    }
+    return (b.data.year ?? 0) - (a.data.year ?? 0)
+  })
+  .slice(0, 3)
 ---
 
 <Layout>
-  <PageHead
-    slot="head"
-    title={page.data.title}
-    description={page.data.description}
-    imagePath={page.data.ogImage}
-  />
+  <PageHead slot="head" title={page.data.title} description={page.data.description} imagePath={page.data.ogImage} />
 
-  <section class="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8 sm:pb-10 lg:px-12">
-    <h1 class="font-custom max-w-4xl text-4xl leading-tight font-bold text-foreground sm:text-5xl lg:text-6xl">
-      Portfolio
-    </h1>
-    {tagline && <p class="mt-3 text-lg sm:text-xl text-muted-foreground">{tagline}</p>}
-    {heroParagraph && (
-      <p class="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-        {heroParagraph}
-      </p>
-    )}
-  </section>
-
-  {whatIDoItems.length > 0 && (
-    <section aria-labelledby="focus-areas-heading" class="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8 lg:px-12">
-      <div class="mb-6">
-        <h2 id="focus-areas-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">Focus Areas</h2>
-      </div>
-      <ul class="grid grid-cols-1 gap-3.5 md:grid-cols-3 md:gap-4" role="list">
-        {whatIDoItems.map((item) => (
-          <li class="rounded-2xl border border-border/60 bg-card p-5 shadow-sm">
-            <h3 class="text-lg font-semibold text-foreground">{item.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  <section aria-labelledby="skills-heading" class="mx-auto w-full max-w-7xl px-4 pb-9 sm:px-8 sm:pb-10 lg:px-12">
-    <div class="mb-4 flex items-end justify-between gap-4">
-      <div>
-        <h2 id="skills-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">
-          Tools &amp; Technologies
-        </h2>
-      </div>
-    </div>
-    <Skills client:load />
-  </section>
-
-  {featuredProjects.length > 0 && (
-    <section aria-labelledby="featured-projects-heading" class="mx-auto w-full max-w-7xl px-4 pb-9 sm:px-8 sm:pb-10 lg:px-12">
-      <div class="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <h2 id="featured-projects-heading" class="font-custom text-2xl font-bold text-foreground sm:text-3xl">
-            Projects
-          </h2>
-          <p class="mt-2 text-sm text-muted-foreground sm:text-base">
-            Selected technical and applied projects.
-          </p>
+  <section class="section" aria-labelledby="home-heading">
+    <p class="label">{SITE.location}</p>
+    <h1 id="home-heading" class="display">{SITE.author}</h1>
+    {tagline && <p class="lead">{tagline}</p>}
+    {
+      heroParagraphs.length > 0 && (
+        <div class="hero-copy">
+          {heroParagraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
         </div>
-        <Link href="/projects" class="text-sm font-medium text-primary" underline>
-          View all
-        </Link>
-      </div>
-
-      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-        {featuredProjects.map((project) => (
-          <li>
-            <ProjectCard project={project} tagLimit={3} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  <section class="mx-auto w-full max-w-7xl px-4 pb-2 sm:px-8 lg:px-12">
-    {ctaText && <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{ctaText.replace(/\s*Based in Berlin\.\s*$/, '').trim()}</p>}
-    <p class="mt-4 text-base text-muted-foreground">Based in Berlin.</p>
-    <div class="mt-5 flex flex-wrap gap-3">
-      <a href="mailto:pignottisilas@gmail.com" class="inline-flex items-center gap-2 rounded-full border border-primary bg-transparent px-6 py-3 text-base font-semibold text-primary transition-colors hover:bg-primary/10">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Email
-      </a>
-      <a href="https://www.linkedin.com/in/silas-pignotti/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full border border-primary bg-transparent px-6 py-3 text-base font-semibold text-primary transition-colors hover:bg-primary/10">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
+      )
+    }
+    <div class="hero-actions">
+      <a class="button button-accent" href={`mailto:${SITE.email}`}>Email</a>
     </div>
   </section>
+
+  <section class="section" aria-labelledby="projects-heading">
+    <h2 id="projects-heading" class="h2">Projects</h2>
+    {
+      withShots.length > 0 && (
+        <div class="shot-row">
+          {withShots.map((project) => {
+            const shot = project.data.screenshots?.[0]
+            if (!shot) return null
+            return (
+              <a class="shot" href={withBasePath(`/projects/${project.data.slug}`)}>
+                <img src={withBasePath(shot.src)} alt={shot.alt} loading="lazy" decoding="async" />
+                <span class="shot-caption">
+                  <span class="shot-title">{project.data.title}</span>
+                  <span class="meta">{project.data.completed ? project.data.year : 'Ongoing'}</span>
+                </span>
+              </a>
+            )
+          })}
+        </div>
+      )
+    }
+    {
+      featuredProjects.length > 0 && (
+        <div class="work-list">
+          {featuredProjects.map((project) => (
+            <a class="work-row" href={withBasePath(`/projects/${project.data.slug}`)}>
+              <span class="meta meta-strong">{project.data.completed ? project.data.year : 'Ongoing'}</span>
+              <span>
+                <span class="work-title">{project.data.title}</span>
+                {project.data.tagline && <p class="work-tagline">{project.data.tagline}</p>}
+              </span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+    <a class="text-link section-link" href={withBasePath('/projects')}>All projects</a>
+  </section>
+
+  {
+    focusItems.length > 0 && (
+      <section class="section" aria-labelledby="focus-heading">
+        <h2 id="focus-heading" class="h2">Focus Areas</h2>
+        <div class="card card-pad block">
+          <div class="split">
+            {focusItems.map((item) => (
+              <div>
+                <h3 class="h3">{item.title}</h3>
+                <p class="sub">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 </Layout>
