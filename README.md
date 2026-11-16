@@ -25,10 +25,14 @@ pnpm build
 
 ## Content
 
-- Pages: `src/content/pages/`
-- Projects: `src/content/projects/`
+German at `/`, English at `/en/`.
 
-Schemas are in `src/content.config.ts`. `pnpm check` validates them. A project is published when its Markdown file exists in `src/content/projects/`.
+- Pages: `src/content/pages/<lang>/`
+- Capability areas: `src/content/areas/<lang>/`
+- Projects and case studies: `src/content/projects/<lang>/<slug>.mdx`
+- Figures: `src/assets/figures/<project>/<name>[.<lang>].svg`, rules in `docs/style.md`
+
+Schemas are in `src/content.config.ts`. `pnpm check` validates them. A project is published when its file exists in `src/content/projects/<lang>/`.
 
 ## Analytics
 

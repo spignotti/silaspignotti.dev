@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { Lang } from '@/i18n'
+import { UI, projectPath } from '@/i18n'
+import { withBasePath } from '@/lib/paths'
+import Copy from './Copy.astro'
+
+interface Props {
+  areas: CollectionEntry<'areas'>[]
+  projects: CollectionEntry<'projects'>[]
+  lang: Lang
+}
+const { areas, projects, lang } = Astro.props
+const titleOf = (slug: string) => projects.find((project) => project.data.slug === slug)?.data.title ?? slug
+---
+
+<div class="areas">
+  {
+    areas.map((area) => (
+      <article class="area">
+        <h3 class="area-title">
+          <Copy text={area.data.title} />
+        </h3>
+        <p class="area-summary">
+          <Copy text={area.data.summary} />
+        </p>
+        {area.data.tools.length > 0 && (
+          <p class="meta area-tools">
+            {area.data.tools.map((tool, index) => (
+              <>
+                {index > 0 && ' · '}
+                <Copy text={tool} />
+              </>
+            ))}
+          </p>
+        )}
+        <p class="area-proof">
+          <span class="label">{UI[lang].proof}</span>
+          <span class="area-links">
+            {area.data.proof.map((slug) => (
+              <a class="text-link" href={withBasePath(projectPath(lang, slug))}>
+                {titleOf(slug)}
+              </a>
+            ))}
+          </span>
+        </p>
+      </article>
+    ))
+  }
+</div>

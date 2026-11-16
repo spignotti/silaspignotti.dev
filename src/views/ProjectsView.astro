@@ -1,0 +1,53 @@
+---
+import CaseCard from '@/components/CaseCard.astro'
+import Copy from '@/components/Copy.astro'
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { UI, otherLang, pagePath, projectPath } from '@/i18n'
+import { getPage, getProjects } from '@/lib/data-utils'
+import { withBasePath } from '@/lib/paths'
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const ui = UI[lang]
+const page = await getPage(lang, 'projects')
+const cases = await getProjects(lang, 'case-study')
+const earlier = await getProjects(lang, 'earlier')
+---
+
+<Layout lang={lang} title={page.data.title} description={page.data.description} alternate={pagePath(otherLang(lang), 'projects')}>
+  <header class="measure">
+    <h1 class="h1">{page.data.title}</h1>
+    {page.data.intro && <p class="lead"><Copy text={page.data.intro} /></p>}
+  </header>
+
+  <section id="case-studies" class="section" aria-labelledby="cases-heading">
+    <h2 id="cases-heading" class="visually-hidden">{ui.caseStudies}</h2>
+    <div class="case-grid">
+      {cases.map((project) => <CaseCard project={project} lang={lang} />)}
+    </div>
+  </section>
+
+  {
+    earlier.length > 0 && (
+      <section class="section" aria-labelledby="earlier-heading">
+        <h2 id="earlier-heading" class="h3">{ui.earlier}</h2>
+        <div class="work-list">
+          {earlier.map((project) => (
+            <a class="work-row" href={withBasePath(projectPath(lang, project.data.slug))}>
+              <span class="meta meta-strong">{project.data.period}</span>
+              <span>
+                <span class="work-title">{project.data.title}</span>
+                <p class="work-tagline">
+                  <Copy text={project.data.summary} />
+                </p>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Layout>

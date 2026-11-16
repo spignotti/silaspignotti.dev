@@ -1,0 +1,25 @@
+---
+import Copy from './Copy.astro'
+
+interface Props {
+  items: { value: string; label: string }[]
+}
+const { items } = Astro.props
+---
+
+{
+  items.length > 0 && (
+    <dl class="key-figures">
+      {items.map((item) => (
+        <div class="key-figure">
+          <dt class="label">
+            <Copy text={item.label} />
+          </dt>
+          <dd class="key-value">
+            <Copy text={item.value} />
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}

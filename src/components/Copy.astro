@@ -1,0 +1,12 @@
+---
+// Renders a frontmatter string; bracketed text is shown as a placeholder.
+import { isPlaceholder } from '@/i18n'
+
+interface Props {
+  text: string | undefined
+}
+const { text } = Astro.props
+const placeholder = isPlaceholder(text)
+---
+
+{placeholder ? <span class="placeholder" data-placeholder>{text}</span> : text}

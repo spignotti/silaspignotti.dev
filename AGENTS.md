@@ -4,13 +4,15 @@ Personal site at https://silaspignotti.dev. Static Astro site on GitHub Pages.
 
 ## Content
 
-This repository is the only source for all site copy: pages in `src/content/pages/`, projects in `src/content/projects/`. There is no Notion mirror, no CMS, and no sync.
+This repository is the only source for all site copy. There is no Notion mirror, no CMS, and no sync.
 
-- A project is published when its file exists in `src/content/projects/`. Projects that are not on the site have no file here.
+- German at `/`, English at `/en/`. Every page exists in both languages: `src/content/pages/<lang>/`, `src/content/areas/<lang>/`, `src/content/projects/<lang>/<slug>.mdx` with the same slug in both. UI strings and routes live in `src/i18n.ts`. Imprint and privacy are German only.
+- A project is published when its file exists in `src/content/projects/<lang>/`. Projects that are not on the site have no file here.
+- Copy that is not written yet stays in square brackets (frontmatter) or in `<Placeholder>` (MDX). Both render visibly marked.
+- Case studies follow the template in the content concept (Silas' notes `website-konzept.md`): role, period, status, up to three key figures, then Problem / Approach / System / Result / Limits. No package badges.
 - Every change goes through its own branch and a pull request against `main`. CI must be green. Merge only after Silas' OK.
 - Drop new screenshots and PDFs in `inbox/`, then `pnpm run process:project-media`.
-- No i18n.
-- Voice: factual, honest, confident. Projects speak for themselves. Full voice and page-structure rules live in `portfolio-writer`; publish steps live in `site-deploy`.
+- Voice: factual, honest, calm. No services list, no availability claim. Never the word portfolio.
 
 ## Stack
 

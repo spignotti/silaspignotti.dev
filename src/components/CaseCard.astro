@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { Lang } from '@/i18n'
+import { UI, projectPath } from '@/i18n'
+import { withBasePath } from '@/lib/paths'
+import Copy from './Copy.astro'
+import Figure from './Figure.astro'
+
+interface Props {
+  project: CollectionEntry<'projects'>
+  lang: Lang
+}
+const { project, lang } = Astro.props
+const data = project.data
+const figure = data.keyFigures[0]
+---
+
+<a class="case-card" href={withBasePath(projectPath(lang, data.slug))}>
+  <div class="case-cover">
+    {
+      data.cover?.figure ? (
+        <Figure name={data.cover.figure} lang={lang} instance="card" decorative />
+      ) : data.cover?.src ? (
+        <img src={withBasePath(data.cover.src)} alt="" loading="lazy" decoding="async" />
+      ) : null
+    }
+  </div>
+  <div class="case-body">
+    <p class="meta">
+      <span class="meta-strong">{data.period}</span> · {UI[lang].status[data.status]}
+    </p>
+    <h3 class="case-title">{data.title}</h3>
+    <p class="case-summary"><Copy text={data.summary} /></p>
+    <p class="case-role"><Copy text={data.role} /></p>
+    {
+      figure && (
+        <p class="case-figure">
+          <span class="key-value-sm">
+            <Copy text={figure.value} />
+          </span>
+          <span class="label">
+            <Copy text={figure.label} />
+          </span>
+        </p>
+      )
+    }
+  </div>
+</a>

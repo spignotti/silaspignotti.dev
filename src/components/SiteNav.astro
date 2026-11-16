@@ -1,19 +1,33 @@
 ---
-import { NAV_LINKS } from '@/consts'
+import type { Lang } from '@/i18n'
+import { UI, otherLang, pagePath } from '@/i18n'
 import { withBasePath } from '@/lib/paths'
 
+interface Props {
+  lang: Lang
+  alternate?: string
+}
+const { lang, alternate } = Astro.props
+const ui = UI[lang]
+const home = pagePath(lang, 'home')
+const NAV_LINKS = [
+  { href: home, label: ui.nav.home },
+  { href: pagePath(lang, 'projects'), label: ui.nav.projects },
+  { href: pagePath(lang, 'about'), label: ui.nav.about },
+]
+const switchHref = alternate ?? pagePath(otherLang(lang), 'home')
 const path = Astro.url.pathname.replace(/\/$/, '') || '/'
 
 function isCurrent(href: string) {
-  if (href === '/') return path === '/'
+  if (href === home) return path === home
   return path === href || path.startsWith(`${href}/`)
 }
 ---
 
 <header class="nav">
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main">{ui.skip}</a>
   <div class="wrap nav-bar">
-    <a class="wordmark" href={withBasePath('/')}>Silas Pignotti</a>
+    <a class="wordmark" href={withBasePath(home)}>Silas Pignotti</a>
     <nav class="nav-links" aria-label="Primary">
       {
         NAV_LINKS.map((link) => (
@@ -28,6 +42,15 @@ function isCurrent(href: string) {
       }
     </nav>
     <div class="nav-actions">
+      <a
+        class="nav-link lang-switch"
+        href={withBasePath(switchHref)}
+        hreflang={otherLang(lang)}
+        lang={otherLang(lang)}
+        aria-label={ui.switchLangLabel}
+      >
+        {otherLang(lang).toUpperCase()}
+      </a>
       <button
         type="button"
         class="nav-toggle"
@@ -35,10 +58,17 @@ function isCurrent(href: string) {
         aria-expanded="false"
         aria-controls="site-nav-panel"
       >
-        <span class="nav-toggle-open">Menu</span>
-        <span class="nav-toggle-close">Close</span>
+        <span class="nav-toggle-open">{ui.menuOpen}</span>
+        <span class="nav-toggle-close">{ui.menuClose}</span>
       </button>
-      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch color theme">
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        data-label-light={ui.themeToLight}
+        data-label-dark={ui.themeToDark}
+        aria-label={ui.themeToDark}
+      >
         <svg class="when-light" viewBox="0 0 16 16" aria-hidden="true">
           <path
             fill="none"
@@ -87,7 +117,7 @@ function isCurrent(href: string) {
   function themeLabel() {
     if (!(toggle instanceof HTMLButtonElement)) return
     const dark = root.getAttribute('data-theme') === 'dark'
-    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme')
+    toggle.setAttribute('aria-label', (dark ? toggle.dataset.labelLight : toggle.dataset.labelDark) ?? '')
   }
 
   themeLabel()

@@ -1,0 +1,66 @@
+<svg class="figure-svg" viewBox="-1 -1 722 312" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-abl-t fig-abl-d">
+  <title id="fig-abl-t">Five ablation stages on one fixed U-Net</title>
+  <desc id="fig-abl-d">Each stage keeps the same 2D U-Net and adds one input group: spectral, morphology, shading, meteorology. Stage 5 changes only the loss. Stage 1 probe reached an RMSE of 1.193 K; stages 2 to 5 are pending.</desc>
+
+  <!-- Stage headers -->
+  <text class="fig-hd" x="0" y="24">Stage 1</text>
+  <text class="fig-hd" x="150" y="24">Stage 2</text>
+  <text class="fig-hd" x="300" y="24">Stage 3</text>
+  <text class="fig-hd" x="450" y="24">Stage 4</text>
+  <text class="fig-hd" x="600" y="24">Stage 5</text>
+
+  <!-- Stage 1 -->
+  <rect class="fig-ln" x="0.75" y="184" width="118.5" height="28" rx="6"/>
+  <text class="fig-t fig-t-new" x="10" y="202">+ Spectral</text>
+
+  <!-- Stage 2 -->
+  <rect class="fig-ln" x="150.75" y="184" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="160" y="202">Spectral</text>
+  <rect class="fig-ln" x="150.75" y="150" width="118.5" height="28" rx="6"/>
+  <text class="fig-t fig-t-new" x="160" y="168">+ Morphology</text>
+
+  <!-- Stage 3 -->
+  <rect class="fig-ln" x="300.75" y="184" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="310" y="202">Spectral</text>
+  <rect class="fig-ln" x="300.75" y="150" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="310" y="168">Morphology</text>
+  <rect class="fig-ln" x="300.75" y="116" width="118.5" height="28" rx="6"/>
+  <text class="fig-t fig-t-new" x="310" y="134">+ Shading</text>
+
+  <!-- Stage 4 -->
+  <rect class="fig-ln" x="450.75" y="184" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="460" y="202">Spectral</text>
+  <rect class="fig-ln" x="450.75" y="150" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="460" y="168">Morphology</text>
+  <rect class="fig-ln" x="450.75" y="116" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="460" y="134">Shading</text>
+  <rect class="fig-ln" x="450.75" y="82" width="118.5" height="28" rx="6"/>
+  <text class="fig-t fig-t-new" x="460" y="100">+ Meteorology</text>
+
+  <!-- Stage 5: same inputs, new loss (dashed) -->
+  <rect class="fig-ln" x="600.75" y="184" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="610" y="202">Spectral</text>
+  <rect class="fig-ln" x="600.75" y="150" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="610" y="168">Morphology</text>
+  <rect class="fig-ln" x="600.75" y="116" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="610" y="134">Shading</text>
+  <rect class="fig-ln" x="600.75" y="82" width="118.5" height="28" rx="6"/>
+  <text class="fig-t" x="610" y="100">Meteorology</text>
+  <rect class="fig-ln fig-dash" x="600.75" y="48" width="118.5" height="28" rx="6"/>
+  <text class="fig-t fig-t-new" x="610" y="66">+ Thermal loss</text>
+
+  <!-- Connectors into the fixed backbone -->
+  <path class="fig-ln" d="M60 212 V236 M210 212 V236 M360 212 V236 M510 212 V236 M660 212 V236"/>
+
+  <!-- Fixed backbone -->
+  <rect class="fig-ln" x="0.75" y="236" width="718.5" height="36" rx="6"/>
+  <text class="fig-bb" x="360" y="259" text-anchor="middle">2D U-Net, fixed backbone</text>
+
+  <!-- Results: the one accent element -->
+  <circle class="fig-acc" cx="4" cy="296" r="4"/>
+  <text class="fig-num" x="14" y="300">1.193 K</text>
+  <text class="fig-num fig-num-off" x="150" y="300">pending</text>
+  <text class="fig-num fig-num-off" x="300" y="300">pending</text>
+  <text class="fig-num fig-num-off" x="450" y="300">pending</text>
+  <text class="fig-num fig-num-off" x="600" y="300">pending</text>
+</svg>

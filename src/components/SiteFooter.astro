@@ -1,7 +1,14 @@
 ---
 import { SITE, SOCIAL_LINKS } from '@/consts'
+import type { Lang } from '@/i18n'
+import { UI, pagePath } from '@/i18n'
 import { withBasePath } from '@/lib/paths'
 
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const ui = UI[lang]
 const year = new Date().getFullYear()
 ---
 
@@ -51,8 +58,10 @@ const year = new Date().getFullYear()
         })
       }
     </ul>
-    <p class="meta">
-      <span class="meta-strong">{year}</span> {SITE.author}
+    <p class="meta footer-legal">
+      <a href={withBasePath(pagePath(lang, 'imprint'))}>{ui.imprint}</a>
+      <a href={withBasePath(pagePath(lang, 'privacy'))}>{ui.privacy}</a>
+      <span><span class="meta-strong">{year}</span> {SITE.author}</span>
     </p>
   </div>
 </footer>

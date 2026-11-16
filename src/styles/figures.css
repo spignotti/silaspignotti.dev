@@ -1,0 +1,10 @@
+/* Figure classes. One site stylesheet, no <style> inside figure files. */
+.fig-ln { fill: none; stroke: var(--color-muted); stroke-width: 1.5; }
+.fig-dash { stroke-dasharray: 4 3; }
+.fig-acc { fill: var(--color-accent); }
+.fig-t { font-family: var(--font-sans); font-size: 12px; fill: var(--color-muted); }
+.fig-t-new { fill: var(--color-text); font-weight: 500; }
+.fig-hd { font-family: var(--font-sans); font-size: 12px; font-weight: 500; fill: var(--color-muted); letter-spacing: .01em; }
+.fig-bb { font-family: var(--font-sans); font-size: 14px; fill: var(--color-text); }
+.fig-num { font-family: var(--font-mono); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; fill: var(--color-text); }
+.fig-num-off { fill: var(--color-muted); font-weight: 400; }

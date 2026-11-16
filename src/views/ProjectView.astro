@@ -1,0 +1,130 @@
+---
+import { render, type CollectionEntry } from 'astro:content'
+import Copy from '@/components/Copy.astro'
+import Figure from '@/components/Figure.astro'
+import KeyFigures from '@/components/KeyFigures.astro'
+import Placeholder from '@/components/Placeholder.astro'
+import Layout from '@/layouts/Layout.astro'
+import { SITE } from '@/consts'
+import type { Lang } from '@/i18n'
+import { HTML_LANG, UI, otherLang, pagePath, projectPath } from '@/i18n'
+import { getProjects, projectSlugs } from '@/lib/data-utils'
+import { withBasePath } from '@/lib/paths'
+
+interface Props {
+  lang: Lang
+  project: CollectionEntry<'projects'>
+}
+const { lang, project } = Astro.props
+const ui = UI[lang]
+const data = project.data
+const { Content } = await render(project)
+
+const bilingual = (await projectSlugs()).includes(data.slug)
+const cases = await getProjects(lang, 'case-study')
+const index = cases.findIndex((item) => item.data.slug === data.slug)
+const next = data.kind === 'case-study' && cases.length > 1 ? cases[(index + 1) % cases.length] : undefined
+
+// The cover stands alone only when the body does not show the same figure.
+const showCover = Boolean(data.cover?.figure && !project.body?.includes(`"${data.cover.figure}"`))
+
+const links = [
+  ...data.links.map((link) => ({ ...link, external: link.href.startsWith('http') })),
+  ...(data.downloads ?? []).map((link) => ({ ...link, external: link.href.startsWith('http') })),
+]
+
+const url = new URL(projectPath(lang, data.slug), Astro.site).toString()
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.summary,
+  inLanguage: HTML_LANG[lang],
+  url,
+  author: { '@id': `${SITE.href}#person` },
+}
+---
+
+<Layout
+  lang={lang}
+  title={data.title}
+  description={data.summary}
+  alternate={bilingual ? projectPath(otherLang(lang), data.slug) : undefined}
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(article)} />
+
+  <article>
+    <p class="trail">
+      <a href={withBasePath(pagePath(lang, 'projects'))}>{ui.nav.projects}</a>
+      <span aria-hidden="true">/</span>
+      <span>{data.title}</span>
+    </p>
+
+    <header class="case-head">
+      <h1 class="h1">{data.title}</h1>
+      <p class="lead"><Copy text={data.summary} /></p>
+      <dl class="case-facts">
+        <div>
+          <dt class="label">{ui.role}</dt>
+          <dd><Copy text={data.role} /></dd>
+        </div>
+        <div>
+          <dt class="label">{ui.period}</dt>
+          <dd class="meta meta-strong">{data.period} · {ui.status[data.status]}</dd>
+        </div>
+        {
+          links.length > 0 && (
+            <div>
+              <dt class="label">Links</dt>
+              <dd class="case-links">
+                {links.map((link) => (
+                  <a
+                    class="text-link"
+                    href={link.external ? link.href : withBasePath(link.href)}
+                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+      <KeyFigures items={data.keyFigures} />
+    </header>
+
+    {
+      showCover && data.cover?.figure && (
+        <div class="case-cover-large">
+          <Figure name={data.cover.figure} lang={lang} instance="cover" decorative />
+        </div>
+      )
+    }
+
+    <div class="prose case-prose">
+      <Content components={{ Figure, Placeholder }} />
+    </div>
+
+    {
+      data.screenshots && data.screenshots.length > 0 && (
+        <div class="shots">
+          {data.screenshots.map((shot) => (
+            <img src={withBasePath(shot.src)} alt={shot.alt} loading="lazy" decoding="async" />
+          ))}
+        </div>
+      )
+    }
+
+    {
+      next && (
+        <nav class="case-next" aria-label={ui.next}>
+          <span class="label">{ui.next}</span>
+          <a class="case-next-link" href={withBasePath(projectPath(lang, next.data.slug))}>
+            {next.data.title}
+          </a>
+        </nav>
+      )
+    }
+  </article>
+</Layout>

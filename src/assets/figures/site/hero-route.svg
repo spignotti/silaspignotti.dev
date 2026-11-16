@@ -1,0 +1,12 @@
+<svg class="figure-svg" viewBox="-1 -1 482 362" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-hero-t">
+  <title id="fig-hero-t">Placeholder: Berlin line map with a route of five stops</title>
+  <!-- Placeholder frame. The real map uses simplified Berlin district boundaries (brief 4 in the concept). -->
+  <rect class="fig-ln fig-dash" x="0.75" y="0.75" width="478.5" height="358.5" rx="12"/>
+  <path class="fig-ln" d="M72 268 L132 214 L214 236 L262 150 L352 128 L404 82"/>
+  <circle class="fig-ln" cx="72" cy="268" r="6"/>
+  <circle class="fig-ln" cx="214" cy="236" r="6"/>
+  <circle class="fig-ln" cx="262" cy="150" r="6"/>
+  <circle class="fig-ln" cx="404" cy="82" r="6"/>
+  <circle class="fig-acc" cx="352" cy="128" r="7"/>
+  <text class="fig-hd" x="20" y="336">Berlin · map follows</text>
+</svg>

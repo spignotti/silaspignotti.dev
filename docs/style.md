@@ -46,8 +46,23 @@ Wordmark is the name, Silas Pignotti. Favicon is an S in Geist SemiBold. No glob
 | Asset | Ratio / size | Notes |
 | --- | --- | --- |
 | Project cover | 16:9 | Real screenshot on surface, 12 px radius, 1 px border |
-| OG image | 1200×630 | Off-white, graphite type, one terracotta mark |
+| OG image | 1200×630 PNG | Off-white, graphite type, one terracotta mark. PNG, not SVG: LinkedIn and X do not show SVG. Default: `public/og/default.png` |
 | Favicon | SVG | S in Geist SemiBold |
+
+## Figures
+
+Reference: `src/assets/figures/berlin-lst-downscaling/ablation-stages.svg`.
+
+- Hand-written SVG, no diagram library. Data only from the case study it belongs to.
+- Lines 1.5 px in `--color-muted`. Exactly one element in `--color-accent`.
+- Labels Geist 12 px, the new or important item 500. Body text 14 px. Numbers Geist Mono 13 px, tabular.
+- 8 px grid. Boxes radius 6, height 28. Straight connectors. An arrowhead only for a real direction. Fill only `--color-surface-2` for groups.
+- No `<style>` inside a figure file. Classes with the `fig-` prefix live in `src/styles/figures.css`. Colors only through CSS variables, so one file works in light and dark.
+- Unique `id`s per figure. `Figure.astro` suffixes them per instance.
+- A figure with words exists per language when needed: `name.de.svg`, `name.en.svg`; otherwise `name.svg`.
+- In MDX: `<Figure name="<project>/<name>" n={1} caption="…" />`. Text column 720 px; `wide` for architecture up to 1200 px.
+- Maps and screenshots are WebP. Map color scale graphite to terracotta, maps only.
+- Check every figure in both themes at 375 and 1200 px before review.
 
 ## Master prompt
 

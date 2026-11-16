@@ -1,0 +1,36 @@
+---
+// The one place for the main call to action. A later offer replaces its content, not its position.
+import type { Lang } from '@/i18n'
+import { UI } from '@/i18n'
+import { SITE, SOCIAL_LINKS } from '@/consts'
+import { getPage } from '@/lib/data-utils'
+import Copy from './Copy.astro'
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const home = await getPage(lang, 'home')
+const contact = home.data.contact
+---
+
+<section class="contact" aria-labelledby="contact-heading">
+  <div class="wrap contact-row">
+    <div>
+      <h2 id="contact-heading" class="h3">{contact?.heading ?? UI[lang].contact}</h2>
+      {contact?.text && <p class="sub"><Copy text={contact.text} /></p>}
+    </div>
+    <ul class="inline-links">
+      <li><a class="button button-primary" href={`mailto:${SITE.email}`}>{UI[lang].email}</a></li>
+      {
+        SOCIAL_LINKS.filter((link) => link.href.startsWith('http')).map((link) => (
+          <li>
+            <a class="text-link" href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

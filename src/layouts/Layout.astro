@@ -1,24 +1,41 @@
 ---
 import '@/styles/global.css'
 
+import ContactSection from '@/components/ContactSection.astro'
 import Head from '@/components/Head.astro'
+import PageHead from '@/components/PageHead.astro'
 import SiteFooter from '@/components/SiteFooter.astro'
 import SiteNav from '@/components/SiteNav.astro'
-import { SITE } from '@/consts'
+import type { Lang } from '@/i18n'
+import { HTML_LANG } from '@/i18n'
+
+interface Props {
+  lang: Lang
+  title: string
+  description: string
+  /** Path of this page in the other language; omitted when there is none. */
+  alternate?: string
+  imagePath?: string
+  contact?: boolean
+}
+
+const { lang, title, description, alternate, imagePath, contact = true } = Astro.props
 ---
 
 <!doctype html>
-<html lang={SITE.locale}>
+<html lang={HTML_LANG[lang]}>
   <Head>
+    <PageHead lang={lang} title={title} description={description} alternate={alternate} imagePath={imagePath} />
     <slot name="head" />
   </Head>
   <body>
-    <SiteNav />
+    <SiteNav lang={lang} alternate={alternate} />
     <main id="main" class="page">
       <div class="wrap">
         <slot />
       </div>
     </main>
-    <SiteFooter />
+    {contact && <ContactSection lang={lang} />}
+    <SiteFooter lang={lang} />
   </body>
 </html>

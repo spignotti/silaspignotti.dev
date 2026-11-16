@@ -133,24 +133,22 @@ async function run() {
     return
   }
 
-  const contentPath = path.join(PROJECT_CONTENT_DIR, `${slug}.md`)
-  if (!(await exists(contentPath))) {
-    throw new Error(`Project content file not found: src/content/projects/${slug}.md`)
+  // Each project has one file per language: src/content/projects/<lang>/<slug>.mdx
+  const contentPaths: string[] = []
+  for (const lang of ['de', 'en']) {
+    const candidate = path.join(PROJECT_CONTENT_DIR, lang, `${slug}.mdx`)
+    if (await exists(candidate)) contentPaths.push(candidate)
   }
-
-  const rawContent = await readFile(contentPath, 'utf8')
-  const parsed = matter(rawContent)
-  const data = parsed.data as ProjectFrontmatter
-  const title = data.title ?? slug
-
-  const screenshots = Array.isArray(data.screenshots) ? [...data.screenshots] : []
-  const downloads = Array.isArray(data.downloads) ? [...data.downloads] : []
+  if (contentPaths.length === 0) {
+    throw new Error(`Project content file not found: src/content/projects/<lang>/${slug}.mdx`)
+  }
 
   const destinationDir = path.join(PROJECT_MEDIA_DIR, slug)
   if (!dryRun) {
     await mkdir(destinationDir, { recursive: true })
   }
 
+  const added: { publicPath: string; destination: string; kind: 'image' | 'document' }[] = []
   for (const rawMapping of files) {
     const { source, destination } = parseMapping(rawMapping)
     const sourcePath = path.resolve(ROOT, source)
@@ -173,39 +171,35 @@ async function run() {
     }
 
     const extension = path.extname(destination).toLowerCase()
-    if (IMAGE_EXTENSIONS.has(extension)) {
-      const existing = screenshots.find((entry) => entry.src === publicPath)
-      if (!existing) {
-        screenshots.push({
-          src: publicPath,
-          alt: inferScreenshotAlt(title),
-        })
-      }
-      continue
-    }
-
-    if (DOCUMENT_EXTENSIONS.has(extension)) {
-      const existing = downloads.find((entry) => entry.href === publicPath)
-      if (!existing) {
-        downloads.push({
-          label: inferDownloadLabel(destination),
-          href: publicPath,
-        })
-      }
-    }
+    if (IMAGE_EXTENSIONS.has(extension)) added.push({ publicPath, destination, kind: 'image' })
+    else if (DOCUMENT_EXTENSIONS.has(extension)) added.push({ publicPath, destination, kind: 'document' })
   }
 
-  data.screenshots = screenshots
-  data.downloads = downloads
+  for (const contentPath of contentPaths) {
+    const parsed = matter(await readFile(contentPath, 'utf8'))
+    const data = parsed.data as ProjectFrontmatter
+    const title = data.title ?? slug
+    const screenshots = Array.isArray(data.screenshots) ? [...data.screenshots] : []
+    const downloads = Array.isArray(data.downloads) ? [...data.downloads] : []
 
-  if (!dryRun) {
-    const updated = matter.stringify(parsed.content, data)
-    await writeFile(contentPath, updated, 'utf8')
+    for (const item of added) {
+      if (item.kind === 'image' && !screenshots.some((entry) => entry.src === item.publicPath)) {
+        screenshots.push({ src: item.publicPath, alt: inferScreenshotAlt(title) })
+      }
+      if (item.kind === 'document' && !downloads.some((entry) => entry.href === item.publicPath)) {
+        downloads.push({ label: inferDownloadLabel(item.destination), href: item.publicPath })
+      }
+    }
+
+    data.screenshots = screenshots
+    data.downloads = downloads
+    if (!dryRun) {
+      await writeFile(contentPath, matter.stringify(parsed.content, data), 'utf8')
+    }
+    console.log(
+      `${path.relative(ROOT, contentPath)}: screenshots=${screenshots.length}, downloads=${downloads.length}, mode=${dryRun ? 'dry-run' : move ? 'move' : 'copy'}`,
+    )
   }
-
-  console.log(
-    `Summary: screenshots=${screenshots.length}, downloads=${downloads.length}, mode=${dryRun ? 'dry-run' : move ? 'move' : 'copy'}`,
-  )
 }
 
 run().catch((error: unknown) => {

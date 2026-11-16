@@ -1,0 +1,11 @@
+---
+// Marks copy that is not written yet. Content files wrap such text in square brackets
+// (frontmatter) or in <Placeholder> (MDX body). Remove once real copy is in.
+interface Props {
+  text?: string
+  as?: 'span' | 'p'
+}
+const { text, as: Tag = 'p' } = Astro.props
+---
+
+<Tag class="placeholder" data-placeholder>{text ?? <slot />}</Tag>

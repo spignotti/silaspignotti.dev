@@ -1,16 +1,15 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import PageHead from '@/components/PageHead.astro'
 import { withBasePath } from '@/lib/paths'
 ---
 
-<Layout>
-  <PageHead slot="head" title="Page not found" description="This page does not exist." />
+<Layout lang="de" title="Seite nicht gefunden" description="Diese Seite gibt es nicht." contact={false}>
   <section class="measure">
-    <h1 class="h1">Page not found</h1>
-    <p class="hero-copy">This page does not exist.</p>
-    <p class="section-link">
-      <a class="text-link" href={withBasePath('/')}>Home</a>
+    <h1 class="h1">Seite nicht gefunden</h1>
+    <p class="lead">Diese Seite gibt es nicht. <span lang="en">This page does not exist.</span></p>
+    <p class="sub">
+      <a class="text-link" href={withBasePath('/')}>Start</a> ·
+      <a class="text-link" href={withBasePath('/en')} lang="en">Home</a>
     </p>
   </section>
 </Layout>

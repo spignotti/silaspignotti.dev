@@ -1,0 +1,61 @@
+---
+// Inline SVG figure from src/assets/figures/<project>/<name>[.<lang>].svg.
+// Inline so the figure takes its colors from the page tokens in both themes.
+import type { Lang } from '@/i18n'
+import { UI } from '@/i18n'
+import Copy from './Copy.astro'
+
+interface Props {
+  name: string
+  n?: number
+  caption?: string
+  lang?: Lang
+  wide?: boolean
+  /** Makes ids unique when the same figure appears twice on a page (e.g. cover and body). */
+  instance?: string
+  decorative?: boolean
+}
+
+const { name, n, caption, wide = false, instance = 'body', decorative = false } = Astro.props
+const lang: Lang = Astro.props.lang ?? (Astro.url.pathname.startsWith('/en') ? 'en' : 'de')
+
+const files = import.meta.glob<string>('/src/assets/figures/**/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
+const raw = files[`/src/assets/figures/${name}.${lang}.svg`] ?? files[`/src/assets/figures/${name}.svg`]
+const suffix = `${name.replace(/[^a-z0-9]+/gi, '-')}-${instance}`
+let svg = raw
+  ? raw.replace(/\bid="([^"]+)"/g, `id="$1-${suffix}"`).replace(/aria-labelledby="([^"]+)"/g, (_, ids: string) =>
+      `aria-labelledby="${ids
+        .split(/\s+/)
+        .map((id) => `${id}-${suffix}`)
+        .join(' ')}"`,
+    )
+  : undefined
+if (svg && decorative) {
+  svg = svg.replace(/\srole="img"/, ' aria-hidden="true"').replace(/\saria-labelledby="[^"]+"/, '')
+}
+---
+
+<figure class:list={['fig', { 'fig-wide': wide }]}>
+  {
+    svg ? (
+      <div class="fig-art" set:html={svg} />
+    ) : (
+      <div class="fig-art fig-missing" data-placeholder>
+        <span class="meta">{name}</span>
+      </div>
+    )
+  }
+  {
+    caption && (
+      <figcaption>
+        {n !== undefined && <span class="fig-n">{UI[lang].figure} {n}</span>}
+        <Copy text={caption} />
+      </figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,78 @@
+---
+import Copy from '@/components/Copy.astro'
+import PersonSchema from '@/components/PersonSchema.astro'
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { UI, otherLang, pagePath } from '@/i18n'
+import { getPage } from '@/lib/data-utils'
+import { withBasePath } from '@/lib/paths'
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const ui = UI[lang]
+const page = await getPage(lang, 'about')
+const timeline = page.data.timeline ?? []
+const education = page.data.education ?? []
+---
+
+<Layout lang={lang} title={page.data.title} description={page.data.description} alternate={pagePath(otherLang(lang), 'about')}>
+  <PersonSchema slot="head" lang={lang} />
+
+  <header class="measure">
+    <h1 class="h1">{page.data.title}</h1>
+    {page.data.intro && <p class="lead"><Copy text={page.data.intro} /></p>}
+    <p class="sub">
+      <a class="text-link" href={`${withBasePath(pagePath(lang, 'home'))}#areas-heading`}>{ui.areas}</a>
+    </p>
+  </header>
+
+  {
+    timeline.length > 0 && (
+      <section class="section" aria-labelledby="timeline-heading">
+        <h2 id="timeline-heading" class="h3">{ui.timeline}</h2>
+        <ol class="timeline">
+          {timeline.map((item) => (
+            <li class="timeline-item">
+              <span class="meta meta-strong">{item.years}</span>
+              <div>
+                <p class="timeline-title">
+                  {item.role} · <span class="timeline-org">{item.org}</span>
+                </p>
+                <p class="timeline-text">
+                  <Copy text={item.text} />
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
+
+  {
+    education.length > 0 && (
+      <section class="section" aria-labelledby="education-heading">
+        <h2 id="education-heading" class="h3">{ui.education}</h2>
+        <ol class="timeline">
+          {education.map((item) => (
+            <li class="timeline-item">
+              <span class="meta meta-strong">{item.years}</span>
+              <div>
+                <p class="timeline-title">
+                  {item.degree} · <span class="timeline-org">{item.school}</span>
+                </p>
+                {item.note && (
+                  <p class="timeline-text">
+                    <Copy text={item.note} />
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
+</Layout>
