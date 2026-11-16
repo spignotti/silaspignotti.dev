@@ -278,7 +278,8 @@ header + .section {
 
 .key-value {
   font-family: var(--font-mono);
-  font-size: var(--text-figure);
+  font-size: 24px;
+  white-space: nowrap;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -442,6 +443,10 @@ header + .section {
 }
 
 @media (min-width: 768px) {
+  .key-value {
+    font-size: var(--text-figure);
+  }
+
   .case-grid {
     grid-template-columns: 1fr 1fr;
   }
