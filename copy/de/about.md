@@ -11,7 +11,7 @@ Ich habe mit Stadt- und Regionalplanung angefangen und bin über GIS-Analysen im
 
 - **2026 bis heute** · Entwicklung und Betrieb einer Dispositionsanwendung, freiberuflich · DINO Fettabscheider GmbH
   Planungsprozess mit den Anwendern aufgenommen, Datenmodell entworfen, Webanwendung mit Tourenoptimierung gebaut. Seit Oktober 2026 im Betrieb.
-- **2025 bis heute** · Data Analytics, Werkstudent · Sortierbetrieb für Kunststoffe, Berlin
+- **2025 bis heute** · Data Analytics, Werkstudent · Sortierbetrieb für Kunststoffe
   KPI-Anforderungen mit Management und Backend präzisiert, Referenzimplementierungen in Python und SQL gebaut, die Umsetzung in der Produktion gegen Referenzdaten geprüft.
 - **2023 bis 2025** · Baubetreuung, Werkstudent · Büro Tacke e.K.
   Abstimmung zwischen Baufirmen, Mietern, Hausverwaltung und Projektbeteiligten. Dazu GIS-Analysen und kleine Automatisierungen.

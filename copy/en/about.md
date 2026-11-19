@@ -11,7 +11,7 @@ I started in urban and regional planning and moved deeper into data and technica
 
 - **2026 to present** · Development and operation of a dispatch application, freelance · DINO Fettabscheider GmbH
   Mapped the planning process with its users, designed the data model, built a web application with route optimisation. In daily use since October 2026.
-- **2025 to present** · Data Analytics, working student · plastics sorting company, Berlin
+- **2025 to present** · Data Analytics, working student · plastics sorting company
   Clarified KPI requirements with management and backend engineering, built reference implementations in Python and SQL, checked the production implementation against reference data.
 - **2023 to 2025** · Construction management, working student · Büro Tacke e.K.
   Coordination between contractors, tenants, property management and project stakeholders. Also GIS analyses and small automation workflows.
