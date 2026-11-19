@@ -1,0 +1,60 @@
+<svg class="figure-svg fig-wide" width="840" height="140" viewBox="0 0 840 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-res-method-t fig-res-method-d">
+  <title id="fig-res-method-t">Aus dem Intervall folgt der Monat</title>
+  <desc id="fig-res-method-d">Vier Schritte in einer Reihe: Wartungsintervall, fälliger Monat, Tag und Fahrzeug, Route. Hervorgehoben ist die Zuordnung zu Tag und Fahrzeug durch den Solver.</desc>
+  <rect class="fig-box" x="0.8" y="0.8" width="178.5" height="138.5" rx="6"/>
+  <text class="fig-t" x="90" y="118" text-anchor="middle">Wartungsintervall</text>
+  <rect class="fig-box" x="220.8" y="0.8" width="178.5" height="138.5" rx="6"/>
+  <text class="fig-t" x="310" y="118" text-anchor="middle">fälliger Monat</text>
+  <rect class="fig-focus" x="440.8" y="0.8" width="178.5" height="138.5" rx="6"/>
+  <text class="fig-t-on" x="530" y="118" text-anchor="middle">Tag und Fahrzeug</text>
+  <rect class="fig-box" x="660.8" y="0.8" width="178.5" height="138.5" rx="6"/>
+  <text class="fig-t" x="750" y="118" text-anchor="middle">Route</text>
+  <path class="fig-ln" d="M30 52H150"/>
+  <circle class="fig-dot" cx="30" cy="52" r="6"/>
+  <path class="fig-ln" d="M50 46V58"/>
+  <path class="fig-ln" d="M70 46V58"/>
+  <circle class="fig-dot" cx="90" cy="52" r="6"/>
+  <path class="fig-ln" d="M110 46V58"/>
+  <path class="fig-ln" d="M130 46V58"/>
+  <circle class="fig-dot" cx="150" cy="52" r="6"/>
+  <rect class="fig-box-quiet" x="272.5" y="28.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="292.5" y="28.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="312.5" y="28.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="332.5" y="28.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="272.5" y="44.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="292.5" y="44.5" width="15" height="11" rx="2"/>
+  <rect class="fig-gate" x="312.5" y="44.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="332.5" y="44.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="272.5" y="60.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="292.5" y="60.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="312.5" y="60.5" width="15" height="11" rx="2"/>
+  <rect class="fig-box-quiet" x="332.5" y="60.5" width="15" height="11" rx="2"/>
+  <rect class="fig-ink-box" x="487.75" y="25.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="505.75" y="25.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="523.75" y="25.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="541.75" y="25.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="559.75" y="25.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="487.75" y="43.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="505.75" y="43.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="523.75" y="43.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="541.75" y="43.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="559.75" y="43.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="487.75" y="61.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="505.75" y="61.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-fill" x="523.75" y="61.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="541.75" y="61.75" width="12.5" height="12.5" rx="2"/>
+  <rect class="fig-ink-box" x="559.75" y="61.75" width="12.5" height="12.5" rx="2"/>
+  <path class="fig-ln-strong" d="M742 74L700 56L720 30L764 26L798 44L784 70Z"/>
+  <rect class="fig-gate" x="736" y="68" width="12" height="12" rx="2"/>
+  <circle class="fig-chip" cx="700" cy="56" r="5"/><circle class="fig-ln-strong" cx="700" cy="56" r="5"/>
+  <circle class="fig-chip" cx="720" cy="30" r="5"/><circle class="fig-ln-strong" cx="720" cy="30" r="5"/>
+  <circle class="fig-chip" cx="764" cy="26" r="5"/><circle class="fig-ln-strong" cx="764" cy="26" r="5"/>
+  <circle class="fig-chip" cx="798" cy="44" r="5"/><circle class="fig-ln-strong" cx="798" cy="44" r="5"/>
+  <circle class="fig-chip" cx="784" cy="70" r="5"/><circle class="fig-ln-strong" cx="784" cy="70" r="5"/>
+  <path class="fig-ln" d="M183 70H213"/>
+  <path class="fig-head-muted" d="M218 70l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M403 70H433"/>
+  <path class="fig-head" d="M438 70l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M623 70H653"/>
+  <path class="fig-head-muted" d="M658 70l-7 -4.5v9z"/>
+</svg>

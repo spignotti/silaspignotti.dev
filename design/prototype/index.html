@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silas Pignotti · Geodaten, Datenauswertung, Automatisierung</title>
+<meta name="description" content="Ich verbinde Fachprozess, Daten und technische Umsetzung: Geodaten, Datenauswertung und Automatisierung, von der Anforderung bis zum Betrieb.">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="proto.css">
+<script src="heat-raster.js" defer></script>
+<script src="proto.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+
+<header class="nav">
+  <div class="wrap nav-bar">
+    <a class="wordmark" href="index.html" aria-label="Silas Pignotti, zur Startseite">Silas Pignotti</a>
+    <nav class="nav-links" aria-label="Hauptnavigation">
+      <a href="index.html" aria-current="page">Start</a><a href="#fallstudien">Projekte</a><a href="#">Über mich</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="nav-lang" href="#" hreflang="en" lang="en" aria-label="Sprache wechseln">English</a>
+      <div class="theme">
+        <button class="theme-btn" type="button" aria-label="Farbmodus wechseln" aria-expanded="false" aria-controls="theme-menu">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+        </button>
+        <div class="theme-menu" id="theme-menu" role="menu" hidden>
+          <button role="menuitemradio" data-mode="light" aria-checked="false">Hell</button>
+          <button role="menuitemradio" data-mode="dark" aria-checked="false">Dunkel</button>
+          <button role="menuitemradio" data-mode="system" aria-checked="true">System</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="has-hero">
+  <!-- Hero: illustrative raster, sharpens with scroll -->
+  <section class="hero" data-hero>
+    <div class="hero-pin">
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-legend">
+        <span class="scale" aria-hidden="true">100 m <svg class="lv" viewBox="0 0 14 14"><rect x="0.00" y="0.00" width="14.00" height="14.00"/></svg><svg class="lv" viewBox="0 0 14 14"><rect x="0.00" y="0.00" width="6.60" height="6.60"/><rect x="7.40" y="0.00" width="6.60" height="6.60"/><rect x="0.00" y="7.40" width="6.60" height="6.60"/><rect x="7.40" y="7.40" width="6.60" height="6.60"/></svg><svg class="lv" viewBox="0 0 14 14"><rect x="0.00" y="0.00" width="4.13" height="4.13"/><rect x="4.93" y="0.00" width="4.13" height="4.13"/><rect x="9.87" y="0.00" width="4.13" height="4.13"/><rect x="0.00" y="4.93" width="4.13" height="4.13"/><rect x="4.93" y="4.93" width="4.13" height="4.13"/><rect x="9.87" y="4.93" width="4.13" height="4.13"/><rect x="0.00" y="9.87" width="4.13" height="4.13"/><rect x="4.93" y="9.87" width="4.13" height="4.13"/><rect x="9.87" y="9.87" width="4.13" height="4.13"/></svg><svg class="lv" viewBox="0 0 14 14"><rect x="0.00" y="0.00" width="2.16" height="2.16"/><rect x="2.96" y="0.00" width="2.16" height="2.16"/><rect x="5.92" y="0.00" width="2.16" height="2.16"/><rect x="8.88" y="0.00" width="2.16" height="2.16"/><rect x="11.84" y="0.00" width="2.16" height="2.16"/><rect x="0.00" y="2.96" width="2.16" height="2.16"/><rect x="2.96" y="2.96" width="2.16" height="2.16"/><rect x="5.92" y="2.96" width="2.16" height="2.16"/><rect x="8.88" y="2.96" width="2.16" height="2.16"/><rect x="11.84" y="2.96" width="2.16" height="2.16"/><rect x="0.00" y="5.92" width="2.16" height="2.16"/><rect x="2.96" y="5.92" width="2.16" height="2.16"/><rect x="5.92" y="5.92" width="2.16" height="2.16"/><rect x="8.88" y="5.92" width="2.16" height="2.16"/><rect x="11.84" y="5.92" width="2.16" height="2.16"/><rect x="0.00" y="8.88" width="2.16" height="2.16"/><rect x="2.96" y="8.88" width="2.16" height="2.16"/><rect x="5.92" y="8.88" width="2.16" height="2.16"/><rect x="8.88" y="8.88" width="2.16" height="2.16"/><rect x="11.84" y="8.88" width="2.16" height="2.16"/><rect x="0.00" y="11.84" width="2.16" height="2.16"/><rect x="2.96" y="11.84" width="2.16" height="2.16"/><rect x="5.92" y="11.84" width="2.16" height="2.16"/><rect x="8.88" y="11.84" width="2.16" height="2.16"/><rect x="11.84" y="11.84" width="2.16" height="2.16"/></svg><svg class="lv" viewBox="0 0 14 14"><rect x="0.00" y="0.00" width="1.31" height="1.31"/><rect x="2.11" y="0.00" width="1.31" height="1.31"/><rect x="4.23" y="0.00" width="1.31" height="1.31"/><rect x="6.34" y="0.00" width="1.31" height="1.31"/><rect x="8.46" y="0.00" width="1.31" height="1.31"/><rect x="10.57" y="0.00" width="1.31" height="1.31"/><rect x="12.69" y="0.00" width="1.31" height="1.31"/><rect x="0.00" y="2.11" width="1.31" height="1.31"/><rect x="2.11" y="2.11" width="1.31" height="1.31"/><rect x="4.23" y="2.11" width="1.31" height="1.31"/><rect x="6.34" y="2.11" width="1.31" height="1.31"/><rect x="8.46" y="2.11" width="1.31" height="1.31"/><rect x="10.57" y="2.11" width="1.31" height="1.31"/><rect x="12.69" y="2.11" width="1.31" height="1.31"/><rect x="0.00" y="4.23" width="1.31" height="1.31"/><rect x="2.11" y="4.23" width="1.31" height="1.31"/><rect x="4.23" y="4.23" width="1.31" height="1.31"/><rect x="6.34" y="4.23" width="1.31" height="1.31"/><rect x="8.46" y="4.23" width="1.31" height="1.31"/><rect x="10.57" y="4.23" width="1.31" height="1.31"/><rect x="12.69" y="4.23" width="1.31" height="1.31"/><rect x="0.00" y="6.34" width="1.31" height="1.31"/><rect x="2.11" y="6.34" width="1.31" height="1.31"/><rect x="4.23" y="6.34" width="1.31" height="1.31"/><rect x="6.34" y="6.34" width="1.31" height="1.31"/><rect x="8.46" y="6.34" width="1.31" height="1.31"/><rect x="10.57" y="6.34" width="1.31" height="1.31"/><rect x="12.69" y="6.34" width="1.31" height="1.31"/><rect x="0.00" y="8.46" width="1.31" height="1.31"/><rect x="2.11" y="8.46" width="1.31" height="1.31"/><rect x="4.23" y="8.46" width="1.31" height="1.31"/><rect x="6.34" y="8.46" width="1.31" height="1.31"/><rect x="8.46" y="8.46" width="1.31" height="1.31"/><rect x="10.57" y="8.46" width="1.31" height="1.31"/><rect x="12.69" y="8.46" width="1.31" height="1.31"/><rect x="0.00" y="10.57" width="1.31" height="1.31"/><rect x="2.11" y="10.57" width="1.31" height="1.31"/><rect x="4.23" y="10.57" width="1.31" height="1.31"/><rect x="6.34" y="10.57" width="1.31" height="1.31"/><rect x="8.46" y="10.57" width="1.31" height="1.31"/><rect x="10.57" y="10.57" width="1.31" height="1.31"/><rect x="12.69" y="10.57" width="1.31" height="1.31"/><rect x="0.00" y="12.69" width="1.31" height="1.31"/><rect x="2.11" y="12.69" width="1.31" height="1.31"/><rect x="4.23" y="12.69" width="1.31" height="1.31"/><rect x="6.34" y="12.69" width="1.31" height="1.31"/><rect x="8.46" y="12.69" width="1.31" height="1.31"/><rect x="10.57" y="12.69" width="1.31" height="1.31"/><rect x="12.69" y="12.69" width="1.31" height="1.31"/></svg> 10 m</span>
+        <span class="note">Illustrativ, keine Messdaten</span>
+      </div>
+      <div class="hero-copy">
+        <h1 class="hero-name">Silas Pignotti</h1>
+        <p class="hero-lead">Ich arbeite an der Schnittstelle von Fachprozess, Daten und technischer Umsetzung: von der Anforderung über Datenmodell und Logik bis zur Anwendung, die im Betrieb läuft. Schwerpunkte sind Geodaten, Datenauswertung und Automatisierung.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#fallstudien">Projekte ansehen</a>
+          <span class="links"><a class="tl" href="mailto:pignottisilas@gmail.com">E-Mail</a><a class="tl" href="https://www.linkedin.com/in/silas-pignotti/">LinkedIn</a><a class="tl" href="https://github.com/spignotti">GitHub</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fallstudien -->
+  <section id="fallstudien" aria-labelledby="h-fallstudien">
+    <div class="wrap section" style="padding-bottom:40px">
+      <div class="section-head" style="margin-bottom:0">
+        <h2 class="h2" id="h-fallstudien">Fallstudien</h2>
+        <p class="intro">Vier Arbeiten im Detail: was das Problem war, wie ich vorgegangen bin, was dabei herauskam und wo die Grenzen liegen.</p>
+      </div>
+    </div>
+
+    <article class="band band--accent">
+      <div class="wrap band-grid">
+        <div class="band-text">
+          <h3 class="band-title"><a href="routing-engine-solver.html">Routing Engine&nbsp;· Planung und Solver</a></h3>
+          <p class="band-sum">Eine Webanwendung plant die wiederkehrenden Wartungstermine eines Wartungsbetriebs als Monatsplan mit Touren, Zeitfenstern und Pausen.</p>
+          <dl class="band-role"><dt>Rolle</dt><dd>Anforderungen, Datenmodell, Planungslogik, Entwicklung und Betrieb</dd></dl>
+          <div class="kf"><span class="kf-l">Im Betrieb seit</span><span class="kf-v">Oktober 2026</span></div>
+          <a class="band-link tl" href="routing-engine-solver.html">Fallstudie lesen</a>
+        </div>
+        <div class="band-fig" data-draw data-fig="routing-engine-solver/cover" data-decorative></div>
+      </div>
+    </article>
+
+    <article class="band band--tint band--flip">
+      <div class="wrap band-grid">
+        <div class="band-text">
+          <h3 class="band-title"><a href="#">Routing Engine&nbsp;· agentisch gebaut bis in den Betrieb</a></h3>
+          <p class="band-sum">Wie ich die Routing Engine mit KI-Coding-Agenten entwickle und betreibe: Plan, Umsetzung in Worktrees, Checks, Review, Release und Deploy.</p>
+          <dl class="band-role"><dt>Rolle</dt><dd>Planung, Regeln für die Agenten, Prüfprozess, Releases und Betrieb</dd></dl>
+          <div class="kf"><span class="kf-v">343</span><span class="kf-l">gemergte Pull Requests</span></div>
+          <a class="band-link tl" href="#">Fallstudie lesen</a>
+        </div>
+        <div class="band-fig" data-draw data-fig="routing-engine-agentic/cover" data-decorative></div>
+      </div>
+    </article>
+
+    <article class="band band--heat">
+      <div class="wrap band-grid">
+        <div class="band-text">
+          <h3 class="band-title"><a href="#">Masterarbeit&nbsp;· Berliner Hitze auf 10 m</a></h3>
+          <p class="band-sum">Meine Masterarbeit prüft, welche Stadtdaten helfen, die Oberflächentemperatur in Berlin von 100 m auf 10 m Auflösung zu rekonstruieren.</p>
+          <dl class="band-role"><dt>Rolle</dt><dd>Masterarbeit: Fragestellung, Datenpipeline, Modelle, Auswertung</dd></dl>
+        </div>
+        <div class="band-kf"><div class="kf"><span class="kf-v">100 m → 10 m</span></div></div>
+      </div>
+      <div class="cmp">
+        <canvas aria-hidden="true"></canvas><canvas aria-hidden="true"></canvas>
+        <span class="chip l">100 m</span><span class="chip r">10 m</span>
+        <div class="handle" role="slider" tabindex="0" aria-label="Derselbe Ausschnitt auf 100 m und auf 10 m" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85">
+          <span class="grip"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3 1.5 7 5 11M9 3l3.5 4L9 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+      <div class="wrap cmp-foot">
+        <span class="note">Illustrativ, keine Messdaten</span>
+        <a class="tl tl-strong tl-acc" href="#">Fallstudie lesen</a>
+      </div>
+    </article>
+
+    <div class="wrap">
+      <article class="entry">
+        <div class="entry-grid">
+          <div>
+            <h3 class="entry-title"><a href="#">KPI-Referenz</a></h3>
+            <p class="band-sum">Für einen Sortierbetrieb für Kunststoffe habe ich Kennzahlenlogik und eine Mengenprognose als Referenz gebaut und mit der Produktion abgeglichen.</p>
+            <dl class="band-role"><dt>Rolle</dt><dd>Werkstudent Datenanalyse: Anforderungen, Referenzimplementierung, Abgleich, Übergabe</dd></dl>
+            <a class="band-link tl tl-acc" href="#">Fallstudie lesen</a>
+          </div>
+          <div class="band-fig" data-fig="kpi-reference/forecast-error.de"></div>
+        </div>
+      </article>
+      <div class="row-small">
+        <b>urban-tree-transfer</b><span class="mono">2026</span>
+        <p>Wie gut sich eine Klassifikation von Baumgattungen aus Sentinel-2-Daten von Berlin auf Leipzig übertragen lässt und wie viele lokale Daten nötig sind.</p>
+        <a class="tl tl-acc" href="https://github.com/spignotti/urban-tree-transfer">Code auf GitHub</a>
+      </div>
+      <div class="all-link"><a class="tl tl-strong" href="#">Alle Projekte</a></div>
+    </div>
+  </section>
+
+  <!-- Arbeitsfelder -->
+  <section class="wrap section" id="arbeitsfelder" aria-labelledby="h-felder">
+    <div class="section-head"><h2 class="h2" id="h-felder">Arbeitsfelder</h2></div>
+    <div class="fields">
+      <div class="field">
+        <h3>Geodaten und Geo Data Science</h3>
+        <p>Ich verarbeite Satelliten- und Geodaten zu Datensätzen, mit denen sich rechnen lässt, und trainiere Modelle darauf. Räumliche Fragen von der Adresse bis zum 10-m-Raster gehören dazu, auch Routen und Touren.</p>
+        <dl>
+          <div><dt>Werkzeuge</dt><dd>Python, PyTorch, Satellitendaten von Landsat und Sentinel-2, Google Cloud</dd></div>
+          <div><dt>Beleg</dt><dd><a class="tl tl-acc" href="#">Masterarbeit · Berliner Hitze auf 10 m</a>, <a class="tl tl-acc" href="routing-engine-solver.html">Routing Engine · Planung und Solver</a>, <a class="tl tl-acc" href="https://github.com/spignotti/urban-tree-transfer">urban-tree-transfer</a></dd></div>
+        </dl>
+      </div>
+      <div class="field">
+        <h3>Daten beschaffen, aufbereiten, auswerten</h3>
+        <p>Ich kläre, welche Daten es wirklich gibt, bereite sie auf und lege die Rechenlogik fest. Am Ende stehen Kennzahlen und Prognosen, die sich gegen eine Referenz prüfen lassen.</p>
+        <dl>
+          <div><dt>Werkzeuge</dt><dd>Python, SQL, relationale Datenbanken</dd></div>
+          <div><dt>Beleg</dt><dd><a class="tl tl-acc" href="#">KPI-Referenz</a></dd></div>
+        </dl>
+      </div>
+      <div class="field">
+        <h3>KI-Workflows und Automatisierung</h3>
+        <p>Ich setze KI-Coding-Agenten in der Softwareentwicklung ein, mit klaren Regeln, Checks und Reviews. So entstehen Anwendungen, die im Betrieb laufen, und Abläufe, die wiederkehrende Arbeit übernehmen.</p>
+        <dl>
+          <div><dt>Werkzeuge</dt><dd>Coding-Agenten, GitHub Actions, Docker, Python</dd></div>
+          <div><dt>Beleg</dt><dd><a class="tl tl-acc" href="#">Routing Engine · agentisch gebaut bis in den Betrieb</a>, <a class="tl tl-acc" href="#so-arbeite-ich">Abschnitt „So arbeite ich“</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- So arbeite ich -->
+  <section class="wrap section" id="so-arbeite-ich" aria-labelledby="h-arbeit">
+    <div class="section-head"><h2 class="h2" id="h-arbeit">So arbeite ich</h2></div>
+    <ol class="steps">
+      <li class="step"><canvas aria-hidden="true"></canvas><div><span class="step-n">1</span><b>Fachprozess verstehen.</b><span class="d">Ich schaue mir an, wie die Arbeit heute läuft, und spreche mit den Menschen, die sie machen. Daraus leite ich Regeln, Daten und Sonderfälle ab.</span></div></li>
+      <li class="step"><canvas aria-hidden="true"></canvas><div><span class="step-n">2</span><b>Planen.</b><span class="d">Ich entscheide, was gebaut wird und was nicht, und halte es als Aufgabe mit Akzeptanzkriterien fest. Entscheidungen, die man im Code nicht sieht, schreibe ich kurz auf.</span></div></li>
+      <li class="step"><canvas aria-hidden="true"></canvas><div><span class="step-n">3</span><b>Mit Agenten bauen.</b><span class="d">KI-Coding-Agenten setzen die Aufgaben in getrennten Arbeitskopien um. Die Regeln, an die sie sich halten, stehen im Repository.</span></div></li>
+      <li class="step"><canvas aria-hidden="true"></canvas><div><span class="step-n">4</span><b>Prüfen.</b><span class="d">Automatische Checks, ein Review und bei sichtbaren Änderungen ein Test in der laufenden Anwendung entscheiden über den Merge. Riskante Änderungen gebe ich selbst frei.</span></div></li>
+      <li class="step"><canvas aria-hidden="true"></canvas><div><span class="step-n">5</span><b>Betrieb.</b><span class="d">Releases, Deploy, Monitoring und Backups gehören zur Arbeit. Rückmeldungen aus dem Alltag werden zu neuen Aufgaben.</span></div></li>
+    </ol>
+  </section>
+
+  <!-- Stationen -->
+  <section class="wrap section" aria-labelledby="h-stationen">
+    <div class="section-head"><h2 class="h2" id="h-stationen">Stationen</h2></div>
+    <ol class="tline">
+      <li><span class="y">2020</span><p>Studium der Stadt- und Regionalplanung an der TU Berlin</p></li>
+      <li><span class="y">2021</span><p>Werkstudent in Projekt- und Standortentwicklung, später Baubetreuung, mit GIS-Analysen</p></li>
+      <li><span class="y">2024</span><p>Master Geoinformation an der BHT Berlin</p></li>
+      <li><span class="y">2025</span><p>Datenanalyse und Kennzahlenlogik in einem Sortierbetrieb für Kunststoffe</p></li>
+      <li><span class="y">2026</span><p>Routing Engine für einen Wartungsbetrieb, seit Oktober im Betrieb</p></li>
+    </ol>
+    <p class="more-link"><a class="tl tl-strong" href="#">Mehr über mich</a></p>
+  </section>
+
+  <!-- Kontakt -->
+  <section class="wrap section" id="kontakt" aria-labelledby="h-kontakt">
+    <h2 class="h2" id="h-kontakt">Kontakt</h2>
+    <p class="intro" style="margin-top:12px">Sie arbeiten an einem Projekt oder besetzen eine Stelle in diesen Feldern? Schreiben Sie mir.</p>
+    <p class="contact-links"><a class="tl" href="mailto:pignottisilas@gmail.com">E-Mail</a><a class="tl" href="https://www.linkedin.com/in/silas-pignotti/">LinkedIn</a><a class="tl" href="https://github.com/spignotti">GitHub</a></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-row"><span>© 2026 Silas Pignotti · Berlin</span><nav aria-label="Rechtliches"><a class="tl" href="#">Impressum</a><a class="tl" href="#">Datenschutz</a></nav></div>
+    <p class="foot-src">Landesgrenze: Geoportal Berlin, dl-de/zero-2.0; Gewässer: © OpenStreetMap-Mitwirkende, ODbL</p>
+  </div>
+</footer>
+</body>
+</html>

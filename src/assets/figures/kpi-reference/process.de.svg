@@ -1,0 +1,19 @@
+<svg class="figure-svg fig-wide" width="840" height="64" viewBox="0 0 840 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-kpi-process-t fig-kpi-process-d">
+  <title id="fig-kpi-process-t">Die Referenz legt die Werte fest</title>
+  <desc id="fig-kpi-process-d">Ablauf von links nach rechts: Anforderung, Referenzimplementierung, Abgleich mit der Produktion, Übergabe. Hervorgehoben ist die Referenzimplementierung.</desc>
+  <rect class="fig-box" x="0.8" y="0.8" width="148.5" height="62.5" rx="6"/>
+  <text class="fig-t" x="75" y="37" text-anchor="middle">Anforderung</text>
+  <rect class="fig-focus" x="190.8" y="0.8" width="228.5" height="62.5" rx="6"/>
+  <text class="fig-t-on" x="305" y="37" text-anchor="middle">Referenzimplementierung</text>
+  <rect class="fig-box" x="460.8" y="0.8" width="208.5" height="62.5" rx="6"/>
+  <text class="fig-t" x="565" y="28" text-anchor="middle">Abgleich mit der</text>
+  <text class="fig-t" x="565" y="46" text-anchor="middle">Produktion</text>
+  <rect class="fig-box" x="710.8" y="0.8" width="128.5" height="62.5" rx="6"/>
+  <text class="fig-t" x="775" y="37" text-anchor="middle">Übergabe</text>
+  <path class="fig-ln" d="M153 32H183"/>
+  <path class="fig-head" d="M188 32l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M423 32H453"/>
+  <path class="fig-head" d="M458 32l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M673 32H703"/>
+  <path class="fig-head-muted" d="M708 32l-7 -4.5v9z"/>
+</svg>

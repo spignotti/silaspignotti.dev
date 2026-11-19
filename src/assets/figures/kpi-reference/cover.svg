@@ -1,0 +1,7 @@
+<svg class="figure-svg fig-cover" width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect class="fig-cover-bg" width="1600" height="900"/>
+  <path class="fig-cover-hair-t" d="M200 0V900M500 0V900M800 0V900M1100 0V900M1400 0V900"/>
+  <rect class="fig-bar" x="200" y="280" width="1200" height="140" rx="6"/>
+  <rect class="fig-bar-acc" x="200" y="480" width="502.2" height="140" rx="6"/>
+  <path class="fig-base" d="M200 220V680"/>
+</svg>

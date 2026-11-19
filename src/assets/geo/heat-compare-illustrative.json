@@ -1,0 +1,23 @@
+{
+  "illustrative": true,
+  "about": "Illustrative crop for the 100 m / 10 m compare slider. Fine grid = the 10 m side; the 100 m side is the block mean over factor x factor fine cells. Not measured data. Replace with a 10 m crop of the thesis result and set illustrative to false.",
+  "image": "heat-compare-illustrative.png",
+  "encoding": "8-bit grayscale PNG, row-major, top row = north. 0 = no data. 1..255 map linearly to range.",
+  "grid": [
+    320,
+    120
+  ],
+  "factor": 10,
+  "frame": [
+    300,
+    330,
+    288,
+    108
+  ],
+  "frameUnits": "berlin.json map units",
+  "range": [
+    0,
+    1
+  ],
+  "unit": "relative (0 = coolest, 1 = hottest)"
+}

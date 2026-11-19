@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Figures · prototype</title>
+<link rel="stylesheet" href="proto.css">
+<style>
+  .g { display: grid; gap: 56px; padding-block: 48px 96px; }
+  .g > * { min-width: 0; }
+  .g h2 { font: 500 13px var(--font-mono); color: var(--color-muted); margin-bottom: 12px; }
+  .covers { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .covers .figure-svg { border-radius: var(--radius-card); border: 1px solid var(--color-border); }
+</style>
+<script src="proto.js" defer></script>
+</head>
+<body>
+<main class="wrap g">
+  <p class="label">Every figure in src/assets/figures, inlined with the real classes. Add ?theme=dark or ?lang=en.</p>
+  <div class="covers" id="covers"></div>
+  <div id="list" class="g" style="padding:0"></div>
+</main>
+<script>
+  const lang = new URLSearchParams(location.search).get('lang') || 'de'
+  const figs = ['routing-engine-solver/architecture', 'routing-engine-solver/method', 'routing-engine-agentic/process', 'routing-engine-agentic/prs-per-month', 'berlin-lst-downscaling/data-flow', 'berlin-lst-downscaling/ablation-stages', 'berlin-lst-downscaling/resolution-compare', 'kpi-reference/process', 'kpi-reference/forecast-model', 'kpi-reference/forecast-error']
+  document.getElementById('list').innerHTML = figs.map((f) => `<figure class="fig"><h2>${f}.${lang}.svg</h2><div class="fig-art" data-fig="${f}.${lang}"></div></figure>`).join('')
+  document.getElementById('covers').innerHTML = ['routing-engine-solver', 'routing-engine-agentic', 'berlin-lst-downscaling', 'kpi-reference'].map((s) => `<div><h2>${s}/cover.svg</h2><div data-fig="${s}/cover" data-decorative></div></div>`).join('')
+</script>
+</body>
+</html>

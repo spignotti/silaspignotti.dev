@@ -1,0 +1,10 @@
+<svg class="figure-svg" width="560" height="140" viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-kpi-error-t fig-kpi-error-d">
+  <title id="fig-kpi-error-t">Prognosefehler im Rückblick</title>
+  <desc id="fig-kpi-error-d">Zwei waagerechte Balken, gewichteter mittlerer absoluter Prozentfehler (WMAPE) über 1.300 Prognosefälle: Vorjahr als Prognose 20,12 Prozent, gewähltes Modell 8,42 Prozent. Hervorgehoben ist das gewählte Modell.</desc>
+  <text class="fig-t-muted" x="0" y="14">Vorjahr als Prognose</text>
+  <rect class="fig-bar" x="0" y="24" width="420" height="36" rx="2"/>
+  <text class="fig-num-l" x="432" y="50">20,12 %</text>
+  <text class="fig-t-b" x="0" y="94">Gewähltes Modell</text>
+  <rect class="fig-bar-acc" x="0" y="104" width="175.8" height="36" rx="2"/>
+  <text class="fig-num-l fig-num-acc" x="187.8" y="130">8,42 %</text>
+</svg>
