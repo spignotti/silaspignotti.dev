@@ -8,7 +8,7 @@ description: >
 
 # Site deploy
 
-Markdown and project media only. UI work is `site-design`. Copy drafting is `portfolio-writer`.
+Markdown and figures only. UI work is `site-design`. Copy drafting is `portfolio-writer`.
 
 ## Targets
 
@@ -22,16 +22,10 @@ Schema, categories, and `coverIcon` values live in `src/content.config.ts` and `
 
 1. Infer the target from slug and frontmatter. Ask once if it is ambiguous.
 2. Write Markdown with YAML frontmatter. Strip wrappers such as `File target` and fenced frontmatter or body blocks.
-3. When the user provides files, map them from `inbox/`:
+3. Write both languages: `src/content/<collection>/de/<slug>.md` and `.../en/<slug>.md`. Figures and images go to `src/assets/figures/<slug>/` as described in `docs/design-spec.md`.
 
-```bash
-pnpm run process:project-media -- --slug <slug> --file "inbox/source.png -> screenshot-01.png" --file "inbox/report.pdf -> report.pdf" [--move]
-```
-
-Destination is a file name only. The script writes under `public/projects/<slug>/` and updates `screenshots` / `downloads`.
-
-4. Confirm required frontmatter, valid URLs, existing media paths, and screenshot alt text.
+4. Confirm required frontmatter, valid URLs, existing figure paths, and alt text.
 
 Work on a dedicated branch, never directly on `main`. Follow Validation in `AGENTS.md`, then commit the intended files (`content(page): update <route>` or `content(project): upsert <slug>`). Open a pull request against `main` and wait for green CI. Merge only after Silas' OK; the merge to `main` deploys GitHub Pages.
 
-Stop and ask before committing if the change goes beyond markdown and this media script.
+Stop and ask before committing if the change goes beyond markdown and figures.

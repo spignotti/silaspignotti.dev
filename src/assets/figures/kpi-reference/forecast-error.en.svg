@@ -1,0 +1,10 @@
+<svg class="figure-svg" width="560" height="140" viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-kpi-error-t fig-kpi-error-d">
+  <title id="fig-kpi-error-t">Forecast error in a backtest</title>
+  <desc id="fig-kpi-error-d">Two horizontal bars, weighted mean absolute percentage error (WMAPE) over 1,300 forecast cases: previous year as forecast 20.12 percent, chosen model 8.42 percent. The chosen model is highlighted.</desc>
+  <text class="fig-t-muted" x="0" y="14">Previous year as forecast</text>
+  <rect class="fig-bar" x="0" y="24" width="420" height="36" rx="2"/>
+  <text class="fig-num-l" x="432" y="50">20.12 %</text>
+  <text class="fig-t-b" x="0" y="94">Chosen model</text>
+  <rect class="fig-bar-acc" x="0" y="104" width="175.8" height="36" rx="2"/>
+  <text class="fig-num-l fig-num-acc" x="187.8" y="130">8.42 %</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg class="figure-svg fig-wide" width="840" height="290" viewBox="0 0 840 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-lst-stages-t fig-lst-stages-d">
+  <title id="fig-lst-stages-t">Five stages on one fixed model</title>
+  <desc id="fig-lst-stages-d">Five columns, stage 1 to 5, on the same residual 2D U-Net. Stage 1 uses spectral data, stage 2 adds morphology, stage 3 shadows, stage 4 weather. Stage 5 has the same inputs and a temperature-sensitive training loss. Stage 1, the basis of all later stages, is highlighted.</desc>
+  <text class="fig-hd" x="0" y="14">Stage 1</text>
+  <rect class="fig-focus" x="0.8" y="196.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-on" x="12" y="216">+ Spectral</text>
+  <path class="fig-ln" d="M75 226V246"/>
+  <text class="fig-hd" x="172.5" y="14">Stage 2</text>
+  <rect class="fig-box-quiet" x="173.3" y="196.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="184.5" y="216">Spectral</text>
+  <rect class="fig-box" x="173.3" y="160.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-b" x="184.5" y="180">+ Morphology</text>
+  <path class="fig-ln" d="M247.5 226V246"/>
+  <text class="fig-hd" x="345" y="14">Stage 3</text>
+  <rect class="fig-box-quiet" x="345.8" y="196.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="357" y="216">Spectral</text>
+  <rect class="fig-box-quiet" x="345.8" y="160.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="357" y="180">Morphology</text>
+  <rect class="fig-box" x="345.8" y="124.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-b" x="357" y="144">+ Shadows</text>
+  <path class="fig-ln" d="M420 226V246"/>
+  <text class="fig-hd" x="517.5" y="14">Stage 4</text>
+  <rect class="fig-box-quiet" x="518.3" y="196.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="529.5" y="216">Spectral</text>
+  <rect class="fig-box-quiet" x="518.3" y="160.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="529.5" y="180">Morphology</text>
+  <rect class="fig-box-quiet" x="518.3" y="124.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="529.5" y="144">Shadows</text>
+  <rect class="fig-box" x="518.3" y="88.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-b" x="529.5" y="108">+ Weather</text>
+  <path class="fig-ln" d="M592.5 226V246"/>
+  <text class="fig-hd" x="690" y="14">Stage 5</text>
+  <rect class="fig-box-quiet" x="690.8" y="196.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="702" y="216">Spectral</text>
+  <rect class="fig-box-quiet" x="690.8" y="160.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="702" y="180">Morphology</text>
+  <rect class="fig-box-quiet" x="690.8" y="124.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="702" y="144">Shadows</text>
+  <rect class="fig-box-quiet" x="690.8" y="88.8" width="148.5" height="28.5" rx="6"/>
+  <text class="fig-t-muted" x="702" y="108">Weather</text>
+  <rect class="fig-box fig-dash" x="690.8" y="38.8" width="148.5" height="42.5" rx="6"/>
+  <text class="fig-t-b" x="702" y="56">+ Training loss</text>
+  <text class="fig-t-s" x="702" y="73">temperature-sensitive</text>
+  <path class="fig-ln" d="M765 226V246"/>
+  <rect class="fig-box" x="0.8" y="246.8" width="838.5" height="42.5" rx="6"/>
+  <text class="fig-t" x="420" y="273" text-anchor="middle">Residual 2D U-Net, the same in every stage</text>
+</svg>

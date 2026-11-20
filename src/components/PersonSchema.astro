@@ -1,0 +1,29 @@
+---
+import { SITE, SOCIAL_LINKS } from '@/consts'
+import type { Lang } from '@/i18n'
+import { getAreas } from '@/lib/content'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const areas = await getAreas(lang)
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.href}#person`,
+  name: SITE.author,
+  url: SITE.href,
+  email: `mailto:${SITE.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Berlin', addressCountry: 'DE' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Berliner Hochschule für Technik' },
+    { '@type': 'CollegeOrUniversity', name: 'Technische Universität Berlin' },
+  ],
+  sameAs: SOCIAL_LINKS.filter((link) => link.href.startsWith('http')).map((link) => link.href),
+  knowsAbout: areas.map((area) => area.data.title),
+}
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(person)} />

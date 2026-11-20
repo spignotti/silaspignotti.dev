@@ -8,7 +8,7 @@ description: >
 
 # Portfolio writer
 
-This repository is the only source for site copy. English by default. German only when Silas asks. Read the target file in `src/content/` before writing.
+This repository is the only source for site copy. German at `/`, English at `/en/`. One file per language with the same slug. Read the target file in `src/content/` before writing.
 
 ## Workflow
 
@@ -45,31 +45,9 @@ Result first. Concrete learnings. "I found that…" or "What worked:". State the
 
 Frontmatter matches `src/content.config.ts`.
 
-**Project:** Problem → Solution → Result → optional Technical Details. About 300–600 words for the first three sections; Technical Details as long as the complexity needs.
+Page structure for the home, about and projects overview lives in `docs/design-spec.md`.
 
-- Problem: what the problem is and why it exists. Context for a reader without prior knowledge. Short, no drama.
-- Solution: what was built and how it works at a high level. Key technical decisions. No code details, but enough depth for technical readers.
-- Result: what came out. Quantified where possible (metrics, numbers, comparisons). What the project demonstrates.
-- Technical Details: pipeline, architecture, or method in depth. Components, data flows, key implementation decisions. Factual and compressed, no reflection or learnings.
-
-**Landing:** hook, three focus areas (Data & AI, Geospatial, Systems & Automation), tech stack, CTA. Short and confident.
-
-**About:** bio, experience, education, skills. Factual, honest, no LinkedIn pathos. Urban planning as personal motivation, not as a comparison with CS graduates.
-
-**Projects overview:** short teasers, each as problem / solution / result.
-
-## Tags
-
-**Project pages:** detailed tags are explicitly allowed. This is where concrete technical depth should be visible.
-
-- Languages, frameworks, platforms, relevant libraries, APIs, models, and project-specific tools can be tags when they are substantial for that project. Examples: `PyTorch`, `scikit-learn`, `XGBoost`, `GeoPandas`, `Rasterio`, `PyVRP`, `OpenAlex`, `Semantic Scholar`.
-- Algorithms or model types can be tags when they play a central role in the project, not when they are an implementation detail.
-- No padding. A tag stays only if Silas actually used it in the project and can explain what for and how.
-- The prose explains the technical decision; tags make the concrete stack visible at a glance.
-
-**Landing tools carousel:** stays deliberately curated. Only robust, profile-defining tools. No mirror of all project tags; project-specific libraries do not go there automatically.
-
-**General:** one naming scheme. Do not mix product, API, and tool names (`Claude Code` for the tool, not `Claude`). No technologies that were only planned, evaluated, or touched in passing.
+**Case study:** Problem, Vorgehen, System, Ergebnis, Grenzen. No tag badges. The section order and what each section holds are in `docs/design-spec.md`.
 
 ## SEO basics
 

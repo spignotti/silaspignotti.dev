@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { pagePath } from '@/i18n'
+import { getPage } from '@/lib/content'
+
+interface Props {
+  lang: Lang
+  page: 'imprint' | 'privacy'
+}
+
+const { lang, page: pageKey } = Astro.props
+const page = await getPage(lang, pageKey)
+const { Content } = await render(page)
+---
+
+<Layout
+  lang={lang}
+  path={pagePath(lang, pageKey)}
+  title={page.data.title}
+  description={page.data.description}
+  current={null}
+  robots="noindex"
+  alternate={pagePath(lang === 'de' ? 'en' : 'de', pageKey)}
+>
+  <div class="wrap page-top legal">
+    <Content />
+  </div>
+</Layout>

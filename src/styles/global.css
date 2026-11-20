@@ -1,7 +1,7 @@
 @import './tokens.css';
 @import 'tailwindcss';
-@import './shell.css';
-@import './typography.css';
+@import './figures.css';
+@import './site.css';
 
 @font-face {
   font-family: 'Geist';
