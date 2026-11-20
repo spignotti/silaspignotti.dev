@@ -19,7 +19,7 @@ keyFigures:
 figures:
   - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "From raw data to temperature at 10 m." }
   - { n: 2, file: "berlin-lst-downscaling/ablation-stages", caption: "Five stages on one fixed model. Each stage adds one group of inputs." }
-  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "The same area at 100 m and at 10 m. Illustrative, not measured data." }
+  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "The same area at 100 m and at 10 m." }
 ---
 
 ## Problem

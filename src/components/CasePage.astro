@@ -51,8 +51,9 @@ function blocks(section: CaseSection): Block[] {
 }
 
 const compareCaption = project.data.figures.find((figure) => figure.n === 3 && slug === 'berlin-lst-downscaling')?.caption ?? ''
-const compareLabel = compareCaption.split('. ')[0] ?? compareCaption
-const compareLead = compareCaption.includes('. ') ? `${compareLabel}.` : compareCaption
+// The illustrative disclaimer comes from the raster manifest (compareNote), not from the caption.
+const compareLabel = compareCaption.replace(/\.$/, '')
+const compareLead = compareCaption
 const compareNote = illustrativeNote(compareHeat, lang)
 function figureOf(n: number) {
   return project.data.figures.find((figure) => figure.n === n)

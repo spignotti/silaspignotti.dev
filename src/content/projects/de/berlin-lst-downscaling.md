@@ -19,7 +19,7 @@ keyFigures:
 figures:
   - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "Von den Rohdaten zur Temperatur auf 10 m." }
   - { n: 2, file: "berlin-lst-downscaling/ablation-stages", caption: "Fünf Stufen auf einem festen Modell. Jede Stufe fügt eine Informationsgruppe hinzu." }
-  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "Derselbe Ausschnitt auf 100 m und auf 10 m. Illustrativ, keine Messdaten." }
+  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "Derselbe Ausschnitt auf 100 m und auf 10 m." }
 ---
 
 ## Problem
