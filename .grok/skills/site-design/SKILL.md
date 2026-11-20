@@ -12,7 +12,7 @@ Copy and media publishing belong to `portfolio-writer` and `site-deploy`. Design
 
 Reuse local components and tokens. Respect `prefers-reduced-motion`.
 
-Visual language for graphics, covers, icons, and OG images: `docs/style.md`.
+`docs/design-spec.md` and `docs/style.md` define the look, including graphics, covers, icons and OG images.
 
 ## Checks
 

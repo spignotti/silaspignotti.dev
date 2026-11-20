@@ -1,0 +1,14 @@
+---
+import CasePage from '@/components/CasePage.astro'
+import { caseSlugs } from '@/lib/content'
+
+export async function getStaticPaths() {
+  const slugs = await caseSlugs()
+  return slugs.map((slug) => ({ params: { slug } }))
+}
+
+const slug = Astro.params.slug
+if (!slug) throw new Error('Missing case slug')
+---
+
+<CasePage lang="en" slug={slug} />

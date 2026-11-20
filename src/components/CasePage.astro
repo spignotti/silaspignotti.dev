@@ -1,0 +1,152 @@
+---
+import ArticleSchema from '@/components/ArticleSchema.astro'
+import Compare from '@/components/Compare.astro'
+import Figure from '@/components/Figure.astro'
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { SECTION_IDS, UI, nextCaseSlug, pagePath, projectPath } from '@/i18n'
+import { getCase } from '@/lib/content'
+import { parseSections, type CaseSection } from '@/lib/prose'
+import { headingNbsp, inlineHtml } from '@/lib/text'
+
+interface Props {
+  lang: Lang
+  slug: string
+}
+const { lang, slug } = Astro.props
+const ui = UI[lang]
+const project = await getCase(lang, slug)
+const sections = parseSections(project.body ?? '')
+const next = await getCase(lang, nextCaseSlug(slug))
+const ids = SECTION_IDS[lang]
+const imagePath = `/og/${slug}.png`
+const variant =
+  slug === 'routing-engine-solver' ? 'band band--accent cs-head' : slug === 'routing-engine-agentic' ? 'band band--tint cs-head' : 'band cs-head'
+const drawOnce = slug === 'routing-engine-solver' || slug === 'routing-engine-agentic'
+
+type Block = { kind: 'p'; html: string } | { kind: 'fig'; n: number } | { kind: 'compare' }
+
+function blocks(section: CaseSection): Block[] {
+  const paras: Block[] = section.paragraphs.map((paragraph) => ({ kind: 'p', html: inlineHtml(paragraph) }))
+  const has = (n: number) => project.data.figures.some((figure) => figure.n === n)
+  if (slug === 'routing-engine-solver' && section.id === 'approach') {
+    const out: Block[] = []
+    paras.forEach((paragraph, index) => {
+      out.push(paragraph)
+      if (index === 0 && has(1)) out.push({ kind: 'fig', n: 1 })
+      if (index === 1 && has(2)) out.push({ kind: 'fig', n: 2 })
+    })
+    return out
+  }
+  const end = (id: string, n: number): Block[] | null => (section.id === id && has(n) ? [...paras, { kind: 'fig', n }] : null)
+  if (slug === 'routing-engine-agentic') return end('approach', 1) ?? end('result', 2) ?? paras
+  if (slug === 'kpi-reference') return end('approach', 1) ?? end('system', 2) ?? end('result', 3) ?? paras
+  if (slug === 'berlin-lst-downscaling' && section.id === 'system') {
+    const figs: Block[] = project.data.figures.filter((figure) => figure.n === 1 || figure.n === 2).map((figure) => ({ kind: 'fig', n: figure.n }))
+    const compare: Block[] = has(3) ? [{ kind: 'compare' }] : []
+    return [...paras, ...figs, ...compare]
+  }
+  return paras
+}
+
+const compareCaption = project.data.figures.find((figure) => figure.n === 3 && slug === 'berlin-lst-downscaling')?.caption ?? ''
+const compareLabel = compareCaption.split('. ')[0] ?? compareCaption
+function figureOf(n: number) {
+  return project.data.figures.find((figure) => figure.n === n)
+}
+---
+
+<Layout
+  lang={lang}
+  path={projectPath(lang, slug)}
+  title={project.data.seoTitle}
+  description={project.data.description}
+  current="projects"
+  alternate={projectPath(lang === 'de' ? 'en' : 'de', slug)}
+  imagePath={imagePath}
+  ogType="article"
+  motion
+>
+  <header class={variant}>
+    <div class="wrap band-grid">
+      <div class="band-text">
+        <a class="cs-back tl" href={`${pagePath(lang, 'home')}#${ids.cases}`}>{ui.back}</a>
+        <h1 class="cs-title">{headingNbsp(project.data.title)}</h1>
+        <p class="cs-sum">{project.data.description}</p>
+      </div>
+      <div class="band-fig" data-draw-once={drawOnce ? '' : undefined}>
+        <Figure file={`${slug}/cover`} lang={lang} instance="cover" decorative bare />
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <dl class="cs-meta">
+      {project.data.role && <div><dt>{ui.role}</dt><dd>{project.data.role}</dd></div>}
+      {project.data.period && <div><dt>{ui.period}</dt><dd>{project.data.period}</dd></div>}
+      {project.data.status && (
+        <div>
+          <dt>{ui.status}</dt>
+          <dd><span class="badge">{ui.statusValue[project.data.status]}</span></dd>
+        </div>
+      )}
+      {project.data.links.length > 0 && (
+        <div>
+          <dt>{ui.links}</dt>
+          <dd>
+            {project.data.links.map((link) => (
+              <a class="tl" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                {link.label}
+              </a>
+            ))}
+          </dd>
+        </div>
+      )}
+    </dl>
+    {project.data.keyFigures.length > 0 && (
+      <dl class="cs-kf" aria-label={ui.keyFigures}>
+        {project.data.keyFigures.map((figure) => (
+          <div class="kf">
+            <dt class="kf-l">{figure.label}</dt>
+            <dd class="kf-v">{figure.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+    <article class="cs-body">
+      {sections.map((section) => (
+        <section class="cs-sec" id={section.id}>
+          <h2>{headingNbsp(section.heading)}</h2>
+          {blocks(section).map((block) => {
+            if (block.kind === 'p') return <div class="cs-prose"><p set:html={block.html} /></div>
+            if (block.kind === 'compare') {
+              const figure = figureOf(3)
+              return (
+                <figure class="fig">
+                  <Compare lang={lang} label={compareLabel} />
+                  {figure && (
+                    <figcaption>
+                      <span class="fig-n">{`${ui.figure} ${figure.n}`}</span>
+                      {figure.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              )
+            }
+            const figure = figureOf(block.n)
+            return figure ? <Figure file={figure.file} lang={lang} instance={`f${figure.n}`} n={figure.n} caption={figure.caption} /> : null
+          })}
+        </section>
+      ))}
+    </article>
+  </div>
+
+  <section class="cs-next" aria-labelledby="next-label">
+    <div class="wrap">
+      <p class="label" id="next-label">{ui.nextCase}</p>
+      <a class="cs-next-title" href={projectPath(lang, next.data.slug)}>{headingNbsp(next.data.title)}</a>
+      <div class="links"><a class="tl tl-strong" href={pagePath(lang, 'projects')}>{ui.allProjects}</a></div>
+    </div>
+  </section>
+  <ArticleSchema slot="jsonld" lang={lang} path={projectPath(lang, slug)} title={project.data.title} description={project.data.description} imagePath={imagePath} />
+</Layout>

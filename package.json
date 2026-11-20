@@ -21,21 +21,20 @@
   "private": true,
   "packageManager": "pnpm@11.2.2",
   "scripts": {
-    "process:project-media": "tsx scripts/process-project-media.ts",
     "verify:node": "node scripts/ensure-node-version.mjs",
     "dev": "astro dev --port 3010",
     "start": "astro preview",
-    "build": "pnpm verify:node && astro build",
+    "build": "pnpm verify:node && node scripts/og.mjs && astro build",
     "check": "pnpm verify:node && astro check",
     "preview": "astro preview",
     "astro": "astro",
-    "prettier": "prettier --write \"**/*.{ts,css}\" --ignore-path .gitignore"
+    "prettier": "prettier --write \"**/*.{ts,css}\" --ignore-path .gitignore",
+    "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.9",
-    "gray-matter": "^4.0.3",
     "rehype-external-links": "^3.0.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"

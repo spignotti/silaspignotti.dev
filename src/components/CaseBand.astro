@@ -1,0 +1,47 @@
+---
+import Figure from '@/components/Figure.astro'
+import type { Lang } from '@/i18n'
+import { UI, projectPath } from '@/i18n'
+import type { ProjectEntry } from '@/lib/content'
+import { headingNbsp } from '@/lib/text'
+
+interface Props {
+  project: ProjectEntry
+  lang: Lang
+  variant: 'accent' | 'tint'
+  labelAbove?: boolean
+  valueFirst?: boolean
+  draw?: boolean
+}
+
+const { project, lang, variant, labelAbove = false, valueFirst = false, draw = false } = Astro.props
+const ui = UI[lang]
+const figure = project.data.keyFigures[0]
+const href = projectPath(lang, project.data.slug)
+const short = ui.homeFigureLabel[project.data.slug as 'routing-engine-agentic']
+---
+
+<article class:list={['band', variant === 'accent' ? 'band--accent' : 'band--tint', { 'band--flip': variant === 'tint' }]}>
+  <div class="wrap band-grid">
+    <div class="band-text">
+      <h3 class="band-title"><a href={href}>{headingNbsp(project.data.title)}</a></h3>
+      <p class="band-sum">{project.data.description}</p>
+      {project.data.role && (
+        <dl class="band-role">
+          <dt>{ui.role}</dt>
+          <dd>{project.data.role}</dd>
+        </dl>
+      )}
+      {figure && labelAbove && (
+        <div class="kf"><span class="kf-l">{figure.label}</span><span class="kf-v">{figure.value}</span></div>
+      )}
+      {figure && valueFirst && (
+        <div class="kf"><span class="kf-v">{figure.value}</span><span class="kf-l">{short ?? figure.label}</span></div>
+      )}
+      <a class="band-link tl" href={href}>{ui.readCase}</a>
+    </div>
+    <div class="band-fig" data-draw={draw ? '' : undefined} data-decorative>
+      <Figure file={`${project.data.slug}/cover`} lang={lang} instance="home" decorative bare />
+    </div>
+  </div>
+</article>

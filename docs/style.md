@@ -1,6 +1,6 @@
 # Style profile
 
-Visual language for graphics, figures, covers, OG images and motion on silaspignotti.dev. Values follow Personal Brand Guide v1.1 (06.11.2026) and `src/styles/tokens.css`. Build details live in `design/spec.md`.
+Visual language for graphics, figures, covers, OG images and motion on silaspignotti.dev. Values follow Personal Brand Guide v1.1 (06.11.2026) and `src/styles/tokens.css`. Build details live in `docs/design-spec.md`.
 
 ## Art style
 

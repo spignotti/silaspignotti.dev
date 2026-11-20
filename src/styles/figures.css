@@ -1,7 +1,7 @@
 /* Figures and graphics. One stylesheet for every inline SVG in src/assets/figures
    and for the canvas rasters. No <style> or hex fills inside SVG files: they use
    these classes, so light and dark mode come from the page tokens.
-   Spec: design/spec.md, section "Figures". */
+   Spec: docs/design-spec.md, section "Figures". */
 
 /* ---------- graphic tokens (derived from the brand tokens) ---------- */
 :root {
