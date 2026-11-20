@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
-import { Hero, createScrollScheduler, illustrativeNote, startHero, watchCanvas } from './heat-raster.ts'
+import { Hero, createScrollScheduler, dprFor, illustrativeNote, startHero, watchCanvas } from './heat-raster.ts'
 
 type Fake = {
   width: number
@@ -273,6 +273,34 @@ test('startHero repaints after the observer rebuilds a canvas that already had a
   const later = { width: 180, height: 80, x: 0, y: 0, top: 0, left: 0, bottom: 80, right: 180, toJSON() { return {} } }
   observed?.([{ contentRect: later }] as ResizeObserverEntry[], {} as ResizeObserver)
   assert.ok(draws() > afterSweep)
+})
+
+test('the rounded canvas stays within 4 MP, including a scale below 1', () => {
+  globalThis.devicePixelRatio = 2
+  assert.equal(dprFor(100, 80), 2)
+  const wide = dprFor(2000, 1000)
+  assert.equal(wide, 1.25)
+  assert.ok(Math.round(2000 * wide) * Math.round(1000 * wide) <= 4_000_000)
+
+  globalThis.devicePixelRatio = 1
+  const below = dprFor(3000, 2000)
+  assert.ok(below < 1)
+  assert.ok(below > 0)
+  assert.ok(Math.round(3000 * below) * Math.round(2000 * below) <= 4_000_000)
+
+  const w = 2000.5
+  const h = 1999.5
+  assert.ok(w * h <= 4_000_000)
+  assert.ok(Math.round(w) * Math.round(h) > 4_000_000)
+  const rounded = dprFor(w, h)
+  assert.ok(rounded < 1)
+  assert.ok(Math.round(w * rounded) * Math.round(h * rounded) <= 4_000_000)
+
+  globalThis.devicePixelRatio = 0.5
+  const low = dprFor(5000, 5000)
+  assert.ok(low < 0.5)
+  assert.ok(low > 0)
+  assert.ok(Math.round(5000 * low) * Math.round(5000 * low) <= 4_000_000)
 })
 
 test('watchCanvas ignores a zero size and reports a later size', () => {

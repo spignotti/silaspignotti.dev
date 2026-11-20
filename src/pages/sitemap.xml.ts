@@ -27,9 +27,14 @@ export const GET: APIRoute = async () => {
     entries.push({ loc: alternates.de, alternates }, { loc: alternates.en, alternates })
   }
 
-  for (const path of [pagePath('de', 'imprint'), pagePath('de', 'privacy')]) {
-    const loc = abs(path)
-    entries.push({ loc, alternates: { de: loc, 'x-default': loc } })
+  // English legal URLs are listed only together with the German pages.
+  for (const page of ['imprint', 'privacy'] as const) {
+    const alternates = {
+      de: abs(pagePath('de', page)),
+      en: abs(pagePath('en', page)),
+      'x-default': abs(pagePath('de', page)),
+    }
+    entries.push({ loc: alternates.de, alternates }, { loc: alternates.en, alternates })
   }
 
   const body = entries

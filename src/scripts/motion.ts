@@ -4,6 +4,7 @@ import cmpPng from '../assets/geo/heat-compare-illustrative.png?url'
 import heatJson from '../assets/geo/heat-illustrative.json?url'
 import heatPng from '../assets/geo/heat-illustrative.png?url'
 import { Hero, createScrollScheduler, loadRaster, lut, paintCompare, startHero, watchCanvas, type RasterData } from './heat-raster'
+import { bindPointerDrag } from './pointer-drag'
 
 type Berlin = { outline: string; w: number; h: number }
 
@@ -88,7 +89,9 @@ function mountHero(
 ) {
   const canvas = heroEl.querySelector('canvas')
   if (!canvas) return
-  const desk = () => window.innerWidth >= 768
+  // Same height threshold as the pinned hero in site.css (copy height + nav).
+  const pinnedHero = window.matchMedia('(min-width: 768px) and (min-height: 454px)')
+  const desk = () => pinnedHero.matches
   const glyphs = [...heroEl.querySelectorAll<HTMLElement>('.hero-legend .lv')]
   const hero = new Hero({
     canvas,
@@ -125,13 +128,17 @@ function mountHero(
   })
   let lastW = window.innerWidth
   let lastH = window.innerHeight
+  let lastPinned = desk()
   let timer = 0
   window.addEventListener('resize', () => {
     window.clearTimeout(timer)
     timer = window.setTimeout(() => {
-      if (window.innerWidth === lastW && (!desk() || Math.abs(window.innerHeight - lastH) < 120)) return
+      const pinned = desk()
+      const crossed = pinned !== lastPinned
+      if (window.innerWidth === lastW && !crossed && (!pinned || Math.abs(window.innerHeight - lastH) < 120)) return
       lastW = window.innerWidth
       lastH = window.innerHeight
+      lastPinned = pinned
       hero.redraw()
     }, 150)
   })
@@ -168,18 +175,7 @@ function mountCompare(data: RasterData, reduced: boolean, track: (el: Element, u
       setX((event.clientX - rect.left) / rect.width)
       touched = true
     }
-    let drag = false
-    box.addEventListener('pointerdown', (event) => {
-      drag = true
-      box.setPointerCapture(event.pointerId)
-      move(event)
-    })
-    box.addEventListener('pointermove', (event) => {
-      if (drag) move(event)
-    })
-    box.addEventListener('pointerup', () => {
-      drag = false
-    })
+    bindPointerDrag(box, move)
     handle.addEventListener('keydown', (event) => {
       const current = Number(handle.getAttribute('aria-valuenow'))
       const steps: Record<string, number> = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5, PageDown: -20, PageUp: 20 }

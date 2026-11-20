@@ -1,4 +1,5 @@
 ---
+import compareHeat from '@/assets/geo/heat-compare-illustrative.json'
 import ArticleSchema from '@/components/ArticleSchema.astro'
 import Compare from '@/components/Compare.astro'
 import Figure from '@/components/Figure.astro'
@@ -7,7 +8,7 @@ import type { Lang } from '@/i18n'
 import { SECTION_IDS, UI, nextCaseSlug, pagePath, projectPath } from '@/i18n'
 import { getCase } from '@/lib/content'
 import { parseSections, type CaseSection } from '@/lib/prose'
-import { headingNbsp, inlineHtml } from '@/lib/text'
+import { headingNbsp, illustrativeNote, inlineHtml } from '@/lib/text'
 
 interface Props {
   lang: Lang
@@ -51,6 +52,8 @@ function blocks(section: CaseSection): Block[] {
 
 const compareCaption = project.data.figures.find((figure) => figure.n === 3 && slug === 'berlin-lst-downscaling')?.caption ?? ''
 const compareLabel = compareCaption.split('. ')[0] ?? compareCaption
+const compareLead = compareCaption.includes('. ') ? `${compareLabel}.` : compareCaption
+const compareNote = illustrativeNote(compareHeat, lang)
 function figureOf(n: number) {
   return project.data.figures.find((figure) => figure.n === n)
 }
@@ -123,11 +126,17 @@ function figureOf(n: number) {
               const figure = figureOf(3)
               return (
                 <figure class="fig">
-                  <Compare lang={lang} label={compareLabel} />
+                  <Compare lang={lang} label={compareLabel} describedBy={compareNote ? 'compare-note' : undefined} />
                   {figure && (
                     <figcaption>
                       <span class="fig-n">{`${ui.figure} ${figure.n}`}</span>
-                      {figure.caption}
+                      {compareLead}
+                      {compareNote && (
+                        <>
+                          {' '}
+                          <span class="note" id="compare-note">{compareNote}</span>.
+                        </>
+                      )}
                     </figcaption>
                   )}
                 </figure>

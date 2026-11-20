@@ -66,7 +66,11 @@ p { text-wrap: pretty; }
 .hero-lead { font-size: var(--text-lead); line-height: var(--leading-lead); max-width: 34em; margin-bottom: 28px; }
 .hero-actions { display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
 .hero-actions .links { display: flex; gap: 20px; font-size: 15px; }
-@media (min-width: 768px) {
+/* Pinned copy sits 48px from the bottom of a 100svh clip, under the 64px nav.
+   Worst case here: name 112×0.95 + 20, lead 5×18×1.55 + 28, actions 44.
+   64 + 106.4 + 20 + 139.5 + 28 + 44 + 48 + 4 = 454. Below that the headline
+   meets the nav, so the in-flow hero is used instead. */
+@media (min-width: 768px) and (min-height: 454px) {
   .hero-pin { height: 100svh; overflow: clip; }
   .js .hero { height: 190svh; }
   .js .hero-pin { position: sticky; top: 0; }
@@ -148,6 +152,7 @@ p { text-wrap: pretty; }
 .cmp .chip.l { left: 12px; } .cmp .chip.r { right: 12px; }
 .cmp-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-block: 14px 56px; }
 .cmp-foot .note { font-size: 12px; color: var(--color-muted); }
+.cmp-foot .tl { margin-left: auto; }
 @media (min-width: 768px) { .cmp-foot { padding-bottom: 96px; } }
 .cmp-slot.is-live .cmp-fallback { display: none; }
 .cmp-fallback .fig { margin: 0; }
@@ -292,8 +297,16 @@ figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--c
 
 .legal { max-width: 720px; padding-bottom: 64px; }
 .legal h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }
-.legal p { font-size: 17px; line-height: 1.65; }
-.legal h2 { font-size: 22px; margin-top: 28px; }
+.legal h2 { font-size: 22px; margin-top: 28px; margin-bottom: 8px; }
+.legal h3 { font-size: 18px; margin-top: 24px; margin-bottom: 8px; }
+.legal p, .legal li { font-size: 17px; line-height: 1.65; }
+.legal p + p { margin-top: 12px; }
+.legal ul, .legal ol { margin-top: 12px; padding-left: 1.25em; }
+.legal ul { list-style: disc; }
+.legal ol { list-style: decimal; }
+.legal li + li { margin-top: 4px; }
+.legal a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+.legal a:hover { text-decoration-color: currentColor; }
 
 .miss { padding-top: 96px; padding-bottom: 64px; max-width: 40em; }
 .miss h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 16px; }

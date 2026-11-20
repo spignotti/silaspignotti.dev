@@ -21,8 +21,8 @@ const PATHS: Record<Lang, Record<PageKey, string>> = {
     home: '/en/',
     projects: '/en/projects',
     about: '/en/about',
-    imprint: '/impressum',
-    privacy: '/datenschutz',
+    imprint: '/en/legal-notice',
+    privacy: '/en/privacy',
   },
 }
 
@@ -38,7 +38,7 @@ export function otherLang(lang: Lang): Lang {
   return lang === 'de' ? 'en' : 'de'
 }
 
-/** Language switch for a bilingual path. Legal pages and the 404 go to the English or German home. */
+/** Language switch for a bilingual path. A page with no counterpart goes to the other home. */
 export function switchPath(lang: Lang, alternate: string | undefined): string {
   if (alternate) return alternate
   return pagePath(otherLang(lang), 'home')

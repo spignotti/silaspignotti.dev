@@ -1,4 +1,5 @@
 ---
+import compareHeat from '@/assets/geo/heat-compare-illustrative.json'
 import heat from '@/assets/geo/heat-illustrative.json'
 import CaseBand from '@/components/CaseBand.astro'
 import Compare from '@/components/Compare.astro'
@@ -22,7 +23,8 @@ const home = parseHome(page.body ?? '')
 const areas = await getAreas(lang)
 const cases = await getCases(lang)
 const small = await getSmallProjects(lang)
-const note = illustrativeNote(heat, lang)
+const heroNote = illustrativeNote(heat, lang)
+const compareNote = illustrativeNote(compareHeat, lang)
 const bySlug = new Map(cases.map((item) => [item.data.slug, item]))
 const solver = bySlug.get('routing-engine-solver')
 const agentic = bySlug.get('routing-engine-agentic')
@@ -69,7 +71,7 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
           {cells.map((n) => <svg class="lv" viewBox="0 0 14 14" set:html={glyph(n)} />)}
           10 m
         </span>
-        {note && <span class="note">{note}</span>}
+        {heroNote && <span class="note">{heroNote}</span>}
       </div>
       <div class="hero-copy">
         <h1 class="hero-name">{headingNbsp(home.heroTitle)}</h1>
@@ -110,9 +112,9 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
         </div>
         <div class="band-kf"><div class="kf"><span class="kf-v">{thesis.data.keyFigures[0]?.value}</span></div></div>
       </div>
-      <Compare lang={lang} label={thesisLabel} />
+      <Compare lang={lang} label={thesisLabel} describedBy={compareNote ? 'compare-note' : undefined} />
       <div class="wrap cmp-foot">
-        {note && <span class="note">{note}</span>}
+        {compareNote && <span class="note" id="compare-note">{compareNote}</span>}
         <a class="tl tl-strong tl-acc" href={projectPath(lang, thesis.data.slug)}>{ui.readCase}</a>
       </div>
     </article>

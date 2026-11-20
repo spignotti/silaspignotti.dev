@@ -16,8 +16,8 @@ const ui = UI[lang]
     <div class="foot-row">
       <span>{ui.footer}</span>
       <nav aria-label={ui.legalLabel}>
-        <a class="tl" href={pagePath('de', 'imprint')}>{ui.imprint}</a>
-        <a class="tl" href={pagePath('de', 'privacy')}>{ui.privacy}</a>
+        <a class="tl" href={pagePath(lang, 'imprint')}>{ui.imprint}</a>
+        <a class="tl" href={pagePath(lang, 'privacy')}>{ui.privacy}</a>
       </nav>
     </div>
     <p class="foot-src">{berlin.attribution[lang]}</p>

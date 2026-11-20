@@ -66,9 +66,19 @@ export function ramp(): Ramp {
   return { lut, out: hex(cs.getPropertyValue('--heat-out')).map((c) => Math.round(c * 255)) }
 }
 
+function backingPixels(w: number, h: number, d: number): number {
+  return Math.round(w * d) * Math.round(h * d)
+}
+
+/** Device-pixel scale whose rounded canvas stays within 4 megapixels, including scales below 1. */
 export function dprFor(w: number, h: number): number {
-  let d = Math.min(DPR_MAX, globalThis.devicePixelRatio || 1)
-  while (w * h * d * d > MAX_BACKING_PX && d > 1) d -= 0.25
+  const ratio = globalThis.devicePixelRatio
+  let d = Math.min(DPR_MAX, ratio > 0 ? ratio : 1)
+  if (!(w > 0) || !(h > 0)) return d
+  while (backingPixels(w, h, d) > MAX_BACKING_PX && d > 0.25) d -= 0.25
+  if (backingPixels(w, h, d) <= MAX_BACKING_PX) return d
+  d = Math.sqrt(MAX_BACKING_PX / (w * h))
+  while (d > 0 && backingPixels(w, h, d) > MAX_BACKING_PX) d /= 2
   return d
 }
 

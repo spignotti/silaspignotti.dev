@@ -32,6 +32,12 @@ export function initTheme(): void {
     if (mode === 'system') window.dispatchEvent(new Event('themechange'))
   })
 
+  const control = btn.closest('.theme') ?? menu
+  const closeMenu = () => {
+    menu.hidden = true
+    btn.setAttribute('aria-expanded', 'false')
+  }
+
   document.addEventListener('click', (event) => {
     const target = event.target
     if (!(target instanceof Element)) return
@@ -52,30 +58,36 @@ export function initTheme(): void {
       }
       apply()
     }
-    if (!menu.hidden && !target.closest('.theme-menu')) {
-      menu.hidden = true
-      btn.setAttribute('aria-expanded', 'false')
-    } else if (option) {
-      menu.hidden = true
-      btn.setAttribute('aria-expanded', 'false')
+    if (!menu.hidden && !target.closest('.theme-menu')) closeMenu()
+    else if (option) {
+      closeMenu()
       btn.focus()
     }
   })
 
+  control.addEventListener('focusout', (event) => {
+    const next = event instanceof FocusEvent ? event.relatedTarget : null
+    if (next instanceof Node && control.contains(next)) return
+    requestAnimationFrame(() => {
+      if (menu.hidden || control.contains(document.activeElement)) return
+      closeMenu()
+    })
+  })
+
   document.addEventListener('keydown', (event) => {
     if (menu.hidden) return
+    if (event.key === 'Escape') {
+      closeMenu()
+      btn.focus()
+      return
+    }
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+    if (!control.contains(document.activeElement)) return
+    event.preventDefault()
     const items = [...menu.querySelectorAll<HTMLButtonElement>('[data-mode]')]
     const index = items.indexOf(document.activeElement as HTMLButtonElement)
-    if (event.key === 'Escape') {
-      menu.hidden = true
-      btn.setAttribute('aria-expanded', 'false')
-      btn.focus()
-    }
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault()
-      const step = event.key === 'ArrowDown' ? 1 : -1
-      const next = items[(index + step + items.length) % items.length]
-      next?.focus()
-    }
+    const step = event.key === 'ArrowDown' ? 1 : -1
+    const nextIndex = index < 0 ? (step > 0 ? 0 : items.length - 1) : (index + step + items.length) % items.length
+    items[nextIndex]?.focus()
   })
 }

@@ -1,28 +1,30 @@
 ---
+import { render } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
 import { pagePath } from '@/i18n'
 import { getPage } from '@/lib/content'
-import { headingNbsp } from '@/lib/text'
 
 interface Props {
+  lang: Lang
   page: 'imprint' | 'privacy'
 }
-const { page: pageKey } = Astro.props
-const page = await getPage('de', pageKey)
-const title = page.body?.match(/^# (.+)$/m)?.[1]?.trim() || page.data.title
-const note = page.body?.split(/^# .+$/m)[1]?.trim() || page.data.description
+
+const { lang, page: pageKey } = Astro.props
+const page = await getPage(lang, pageKey)
+const { Content } = await render(page)
 ---
 
 <Layout
-  lang="de"
-  path={pagePath('de', pageKey)}
+  lang={lang}
+  path={pagePath(lang, pageKey)}
   title={page.data.title}
   description={page.data.description}
   current={null}
   robots="noindex"
+  alternate={pagePath(lang === 'de' ? 'en' : 'de', pageKey)}
 >
   <div class="wrap page-top legal">
-    <h1>{headingNbsp(title)}</h1>
-    <p>{note}</p>
+    <Content />
   </div>
 </Layout>
