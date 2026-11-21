@@ -31,7 +31,7 @@ If you write to me by e-mail, I process your address and your message in order t
 
 [Placeholder: Name the e-mail provider]
 
-[Placeholder: Retention period of the e-mail correspondence]
+I delete contact requests six months after the last contact, unless a contract results. In that case the statutory retention periods apply (§ 147 AO, § 257 HGB).
 
 ## Your rights
 

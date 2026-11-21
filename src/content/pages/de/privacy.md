@@ -31,7 +31,7 @@ Wenn Sie mir per E-Mail schreiben, verarbeite ich Ihre Adresse und Ihre Nachrich
 
 [Platzhalter: E-Mail-Anbieter nennen]
 
-[Platzhalter: Speicherdauer der E-Mail-Korrespondenz]
+Anfragen per E-Mail lösche ich sechs Monate nach dem letzten Kontakt, es sei denn, es kommt ein Vertrag zustande. Dann gelten die gesetzlichen Aufbewahrungsfristen (§ 147 AO, § 257 HGB).
 
 ## Ihre Rechte
 

@@ -37,6 +37,8 @@ Vier Arbeiten im Detail: was das Problem war, wie ich vorgegangen bin, was dabei
 
 Sie arbeiten an einem Projekt oder besetzen eine Stelle in diesen Feldern? Schreiben Sie mir.
 
+Angebot ausschließlich für Unternehmen, nicht für Verbraucher.
+
 - [E-Mail](mailto:pignottisilas@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/silas-pignotti/)
 - [GitHub](https://github.com/spignotti)

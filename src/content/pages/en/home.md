@@ -37,6 +37,8 @@ Four pieces of work in detail: what the problem was, how I approached it, what c
 
 Working on a project or hiring for a role in these areas? Write to me.
 
+Offer for businesses only, not for consumers.
+
 - [Email](mailto:pignottisilas@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/silas-pignotti/)
 - [GitHub](https://github.com/spignotti)
