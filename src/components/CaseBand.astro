@@ -23,7 +23,7 @@ const short = ui.homeFigureLabel[project.data.slug as 'routing-engine-agentic']
 
 <article class:list={['band', variant === 'accent' ? 'band--accent' : 'band--tint', { 'band--flip': variant === 'tint' }]}>
   <div class="wrap band-grid">
-    <div class="band-text">
+    <div class="band-text" data-reveal>
       <h3 class="band-title"><a href={href}>{headingNbsp(project.data.title)}</a></h3>
       <p class="band-sum">{project.data.description}</p>
       {project.data.role && (

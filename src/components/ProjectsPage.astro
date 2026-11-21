@@ -49,7 +49,7 @@ const note = illustrativeNote(heat, lang)
     <div class="further">
       <h2>{headingNbsp(intro.furtherTitle)}</h2>
       {small.map((item) => (
-        <div class="row-small">
+        <div class="row-small" data-reveal>
           <b>{item.data.title}</b>
           <span class="mono">{item.data.year}</span>
           <p>{item.data.description}</p>
