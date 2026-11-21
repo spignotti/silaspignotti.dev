@@ -233,6 +233,7 @@ function mountSteps(list: HTMLElement, heat: RasterData, reduced: boolean, track
     if (canvas.width !== size) canvas.width = canvas.height = size
     const context = canvas.getContext('2d')
     if (!context) return
+    context.clearRect(0, 0, canvas.width, canvas.height)
     const cell = canvas.width / cells
     const sample = count / cells
     for (let y = 0; y < cells; y++) {
