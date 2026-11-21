@@ -141,6 +141,11 @@ export function parseAbout(body: string): AboutContent {
   return { title, intro, sections, more: moreLine ? linksIn(moreLine)[0] ?? null : null }
 }
 
+/** A copy placeholder, marked in the renderer with class "ph". Link-only lines are not placeholders. */
+export function isPlaceholder(text: string): boolean {
+  return /^\[(?:Platzhalter|Placeholder)\b/.test(text.trim())
+}
+
 export function parseSections(body: string): CaseSection[] {
   return headings(body)
     .map((heading, index) => ({
@@ -149,7 +154,7 @@ export function parseSections(body: string): CaseSection[] {
       paragraphs: sliceSection(body, index)
         .split(/\n\n+/)
         .map((paragraph) => paragraph.trim())
-        .filter((paragraph) => paragraph.length > 0 && !paragraph.startsWith('[')),
+        .filter((paragraph) => paragraph.length > 0 && (isPlaceholder(paragraph) || !paragraph.startsWith('['))),
     }))
     .filter((section) => section.id !== '')
 }

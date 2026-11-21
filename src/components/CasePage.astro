@@ -7,7 +7,7 @@ import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
 import { SECTION_IDS, UI, nextCaseSlug, pagePath, projectPath } from '@/i18n'
 import { getCase } from '@/lib/content'
-import { parseSections, type CaseSection } from '@/lib/prose'
+import { isPlaceholder, parseSections, type CaseSection } from '@/lib/prose'
 import { headingNbsp, illustrativeNote, inlineHtml } from '@/lib/text'
 
 interface Props {
@@ -25,10 +25,10 @@ const variant =
   slug === 'routing-engine-solver' ? 'band band--accent cs-head' : slug === 'routing-engine-agentic' ? 'band band--tint cs-head' : 'band cs-head'
 const drawOnce = slug === 'routing-engine-solver' || slug === 'routing-engine-agentic'
 
-type Block = { kind: 'p'; html: string } | { kind: 'fig'; n: number } | { kind: 'compare' }
+type Block = { kind: 'p'; html: string; ph: boolean } | { kind: 'fig'; n: number } | { kind: 'compare' }
 
 function blocks(section: CaseSection): Block[] {
-  const paras: Block[] = section.paragraphs.map((paragraph) => ({ kind: 'p', html: inlineHtml(paragraph) }))
+  const paras: Block[] = section.paragraphs.map((paragraph) => ({ kind: 'p', html: inlineHtml(paragraph), ph: isPlaceholder(paragraph) }))
   const has = (n: number) => project.data.figures.some((figure) => figure.n === n)
   if (slug === 'routing-engine-solver' && section.id === 'approach') {
     const out: Block[] = []
@@ -122,7 +122,7 @@ function figureOf(n: number) {
         <section class="cs-sec" id={section.id} data-reveal>
           <h2>{headingNbsp(section.heading)}</h2>
           {blocks(section).map((block) => {
-            if (block.kind === 'p') return <div class="cs-prose"><p set:html={block.html} /></div>
+            if (block.kind === 'p') return <div class="cs-prose"><p class={block.ph ? 'ph' : undefined} set:html={block.html} /></div>
             if (block.kind === 'compare') {
               const figure = figureOf(3)
               return (

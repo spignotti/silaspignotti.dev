@@ -50,6 +50,8 @@ Every product is published with a STAC item, provenance data and a completion ma
 
 The data pipeline is complete and reproducible, from scene selection to the training dataset for the summer months of 2017 to 2025. All stages have since been trained on the corrected data release; the one-time test on 2025 stays sealed until submission. The final model is meant to produce a multi-year 10 m time series of land surface temperature for Berlin.
 
+[Placeholder: Final result after submission on 22.12., model RMSE against the baseline, 2 to 3 sentences]
+
 ## Limits
 
 There is no independent temperature measurement at 10 m. Evaluation therefore happens at 100 m, and the 10 m patterns are a reconstruction, not a measurement. The coarse starting value comes from the same scene. The data covers only the warm season from May to September and the time of the satellite overpass. A comparison with ECOSTRESS as an independent source is not yet a result. Berlin is one case study; the findings may not transfer to other cities.

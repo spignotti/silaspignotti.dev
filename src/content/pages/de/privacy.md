@@ -2,9 +2,29 @@
 lang: "de"
 page: "privacy"
 title: "Datenschutz"
-description: "Der rechtliche Text folgt."
+description: "[Platzhalter: rechtlicher Text, kommt nach Prüfung]"
 ---
 
 # Datenschutz
 
-Der rechtliche Text folgt.
+[Platzhalter: rechtlicher Text, kommt nach Prüfung]
+
+## Verantwortlicher
+
+[Platzhalter: Verantwortlicher]
+
+## Hosting
+
+[Platzhalter: Hosting]
+
+## Webanalyse
+
+[Platzhalter: Webanalyse]
+
+## Ihre Rechte
+
+[Platzhalter: Ihre Rechte]
+
+## Kontakt
+
+[Platzhalter: Kontakt]

@@ -104,3 +104,46 @@
 /* Scroll-linked line drawing: the page script sets --draw from 1 (hidden) to 0 (drawn)
    on elements with pathLength="1". Reduced motion and no-JS keep it at 0. */
 .fig-draw { stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
+
+/* Build-up. The script adds .fig-build and sets --d (0 to 700ms) from each child's
+   box centre. Without that class, or without motion, every part stays in its final state. */
+.js:not(.rm) figure.fig.fig-build > .fig-art { padding-block: 10px; }
+.js:not(.rm) figure.fig.fig-build:not(.is-in) > .fig-art > svg > :not(title):not(desc) { opacity: 0; }
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > :not(title):not(desc) {
+  animation: fig-rise 450ms ease-out var(--d, 0ms) both;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > :is(.fig-ln, .fig-ln-acc) {
+  animation-name: fig-fade;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > rect:is(.fig-bar, .fig-bar-acc) {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation-name: fig-grow-y;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > rect:is(.fig-bar, .fig-bar-acc)[data-grow='x'] {
+  transform-origin: left center;
+  animation-name: fig-grow-x;
+}
+@keyframes fig-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fig-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fig-grow-y {
+  from { opacity: 0; transform: scaleY(0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fig-grow-x {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  figure.fig.fig-build > .fig-art > svg > :not(title):not(desc) {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

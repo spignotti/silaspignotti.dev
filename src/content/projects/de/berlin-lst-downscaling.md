@@ -50,6 +50,8 @@ Jedes Produkt erscheint mit einem STAC-Eintrag, Herkunftsangaben und einer Ferti
 
 Die Datenpipeline ist fertig und reproduzierbar, von der Szenenauswahl bis zum Trainingsdatensatz für die Sommermonate 2017 bis 2025. Alle Stufen sind inzwischen auf dem korrigierten Datenstand trainiert; der einmalige Test auf 2025 bleibt bis zur Abgabe verschlossen. Mit dem fertigen Modell soll eine mehrjährige 10-m-Zeitreihe der Oberflächentemperatur für Berlin entstehen.
 
+[Platzhalter: Endergebnis nach Abgabe am 22.12., RMSE Modell gegen Baseline, 2 bis 3 Sätze]
+
 ## Grenzen
 
 Es gibt keine unabhängige Temperaturmessung auf 10 m. Die Bewertung findet deshalb auf 100 m statt, und die 10-m-Muster sind eine Rekonstruktion, keine Messung. Der grobe Ausgangswert stammt aus derselben Szene. Die Daten decken nur die Warmsaison von Mai bis September und den Zeitpunkt des Satellitenüberflugs ab. Ein Vergleich mit ECOSTRESS als unabhängiger Quelle ist geplant, aber noch kein Ergebnis. Berlin ist eine Fallstudie; auf andere Städte lassen sich die Befunde nicht ohne Weiteres übertragen.

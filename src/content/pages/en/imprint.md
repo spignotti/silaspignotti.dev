@@ -2,9 +2,21 @@
 lang: "en"
 page: "imprint"
 title: "Legal notice"
-description: "The legal text follows."
+description: "[Placeholder: legal text, follows after review]"
 ---
 
 # Legal notice
 
-The legal text follows.
+[Placeholder: legal text, follows after review]
+
+## Information according to § 5 DDG
+
+[Placeholder: Information according to § 5 DDG]
+
+## Contact
+
+[Placeholder: Contact]
+
+## Responsible for the content
+
+[Placeholder: Responsible for the content]

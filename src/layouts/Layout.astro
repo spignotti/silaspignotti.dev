@@ -42,9 +42,11 @@ const { lang, path, title, description, current, alternate, imagePath, ogType, r
 </html>
 {motion && (
   <script>
+    import { initFigureAnim } from '@/scripts/figure-anim'
     import { initMotion } from '@/scripts/motion'
     import { initReveal } from '@/scripts/reveal'
     initReveal()
+    initFigureAnim()
     initMotion()
   </script>
 )}

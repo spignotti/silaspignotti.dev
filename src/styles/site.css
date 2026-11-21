@@ -311,7 +311,33 @@ figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--c
 .about-copy p { font-size: 15px; line-height: 1.55; }
 .about-copy .muted { color: var(--color-muted); margin-top: 4px; }
 .about-more { margin-top: 32px; }
-@media (min-width: 768px) { .about-row { grid-template-columns: 160px minmax(0, 1fr); } .about-intro { max-width: 34em; } }
+.about-head { display: grid; gap: 24px 32px; align-items: start; }
+.about-portrait {
+  aspect-ratio: 4 / 5;
+  width: 200px;
+  max-width: 100%;
+  margin: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  text-align: center;
+}
+.about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 768px) {
+  .about-head { grid-template-columns: minmax(0, 1fr) 200px; }
+  .about-row { grid-template-columns: 160px minmax(0, 1fr); }
+  .about-intro { max-width: 34em; }
+}
+
+.ph {
+  color: var(--color-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.about-portrait.ph { border-radius: 12px; }
 
 .legal { max-width: 720px; padding-bottom: 64px; }
 .legal h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }

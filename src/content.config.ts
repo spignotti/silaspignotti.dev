@@ -16,6 +16,7 @@ const pages = defineCollection({
     page: z.enum(['home', 'projects', 'about', 'imprint', 'privacy']),
     title: z.string(),
     description: z.string(),
+    portrait: z.string().optional(),
   }),
 })
 
