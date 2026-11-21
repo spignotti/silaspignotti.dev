@@ -13,8 +13,11 @@ const clamp = (value: number, min = 0, max = 1) => Math.max(min, Math.min(max, v
 /** Scroll-linked motion for the hero, compare slider, step glyphs, line drawing and the timeline. */
 export function initMotion(): void {
   const root = document.documentElement
-  const reduced = root.classList.contains('rm') || window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reduced) root.classList.add('rm')
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  // A class already on <html> while the query does not match is an override (?rm=1).
+  const forcedRm = root.classList.contains('rm') && !motionQuery.matches
+  const isReduced = () => forcedRm || motionQuery.matches
+  if (isReduced()) root.classList.add('rm')
 
   const items = new Set<{ update: (end: boolean) => void }>()
   const active = new Set<{ update: (end: boolean) => void }>()
@@ -33,7 +36,7 @@ export function initMotion(): void {
           continue
         }
         active.add(item)
-        if (!reduced) item.update(false)
+        if (!isReduced()) item.update(false)
       }
     },
     { rootMargin: '20% 0px' },
@@ -43,15 +46,20 @@ export function initMotion(): void {
     ;(el as Element & { _motion?: typeof item })._motion = item
     items.add(item)
     observer.observe(el)
-    update(reduced)
+    update(isReduced())
   }
   if (items.size >= 0) {
     const onScroll = createScrollScheduler(() => {
-      if (reduced) return
+      if (isReduced()) return
       active.forEach((item) => item.update(false))
     })
     window.addEventListener('scroll', onScroll, { passive: true })
   }
+  motionQuery.addEventListener('change', () => {
+    root.classList.toggle('rm', isReduced())
+    const end = isReduced()
+    for (const item of items) item.update(end)
+  })
 
   document.querySelectorAll<HTMLElement>('[data-draw]').forEach((el) => {
     track(el, (end) => {
@@ -69,22 +77,30 @@ export function initMotion(): void {
   const steps = document.querySelector<HTMLElement>('.steps')
   if (!heroEl && !compare && !steps) return
 
-  void Promise.all([
-    fetch(berlinUrl).then((response) => response.json() as Promise<Berlin>),
-    heroEl || steps ? loadRaster(heatJson, heatPng) : Promise.resolve(null),
-    compare ? loadRaster(cmpJson, cmpPng) : Promise.resolve(null),
-  ]).then(([berlin, heat, compareData]) => {
-    if (heroEl && heat) mountHero(heroEl, berlin, heat, reduced, track)
-    if (compare && compareData) mountCompare(compareData, reduced, track)
-    if (steps && heat) mountSteps(steps, heat, reduced, track)
-  })
+  if (heroEl || steps) {
+    const berlinHeat = Promise.all([
+      fetch(berlinUrl).then((response) => response.json() as Promise<Berlin>),
+      loadRaster(heatJson, heatPng),
+    ])
+    if (heroEl) {
+      void berlinHeat.then(([berlin, heat]) => mountHero(heroEl, berlin, heat, isReduced, track)).catch(() => {})
+    }
+    if (steps) {
+      void berlinHeat.then(([, heat]) => mountSteps(steps, heat, isReduced, track)).catch(() => {})
+    }
+  }
+  if (compare) {
+    void loadRaster(cmpJson, cmpPng)
+      .then((data) => mountCompare(data, isReduced, track))
+      .catch(() => {})
+  }
 }
 
 function mountHero(
   heroEl: HTMLElement,
   berlin: Berlin,
   heat: RasterData,
-  reduced: boolean,
+  isReduced: () => boolean,
   track: (el: Element, update: (end: boolean) => void) => void,
 ) {
   const canvas = heroEl.querySelector('canvas')
@@ -114,7 +130,7 @@ function mountHero(
     onLevel: (level) => glyphs.forEach((glyph, index) => glyph.classList.toggle('on', index === level)),
   })
   const levelNow = () => {
-    if (reduced) return 4
+    if (isReduced()) return 4
     let amount: number
     if (desk()) {
       const rect = heroEl.getBoundingClientRect()
@@ -122,9 +138,9 @@ function mountHero(
     } else amount = clamp(window.scrollY / (canvas.offsetHeight * 0.6))
     return Math.min(4, Math.floor(amount * 5))
   }
-  startHero(hero, { reducedMotion: reduced, level: levelNow })
-  track(heroEl, () => {
-    if (hero.W > 0) hero.show(levelNow())
+  startHero(hero, { reducedMotion: isReduced, level: levelNow })
+  track(heroEl, (end) => {
+    if (hero.W > 0) hero.show(levelNow(), end || isReduced() ? { instant: true } : undefined)
   })
   let lastW = window.innerWidth
   let lastH = window.innerHeight
@@ -145,7 +161,7 @@ function mountHero(
   window.addEventListener('themechange', () => hero.redraw())
 }
 
-function mountCompare(data: RasterData, reduced: boolean, track: (el: Element, update: (end: boolean) => void) => void) {
+function mountCompare(data: RasterData, isReduced: () => boolean, track: (el: Element, update: (end: boolean) => void) => void) {
   document.querySelectorAll<HTMLElement>('.cmp').forEach((box) => {
     const canvases = [...box.querySelectorAll('canvas')]
     const coarse = canvases[0]
@@ -164,12 +180,11 @@ function mountCompare(data: RasterData, reduced: boolean, track: (el: Element, u
       handle.setAttribute('aria-valuenow', String(Math.round(next * 100)))
     }
     watchCanvas(coarse, paint)
-    setX(reduced ? 0.5 : 0.85)
-    if (!reduced) {
-      track(box, () => {
-        if (!touched) setX(0.85 - 0.7 * progressOf(box))
-      })
-    }
+    track(box, (end) => {
+      if (touched) return
+      if (end || isReduced()) setX(0.5)
+      else setX(0.85 - 0.7 * progressOf(box))
+    })
     const move = (event: PointerEvent) => {
       const rect = box.getBoundingClientRect()
       setX((event.clientX - rect.left) / rect.width)
@@ -208,7 +223,7 @@ function progressOf(el: Element) {
   return clamp((0.85 * height - top) / ((0.85 - 0.2) * height))
 }
 
-function mountSteps(list: HTMLElement, heat: RasterData, reduced: boolean, track: (el: Element, update: (end: boolean) => void) => void) {
+function mountSteps(list: HTMLElement, heat: RasterData, isReduced: () => boolean, track: (el: Element, update: (end: boolean) => void) => void) {
   const canvases = [...list.querySelectorAll('canvas')]
   const count = 16
   const patch = new Float32Array(count * count)
@@ -257,7 +272,7 @@ function mountSteps(list: HTMLElement, heat: RasterData, reduced: boolean, track
     }
   }
   const update = (end: boolean) => {
-    const amount = end ? 1 : progressOfSteps(list)
+    const amount = end || isReduced() ? 1 : progressOfSteps(list)
     const level = Math.floor(amount * 5)
     canvases.forEach((canvas, index) => {
       const cells = 2 ** Math.min(index, Math.max(0, level - 1))
@@ -270,7 +285,7 @@ function mountSteps(list: HTMLElement, heat: RasterData, reduced: boolean, track
   const redraw = () => {
     ramp = lut()
     shown = []
-    update(reduced)
+    update(isReduced())
   }
   ramp = lut()
   track(list, update)

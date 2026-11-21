@@ -126,6 +126,7 @@ function figureOf(n: number) {
       {sections.map((section) => (
         <section class="cs-sec" id={section.id} data-reveal>
           <h2>{headingNbsp(section.heading)}</h2>
+          <div class="cs-main">
           {blocks(section).map((block) => {
             if (block.kind === 'p') return <div class="cs-prose"><p class={block.ph ? 'ph' : undefined} set:html={block.html} /></div>
             if (block.kind === 'compare') {
@@ -151,6 +152,7 @@ function figureOf(n: number) {
             const figure = figureOf(block.n)
             return figure ? <Figure file={figure.file} lang={lang} instance={`f${figure.n}`} n={figure.n} caption={figure.caption} /> : null
           })}
+          </div>
         </section>
       ))}
     </article>

@@ -230,49 +230,53 @@ test('the note follows the illustrative flag on the real manifests', () => {
   assert.equal(illustrativeNote({ illustrative: true }, 'en'), 'Illustrative, not measured data')
 })
 
-test('startHero repaints after the observer rebuilds a canvas that already had a size', () => {
+test('startHero builds on the first non-zero size and ignores later observer notifications', () => {
   const { make, draws } = installDom()
-  const canvas = make()
-  canvas.clientWidth = 180
-  canvas.clientHeight = 90
   const queued: FrameRequestCallback[] = []
   globalThis.requestAnimationFrame = ((callback: FrameRequestCallback) => {
     queued.push(callback)
     return queued.length
   }) as typeof requestAnimationFrame
   let observed: ResizeObserverCallback | undefined
+  let disconnects = 0
   globalThis.ResizeObserver = class {
     constructor(callback: ResizeObserverCallback) {
       observed = callback
     }
     observe() {}
     unobserve() {}
-    disconnect() {}
+    disconnect() {
+      disconnects += 1
+    }
   } as typeof ResizeObserver
+  const rect = (height: number) =>
+    ({ width: 180, height, x: 0, y: 0, top: 0, left: 0, bottom: height, right: 180, toJSON() { return {} } }) as DOMRectReadOnly
+
+  const canvas = make()
   const hero = heroFor(canvas)
   startHero(hero, { reducedMotion: false, level: () => 2 })
-  assert.ok(canvas.width > 0)
+  assert.equal(canvas.width, 0)
+  assert.equal(disconnects, 0)
+  observed?.([{ contentRect: rect(90) }] as ResizeObserverEntry[], {} as ResizeObserver)
+  assert.equal(canvas.height, 90)
+  assert.equal(disconnects, 1)
   assert.equal(queued.length, 1)
-  assert.notEqual(hero.sweep, null)
   const afterFirst = draws()
   assert.ok(afterFirst > 0)
-  const firstSweep = hero.sweep
-  const rect = { width: 180, height: 90, x: 0, y: 0, top: 0, left: 0, bottom: 90, right: 180, toJSON() { return {} } }
-  observed?.([{ contentRect: rect }] as ResizeObserverEntry[], {} as ResizeObserver)
-  assert.ok(draws() > afterFirst)
-  assert.notEqual(hero.sweep, null)
-  assert.notEqual(hero.sweep, firstSweep)
-  assert.equal(queued.length, 2)
-  const beforeStale = draws()
-  queued[0]?.(performance.now())
-  assert.equal(draws(), beforeStale)
-  queued[1]?.(performance.now() + 5000)
-  assert.ok(draws() > beforeStale)
-  assert.equal(hero.sweep, null)
-  const afterSweep = draws()
-  const later = { width: 180, height: 80, x: 0, y: 0, top: 0, left: 0, bottom: 80, right: 180, toJSON() { return {} } }
-  observed?.([{ contentRect: later }] as ResizeObserverEntry[], {} as ResizeObserver)
-  assert.ok(draws() > afterSweep)
+  observed?.([{ contentRect: rect(80) }] as ResizeObserverEntry[], {} as ResizeObserver)
+  assert.equal(canvas.height, 90)
+  assert.equal(draws(), afterFirst)
+  assert.equal(queued.length, 1)
+
+  const sized = make()
+  sized.clientWidth = 180
+  sized.clientHeight = 90
+  observed = undefined
+  const beforeSized = draws()
+  startHero(heroFor(sized), { reducedMotion: false, level: () => 1 })
+  assert.ok(sized.width > 0)
+  assert.equal(observed, undefined)
+  assert.ok(draws() > beforeSized)
 })
 
 test('the rounded canvas stays within 4 MP, including a scale below 1', () => {

@@ -261,6 +261,7 @@ p { text-wrap: pretty; }
 .cs-kf .kf-l { color: var(--color-muted); }
 .cs-body { padding-block: 24px var(--section-gap); }
 .cs-sec { display: grid; gap: 16px; padding-top: 48px; }
+.cs-main { display: grid; gap: 16px; }
 .cs-sec h2 { font-size: var(--text-h3); line-height: var(--leading-h3); letter-spacing: -0.015em; }
 .cs-prose { display: grid; gap: 20px; max-width: var(--text-column); }
 .cs-prose p { font-size: 17px; line-height: 1.65; }
@@ -269,8 +270,9 @@ p { text-wrap: pretty; }
 @media (min-width: 1024px) {
   .cs-sec { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding-top: 72px; }
   .cs-sec h2 { grid-column: 1 / span 3; position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
-  .cs-sec .cs-prose { grid-column: 4 / span 7; }
-  .cs-sec .fig, .cs-sec .cmp-slot { grid-column: 4 / span 9; }
+  .cs-sec .cs-main { grid-column: 4 / span 9; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 24px; align-content: start; }
+  .cs-sec .cs-prose { grid-column: 1 / span 7; }
+  .cs-sec .fig, .cs-sec .cmp-slot { grid-column: 1 / span 9; }
 }
 
 .fig { margin-block: 16px 8px; min-width: 0; }
@@ -364,6 +366,7 @@ figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--c
 .steps > *,
 .tline > *,
 .cs-sec > *,
+.cs-main > *,
 .cs-meta > *,
 .cards > *,
 .row-small > *,

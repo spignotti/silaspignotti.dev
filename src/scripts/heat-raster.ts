@@ -303,28 +303,40 @@ export class Hero {
   }
 }
 
-/** Observe the canvas and build only after a non-zero size is reported. */
-export function watchCanvas(canvas: HTMLElement, onSize: (size: Size) => void): void {
+/** Observe the canvas and build only after a non-zero size is reported. `once` stops after that first size. */
+export function watchCanvas(canvas: HTMLElement, onSize: (size: Size) => void, opts?: { once?: boolean }): void {
+  let observer: ResizeObserver | undefined
+  let settled = false
   const run = (w: number, h: number) => {
-    if (w > 0 && h > 0) onSize({ w, h })
+    if (!(w > 0) || !(h > 0) || settled) return
+    if (opts?.once) {
+      settled = true
+      observer?.disconnect()
+    }
+    onSize({ w, h })
   }
   run(canvas.clientWidth, canvas.clientHeight)
-  if (typeof ResizeObserver === 'undefined') return
-  const ro = new ResizeObserver((entries) => {
+  if (settled || typeof ResizeObserver === 'undefined') return
+  observer = new ResizeObserver((entries) => {
     const rect = entries[0]?.contentRect
     if (!rect) return
     run(rect.width, rect.height)
   })
-  ro.observe(canvas)
+  observer.observe(canvas)
 }
 
-export function startHero(hero: Hero, opts: { reducedMotion: boolean; level: () => number }): void {
-  watchCanvas(hero.canvas, (size) => {
-    if (!hero.build(size)) return
-    if (opts.reducedMotion) hero.show(hero.levels.length - 1, { instant: true })
-    else if (hero.level < 0) hero.show(opts.level(), { duration: 900 })
-    else hero.show(opts.level())
-  })
+export function startHero(hero: Hero, opts: { reducedMotion: boolean | (() => boolean); level: () => number }): void {
+  const reduced = () => (typeof opts.reducedMotion === 'function' ? opts.reducedMotion() : opts.reducedMotion)
+  watchCanvas(
+    hero.canvas,
+    (size) => {
+      if (!hero.build(size)) return
+      if (reduced()) hero.show(hero.levels.length - 1, { instant: true })
+      else if (hero.level < 0) hero.show(opts.level(), { duration: 900 })
+      else hero.show(opts.level())
+    },
+    { once: true },
+  )
 }
 
 /** One frame per scroll burst. The callback does not schedule another frame. */
