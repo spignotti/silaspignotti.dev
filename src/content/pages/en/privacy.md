@@ -19,7 +19,7 @@ The site is hosted on GitHub Pages (GitHub, Inc., USA). When the site is opened,
 
 ## No cookies, no tracking
 
-The site sets no cookies. It uses no local storage, no analytics and no tracking. It loads no scripts or resources from third parties. There is therefore no consent banner.
+The site sets no cookies. It uses no analytics and no tracking, and it loads no scripts or resources from third parties. If a visitor picks a colour mode in the menu (light, dark or system), the browser saves that choice under the key `theme`. This happens only on the visitor's device, only after they pick a mode, is not sent anywhere, and is used only to remember the choice. It can be removed by clearing the site data. There is therefore no consent banner.
 
 ## Fonts
 

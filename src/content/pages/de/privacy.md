@@ -19,7 +19,7 @@ Die Website wird auf GitHub Pages gehostet (GitHub, Inc., USA). Beim Aufruf vera
 
 ## Keine Cookies, kein Tracking
 
-Die Website setzt keine Cookies. Sie nutzt keinen lokalen Speicher, keine Analyse und kein Tracking. Sie lädt keine Skripte und keine Ressourcen von Dritten. Deshalb gibt es kein Einwilligungsbanner.
+Die Website setzt keine Cookies. Sie nutzt keine Analyse und kein Tracking und lädt keine Skripte oder Ressourcen von Dritten. Wählt ein Besucher im Menü einen Farbmodus (hell, dunkel oder System), speichert der Browser diese Wahl unter dem Schlüssel `theme`. Das geschieht nur auf dem Gerät des Besuchers, erst nach der Wahl, wird nirgendwohin gesendet und dient nur dazu, die Wahl zu merken. Die Angabe lässt sich durch Löschen der Website-Daten entfernen. Deshalb gibt es kein Einwilligungsbanner.
 
 ## Schriften
 
