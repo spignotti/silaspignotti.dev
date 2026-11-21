@@ -2,21 +2,29 @@
 lang: "de"
 page: "imprint"
 title: "Impressum"
-description: "[Platzhalter: rechtlicher Text, kommt nach Prüfung]"
+description: "Anbieterangaben, Kontakt und Umsatzsteuer von Silas Pignotti, Einzelunternehmer in Berlin."
 ---
 
 # Impressum
 
-[Platzhalter: rechtlicher Text, kommt nach Prüfung]
-
 ## Angaben gemäß § 5 DDG
 
-[Platzhalter: Angaben gemäß § 5 DDG]
+Silas Pignotti
+
+Einzelunternehmer
+
+[Platzhalter: Straße und Hausnummer, PLZ]
+
+Berlin
 
 ## Kontakt
 
-[Platzhalter: Kontakt]
+[Platzhalter: E-Mail-Adresse]
 
-## Verantwortlich für den Inhalt
+[Platzhalter: Telefonnummer]
 
-[Platzhalter: Verantwortlich für den Inhalt]
+## Umsatzsteuer
+
+Kleinunternehmer gemäß § 19 UStG. Es wird keine Umsatzsteuer ausgewiesen.
+
+[Platzhalter: Wirtschafts-Identifikationsnummer (W-IdNr.), sobald vom Bundeszentralamt für Steuern zugeteilt]

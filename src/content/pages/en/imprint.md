@@ -2,21 +2,29 @@
 lang: "en"
 page: "imprint"
 title: "Legal notice"
-description: "[Placeholder: legal text, follows after review]"
+description: "Provider details, contact and VAT of Silas Pignotti, sole trader in Berlin."
 ---
 
 # Legal notice
 
-[Placeholder: legal text, follows after review]
-
 ## Information according to § 5 DDG
 
-[Placeholder: Information according to § 5 DDG]
+Silas Pignotti
+
+Sole trader
+
+[Placeholder: Street and house number, postal code]
+
+Berlin
 
 ## Contact
 
-[Placeholder: Contact]
+[Placeholder: E-mail address]
 
-## Responsible for the content
+[Placeholder: Telephone number]
 
-[Placeholder: Responsible for the content]
+## VAT
+
+Small entrepreneur according to § 19 UStG. No VAT is shown.
+
+[Placeholder: Economic identification number (W-IdNr.), once assigned by the Federal Central Tax Office]
