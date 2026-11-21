@@ -7,6 +7,11 @@ import zlib from 'node:zlib'
 const root = process.cwd()
 const outDir = path.join(root, 'public/og')
 fs.mkdirSync(outDir, { recursive: true })
+for (const name of fs.readdirSync(outDir)) {
+  if (!name.endsWith('.png')) continue
+  const file = path.join(outDir, name)
+  if (fs.statSync(file).isFile()) fs.rmSync(file)
+}
 
 const BG = [0xf7, 0xf7, 0xf5, 255]
 const TEXT = [0x15, 0x19, 0x22, 255]

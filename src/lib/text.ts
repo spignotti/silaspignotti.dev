@@ -76,6 +76,52 @@ export function inlineHtml(src: string, linkClass = 'tl'): string {
     .join('')
 }
 
+const CASE_PREFIX: Record<Lang, string> = {
+  de: '/projekte/',
+  en: '/en/projects/',
+}
+
+/** Split on ", " outside a markdown link label or target. */
+function proofItems(proof: string): string[] {
+  const items: string[] = []
+  let start = 0
+  let square = 0
+  let paren = 0
+  for (let i = 0; i < proof.length; i++) {
+    const ch = proof[i]
+    if (ch === '[') square += 1
+    else if (ch === ']') square = Math.max(0, square - 1)
+    else if (ch === '(') paren += 1
+    else if (ch === ')') paren = Math.max(0, paren - 1)
+    else if (ch === ',' && proof[i + 1] === ' ' && square === 0 && paren === 0) {
+      items.push(proof.slice(start, i))
+      start = i + 2
+      i += 1
+    }
+  }
+  items.push(proof.slice(start))
+  return items.map((item) => item.trim()).filter((item) => item.length > 0)
+}
+
+function linksMissingCase(item: string, slugs: ReadonlySet<string>, lang: Lang): boolean {
+  for (const match of item.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+    const href = (match[1] ?? '').split(/[?#]/)[0] ?? ''
+    const prefix = CASE_PREFIX[lang]
+    if (!href.startsWith(prefix)) continue
+    const slug = href.slice(prefix.length).replace(/\/$/, '')
+    if (slug.length > 0 && !slug.includes('/') && !slugs.has(slug)) return true
+  }
+  return false
+}
+
+/** Drop proof items whose case link has no matching case. External links and plain text stay. */
+export function pruneDeadCaseLinks(proof: string, slugs: readonly string[], lang: Lang): string {
+  const known = new Set(slugs)
+  return proofItems(proof)
+    .filter((item) => !linksMissingCase(item, known, lang))
+    .join(', ')
+}
+
 /** Link the "how I work" phrase. The visible words stay as written. */
 export function linkifySectionPhrase(html: string, lang: Lang): string {
   const phrase = lang === 'de' ? 'Abschnitt „So arbeite ich“' : 'section "How I work"'

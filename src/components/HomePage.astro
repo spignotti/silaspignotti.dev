@@ -10,7 +10,7 @@ import type { Lang } from '@/i18n'
 import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
 import { getAreas, getCases, getPage, getSmallProjects } from '@/lib/content'
 import { parseHome } from '@/lib/prose'
-import { headingNbsp, illustrativeNote, inlineHtml, linkifySectionPhrase } from '@/lib/text'
+import { headingNbsp, illustrativeNote, inlineHtml, linkifySectionPhrase, pruneDeadCaseLinks } from '@/lib/text'
 
 interface Props {
   lang: Lang
@@ -22,6 +22,7 @@ const page = await getPage(lang, 'home')
 const home = parseHome(page.body ?? '')
 const areas = await getAreas(lang)
 const cases = await getCases(lang)
+const caseSlugs = cases.map((item) => item.data.slug)
 const small = await getSmallProjects(lang)
 const heroNote = illustrativeNote(heat, lang)
 const compareNote = illustrativeNote(compareHeat, lang)
@@ -155,16 +156,21 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
   <section class="wrap section" id={ids.areas} aria-labelledby={`h-${ids.areas}`}>
     <div class="section-head" data-reveal><h2 class="h2" id={`h-${ids.areas}`}>{headingNbsp(home.areasTitle)}</h2></div>
     <div class="fields">
-      {areas.map((area) => (
-        <div class="field" data-reveal>
-          <h3>{headingNbsp(area.data.title)}</h3>
-          <p>{area.data.summary}</p>
-          <dl>
-            <div><dt>{ui.tools}</dt><dd>{area.data.tools}</dd></div>
-            <div><dt>{ui.proof}</dt><dd set:html={linkifySectionPhrase(inlineHtml(area.data.proof, 'tl tl-acc'), lang)} /></div>
-          </dl>
-        </div>
-      ))}
+      {areas.map((area) => {
+        const proof = pruneDeadCaseLinks(area.data.proof, caseSlugs, lang)
+        return (
+          <div class="field" data-reveal>
+            <h3>{headingNbsp(area.data.title)}</h3>
+            <p>{area.data.summary}</p>
+            <dl>
+              <div><dt>{ui.tools}</dt><dd>{area.data.tools}</dd></div>
+              {proof && (
+                <div><dt>{ui.proof}</dt><dd set:html={linkifySectionPhrase(inlineHtml(proof, 'tl tl-acc'), lang)} /></div>
+              )}
+            </dl>
+          </div>
+        )
+      })}
     </div>
   </section>
 

@@ -41,6 +41,90 @@ function build(dest) {
   if (result.status !== 0) throw new Error(`pnpm build failed with status ${result.status}`)
 }
 
+function frontmatter(text) {
+  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return null
+  const data = {}
+  for (const line of match[1].split(/\r?\n/)) {
+    const field = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/)
+    if (!field) continue
+    let value = field[2].trim()
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1)
+    data[field[1]] = value
+  }
+  return data
+}
+
+function remainingCaseSlugs(dest) {
+  const dir = path.join(dest, 'src/content/projects/de')
+  if (!fs.existsSync(dir)) return []
+  const slugs = []
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.endsWith('.md')) continue
+    const data = frontmatter(fs.readFileSync(path.join(dir, name), 'utf8'))
+    if (!data || data.kind !== 'case' || !data.slug) continue
+    const cover = path.join(dest, 'src/assets/figures', data.slug, 'cover.svg')
+    if (!fs.existsSync(cover)) continue
+    slugs.push(data.slug)
+  }
+  return slugs
+}
+
+function htmlFiles(dir, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) htmlFiles(full, out)
+    else if (entry.isFile() && entry.name.endsWith('.html')) out.push(full)
+  }
+  return out
+}
+
+function hrefResolves(dist, href) {
+  const rel = decodeURIComponent(href.split(/[?#]/)[0] ?? '').replace(/^\/+/, '')
+  if (rel.includes('..')) return false
+  const asIndex = path.join(dist, rel, 'index.html')
+  const asHtml = rel.endsWith('.html') ? path.join(dist, rel) : path.join(dist, `${rel}.html`)
+  return fs.existsSync(asIndex) || fs.existsSync(asHtml)
+}
+
+function checkCaseHrefs(dest) {
+  const dist = path.join(dest, 'dist')
+  const broken = []
+  const re = /href="(\/(?:projekte|en\/projects)\/[^"]*)"/g
+  for (const file of htmlFiles(dist)) {
+    const html = fs.readFileSync(file, 'utf8')
+    for (const match of html.matchAll(re)) {
+      const href = match[1]
+      if (!href || hrefResolves(dist, href)) continue
+      broken.push(`${path.relative(dest, file)} → ${href}`)
+    }
+  }
+  if (broken.length > 0) {
+    throw new Error(`internal project links in dist do not resolve:\n${broken.join('\n')}`)
+  }
+}
+
+function checkOgPngs(dest) {
+  const ogDir = path.join(dest, 'dist/og')
+  if (!fs.existsSync(ogDir)) throw new Error('dist/og is missing')
+  const allowed = new Set(['site.png', ...remainingCaseSlugs(dest).map((slug) => `${slug}.png`)])
+  const stale = fs
+    .readdirSync(ogDir)
+    .filter((name) => name.endsWith('.png') && !allowed.has(name))
+    .sort()
+  if (stale.length > 0) {
+    const remaining = [...allowed].filter((name) => name !== 'site.png').sort()
+    const listed = remaining.length > 0 ? remaining.join(', ') : 'none'
+    throw new Error(`dist/og has PNG files that are not site.png or a remaining case (${listed}): ${stale.join(', ')}`)
+  }
+}
+
+function verifyDist(dest) {
+  if (!fs.existsSync(path.join(dest, 'dist'))) throw new Error('missing dist after build')
+  checkCaseHrefs(dest)
+  checkOgPngs(dest)
+}
+
 function cleanup(dest) {
   const link = path.join(dest, 'node_modules')
   try {
@@ -58,6 +142,7 @@ function scenario(label, slugs) {
     copyRepo(dest)
     removeCases(dest, slugs)
     build(dest)
+    verifyDist(dest)
     console.log(`ok: ${label}`)
   } finally {
     cleanup(dest)
