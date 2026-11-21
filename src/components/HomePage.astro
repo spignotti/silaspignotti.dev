@@ -30,7 +30,6 @@ const solver = bySlug.get('routing-engine-solver')
 const agentic = bySlug.get('routing-engine-agentic')
 const thesis = bySlug.get('berlin-lst-downscaling')
 const kpi = bySlug.get('kpi-reference')
-if (!solver || !agentic || !thesis || !kpi) throw new Error('Missing home case')
 
 const cells = [1, 2, 3, 5, 7]
 function glyph(n: number) {
@@ -48,7 +47,7 @@ function glyph(n: number) {
   return out
 }
 
-const thesisCaption = thesis.data.figures.find((figure) => figure.n === 3)?.caption ?? ''
+const thesisCaption = thesis?.data.figures.find((figure) => figure.n === 3)?.caption ?? ''
 const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
 ---
 
@@ -98,43 +97,47 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
       </div>
     </div>
 
-    <CaseBand project={solver} lang={lang} variant="accent" labelAbove draw />
-    <CaseBand project={agentic} lang={lang} variant="tint" valueFirst draw />
+    {solver && <CaseBand project={solver} lang={lang} variant="accent" labelAbove draw />}
+    {agentic && <CaseBand project={agentic} lang={lang} variant="tint" valueFirst draw />}
 
-    <article class="band band--heat">
-      <div class="wrap band-grid">
-        <div class="band-text" data-reveal>
-          <h3 class="band-title"><a href={projectPath(lang, thesis.data.slug)}>{headingNbsp(thesis.data.title)}</a></h3>
-          <p class="band-sum">{thesis.data.description}</p>
-          {thesis.data.role && (
-            <dl class="band-role"><dt>{ui.role}</dt><dd>{thesis.data.role}</dd></dl>
-          )}
-        </div>
-        <div class="band-kf"><div class="kf"><span class="kf-v">{thesis.data.keyFigures[0]?.value}</span></div></div>
-      </div>
-      <Compare lang={lang} label={thesisLabel} describedBy={compareNote ? 'compare-note' : undefined} />
-      <div class="wrap cmp-foot">
-        {compareNote && <span class="note" id="compare-note">{compareNote}</span>}
-        <a class="tl tl-strong tl-acc" href={projectPath(lang, thesis.data.slug)}>{ui.readCase}</a>
-      </div>
-    </article>
-
-    <div class="wrap">
-      <article class="entry">
-        <div class="entry-grid">
-          <div>
-            <h3 class="entry-title"><a href={projectPath(lang, kpi.data.slug)}>{headingNbsp(kpi.data.title)}</a></h3>
-            <p class="band-sum">{kpi.data.description}</p>
-            {kpi.data.role && (
-              <dl class="band-role"><dt>{ui.role}</dt><dd>{kpi.data.role}</dd></dl>
+    {thesis && (
+      <article class="band band--heat">
+        <div class="wrap band-grid">
+          <div class="band-text" data-reveal>
+            <h3 class="band-title"><a href={projectPath(lang, thesis.data.slug)}>{headingNbsp(thesis.data.title)}</a></h3>
+            <p class="band-sum">{thesis.data.description}</p>
+            {thesis.data.role && (
+              <dl class="band-role"><dt>{ui.role}</dt><dd>{thesis.data.role}</dd></dl>
             )}
-            <a class="band-link tl tl-acc" href={projectPath(lang, kpi.data.slug)}>{ui.readCase}</a>
           </div>
-          <div class="band-fig">
-            <Figure file="kpi-reference/forecast-error" lang={lang} instance="home" bare />
-          </div>
+          <div class="band-kf"><div class="kf"><span class="kf-v">{thesis.data.keyFigures[0]?.value}</span></div></div>
+        </div>
+        <Compare lang={lang} label={thesisLabel} describedBy={compareNote ? 'compare-note' : undefined} />
+        <div class="wrap cmp-foot">
+          {compareNote && <span class="note" id="compare-note">{compareNote}</span>}
+          <a class="tl tl-strong tl-acc" href={projectPath(lang, thesis.data.slug)}>{ui.readCase}</a>
         </div>
       </article>
+    )}
+
+    <div class="wrap">
+      {kpi && (
+        <article class="entry">
+          <div class="entry-grid">
+            <div>
+              <h3 class="entry-title"><a href={projectPath(lang, kpi.data.slug)}>{headingNbsp(kpi.data.title)}</a></h3>
+              <p class="band-sum">{kpi.data.description}</p>
+              {kpi.data.role && (
+                <dl class="band-role"><dt>{ui.role}</dt><dd>{kpi.data.role}</dd></dl>
+              )}
+              <a class="band-link tl tl-acc" href={projectPath(lang, kpi.data.slug)}>{ui.readCase}</a>
+            </div>
+            <div class="band-fig">
+              <Figure file="kpi-reference/forecast-error" lang={lang} instance="home" bare />
+            </div>
+          </div>
+        </article>
+      )}
       {small.map((item) => (
         <div class="row-small" data-reveal>
           <b>{item.data.title}</b>

@@ -29,7 +29,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "prettier": "prettier --write \"**/*.{ts,css}\" --ignore-path .gitignore",
-    "test": "tsx --test src/**/*.test.ts"
+    "test": "tsx --test src/**/*.test.ts",
+    "test:removal": "node scripts/check-case-removal.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

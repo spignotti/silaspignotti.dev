@@ -248,6 +248,7 @@ p { text-wrap: pretty; }
   .cs-head .band-text { grid-column: 1 / span 6; }
   .cs-head .band-fig { grid-column: 7 / span 6; }
 }
+.cs-head .band-fig .note { display: block; margin-top: 8px; font-size: 12px; color: var(--color-muted); }
 .cs-meta { display: grid; gap: 20px; padding-block: 32px; border-bottom: 1px solid var(--color-border); }
 .cs-meta dt { font-size: 12px; color: var(--color-muted); margin-bottom: 4px; }
 .cs-meta dd { margin: 0; font-size: 15px; line-height: 1.5; }

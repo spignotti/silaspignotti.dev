@@ -44,20 +44,6 @@ export function switchPath(lang: Lang, alternate: string | undefined): string {
   return pagePath(otherLang(lang), 'home')
 }
 
-export const CASE_ORDER = [
-  'routing-engine-solver',
-  'routing-engine-agentic',
-  'berlin-lst-downscaling',
-  'kpi-reference',
-] as const
-
-export type CaseSlug = (typeof CASE_ORDER)[number]
-
-export function nextCaseSlug(slug: string): string {
-  const i = CASE_ORDER.indexOf(slug as CaseSlug)
-  return CASE_ORDER[(i + 1) % CASE_ORDER.length] ?? CASE_ORDER[0]
-}
-
 export const SECTION_IDS = {
   de: {
     cases: 'fallstudien',

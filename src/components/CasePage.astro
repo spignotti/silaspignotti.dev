@@ -1,12 +1,13 @@
 ---
 import compareHeat from '@/assets/geo/heat-compare-illustrative.json'
+import heat from '@/assets/geo/heat-illustrative.json'
 import ArticleSchema from '@/components/ArticleSchema.astro'
 import Compare from '@/components/Compare.astro'
 import Figure from '@/components/Figure.astro'
 import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
-import { SECTION_IDS, UI, nextCaseSlug, pagePath, projectPath } from '@/i18n'
-import { getCase } from '@/lib/content'
+import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
+import { getCase, getCases } from '@/lib/content'
 import { isPlaceholder, parseSections, type CaseSection } from '@/lib/prose'
 import { headingNbsp, illustrativeNote, inlineHtml } from '@/lib/text'
 
@@ -18,7 +19,10 @@ const { lang, slug } = Astro.props
 const ui = UI[lang]
 const project = await getCase(lang, slug)
 const sections = parseSections(project.body ?? '')
-const next = await getCase(lang, nextCaseSlug(slug))
+const cases = await getCases(lang)
+const index = cases.findIndex((item) => item.data.slug === slug)
+const next = index >= 0 && cases.length > 1 ? cases[(index + 1) % cases.length] : undefined
+const coverNote = illustrativeNote(heat, lang)
 const ids = SECTION_IDS[lang]
 const imagePath = `/og/${slug}.png`
 const variant =
@@ -80,6 +84,7 @@ function figureOf(n: number) {
       </div>
       <div class="band-fig" data-draw-once={drawOnce ? '' : undefined}>
         <Figure file={`${slug}/cover`} lang={lang} instance="cover" decorative bare />
+        {slug === 'berlin-lst-downscaling' && coverNote && <span class="note">{coverNote}</span>}
       </div>
     </div>
   </header>
@@ -151,10 +156,14 @@ function figureOf(n: number) {
     </article>
   </div>
 
-  <section class="cs-next" aria-labelledby="next-label">
+  <section class="cs-next" aria-labelledby={next ? 'next-label' : undefined}>
     <div class="wrap">
-      <p class="label" id="next-label">{ui.nextCase}</p>
-      <a class="cs-next-title" href={projectPath(lang, next.data.slug)}>{headingNbsp(next.data.title)}</a>
+      {next && (
+        <>
+          <p class="label" id="next-label">{ui.nextCase}</p>
+          <a class="cs-next-title" href={projectPath(lang, next.data.slug)}>{headingNbsp(next.data.title)}</a>
+        </>
+      )}
       <div class="links"><a class="tl tl-strong" href={pagePath(lang, 'projects')}>{ui.allProjects}</a></div>
     </div>
   </section>

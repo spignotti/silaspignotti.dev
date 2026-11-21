@@ -393,9 +393,38 @@ function crop(c) {
   return out
 }
 
+function frontmatter(text) {
+  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return null
+  const data = {}
+  for (const line of match[1].split(/\r?\n/)) {
+    const field = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/)
+    if (!field) continue
+    let value = field[2].trim()
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1)
+    data[field[1]] = value
+  }
+  return data
+}
+
+function caseSlugs() {
+  const dir = path.join(root, 'src/content/projects/de')
+  if (!fs.existsSync(dir)) return []
+  const slugs = []
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.endsWith('.md')) continue
+    const data = frontmatter(fs.readFileSync(path.join(dir, name), 'utf8'))
+    if (!data || data.kind !== 'case' || !data.slug) continue
+    const cover = path.join(root, 'src/assets/figures', data.slug, 'cover.svg')
+    if (!fs.existsSync(cover)) continue
+    slugs.push(data.slug)
+  }
+  return slugs
+}
+
 function cases() {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/assets/geo/heat-illustrative.json'), 'utf8'))
-  for (const slug of ['routing-engine-solver', 'routing-engine-agentic', 'berlin-lst-downscaling', 'kpi-reference']) {
+  for (const slug of caseSlugs()) {
     const file = path.join(root, 'src/assets/figures', slug, 'cover.svg')
     const rendered = renderSvg(file, 1200, 675)
     const image = crop(rendered)
