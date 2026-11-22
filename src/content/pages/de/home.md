@@ -7,7 +7,7 @@ description: "Ich verbinde Fachprozess, Daten und technische Umsetzung: Geodaten
 
 # Silas Pignotti
 
-Ich arbeite an der Schnittstelle von Fachprozess, Daten und technischer Umsetzung: von der Anforderung über Datenmodell und Logik bis zur Anwendung, die im Betrieb läuft. Schwerpunkte sind Geodaten, Datenauswertung und Automatisierung.
+Geodaten, Datenauswertung und Automatisierung · Berlin
 
 ## Fallstudien
 
@@ -39,6 +39,6 @@ Sie arbeiten an einem Projekt oder besetzen eine Stelle in diesen Feldern? Schre
 
 Angebot ausschließlich für Unternehmen, nicht für Verbraucher.
 
-- [E-Mail](mailto:pignottisilas@gmail.com)
+- [E-Mail](mailto:mail@silaspignotti.dev)
 - [LinkedIn](https://www.linkedin.com/in/silas-pignotti/)
 - [GitHub](https://github.com/spignotti)

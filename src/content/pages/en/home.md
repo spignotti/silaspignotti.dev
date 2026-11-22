@@ -7,7 +7,7 @@ description: "I connect business processes, data and technical implementation: g
 
 # Silas Pignotti
 
-I work where business processes, data and technical implementation meet: from requirements to data model and logic to an application that runs in daily operations. My focus is geodata, data analysis and automation.
+Geospatial data, data analysis and automation · Berlin
 
 ## Case studies
 
@@ -39,6 +39,6 @@ Working on a project or hiring for a role in these areas? Write to me.
 
 Offer for businesses only, not for consumers.
 
-- [Email](mailto:pignottisilas@gmail.com)
+- [Email](mailto:mail@silaspignotti.dev)
 - [LinkedIn](https://www.linkedin.com/in/silas-pignotti/)
 - [GitHub](https://github.com/spignotti)
