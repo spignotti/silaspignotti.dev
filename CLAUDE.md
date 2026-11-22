@@ -1,0 +1,22 @@
+# silaspignotti.dev
+
+Personal site at https://silaspignotti.dev. Static Astro site on GitHub Pages.
+
+## Content
+
+This repository is the only source for all site copy: pages in `src/content/pages/`, projects in `src/content/projects/`. There is no Notion mirror, no CMS, and no sync.
+
+- A project is published when its file exists in `src/content/projects/`. Projects that are not on the site have no file here.
+- Important repo: every change goes through its own branch and a pull request. CI must be green and Silas gives his OK before any PR is merged.
+- German at `/`, English at `/en/`. One file per language with the same slug.
+- Voice: sober and factual, first person, no slogans, no numbers in the hero, no em dashes; see .grok/skills/portfolio-writer. Publish steps live in `site-deploy`.
+
+## Stack
+
+Astro 5, Tailwind CSS 4, content collections, GitHub Pages. Static-first. Add a client script only when a page needs it. Do not add React unless a tiny inline script cannot do the job.
+
+Copy lives only in `src/content/`. Visual tokens live in `src/styles/tokens.css` (Personal Brand Guide v1.1, 06.11.2026). Visuals follow `docs/design-spec.md` and `docs/style.md`.
+
+## Validation
+
+`pnpm check` validates types and content schemas. `pnpm test` runs the unit tests. `pnpm build` is the commit gate (Node 24 or newer via `verify:node`). Run `pnpm check` when content schemas, structure, or routes change.
