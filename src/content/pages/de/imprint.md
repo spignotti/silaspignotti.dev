@@ -19,7 +19,7 @@ Berlin
 
 ## Kontakt
 
-[Platzhalter: E-Mail-Adresse]
+E-Mail: [mail@silaspignotti.dev](mailto:mail@silaspignotti.dev)
 
 [Platzhalter: Telefonnummer]
 

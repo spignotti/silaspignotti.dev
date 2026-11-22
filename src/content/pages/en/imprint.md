@@ -19,7 +19,7 @@ Berlin
 
 ## Contact
 
-[Placeholder: E-mail address]
+Email: [mail@silaspignotti.dev](mailto:mail@silaspignotti.dev)
 
 [Placeholder: Telephone number]
 
