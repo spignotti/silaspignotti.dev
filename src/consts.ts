@@ -7,7 +7,7 @@ export const SITE: Site = {
   author: 'Silas Pignotti',
   locale: 'en-US',
   location: 'Berlin, Germany',
-  email: 'pignottisilas@gmail.com',
+  email: 'mail@silaspignotti.dev',
 }
 
 export const NAV_LINKS: SocialLink[] = [
@@ -19,5 +19,5 @@ export const NAV_LINKS: SocialLink[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   { href: 'https://github.com/spignotti', label: 'GitHub', icon: 'github' },
   { href: 'https://www.linkedin.com/in/silas-pignotti/', label: 'LinkedIn', icon: 'linkedin' },
-  { href: 'mailto:pignottisilas@gmail.com', label: 'Email', icon: 'email' },
+  { href: 'mailto:mail@silaspignotti.dev', label: 'Email', icon: 'email' },
 ]
