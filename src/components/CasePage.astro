@@ -79,7 +79,13 @@ if (unplaced.length > 0) {
           <dt>{ui.links}</dt>
           <dd>
             {project.data.links.map((link) => (
-              <a class="tl" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              <a
+                class="tl"
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                download={/\.pdf$/i.test(link.href) ? '' : undefined}
+              >
                 {link.label}
               </a>
             ))}
