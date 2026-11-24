@@ -217,6 +217,7 @@ const write = (p, s) => { fs.mkdirSync(path.dirname(F(p)), { recursive: true });
     p.push(`<text class="fig-t-on" x="322" y="144" text-anchor="middle">${esc(t.net)}</text>`)
     p.push(label(322, 172, t.netSub, 'fig-t-on-s', 16))
     p.push(arrow(152, 252, 70))
+    p.push(arrow(152, 252, 210))
     p.push(arrow(392, 460, 70))
     p.push(arrow(392, 460, 210))
     p.push(arrow(532, 588, 210))

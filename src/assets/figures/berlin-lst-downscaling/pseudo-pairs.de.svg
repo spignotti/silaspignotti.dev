@@ -21,6 +21,8 @@
   <text class="fig-t-on-s" x="322" y="185" text-anchor="middle">Schritten gleich</text>
   <path class="fig-ln" d="M155 70H245"/>
   <path class="fig-head-muted" d="M250 70l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M155 210H245"/>
+  <path class="fig-head-muted" d="M250 210l-7 -4.5v9z"/>
   <path class="fig-ln" d="M395 70H453"/>
   <path class="fig-head-muted" d="M458 70l-7 -4.5v9z"/>
   <path class="fig-ln" d="M395 210H453"/>
