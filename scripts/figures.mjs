@@ -147,10 +147,10 @@ const write = (p, s) => { fs.mkdirSync(path.dirname(F(p)), { recursive: true });
 // ======================= berlin-lst-downscaling/data-flow =======================
 {
   const L = {
-    de: { title: 'Von den Rohdaten zur Temperatur auf 10 m', desc: 'Datenfluss von links nach rechts: Quellen (Landsat 8/9, Sentinel-2, Berliner Geodaten, ERA5-Land), Szenenauswahl, analysefertige Raster, dazu Kontext aus Morphologie, Schatten und Wetter, daraus ein Feature-Stack mit 22 Kanälen, ein U-Net und die Temperatur auf 10 m. Hervorgehoben ist der Feature-Stack.',
-      src: ['Landsat 8/9', 'Sentinel-2', 'Berliner Geodaten', 'ERA5-Land'], sel: ['Szenenauswahl'], ras: ['analysefertige', 'Raster'], stk: ['Feature-Stack', 'mit 22 Kanälen'], net: ['U-Net'], out: ['Temperatur', 'auf 10 m'], ctx: 'Kontext', ctxs: 'Morphologie, Schatten, Wetter' },
-    en: { title: 'From raw data to temperature at 10 m', desc: 'Data flow from left to right: sources (Landsat 8/9, Sentinel-2, Berlin geodata, ERA5-Land), scene selection, analysis-ready rasters, plus context from morphology, shadows and weather, combined into a feature stack with 22 channels, a U-Net and temperature at 10 m. The feature stack is highlighted.',
-      src: ['Landsat 8/9', 'Sentinel-2', 'Berlin geodata', 'ERA5-Land'], sel: ['Scene', 'selection'], ras: ['Analysis-ready', 'rasters'], stk: ['Feature stack', 'with 22 channels'], net: ['U-Net'], out: ['Temperature', 'at 10 m'], ctx: 'Context', ctxs: 'morphology, shadows, weather' },
+    de: { title: 'Von den Rohdaten zur Temperatur auf 10 m', desc: 'Datenfluss von links nach rechts: Quellen (Landsat 8/9, Sentinel-2, Berliner Geodaten, ERA5-Land), Szenenauswahl, analysefertige Raster, dazu Kontext aus Morphologie, Schatten und Wetter, daraus ein Feature-Stack, ein U-Net und die Temperatur auf 10 m. Hervorgehoben ist der Feature-Stack.',
+      src: ['Landsat 8/9', 'Sentinel-2', 'Berliner Geodaten', 'ERA5-Land'], sel: ['Szenenauswahl'], ras: ['analysefertige', 'Raster'], stk: ['Feature-Stack'], net: ['U-Net'], out: ['Temperatur', 'auf 10 m'], ctx: 'Kontext', ctxs: 'Morphologie, Schatten, Wetter' },
+    en: { title: 'From raw data to temperature at 10 m', desc: 'Data flow from left to right: sources (Landsat 8/9, Sentinel-2, Berlin geodata, ERA5-Land), scene selection, analysis-ready rasters, plus context from morphology, shadows and weather, combined into a feature stack, a U-Net and temperature at 10 m. The feature stack is highlighted.',
+      src: ['Landsat 8/9', 'Sentinel-2', 'Berlin geodata', 'ERA5-Land'], sel: ['Scene', 'selection'], ras: ['Analysis-ready', 'rasters'], stk: ['Feature stack'], net: ['U-Net'], out: ['Temperature', 'at 10 m'], ctx: 'Context', ctxs: 'morphology, shadows, weather' },
   }
   for (const [lang, t] of Object.entries(L)) {
     const p = [], cy = 65, top = 33
@@ -383,45 +383,51 @@ const write = (p, s) => { fs.mkdirSync(path.dirname(F(p)), { recursive: true });
   const L = {
     de: {
       title: 'Leipzig: Ergebnis nach Anteil lokaler Daten',
-      desc: 'Liniendiagramm: gewichteter F1 von 0,3 bis 0,8 über den Anteil Leipziger Trainingsdaten. Hervorgehoben ist die Linie des Berlin-Modells, nachtrainiert. Werte: ohne Leipziger Daten 0,38, bei 10 Prozent 0,50, bei 25 Prozent 0,57, bei 50 Prozent 0,66, bei 100 Prozent 0,77. Zwei gestrichelte Referenzen: Nur Leipzig, von Grund auf 0,79, und Berlin im eigenen Test 0,75.',
-      xTitle: 'Anteil Leipziger Trainingsdaten', yTitle: 'Gewichteter F1', xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0,3', '0,4', '0,5', '0,6', '0,7', '0,8'],
-      zero: 'Zero-Shot', series: 'Berlin-Modell, nachtrainiert',
-      refs: [['Nur Leipzig, von Grund auf: 0,79', 0.79], ['Berlin, eigener Test: 0,75', 0.75]],
+      desc: 'Liniendiagramm: gewichteter F1 des Berlin-Modells in Leipzig, nachtrainiert mit 0, 10, 25, 50 und 100 Prozent der Leipziger Trainingsdaten; die fünf Stufen stehen in gleichem Abstand. Werte: ohne Leipziger Daten (Zero-Shot) 0,38, bei 10 Prozent 0,50, bei 25 Prozent 0,57, bei 50 Prozent 0,66, bei 100 Prozent 0,77. Zwei gestrichelte Vergleichslinien: ein Modell nur mit Leipziger Daten, von Grund auf trainiert, 0,79, und das Berlin-Modell im Berliner Test, 0,75. Hervorgehoben ist die Linie des nachtrainierten Berlin-Modells.',
+      xTitle: 'Anteil Leipziger Trainingsdaten', yTitle: 'Gewichteter F1',
+      xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0,3', '0,4', '0,5', '0,6', '0,7', '0,8'],
+      zero: 'Zero-Shot', series: ['Berlin-Modell,', 'in Leipzig nachtrainiert'],
+      refs: ['Nur Leipzig, von Grund auf: 0,79', 'Berlin-Modell im Berliner Test: 0,75'],
       vals: ['0,38', '0,50', '0,57', '0,66', '0,77'],
     },
     en: {
       title: 'Leipzig: score by share of local data',
-      desc: 'Line chart: weighted F1 from 0.3 to 0.8 against the share of Leipzig training data. Highlighted is the line of the Berlin model, fine-tuned. Values: without Leipzig data 0.38, at 10 percent 0.50, at 25 percent 0.57, at 50 percent 0.66, at 100 percent 0.77. Two dashed references: Leipzig only, from scratch 0.79, and Berlin in its own test 0.75.',
-      xTitle: 'Share of Leipzig training data', yTitle: 'Weighted F1', xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0.3', '0.4', '0.5', '0.6', '0.7', '0.8'],
-      zero: 'zero-shot', series: 'Berlin model, fine-tuned',
-      refs: [['Leipzig only, from scratch: 0.79', 0.79], ['Berlin, own test: 0.75', 0.75]],
+      desc: 'Line chart: weighted F1 of the Berlin model in Leipzig, fine-tuned with 0, 10, 25, 50 and 100 percent of the Leipzig training data; the five steps are evenly spaced. Values: without Leipzig data (zero-shot) 0.38, at 10 percent 0.50, at 25 percent 0.57, at 50 percent 0.66, at 100 percent 0.77. Two dashed reference lines: a model trained from scratch on Leipzig data only, 0.79, and the Berlin model on the Berlin test set, 0.75. The line of the fine-tuned Berlin model is highlighted.',
+      xTitle: 'Share of Leipzig training data', yTitle: 'Weighted F1',
+      xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0.3', '0.4', '0.5', '0.6', '0.7', '0.8'],
+      zero: 'zero-shot', series: ['Berlin model,', 'fine-tuned in Leipzig'],
+      refs: ['Leipzig only, from scratch: 0.79', 'Berlin model on the Berlin test: 0.75'],
       vals: ['0.38', '0.50', '0.57', '0.66', '0.77'],
     },
   }
   for (const [lang, t] of Object.entries(L)) {
-    const x0 = 90, x1 = 560, yt = 40, yb = 320
-    const X = (pct) => x0 + (pct / 100) * (x1 - x0)
-    const Y = (v) => yb - ((v - 0.3) / 0.5) * (yb - yt)
-    const pts = [[0, 0.38], [10, 0.5], [25, 0.57], [50, 0.66], [100, 0.77]]
+    // Evenly spaced steps: the five shares are the experiment's settings, not a continuous scale.
+    const x0 = 64, xr = 784, yt = 16, yb = 292
+    const xs = [116, 276, 436, 596, 736]
+    const Y = (v) => yb - ((v - 0.3) / 0.55) * (yb - yt)
+    const vs = [0.38, 0.5, 0.57, 0.66, 0.77]
     const p = []
-    for (let i = 1; i < 6; i++) p.push(`<path class="fig-grid" d="M${x0} ${r1(Y(0.3 + i * 0.1))}H${x1}"/>`)
-    t.refs.forEach(([, v]) => p.push(`<path class="fig-ln fig-dash" d="M${x0} ${r1(Y(v))}H${x1}"/>`))
-    p.push(`<path class="fig-base" d="M${x0} ${yt}V${yb}"/>`)
-    p.push(`<path class="fig-base" d="M${x0} ${yb}H${x1}"/>`)
-    t.yTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="80" y="${r1(Y(0.3 + i * 0.1) + 4)}" text-anchor="end">${tick}</text>`))
-    t.xTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="${r1(X(pts[i][0]))}" y="338" text-anchor="middle">${tick}</text>`))
-    p.push(`<text class="fig-t-s" x="${(x0 + x1) / 2}" y="362" text-anchor="middle">${esc(t.xTitle)}</text>`)
-    p.push(`<text class="fig-t-s" x="26" y="180" text-anchor="middle" transform="rotate(-90 26 180)">${esc(t.yTitle)}</text>`)
-    p.push(`<path class="fig-ln-acc" d="${pts.map(([x, v], i) => `${i === 0 ? 'M' : 'L'}${r1(X(x))} ${r1(Y(v))}`).join('')}"/>`)
-    pts.forEach(([x, v], i) => {
-      const last = i === pts.length - 1
-      p.push(`<circle class="fig-bar-acc" cx="${r1(X(x))}" cy="${r1(Y(v))}" r="4"/>`)
-      p.push(`<text class="fig-num-s" x="${r1(last ? X(x) - 4 : X(x))}" y="${r1(Y(v) - 11)}" text-anchor="${last ? 'end' : 'middle'}">${t.vals[i]}</text>`)
+    for (let i = 1; i < 6; i++) p.push(`<path class="fig-grid" d="M${x0} ${r1(Y(0.3 + i * 0.1))}H${xr}"/>`)
+    p.push(`<path class="fig-ln fig-dash" d="M${x0} ${r1(Y(0.79))}H${xr}"/>`)
+    p.push(`<path class="fig-ln fig-dash" d="M${x0} ${r1(Y(0.75))}H${xr}"/>`)
+    p.push(`<path class="fig-base" d="M${x0} ${yb}H${xr}"/>`)
+    t.yTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="${x0 - 10}" y="${r1(Y(0.3 + i * 0.1) + 4)}" text-anchor="end">${tick}</text>`))
+    t.xTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="${xs[i]}" y="${yb + 20}" text-anchor="middle">${tick}</text>`))
+    p.push(`<text class="fig-t-s" x="${(xs[0] + xs[4]) / 2}" y="${yb + 44}" text-anchor="middle">${esc(t.xTitle)}</text>`)
+    p.push(`<text class="fig-t-s" x="16" y="${r1(Y(0.55))}" text-anchor="middle" transform="rotate(-90 16 ${r1(Y(0.55))})">${esc(t.yTitle)}</text>`)
+    // Reference labels sit at the left, where the series is still far below them.
+    p.push(`<text class="fig-t-sm" x="${x0 + 8}" y="${r1(Y(0.79) - 7)}">${esc(t.refs[0])}</text>`)
+    p.push(`<text class="fig-t-sm" x="${x0 + 8}" y="${r1(Y(0.75) + 16)}">${esc(t.refs[1])}</text>`)
+    p.push(`<path class="fig-ln-acc" d="${xs.map((x, i) => `${i === 0 ? 'M' : 'L'}${x} ${r1(Y(vs[i]))}`).join('')}"/>`)
+    xs.forEach((x, i) => {
+      p.push(`<circle class="fig-bar-acc" cx="${x}" cy="${r1(Y(vs[i]))}" r="4.5"/>`)
+      if (i < 4) p.push(`<text class="fig-num-s" x="${x}" y="${r1(Y(vs[i]) - 12)}" text-anchor="middle">${t.vals[i]}</text>`)
     })
-    p.push(`<text class="fig-t-s" x="${x0}" y="292" text-anchor="middle">${esc(t.zero)}</text>`)
-    p.push(`<text class="fig-t-s" x="580" y="62">${esc(t.series)}</text>`)
-    t.refs.forEach(([text, v], i) => p.push(`<text class="fig-t-s" x="572" y="${r1(i === 0 ? Y(v) - 9 : Y(v) + 14)}">${esc(text)}</text>`))
-    write(`urban-tree-transfer/transfer.${lang}.svg`, svg({ id: 'fig-utt-transfer', w: 840, h: 380, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+    // The last value sits right of its point, between the two dashed lines.
+    p.push(`<text class="fig-num-s" x="${xs[4] + 12}" y="${r1(Y(vs[4]) + 4)}">${t.vals[4]}</text>`)
+    p.push(`<text class="fig-t-s" x="${xs[0]}" y="${r1(Y(vs[0]) + 22)}" text-anchor="middle">${esc(t.zero)}</text>`)
+    p.push(label(xs[3] + 6, Y(vs[3]) + 34, t.series, 'fig-t-sm', 15, 'start'))
+    write(`urban-tree-transfer/transfer.${lang}.svg`, svg({ id: 'fig-utt-transfer', w: 840, h: 348, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 

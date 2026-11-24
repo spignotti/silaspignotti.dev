@@ -1,6 +1,6 @@
 <svg class="figure-svg fig-wide" width="840" height="190" viewBox="0 0 840 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-lst-flow-t fig-lst-flow-d">
   <title id="fig-lst-flow-t">From raw data to temperature at 10 m</title>
-  <desc id="fig-lst-flow-d">Data flow from left to right: sources (Landsat 8/9, Sentinel-2, Berlin geodata, ERA5-Land), scene selection, analysis-ready rasters, plus context from morphology, shadows and weather, combined into a feature stack with 22 channels, a U-Net and temperature at 10 m. The feature stack is highlighted.</desc>
+  <desc id="fig-lst-flow-d">Data flow from left to right: sources (Landsat 8/9, Sentinel-2, Berlin geodata, ERA5-Land), scene selection, analysis-ready rasters, plus context from morphology, shadows and weather, combined into a feature stack, a U-Net and temperature at 10 m. The feature stack is highlighted.</desc>
   <rect class="fig-box-quiet" x="0.8" y="0.8" width="138.5" height="26.5" rx="6"/>
   <text class="fig-t-sm" x="12" y="18">Landsat 8/9</text>
   <rect class="fig-box-quiet" x="0.8" y="34.8" width="138.5" height="26.5" rx="6"/>
@@ -20,8 +20,7 @@
   <text class="fig-t" x="375" y="61" text-anchor="middle">Analysis-ready</text>
   <text class="fig-t" x="375" y="79" text-anchor="middle">rasters</text>
   <rect class="fig-focus" x="460.8" y="33.8" width="126.5" height="62.5" rx="6"/>
-  <text class="fig-t-on" x="524" y="61" text-anchor="middle">Feature stack</text>
-  <text class="fig-t-on" x="524" y="79" text-anchor="middle">with 22 channels</text>
+  <text class="fig-t-on" x="524" y="70" text-anchor="middle">Feature stack</text>
   <rect class="fig-box" x="618.8" y="33.8" width="70.5" height="62.5" rx="6"/>
   <text class="fig-t" x="654" y="70" text-anchor="middle">U-Net</text>
   <rect class="fig-box" x="724.8" y="33.8" width="114.5" height="62.5" rx="6"/>
