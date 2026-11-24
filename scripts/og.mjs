@@ -17,6 +17,7 @@ const BG = [0xf7, 0xf7, 0xf5, 255]
 const TEXT = [0x15, 0x19, 0x22, 255]
 const MUTED = [0x62, 0x5d, 0x57, 255]
 const ACCENT = [0xd4, 0x72, 0x4a, 255]
+const BORDER_STRONG = [0x8a, 0x85, 0x7e, 255]
 const ON = [0x15, 0x19, 0x22, 255]
 const HEAT_LO = [0x3b, 0x3e, 0x45, 255]
 const HEAT_HI = [0xd4, 0x72, 0x4a, 255]
@@ -60,6 +61,8 @@ const STYLE = {
   'fig-cover-hair': { stroke: fade(ON, 0.16), width: 2 },
   'fig-cover-hair-t': { stroke: fade(TEXT, 0.1), width: 2 },
   'fig-cover-split': { stroke: BG, width: 8 },
+  'fig-cover-ring': { stroke: BORDER_STRONG, width: 2 },
+  'fig-cover-flow': { stroke: ACCENT, width: 10, cap: 'round' },
   'fig-ink': { stroke: ON, width: 10, cap: 'round' },
   'fig-ink-thin': { stroke: ON, width: 4, dash: [2, 14], cap: 'round' },
   'fig-ink-fill': { fill: ON },
@@ -68,6 +71,7 @@ const STYLE = {
   'fig-lane-acc': { stroke: ACCENT, width: 28 },
   'fig-gate': { fill: TEXT },
   'fig-pr': { fill: TEXT },
+  'fig-dot': { fill: TEXT },
   'fig-bar': { fill: BAR },
   'fig-bar-acc': { fill: ACCENT },
   'fig-base': { stroke: TEXT, width: 1 },

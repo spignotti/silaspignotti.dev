@@ -1,5 +1,6 @@
-// Writes the diagram and chart figures (DE + EN) and the non-raster cover into
-// src/assets/figures. Geometry is authored here by hand; the script only swaps the language strings.
+// Writes the diagram and chart figures for tourengenie, berlin-lst-downscaling and
+// urban-tree-transfer (DE + EN) and the non-raster covers into src/assets/figures.
+// Geometry is authored here by hand; the script only swaps the language strings.
 // Usage: node scripts/figures.mjs .   (raster figures: scripts/raster.mjs)
 import fs from 'node:fs'
 import path from 'node:path'
@@ -22,51 +23,124 @@ function svg({ id, w, h, title, desc, body, wide = true }) {
 </svg>
 `
 }
-const write = (p, s) => { fs.writeFileSync(F(p), s); console.log(p, s.length) }
+const write = (p, s) => { fs.mkdirSync(path.dirname(F(p)), { recursive: true }); fs.writeFileSync(F(p), s); console.log(p, s.length) }
 
-// ======================= kpi-reference/process =======================
+// ======================= tourengenie/objective =======================
 {
   const L = {
-    de: { title: 'Die Referenz legt die Werte fest', desc: 'Ablauf von links nach rechts: Anforderung, Referenzimplementierung, Abgleich mit der Produktion, Übergabe. Hervorgehoben ist die Referenzimplementierung.', n: [['Anforderung'], ['Referenzimplementierung'], ['Abgleich mit der', 'Produktion'], ['Übergabe']] },
-    en: { title: 'The reference defines the values', desc: 'Flow from left to right: requirement, reference implementation, matching with production, handover. The reference implementation is highlighted.', n: [['Requirement'], ['Reference implementation'], ['Matching with', 'production'], ['Handover']] },
+    de: {
+      title: 'Feste Rangfolge im Ziel',
+      desc: 'Vier Zeilen untereinander, jede mit einer Rangzahl, einem Ziel und einer Notiz, wann diese Stufe entscheidet. Rang 1: alle fälligen Aufträge eingeplant, zählt immer zuerst. Rang 2: möglichst wenige Touren, bei gleich vielen eingeplanten Aufträgen. Rang 3: möglichst wenig Fahrzeit, bei gleicher Tourenzahl. Rang 4: möglichst kurze Distanz, bei gleicher Fahrzeit. Eine Klammer rechts fasst die vier Zeilen zusammen: eine ganzzahlige Zielfunktion, jede Stufe wiegt mehr als alle darunter. Hervorgehoben ist Rang 1.',
+      goals: ['Alle fälligen Aufträge eingeplant', 'Möglichst wenige Touren', 'Möglichst wenig Fahrzeit', 'Möglichst kurze Distanz'],
+      notes: [['zählt immer zuerst'], ['bei gleich vielen', 'eingeplanten Aufträgen'], ['bei gleicher Tourenzahl'], ['bei gleicher Fahrzeit']],
+      bracket: ['Eine ganzzahlige Zielfunktion:', 'jede Stufe wiegt mehr als alle darunter'],
+    },
+    en: {
+      title: 'A fixed ranking in the objective',
+      desc: 'Four rows, each with a rank number, a goal and a note on when that level decides. Rank 1: all due jobs planned, always counts first. Rank 2: as few tours as possible, if the same number of jobs is planned. Rank 3: as little travel time as possible, if the tour count is equal. Rank 4: as short a distance as possible, if the travel time is equal. A bracket on the right joins the four rows: one integer objective, each level outweighs all levels below. Rank 1 is highlighted.',
+      goals: ['All due jobs planned', 'As few tours as possible', 'As little travel time as possible', 'As short a distance as possible'],
+      notes: [['always counts first'], ['if the same number of', 'jobs is planned'], ['if the tour count is equal'], ['if the travel time is equal']],
+      bracket: ['One integer objective:', 'each level outweighs all levels below'],
+    },
   }
   for (const [lang, t] of Object.entries(L)) {
-    const ws = [150, 230, 210, 130], xs = [0, 190, 460, 710], p = []
-    t.n.forEach((lines, i) => { const f = i === 1; p.push(box(xs[i], 0, ws[i], 64, f ? 'fig-focus' : 'fig-box')); p.push(label(xs[i] + ws[i] / 2, 32, lines, f ? 'fig-t-on' : 'fig-t')) })
-    for (let i = 0; i < 3; i++) p.push(arrow(xs[i] + ws[i], xs[i + 1], 32, i < 2 ? 'fig-head' : 'fig-head-muted'))
-    write(`kpi-reference/process.${lang}.svg`, svg({ id: 'fig-kpi-process', w: 840, h: 64, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+    const p = []
+    t.goals.forEach((goal, i) => {
+      const y = 8 + i * 52, cy = y + 22, focal = i === 0
+      p.push(`<text class="fig-num" x="12" y="${cy + 5}" text-anchor="middle">${i + 1}</text>`)
+      p.push(box(24, y, 300, 44, focal ? 'fig-focus' : 'fig-box'))
+      p.push(label(174, cy, [goal], focal ? 'fig-t-on' : 'fig-t'))
+      p.push(label(336, cy, t.notes[i], 'fig-t-s', 15, 'start'))
+    })
+    p.push(`<path class="fig-ln" d="M545 8H552V208H545"/>`)
+    p.push(label(564, 108, t.bracket, 'fig-t-s', 15, 'start'))
+    write(`tourengenie/objective.${lang}.svg`, svg({ id: 'fig-tg-objective', w: 840, h: 224, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 
-// ======================= kpi-reference/forecast-model =======================
+// ======================= tourengenie/travel-cache =======================
 {
   const L = {
-    de: { title: 'Vier Faktoren, multipliziert', desc: 'Formel in einer Zeile: Mengenniveau mal Saisonfaktor je Monat mal Arbeitstagsgewicht mal Standortanteil ergibt die Prognose. Allgemeine Form ohne Betriebswerte. Hervorgehoben ist die Prognose.', n: [['Mengenniveau'], ['Saisonfaktor', '(Monat)'], ['Arbeitstagsgewicht'], ['Standortanteil'], ['Prognose']] },
-    en: { title: 'Four factors, multiplied', desc: 'Formula in one line: volume level times seasonal factor per month times working-day weight times site share gives the forecast. General form without company values. The forecast is highlighted.', n: [['Volume level'], ['Seasonal factor', '(month)'], ['Working-day weight'], ['Site share'], ['Forecast']] },
+    de: {
+      title: 'Ein neuer Stopp braucht nur 2n Kanten',
+      desc: 'Quadratische Fahrzeitmatrix mit sieben Zeilen und sieben Spalten, Felder von 22 Pixeln mit drei Pixeln Abstand. Oben links liegen die sechs vorhandenen Stopps als 6 mal 6 Felder, sie sind ruhig gefüllt. Die siebte Zeile und die siebte Spalte gehören zum neuen Stopp und sind die einzige akzentfarbene Fläche. Das Feld unten rechts, neuer Stopp zu neuem Stopp, bleibt leer. Die Achsen sind beschriftet: oben nach, links von, unter der siebten Spalte und neben der siebten Zeile neu. Rechts stehen drei Legendeneinträge: n vorhandene Stopps belegen n² Kanten im Cache; ein neuer Stopp braucht nur 2n neue Kanten, hin und zurück; die ganze Matrix neu zu berechnen hieße n² Kanten.',
+      after: 'nach', before: 'von', fresh: 'neu',
+      legend: [
+        ['fig-bar', 'n vorhandene Stopps: n² Kanten liegen im Cache'],
+        ['fig-focus', 'Neuer Stopp: nur 2n neue Kanten, hin und zurück'],
+        ['fig-box-quiet fig-dash', 'Ganze Matrix neu berechnen: n² Kanten'],
+      ],
+    },
+    en: {
+      title: 'A new stop needs only 2n edges',
+      desc: 'Square travel time matrix with seven rows and seven columns, cells of 22 pixels with three pixel gaps. The top left holds the six existing stops as a 6 by 6 field, filled quietly. The seventh row and the seventh column belong to the new stop and are the only accent area. The bottom right cell, new stop to new stop, stays empty. The axes are labelled: to on top, from on the left, new under the seventh column and beside the seventh row. The legend on the right reads: n existing stops occupy n² edges in the cache; a new stop needs only 2n new edges, there and back; recomputing the whole matrix would mean n² edges.',
+      after: 'to', before: 'from', fresh: 'new',
+      legend: [
+        ['fig-bar', 'n existing stops: n² edges are already cached'],
+        ['fig-focus', 'New stop: only 2n new edges, there and back'],
+        ['fig-box-quiet fig-dash', 'Recomputing the whole matrix: n² edges'],
+      ],
+    },
   }
+  const s = 22, gap = 3, pitch = s + gap, x0 = 48, y0 = 24
   for (const [lang, t] of Object.entries(L)) {
-    const ws = [128, 128, 150, 128, 128], xs = [0, 172.5, 345, 539.5, 712], ops = ['×', '×', '×', '='], p = []
-    t.n.forEach((lines, i) => { const f = i === 4; p.push(box(xs[i], 0, ws[i], 64, f ? 'fig-focus' : 'fig-box')); p.push(label(xs[i] + ws[i] / 2, 32, lines, f ? 'fig-t-on' : 'fig-t')) })
-    ops.forEach((o, i) => p.push(`<text class="fig-t-op" x="${r1((xs[i] + ws[i] + xs[i + 1]) / 2)}" y="41" text-anchor="middle">${o}</text>`))
-    write(`kpi-reference/forecast-model.${lang}.svg`, svg({ id: 'fig-kpi-model', w: 840, h: 64, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+    const p = []
+    for (let r = 0; r < 7; r++) {
+      for (let c = 0; c < 7; c++) {
+        const cls = r < 6 && c < 6 ? 'fig-bar' : r === 6 && c === 6 ? 'fig-box-quiet' : 'fig-focus'
+        p.push(`<rect class="${cls}" x="${x0 + c * pitch}" y="${y0 + r * pitch}" width="${s}" height="${s}"/>`)
+      }
+    }
+    p.push(`<text class="fig-t-s" x="${x0 + 3.5 * pitch}" y="14" text-anchor="middle">${esc(t.after)}</text>`)
+    p.push(`<text class="fig-t-s" x="12" y="110" text-anchor="middle" transform="rotate(-90 12 110)">${esc(t.before)}</text>`)
+    p.push(`<text class="fig-t-s" x="${x0 + 6 * pitch + s / 2}" y="${y0 + 7 * pitch - gap + 16}" text-anchor="middle">${esc(t.fresh)}</text>`)
+    p.push(`<text class="fig-t-s" x="${x0 + 7 * pitch - gap + 8}" y="${y0 + 6 * pitch + s / 2 + 4}">${esc(t.fresh)}</text>`)
+    t.legend.forEach(([cls, text], i) => {
+      const yy = 70 + i * 40
+      p.push(`<rect class="${cls}" x="268" y="${yy - 15}" width="20" height="20" rx="2"/>`)
+      p.push(`<text class="fig-t-sm" x="298" y="${yy - 1}">${esc(text)}</text>`)
+    })
+    write(`tourengenie/travel-cache.${lang}.svg`, svg({ id: 'fig-tg-cache', w: 840, h: 240, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 
-// ======================= kpi-reference/forecast-error =======================
+// ======================= tourengenie/release =======================
 {
   const L = {
-    de: { title: 'Prognosefehler im Rückblick', desc: 'Zwei waagerechte Balken, gewichteter mittlerer absoluter Prozentfehler (WMAPE) über 1.300 Prognosefälle: Vorjahr als Prognose 20,12 Prozent, gewähltes Modell 8,42 Prozent. Hervorgehoben ist das gewählte Modell.', a: 'Vorjahr als Prognose', b: 'Gewähltes Modell', va: '20,12 %', vb: '8,42 %' },
-    en: { title: 'Forecast error in a backtest', desc: 'Two horizontal bars, weighted mean absolute percentage error (WMAPE) over 1,300 forecast cases: previous year as forecast 20.12 percent, chosen model 8.42 percent. The chosen model is highlighted.', a: 'Previous year as forecast', b: 'Chosen model', va: '20.12 %', vb: '8.42 %' },
+    de: {
+      title: 'Von der Entwicklung in den Betrieb',
+      desc: 'Drei Kästen von links nach rechts: Entwicklung, Staging, Produktion. Über dem ersten Pfeil steht Tests und Sicherheits-Scans, über dem zweiten steht signiertes Release, nachts ausgeliefert. Unter Produktion liegt gestrichelt die vorherige Version. Ein gestrichelter Weg führt von Produktion hinunter und mit zwei Pfeilspitzen wieder hinauf, beschriftet Deploy schlägt fehl: automatischer Rollback. Hervorgehoben ist Produktion.',
+      stages: ['Entwicklung', 'Staging', 'Produktion'],
+      a: 'Tests und Sicherheits-Scans', b: 'Signiertes Release, nachts ausgeliefert',
+      prev: 'Vorherige Version', rollback: 'Deploy schlägt fehl: automatischer Rollback',
+    },
+    en: {
+      title: 'From development to production',
+      desc: 'Three boxes from left to right: development, staging, production. Above the first arrow: tests and security scans; above the second: signed release, shipped nightly. Below production lies the previous version in a dashed box. A dashed path runs from production down and back up with two arrow heads, labelled deploy fails: automatic rollback. Production is highlighted.',
+      stages: ['Development', 'Staging', 'Production'],
+      a: 'Tests and security scans', b: 'Signed release, shipped nightly',
+      prev: 'Previous version', rollback: 'Deploy fails: automatic rollback',
+    },
   }
   for (const [lang, t] of Object.entries(L)) {
-    const k = 420 / 20.12, wa = 20.12 * k, wb = 8.42 * k
-    const body = `<text class="fig-t-muted" x="0" y="14">${t.a}</text>
-  <rect class="fig-bar" x="0" y="24" width="${r1(wa)}" height="36" rx="2"/>
-  <text class="fig-num-l" x="${r1(wa + 12)}" y="50">${t.va}</text>
-  <text class="fig-t-b" x="0" y="94">${t.b}</text>
-  <rect class="fig-bar-acc" x="0" y="104" width="${r1(wb)}" height="36" rx="2"/>
-  <text class="fig-num-l fig-num-acc" x="${r1(wb + 12)}" y="130">${t.vb}</text>`
-    write(`kpi-reference/forecast-error.${lang}.svg`, svg({ id: 'fig-kpi-error', w: 560, h: 140, title: t.title, desc: t.desc, body, wide: false }))
+    const p = [], xs = [8, 322, 636], cy = 56
+    t.stages.forEach((name, i) => {
+      const focal = i === 2
+      p.push(box(xs[i], 24, 196, 64, focal ? 'fig-focus' : 'fig-box'))
+      p.push(label(xs[i] + 98, cy, [name], focal ? 'fig-t-on' : 'fig-t'))
+    })
+    p.push(arrow(204, 318, cy))
+    p.push(arrow(518, 632, cy, 'fig-head'))
+    p.push(`<text class="fig-t-s" x="261" y="18" text-anchor="middle">${esc(t.a)}</text>`)
+    p.push(`<text class="fig-t-s" x="575" y="18" text-anchor="middle">${esc(t.b)}</text>`)
+    p.push(box(636, 130, 196, 44, 'fig-box-quiet fig-dash'))
+    p.push(label(734, 152, [t.prev]))
+    p.push(`<path class="fig-ln fig-dash" d="M714 92V120"/>`)
+    p.push(`<path class="fig-head-muted" d="M714 127l-4.5 -7h9z"/>`)
+    p.push(`<path class="fig-ln fig-dash" d="M754 126V98"/>`)
+    p.push(`<path class="fig-head-muted" d="M754 91l-4.5 7h9z"/>`)
+    p.push(`<text class="fig-t-s" x="694" y="114" text-anchor="end">${esc(t.rollback)}</text>`)
+    write(`tourengenie/release.${lang}.svg`, svg({ id: 'fig-tg-release', w: 840, h: 190, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 
@@ -101,31 +175,217 @@ const write = (p, s) => { fs.writeFileSync(F(p), s); console.log(p, s.length) }
   }
 }
 
-// ======================= berlin-lst-downscaling/ablation-stages =======================
+// ======================= berlin-lst-downscaling/pseudo-pairs =======================
 {
   const L = {
-    de: { title: 'Fünf Stufen auf einem festen Modell', desc: 'Fünf Spalten, Stufe 1 bis 5, auf demselben residualen 2D-U-Net. Stufe 1 nutzt Spektraldaten, Stufe 2 fügt Morphologie hinzu, Stufe 3 Schatten, Stufe 4 Wetter. Stufe 5 hat dieselben Eingänge und ein thermalsensitives Trainingsziel. Hervorgehoben ist Stufe 1, die Grundlage aller weiteren Stufen.',
-      st: 'Stufe', g: ['Spektral', 'Morphologie', 'Schatten', 'Wetter'], loss: ['+ Trainingsziel', 'thermalsensitiv'], bb: 'Residuales 2D-U-Net, in allen Stufen gleich' },
-    en: { title: 'Five stages on one fixed model', desc: 'Five columns, stage 1 to 5, on the same residual 2D U-Net. Stage 1 uses spectral data, stage 2 adds morphology, stage 3 shadows, stage 4 weather. Stage 5 has the same inputs and a temperature-sensitive training loss. Stage 1, the basis of all later stages, is highlighted.',
-      st: 'Stage', g: ['Spectral', 'Morphology', 'Shadows', 'Weather'], loss: ['+ Training loss', 'temperature-sensitive'], bb: 'Residual 2D U-Net, the same in every stage' },
+    de: {
+      title: 'Eine Ebene gröber trainieren, eine Ebene feiner anwenden',
+      desc: 'Zwei Zeilen, beschriftet Training und Anwendung. In der Training-Zeile geht ein grobes Raster aus 2 mal 2 Zellen als Eingang 1000 m in das U-Net und kommt als mittleres Raster aus 6 mal 6 Zellen heraus, Ziel 100 m (Landsat). In der Anwendung-Zeile geht das mittlere Raster als Eingang 100 m hinein und kommt als feines Raster aus 18 mal 18 Zellen heraus, Ausgabe 10 m. Dasselbe U-Net steht zwischen Eingang und Ausgang beider Zeilen und ist hervorgehoben, in beiden Schritten gleich. Rechts neben der Ausgabe führt ein Pfeil zu einer ruhigen Box Bewertung auf 100 m: die 10-m-Ausgabe zusammengefasst, mit Landsat verglichen.',
+      rows: ['Training', 'Anwendung'],
+      in1: 'Eingang 1000 m', out1: 'Ziel 100 m (Landsat)', in2: 'Eingang 100 m', out2: 'Ausgabe 10 m',
+      net: 'U-Net', netSub: ['in beiden', 'Schritten gleich'],
+      eval: 'Bewertung auf 100 m', evalSub: ['10-m-Ausgabe zusammengefasst,', 'mit Landsat verglichen'],
+    },
+    en: {
+      title: 'Train one level coarser, apply one level finer',
+      desc: 'Two rows, labelled training and application. In the training row a coarse raster of 2 by 2 cells goes as input 1000 m into the U-Net and comes out as a middle raster of 6 by 6 cells, target 100 m (Landsat). In the application row the middle raster goes in as input 100 m and comes out as a fine raster of 18 by 18 cells, output 10 m. The same U-Net sits between the inputs and outputs of both rows and is highlighted, the same in both steps. To the right of the output an arrow leads to a quiet box evaluation at 100 m: the 10 m output aggregated, compared with Landsat.',
+      rows: ['Training', 'Application'],
+      in1: 'Input 1000 m', out1: 'Target 100 m (Landsat)', in2: 'Input 100 m', out2: 'Output 10 m',
+      net: 'U-Net', netSub: ['the same in', 'both steps'],
+      eval: 'Evaluation at 100 m', evalSub: ['10 m output aggregated,', 'compared with Landsat'],
+    },
+  }
+  const raster = (x, y, n) => {
+    const size = 72, c = size / n
+    let d = ''
+    for (let i = 1; i < n; i++) d += `M${r1(x + i * c)} ${y}V${y + size}M${x} ${r1(y + i * c)}H${x + size}`
+    return `<rect class="fig-box-quiet" x="${x}" y="${y}" width="${size}" height="${size}"/>\n  <path class="fig-box-quiet" d="${d}"/>`
   }
   for (const [lang, t] of Object.entries(L)) {
-    const p = [], W = 150, xs = [0, 172.5, 345, 517.5, 690], by = (i) => 196 - i * 36
-    xs.forEach((x, s) => {
-      p.push(`<text class="fig-hd" x="${x}" y="14">${t.st} ${s + 1}</text>`)
-      const n = Math.min(s + 1, 4)
-      for (let i = 0; i < n; i++) {
-        const isNew = i === s, stage1 = s === 0
-        if (stage1) { p.push(box(x, by(i), W, 30, 'fig-focus')); p.push(`<text class="fig-t-on" x="${x + 12}" y="${by(i) + 20}">+ ${t.g[i]}</text>`) }
-        else if (isNew) { p.push(box(x, by(i), W, 30, 'fig-box')); p.push(`<text class="fig-t-b" x="${x + 12}" y="${by(i) + 20}">+ ${t.g[i]}</text>`) }
-        else { p.push(box(x, by(i), W, 30, 'fig-box-quiet')); p.push(`<text class="fig-t-muted" x="${x + 12}" y="${by(i) + 20}">${t.g[i]}</text>`) }
+    const p = [], sizes = [2, 6, 18]
+    p.push(`<text class="fig-hd" x="8" y="75">${esc(t.rows[0])}</text>`)
+    p.push(`<text class="fig-hd" x="8" y="215">${esc(t.rows[1])}</text>`)
+    p.push(raster(80, 34, sizes[0]))
+    p.push(raster(80, 174, sizes[1]))
+    p.push(raster(460, 34, sizes[1]))
+    p.push(raster(460, 174, sizes[2]))
+    p.push(label(116, 122, [t.in1], 'fig-t-s'))
+    p.push(label(116, 262, [t.in2], 'fig-t-s'))
+    p.push(label(496, 122, [t.out1], 'fig-t-s'))
+    p.push(label(496, 262, [t.out2], 'fig-t-s'))
+    p.push(box(252, 18, 140, 264, 'fig-focus'))
+    p.push(`<text class="fig-t-on" x="322" y="144" text-anchor="middle">${esc(t.net)}</text>`)
+    p.push(label(322, 172, t.netSub, 'fig-t-on-s', 16))
+    p.push(arrow(152, 252, 70))
+    p.push(arrow(392, 460, 70))
+    p.push(arrow(392, 460, 210))
+    p.push(arrow(532, 588, 210))
+    p.push(box(588, 172, 248, 76, 'fig-box'))
+    p.push(label(712, 196, [t.eval]))
+    p.push(label(712, 226, t.evalSub, 'fig-t-s', 16))
+    write(`berlin-lst-downscaling/pseudo-pairs.${lang}.svg`, svg({ id: 'fig-lst-pairs', w: 840, h: 300, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+  }
+}
+
+// ======================= berlin-lst-downscaling/ablation =======================
+{
+  const L = {
+    de: {
+      title: 'Ein festes Modell, wechselnde Eingänge',
+      desc: 'Matrix mit fünf Spalten: Spektral, Morphologie, Schatten, Wetter, Embeddings. Neun Zeilen in drei Gruppen. Gruppen hinzufügen: Stufe 1 nutzt Spektral, Stufe 2 Spektral und Morphologie, Stufe 3 zusätzlich Schatten, Stufe 4 zusätzlich Wetter. Je eine Gruppe weglassen: ohne Morphologie nutzt Spektral, Schatten und Wetter; ohne Schatten nutzt Spektral, Morphologie und Wetter; ohne Wetter nutzt Spektral, Morphologie und Schatten. Gegenprobe: Embeddings statt Morphologie und Schatten nutzt Spektral, Wetter und Embeddings. Ein gefülltes Quadrat heißt enthalten, ein leeres heißt nicht enthalten. Rechts spannt ein hervorgehobener Kasten über alle Zeilen: dasselbe U-Net in allen Läufen, jede Zeile ist mit einer dünnen Linie verbunden.',
+      heads: ['Spektral', 'Morphologie', 'Schatten', 'Wetter', 'Embeddings'],
+      groups: [
+        { name: 'Gruppen hinzufügen', rows: [['Stufe 1', [0]], ['Stufe 2', [0, 1]], ['Stufe 3', [0, 1, 2]], ['Stufe 4', [0, 1, 2, 3]]] },
+        { name: 'Je eine Gruppe weglassen', rows: [['ohne Morphologie', [0, 2, 3]], ['ohne Schatten', [0, 1, 3]], ['ohne Wetter', [0, 1, 2]]] },
+        { name: 'Gegenprobe', rows: [['Embeddings statt Morphologie', 'und Schatten', [0, 3, 4]]] },
+      ],
+      net: 'U-Net', netSub: 'in allen Läufen gleich',
+    },
+    en: {
+      title: 'One fixed model, changing inputs',
+      desc: 'Matrix with five columns: spectral, morphology, shadows, weather, embeddings. Nine rows in three groups. Adding groups: stage 1 uses spectral, stage 2 spectral and morphology, stage 3 adds shadows, stage 4 adds weather. Leaving one group out: without morphology uses spectral, shadows and weather; without shadows uses spectral, morphology and weather; without weather uses spectral, morphology and shadows. Cross-check: embeddings instead of morphology and shadows uses spectral, weather and embeddings. A filled square means included, an empty square means not included. On the right a highlighted box spans all rows: the same U-Net in every run, each row joined to it by a thin line.',
+      heads: ['Spectral', 'Morphology', 'Shadows', 'Weather', 'Embeddings'],
+      groups: [
+        { name: 'Adding groups', rows: [['Stage 1', [0]], ['Stage 2', [0, 1]], ['Stage 3', [0, 1, 2]], ['Stage 4', [0, 1, 2, 3]]] },
+        { name: 'Leaving one group out', rows: [['without morphology', [0, 2, 3]], ['without shadows', [0, 1, 3]], ['without weather', [0, 1, 2]]] },
+        { name: 'Cross-check', rows: [['Embeddings instead of', 'morphology and shadows', [0, 3, 4]]] },
+      ],
+      net: 'U-Net', netSub: 'the same in every run',
+    },
+  }
+  const cx = [276, 346, 416, 486, 556]
+  for (const [lang, t] of Object.entries(L)) {
+    const p = []
+    let y = 40
+    t.heads.forEach((head, i) => p.push(`<text class="fig-hd" x="${cx[i]}" y="14" text-anchor="middle">${esc(head)}</text>`))
+    t.groups.forEach((group) => {
+      p.push(`<text class="fig-hd" x="8" y="${y - 8}">${esc(group.name)}</text>`)
+      for (const row of group.rows) {
+        const lines = row.length === 3 ? row.slice(0, 2) : [row[0]]
+        const on = row[row.length - 1]
+        p.push(label(8, y + 16, lines, 'fig-t', 15, 'start'))
+        for (let i = 0; i < 5; i++) {
+          const cls = on.includes(i) ? 'fig-cell' : 'fig-box-quiet'
+          p.push(`<rect class="${cls}" x="${cx[i] - 9}" y="${y + 7}" width="18" height="18" rx="3"/>`)
+        }
+        p.push(`<path class="fig-ln" d="M568 ${y + 16}H598"/>`)
+        y += 32
       }
-      if (s === 4) { p.push(box(x, 38, W, 44, 'fig-box fig-dash')); p.push(`<text class="fig-t-b" x="${x + 12}" y="56">${t.loss[0]}</text>`); p.push(`<text class="fig-t-s" x="${x + 12}" y="73">${t.loss[1]}</text>`) }
-      p.push(`<path class="fig-ln" d="M${x + W / 2} 226V246"/>`)
+      y += 26
     })
-    p.push(box(0, 246, 840, 44, 'fig-box'))
-    p.push(`<text class="fig-t" x="420" y="273" text-anchor="middle">${t.bb}</text>`)
-    write(`berlin-lst-downscaling/ablation-stages.${lang}.svg`, svg({ id: 'fig-lst-stages', w: 840, h: 290, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+    p.push(box(604, 40, 232, 308, 'fig-focus'))
+    p.push(`<text class="fig-t-on" x="720" y="188" text-anchor="middle">${esc(t.net)}</text>`)
+    p.push(`<text class="fig-t-on-s" x="720" y="208" text-anchor="middle">${esc(t.netSub)}</text>`)
+    write(`berlin-lst-downscaling/ablation.${lang}.svg`, svg({ id: 'fig-lst-ablation', w: 840, h: 360, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+  }
+}
+
+// ======================= urban-tree-transfer/spatial-blocks =======================
+{
+  const L = {
+    de: {
+      title: 'Zufällige Aufteilung gegen räumliche Blöcke',
+      desc: 'Zwei Felder nebeneinander, jedes mit zehn mal sechs Baumpunkten auf einem feinen Raster. Im linken Feld Zufällige Aufteilung sind die Punkte einzeln und gemischt Training oder Test, etwa jeder fünfte ist Test. Im rechten Feld Räumliche Blöcke, 1200 m teilen dickere Linien das Feld in fünf mal drei Blöcke zu je zwei mal zwei Bäumen. Ganze Blöcke sind Training oder Test; drei Testblöcke sind akzentfarben hinterlegt und ihre Punkte nur umrandet. Unter dem linken Feld steht: Nachbarbäume landen in Training und Test, das Ergebnis wirkt zu gut. Unter dem rechten: Ganze Blöcke sind Training oder Test, der Test misst echte Übertragung. Unten eine Legende: gefüllter Punkt Training, offener Punkt Test. Hervorgehoben sind die drei Testblöcke.',
+      heads: ['Zufällige Aufteilung', 'Räumliche Blöcke, 1200 m'],
+      notes: [['Nachbarbäume landen in Training und', 'Test: das Ergebnis wirkt zu gut'], ['Ganze Blöcke sind Training oder Test:', 'der Test misst echte Übertragung']],
+      legend: ['Training', 'Test'],
+    },
+    en: {
+      title: 'Random split versus spatial blocks',
+      desc: 'Two fields side by side, each with ten by six tree dots on a faint grid. In the left field, random split, the dots are training or test one by one in a mixed pattern; about one in five is test. In the right field, spatial blocks, 1200 m, thicker lines divide the field into five by three blocks of two by two trees. Whole blocks are training or test; three test blocks have an accent background and their dots are outlines only. Below the left field: neighbouring trees end up in training and test, the score looks too good. Below the right: whole blocks are training or test, the test measures real transfer. At the bottom a legend: filled dot training, open dot test. The three test blocks are highlighted.',
+      heads: ['Random split', 'Spatial blocks, 1200 m'],
+      notes: [['Neighbouring trees end up in training', 'and test: the score looks too good'], ['Whole blocks are training or test:', 'the test measures real transfer']],
+      legend: ['Training', 'Test'],
+    },
+  }
+  const W = 240, H = 144, pitch = 24, off = (i, j) => [((i * 13 + j * 7) % 11) - 5, ((i * 5 + j * 17) % 11) - 5]
+  const grid = (gx, gy) => {
+    let d = ''
+    for (let i = 0; i <= 10; i++) d += `M${gx + i * pitch} ${gy}V${gy + H}`
+    for (let j = 0; j <= 6; j++) d += `M${gx} ${gy + j * pitch}H${gx + W}`
+    return `<path class="fig-grid" d="${d}"/>`
+  }
+  const blocks = (gx, gy) => {
+    let d = ''
+    for (let i = 1; i < 5; i++) d += `M${gx + i * 48} ${gy}V${gy + H}`
+    for (let j = 1; j < 3; j++) d += `M${gx} ${gy + j * 48}H${gx + W}`
+    return `<path class="fig-ln" d="${d}"/>`
+  }
+  const dot = (gx, gy, i, j, cls) => {
+    const [dx, dy] = off(i, j)
+    return `<circle class="${cls}" cx="${r1(gx + 12 + i * pitch + dx)}" cy="${r1(gy + 12 + j * pitch + dy)}" r="5"/>`
+  }
+  const gx = [80, 520], gy = 28
+  const tests = [[0, 0], [2, 1], [4, 2]]
+  for (const [lang, t] of Object.entries(L)) {
+    const p = []
+    p.push(`<text class="fig-hd" x="${gx[0]}" y="14">${esc(t.heads[0])}</text>`)
+    p.push(`<text class="fig-hd" x="${gx[1]}" y="14">${esc(t.heads[1])}</text>`)
+    p.push(grid(gx[0], gy))
+    for (let j = 0; j < 6; j++) for (let i = 0; i < 10; i++) p.push(dot(gx[0], gy, i, j, (i + 2 * j) % 5 === 0 ? 'fig-dot-open' : 'fig-bar'))
+    p.push(grid(gx[1], gy))
+    p.push(blocks(gx[1], gy))
+    for (const [bx, by] of tests) p.push(`<rect class="fig-focus" x="${gx[1] + bx * 48}" y="${gy + by * 48}" width="48" height="48" rx="6"/>`)
+    for (let j = 0; j < 6; j++) {
+      for (let i = 0; i < 10; i++) {
+        const isTest = tests.some(([bx, by]) => Math.floor(i / 2) === bx && Math.floor(j / 2) === by)
+        p.push(dot(gx[1], gy, i, j, isTest ? 'fig-dot-on' : 'fig-bar'))
+      }
+    }
+    p.push(label(gx[0] + W / 2, 200, t.notes[0], 'fig-t-s', 16))
+    p.push(label(gx[1] + W / 2, 200, t.notes[1], 'fig-t-s', 16))
+    p.push(`<circle class="fig-bar" cx="382" cy="248" r="5"/>`)
+    p.push(`<text class="fig-t-s" x="394" y="252">${esc(t.legend[0])}</text>`)
+    p.push(`<circle class="fig-dot-open" cx="472" cy="248" r="5"/>`)
+    p.push(`<text class="fig-t-s" x="484" y="252">${esc(t.legend[1])}</text>`)
+    write(`urban-tree-transfer/spatial-blocks.${lang}.svg`, svg({ id: 'fig-utt-blocks', w: 840, h: 270, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+  }
+}
+
+// ======================= urban-tree-transfer/transfer =======================
+{
+  const L = {
+    de: {
+      title: 'Leipzig: Ergebnis nach Anteil lokaler Daten',
+      desc: 'Liniendiagramm: gewichteter F1 von 0,3 bis 0,8 über den Anteil Leipziger Trainingsdaten. Hervorgehoben ist die Linie des Berlin-Modells, nachtrainiert. Werte: ohne Leipziger Daten 0,38, bei 10 Prozent 0,50, bei 25 Prozent 0,57, bei 50 Prozent 0,66, bei 100 Prozent 0,77. Zwei gestrichelte Referenzen: Nur Leipzig, von Grund auf 0,79, und Berlin im eigenen Test 0,75.',
+      xTitle: 'Anteil Leipziger Trainingsdaten', yTitle: 'Gewichteter F1', xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0,3', '0,4', '0,5', '0,6', '0,7', '0,8'],
+      zero: 'Zero-Shot', series: 'Berlin-Modell, nachtrainiert',
+      refs: [['Nur Leipzig, von Grund auf: 0,79', 0.79], ['Berlin, eigener Test: 0,75', 0.75]],
+      vals: ['0,38', '0,50', '0,57', '0,66', '0,77'],
+    },
+    en: {
+      title: 'Leipzig: score by share of local data',
+      desc: 'Line chart: weighted F1 from 0.3 to 0.8 against the share of Leipzig training data. Highlighted is the line of the Berlin model, fine-tuned. Values: without Leipzig data 0.38, at 10 percent 0.50, at 25 percent 0.57, at 50 percent 0.66, at 100 percent 0.77. Two dashed references: Leipzig only, from scratch 0.79, and Berlin in its own test 0.75.',
+      xTitle: 'Share of Leipzig training data', yTitle: 'Weighted F1', xTicks: ['0 %', '10 %', '25 %', '50 %', '100 %'], yTicks: ['0.3', '0.4', '0.5', '0.6', '0.7', '0.8'],
+      zero: 'zero-shot', series: 'Berlin model, fine-tuned',
+      refs: [['Leipzig only, from scratch: 0.79', 0.79], ['Berlin, own test: 0.75', 0.75]],
+      vals: ['0.38', '0.50', '0.57', '0.66', '0.77'],
+    },
+  }
+  for (const [lang, t] of Object.entries(L)) {
+    const x0 = 90, x1 = 560, yt = 40, yb = 320
+    const X = (pct) => x0 + (pct / 100) * (x1 - x0)
+    const Y = (v) => yb - ((v - 0.3) / 0.5) * (yb - yt)
+    const pts = [[0, 0.38], [10, 0.5], [25, 0.57], [50, 0.66], [100, 0.77]]
+    const p = []
+    for (let i = 1; i < 6; i++) p.push(`<path class="fig-grid" d="M${x0} ${r1(Y(0.3 + i * 0.1))}H${x1}"/>`)
+    t.refs.forEach(([, v]) => p.push(`<path class="fig-ln fig-dash" d="M${x0} ${r1(Y(v))}H${x1}"/>`))
+    p.push(`<path class="fig-base" d="M${x0} ${yt}V${yb}"/>`)
+    p.push(`<path class="fig-base" d="M${x0} ${yb}H${x1}"/>`)
+    t.yTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="80" y="${r1(Y(0.3 + i * 0.1) + 4)}" text-anchor="end">${tick}</text>`))
+    t.xTicks.forEach((tick, i) => p.push(`<text class="fig-num-s" x="${r1(X(pts[i][0]))}" y="338" text-anchor="middle">${tick}</text>`))
+    p.push(`<text class="fig-t-s" x="${(x0 + x1) / 2}" y="362" text-anchor="middle">${esc(t.xTitle)}</text>`)
+    p.push(`<text class="fig-t-s" x="26" y="180" text-anchor="middle" transform="rotate(-90 26 180)">${esc(t.yTitle)}</text>`)
+    p.push(`<path class="fig-ln-acc" d="${pts.map(([x, v], i) => `${i === 0 ? 'M' : 'L'}${r1(X(x))} ${r1(Y(v))}`).join('')}"/>`)
+    pts.forEach(([x, v], i) => {
+      const last = i === pts.length - 1
+      p.push(`<circle class="fig-bar-acc" cx="${r1(X(x))}" cy="${r1(Y(v))}" r="4"/>`)
+      p.push(`<text class="fig-num-s" x="${r1(last ? X(x) - 4 : X(x))}" y="${r1(Y(v) - 11)}" text-anchor="${last ? 'end' : 'middle'}">${t.vals[i]}</text>`)
+    })
+    p.push(`<text class="fig-t-s" x="${x0}" y="292" text-anchor="middle">${esc(t.zero)}</text>`)
+    p.push(`<text class="fig-t-s" x="580" y="62">${esc(t.series)}</text>`)
+    t.refs.forEach(([text, v], i) => p.push(`<text class="fig-t-s" x="572" y="${r1(i === 0 ? Y(v) - 9 : Y(v) + 14)}">${esc(text)}</text>`))
+    write(`urban-tree-transfer/transfer.${lang}.svg`, svg({ id: 'fig-utt-transfer', w: 840, h: 380, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 
@@ -134,11 +394,46 @@ const cover = (body) => `<svg class="figure-svg fig-cover" width="1600" height="
   ${body.trim()}
 </svg>
 `
-{ // kpi: the two approved error values as bars, to scale
-  const k = 1200 / 20.12
-  write('kpi-reference/cover.svg', cover(`<rect class="fig-cover-bg" width="1600" height="900"/>
-  <path class="fig-cover-hair-t" d="M200 0V900M500 0V900M800 0V900M1100 0V900M1400 0V900"/>
-  <rect class="fig-bar" x="200" y="280" width="${r1(20.12 * k)}" height="140" rx="6"/>
-  <rect class="fig-bar-acc" x="200" y="480" width="${r1(8.42 * k)}" height="140" rx="6"/>
-  <path class="fig-base" d="M200 220V680"/>`))
+{ // tourengenie: accent bg, a plain grid, two tours and one dashed ghost tour, stops, depot
+  write('tourengenie/cover.svg', cover(`<rect class="fig-cover-acc" width="1600" height="900"/>
+  <path class="fig-cover-hair" d="M100 0V900M200 0V900M300 0V900M400 0V900M500 0V900M600 0V900M700 0V900M800 0V900M900 0V900M1000 0V900M1100 0V900M1200 0V900M1300 0V900M1400 0V900M1500 0V900M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600"/>
+  <path class="fig-ink-thin" d="M800 470L560 560L330 600L300 760L560 780L800 470"/>
+  <path class="fig-ink fig-draw" pathLength="1" d="M800 470L560 380L430 250L620 160L900 210L1010 330L800 470"/>
+  <path class="fig-ink fig-draw" pathLength="1" d="M800 470L1040 560L1240 500L1330 680L1080 760L880 690L800 470"/>
+  <circle class="fig-stop" cx="560" cy="380" r="17"/>
+  <circle class="fig-stop" cx="430" cy="250" r="17"/>
+  <circle class="fig-stop" cx="620" cy="160" r="17"/>
+  <circle class="fig-stop" cx="900" cy="210" r="17"/>
+  <circle class="fig-stop" cx="1010" cy="330" r="17"/>
+  <circle class="fig-stop" cx="1040" cy="560" r="17"/>
+  <circle class="fig-stop" cx="1240" cy="500" r="17"/>
+  <circle class="fig-stop" cx="1330" cy="680" r="17"/>
+  <circle class="fig-stop" cx="1080" cy="760" r="17"/>
+  <circle class="fig-stop" cx="880" cy="690" r="17"/>
+  <circle class="fig-stop" cx="560" cy="560" r="17"/>
+  <circle class="fig-stop" cx="330" cy="600" r="17"/>
+  <circle class="fig-stop" cx="300" cy="760" r="17"/>
+  <circle class="fig-stop" cx="560" cy="780" r="17"/>
+  <rect class="fig-ink-fill" x="774" y="444" width="52" height="52" rx="6"/>`))
+}
+{ // urban-tree-transfer: one field of trees, its partner shifted, a third of them open, one accent path between
+  const p = ['<rect class="fig-cover-bg" width="1600" height="900"/>']
+  let grid = ''
+  for (let x = 100; x < 1600; x += 100) grid += `M${x} 0V900`
+  for (let y = 100; y < 900; y += 100) grid += `M0 ${y}H1600`
+  p.push(`<path class="fig-cover-hair-t" d="${grid}"/>`)
+  const tones = ['fig-bar', 'fig-dot', 'fig-bar-acc']
+  for (const shift of [0, 800]) {
+    for (let i = 0; i < 7; i++) {
+      for (let j = 0; j < 5; j++) {
+        const dx = ((i * 37 + j * 17) % 41) - 20
+        const dy = ((i * 23 + j * 29) % 41) - 20
+        const ring = shift > 0 && (i + j) % 3 === 0
+        const cls = ring ? 'fig-cover-ring' : tones[(i * 2 + j) % 3]
+        p.push(`<circle class="${cls}" cx="${130 + shift + i * 90 + dx}" cy="${130 + j * 160 + dy}" r="22"/>`)
+      }
+    }
+  }
+  p.push(`<path class="fig-cover-flow fig-draw" pathLength="1" d="M700 600C760 600 760 330 905 330"/>`)
+  write('urban-tree-transfer/cover.svg', cover(p.join('\n  ')))
 }

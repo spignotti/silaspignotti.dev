@@ -1,0 +1,140 @@
+<svg class="figure-svg fig-wide" width="840" height="270" viewBox="0 0 840 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-utt-blocks-t fig-utt-blocks-d">
+  <title id="fig-utt-blocks-t">Random split versus spatial blocks</title>
+  <desc id="fig-utt-blocks-d">Two fields side by side, each with ten by six tree dots on a faint grid. In the left field, random split, the dots are training or test one by one in a mixed pattern; about one in five is test. In the right field, spatial blocks, 1200 m, thicker lines divide the field into five by three blocks of two by two trees. Whole blocks are training or test; three test blocks have an accent background and their dots are outlines only. Below the left field: neighbouring trees end up in training and test, the score looks too good. Below the right: whole blocks are training or test, the test measures real transfer. At the bottom a legend: filled dot training, open dot test. The three test blocks are highlighted.</desc>
+  <text class="fig-hd" x="80" y="14">Random split</text>
+  <text class="fig-hd" x="520" y="14">Spatial blocks, 1200 m</text>
+  <path class="fig-grid" d="M80 28V172M104 28V172M128 28V172M152 28V172M176 28V172M200 28V172M224 28V172M248 28V172M272 28V172M296 28V172M320 28V172M80 28H320M80 52H320M80 76H320M80 100H320M80 124H320M80 148H320M80 172H320"/>
+  <circle class="fig-dot-open" cx="87" cy="35" r="5"/>
+  <circle class="fig-bar" cx="113" cy="40" r="5"/>
+  <circle class="fig-bar" cx="139" cy="45" r="5"/>
+  <circle class="fig-bar" cx="165" cy="39" r="5"/>
+  <circle class="fig-bar" cx="191" cy="44" r="5"/>
+  <circle class="fig-dot-open" cx="217" cy="38" r="5"/>
+  <circle class="fig-bar" cx="232" cy="43" r="5"/>
+  <circle class="fig-bar" cx="258" cy="37" r="5"/>
+  <circle class="fig-bar" cx="284" cy="42" r="5"/>
+  <circle class="fig-bar" cx="310" cy="36" r="5"/>
+  <circle class="fig-bar" cx="94" cy="65" r="5"/>
+  <circle class="fig-bar" cx="120" cy="59" r="5"/>
+  <circle class="fig-bar" cx="135" cy="64" r="5"/>
+  <circle class="fig-dot-open" cx="161" cy="69" r="5"/>
+  <circle class="fig-bar" cx="187" cy="63" r="5"/>
+  <circle class="fig-bar" cx="213" cy="68" r="5"/>
+  <circle class="fig-bar" cx="239" cy="62" r="5"/>
+  <circle class="fig-bar" cx="265" cy="67" r="5"/>
+  <circle class="fig-dot-open" cx="280" cy="61" r="5"/>
+  <circle class="fig-bar" cx="306" cy="66" r="5"/>
+  <circle class="fig-bar" cx="90" cy="84" r="5"/>
+  <circle class="fig-dot-open" cx="116" cy="89" r="5"/>
+  <circle class="fig-bar" cx="142" cy="83" r="5"/>
+  <circle class="fig-bar" cx="168" cy="88" r="5"/>
+  <circle class="fig-bar" cx="183" cy="93" r="5"/>
+  <circle class="fig-bar" cx="209" cy="87" r="5"/>
+  <circle class="fig-dot-open" cx="235" cy="92" r="5"/>
+  <circle class="fig-bar" cx="261" cy="86" r="5"/>
+  <circle class="fig-bar" cx="287" cy="91" r="5"/>
+  <circle class="fig-bar" cx="313" cy="85" r="5"/>
+  <circle class="fig-bar" cx="97" cy="114" r="5"/>
+  <circle class="fig-bar" cx="112" cy="108" r="5"/>
+  <circle class="fig-bar" cx="138" cy="113" r="5"/>
+  <circle class="fig-bar" cx="164" cy="107" r="5"/>
+  <circle class="fig-dot-open" cx="190" cy="112" r="5"/>
+  <circle class="fig-bar" cx="216" cy="117" r="5"/>
+  <circle class="fig-bar" cx="231" cy="111" r="5"/>
+  <circle class="fig-bar" cx="257" cy="116" r="5"/>
+  <circle class="fig-bar" cx="283" cy="110" r="5"/>
+  <circle class="fig-dot-open" cx="309" cy="115" r="5"/>
+  <circle class="fig-bar" cx="93" cy="133" r="5"/>
+  <circle class="fig-bar" cx="119" cy="138" r="5"/>
+  <circle class="fig-dot-open" cx="145" cy="132" r="5"/>
+  <circle class="fig-bar" cx="160" cy="137" r="5"/>
+  <circle class="fig-bar" cx="186" cy="131" r="5"/>
+  <circle class="fig-bar" cx="212" cy="136" r="5"/>
+  <circle class="fig-bar" cx="238" cy="141" r="5"/>
+  <circle class="fig-dot-open" cx="264" cy="135" r="5"/>
+  <circle class="fig-bar" cx="279" cy="140" r="5"/>
+  <circle class="fig-bar" cx="305" cy="134" r="5"/>
+  <circle class="fig-dot-open" cx="89" cy="163" r="5"/>
+  <circle class="fig-bar" cx="115" cy="157" r="5"/>
+  <circle class="fig-bar" cx="141" cy="162" r="5"/>
+  <circle class="fig-bar" cx="167" cy="156" r="5"/>
+  <circle class="fig-bar" cx="193" cy="161" r="5"/>
+  <circle class="fig-dot-open" cx="208" cy="155" r="5"/>
+  <circle class="fig-bar" cx="234" cy="160" r="5"/>
+  <circle class="fig-bar" cx="260" cy="165" r="5"/>
+  <circle class="fig-bar" cx="286" cy="159" r="5"/>
+  <circle class="fig-bar" cx="312" cy="164" r="5"/>
+  <path class="fig-grid" d="M520 28V172M544 28V172M568 28V172M592 28V172M616 28V172M640 28V172M664 28V172M688 28V172M712 28V172M736 28V172M760 28V172M520 28H760M520 52H760M520 76H760M520 100H760M520 124H760M520 148H760M520 172H760"/>
+  <path class="fig-ln" d="M568 28V172M616 28V172M664 28V172M712 28V172M520 76H760M520 124H760"/>
+  <rect class="fig-focus" x="520" y="28" width="48" height="48" rx="6"/>
+  <rect class="fig-focus" x="616" y="76" width="48" height="48" rx="6"/>
+  <rect class="fig-focus" x="712" y="124" width="48" height="48" rx="6"/>
+  <circle class="fig-dot-on" cx="527" cy="35" r="5"/>
+  <circle class="fig-dot-on" cx="553" cy="40" r="5"/>
+  <circle class="fig-bar" cx="579" cy="45" r="5"/>
+  <circle class="fig-bar" cx="605" cy="39" r="5"/>
+  <circle class="fig-bar" cx="631" cy="44" r="5"/>
+  <circle class="fig-bar" cx="657" cy="38" r="5"/>
+  <circle class="fig-bar" cx="672" cy="43" r="5"/>
+  <circle class="fig-bar" cx="698" cy="37" r="5"/>
+  <circle class="fig-bar" cx="724" cy="42" r="5"/>
+  <circle class="fig-bar" cx="750" cy="36" r="5"/>
+  <circle class="fig-dot-on" cx="534" cy="65" r="5"/>
+  <circle class="fig-dot-on" cx="560" cy="59" r="5"/>
+  <circle class="fig-bar" cx="575" cy="64" r="5"/>
+  <circle class="fig-bar" cx="601" cy="69" r="5"/>
+  <circle class="fig-bar" cx="627" cy="63" r="5"/>
+  <circle class="fig-bar" cx="653" cy="68" r="5"/>
+  <circle class="fig-bar" cx="679" cy="62" r="5"/>
+  <circle class="fig-bar" cx="705" cy="67" r="5"/>
+  <circle class="fig-bar" cx="720" cy="61" r="5"/>
+  <circle class="fig-bar" cx="746" cy="66" r="5"/>
+  <circle class="fig-bar" cx="530" cy="84" r="5"/>
+  <circle class="fig-bar" cx="556" cy="89" r="5"/>
+  <circle class="fig-bar" cx="582" cy="83" r="5"/>
+  <circle class="fig-bar" cx="608" cy="88" r="5"/>
+  <circle class="fig-dot-on" cx="623" cy="93" r="5"/>
+  <circle class="fig-dot-on" cx="649" cy="87" r="5"/>
+  <circle class="fig-bar" cx="675" cy="92" r="5"/>
+  <circle class="fig-bar" cx="701" cy="86" r="5"/>
+  <circle class="fig-bar" cx="727" cy="91" r="5"/>
+  <circle class="fig-bar" cx="753" cy="85" r="5"/>
+  <circle class="fig-bar" cx="537" cy="114" r="5"/>
+  <circle class="fig-bar" cx="552" cy="108" r="5"/>
+  <circle class="fig-bar" cx="578" cy="113" r="5"/>
+  <circle class="fig-bar" cx="604" cy="107" r="5"/>
+  <circle class="fig-dot-on" cx="630" cy="112" r="5"/>
+  <circle class="fig-dot-on" cx="656" cy="117" r="5"/>
+  <circle class="fig-bar" cx="671" cy="111" r="5"/>
+  <circle class="fig-bar" cx="697" cy="116" r="5"/>
+  <circle class="fig-bar" cx="723" cy="110" r="5"/>
+  <circle class="fig-bar" cx="749" cy="115" r="5"/>
+  <circle class="fig-bar" cx="533" cy="133" r="5"/>
+  <circle class="fig-bar" cx="559" cy="138" r="5"/>
+  <circle class="fig-bar" cx="585" cy="132" r="5"/>
+  <circle class="fig-bar" cx="600" cy="137" r="5"/>
+  <circle class="fig-bar" cx="626" cy="131" r="5"/>
+  <circle class="fig-bar" cx="652" cy="136" r="5"/>
+  <circle class="fig-bar" cx="678" cy="141" r="5"/>
+  <circle class="fig-bar" cx="704" cy="135" r="5"/>
+  <circle class="fig-dot-on" cx="719" cy="140" r="5"/>
+  <circle class="fig-dot-on" cx="745" cy="134" r="5"/>
+  <circle class="fig-bar" cx="529" cy="163" r="5"/>
+  <circle class="fig-bar" cx="555" cy="157" r="5"/>
+  <circle class="fig-bar" cx="581" cy="162" r="5"/>
+  <circle class="fig-bar" cx="607" cy="156" r="5"/>
+  <circle class="fig-bar" cx="633" cy="161" r="5"/>
+  <circle class="fig-bar" cx="648" cy="155" r="5"/>
+  <circle class="fig-bar" cx="674" cy="160" r="5"/>
+  <circle class="fig-bar" cx="700" cy="165" r="5"/>
+  <circle class="fig-dot-on" cx="726" cy="159" r="5"/>
+  <circle class="fig-dot-on" cx="752" cy="164" r="5"/>
+  <text class="fig-t-s" x="200" y="197" text-anchor="middle">Neighbouring trees end up in training</text>
+  <text class="fig-t-s" x="200" y="213" text-anchor="middle">and test: the score looks too good</text>
+  <text class="fig-t-s" x="640" y="197" text-anchor="middle">Whole blocks are training or test:</text>
+  <text class="fig-t-s" x="640" y="213" text-anchor="middle">the test measures real transfer</text>
+  <circle class="fig-bar" cx="382" cy="248" r="5"/>
+  <text class="fig-t-s" x="394" y="252">Training</text>
+  <circle class="fig-dot-open" cx="472" cy="248" r="5"/>
+  <text class="fig-t-s" x="484" y="252">Test</text>
+</svg>

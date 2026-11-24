@@ -44,32 +44,30 @@
 .fig-focus { fill: var(--color-accent); }
 .fig-focus-ring { fill: none; stroke: var(--color-accent); stroke-width: 2; }
 .fig-ln { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.fig-ln-strong { fill: none; stroke: var(--color-text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .fig-ln-acc { fill: none; stroke: var(--color-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fig-grid { fill: none; stroke: var(--color-border); stroke-width: 1; }
 .fig-dash { stroke-dasharray: 5 4; }
 .fig-head { fill: var(--color-text); }
 .fig-head-muted { fill: var(--color-border-strong); }
 .fig-dot { fill: var(--color-text); }
-.fig-chip { fill: var(--color-bg); }
+.fig-dot-open { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; }
+.fig-dot-on { fill: none; stroke: var(--color-on-accent); stroke-width: 1.5; }
+.fig-cell { fill: var(--color-text); }
 
 /* ---------- text ---------- */
 .fig-t { font-size: 14px; fill: var(--color-text); }
 .fig-t-b { font-size: 14px; font-weight: 600; fill: var(--color-text); }
-.fig-t-muted { font-size: 14px; fill: var(--color-muted); }
 .fig-t-s { font-size: 12px; fill: var(--color-muted); }
 .fig-t-sm { font-size: 12px; fill: var(--color-text); }
 .fig-t-on { font-size: 14px; font-weight: 600; fill: var(--color-on-accent); }
 .fig-t-on-s { font-size: 12px; fill: var(--color-on-accent); }
-.fig-t-op { font-size: 26px; font-weight: 400; fill: var(--color-muted); }
 .fig-hd { font-size: 12px; font-weight: 500; fill: var(--color-muted); letter-spacing: 0.01em; }
 .fig-num { font-family: var(--font-mono); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; fill: var(--color-text); }
-.fig-num-l { font-family: var(--font-mono); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; fill: var(--color-text); }
-.fig-num-acc { fill: var(--color-accent-text); }
+.fig-num-s { font-family: var(--font-mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; fill: var(--color-text); }
 
 /* ---------- charts ---------- */
 .fig-bar { fill: var(--fig-bar); }
 .fig-bar-acc { fill: var(--color-accent); }
-.fig-bar-open { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; }
 .fig-base { fill: none; stroke: var(--color-text); stroke-width: 1; }
 
 /* ---------- heat ramp: 7 classes, graphite to terracotta ---------- */
@@ -83,23 +81,18 @@
 
 /* ---------- covers (16:9, wordless, aria-hidden) ---------- */
 .fig-cover-acc { fill: var(--color-accent); }
-.fig-cover-tint { fill: var(--band-tint); }
 .fig-cover-bg { fill: var(--color-bg); }
 .fig-cover-out { fill: var(--heat-out); }
 .fig-cover-grid { fill: none; stroke: var(--color-bg); stroke-width: 3; }
 .fig-cover-hair { fill: none; stroke: color-mix(in oklab, var(--color-on-accent) 16%, transparent); stroke-width: 2; }
 .fig-cover-hair-t { fill: none; stroke: color-mix(in oklab, var(--color-text) 10%, transparent); stroke-width: 2; }
 .fig-cover-split { fill: none; stroke: var(--color-bg); stroke-width: 8; }
+.fig-cover-ring { fill: none; stroke: var(--color-border-strong); stroke-width: 2; }
+.fig-cover-flow { fill: none; stroke: var(--color-accent); stroke-width: 10; stroke-linecap: round; }
 .fig-ink { fill: none; stroke: var(--color-on-accent); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
 .fig-ink-thin { fill: none; stroke: var(--color-on-accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 14; }
 .fig-ink-fill { fill: var(--color-on-accent); }
-.fig-ink-box { fill: none; stroke: var(--color-on-accent); stroke-width: 1.5; }
-.fig-ink-ln { fill: none; stroke: var(--color-on-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .fig-stop { fill: var(--color-accent); stroke: var(--color-on-accent); stroke-width: 6; }
-.fig-lane { fill: none; stroke: var(--fig-bar); stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
-.fig-lane-acc { fill: none; stroke: var(--color-accent); stroke-width: 28; stroke-linecap: butt; }
-.fig-gate { fill: var(--color-text); }
-.fig-pr { fill: var(--color-text); }
 
 /* Scroll-linked line drawing: the page script sets --draw from 1 (hidden) to 0 (drawn)
    on elements with pathLength="1". Reduced motion and no-JS keep it at 0. */
