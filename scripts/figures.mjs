@@ -232,51 +232,87 @@ const write = (p, s) => { fs.mkdirSync(path.dirname(F(p)), { recursive: true });
   const L = {
     de: {
       title: 'Ein festes Modell, wechselnde Eingänge',
-      desc: 'Matrix mit fünf Spalten: Spektral, Morphologie, Schatten, Wetter, Embeddings. Neun Zeilen in drei Gruppen. Gruppen hinzufügen: Stufe 1 nutzt Spektral, Stufe 2 Spektral und Morphologie, Stufe 3 zusätzlich Schatten, Stufe 4 zusätzlich Wetter. Je eine Gruppe weglassen: ohne Morphologie nutzt Spektral, Schatten und Wetter; ohne Schatten nutzt Spektral, Morphologie und Wetter; ohne Wetter nutzt Spektral, Morphologie und Schatten. Gegenprobe: Embeddings statt Morphologie und Schatten nutzt Spektral, Wetter und Embeddings. Ein gefülltes Quadrat heißt enthalten, ein leeres heißt nicht enthalten. Rechts spannt ein hervorgehobener Kasten über alle Zeilen: dasselbe U-Net in allen Läufen, jede Zeile ist mit einer dünnen Linie verbunden.',
-      heads: ['Spektral', 'Morphologie', 'Schatten', 'Wetter', 'Embeddings'],
+      desc: 'Matrix mit neun Zeilen und sechs Spalten für Gruppen von Eingangsdaten, rechts daneben eine schmale Spalte für das Trainingsziel. Die ersten drei Spalten tragen die gemeinsame Überschrift Spektral: Blau, Grün und SWIR; Rot, NIR, NDBI und Albedo; NDVI und NDWI. Es folgen Morphologie, Schatten und Wetter. Die Zeilen stehen in zwei Gruppen; ein gefülltes Quadrat heißt enthalten, ein Umriss heißt nicht enthalten. Gruppen hinzufügen: Stufe 1 nutzt die drei spektralen Spalten, Stufe 2 zusätzlich Morphologie, Stufe 3 zusätzlich Schatten, Stufe 4 zusätzlich Wetter, Stufe 5 alle sechs Gruppen mit thermalsensitivem Trainingsziel. Je eine Gruppe weglassen: ohne Morphologie, ohne Schatten, ohne NDVI und NDWI sowie ohne Rot, NIR und Indizes. Rechts spannt ein hervorgehobener Kasten über alle Zeilen: dasselbe U-Net in allen Läufen, jede Zeile ist mit einer dünnen Linie verbunden. Darunter steht: Ohne Wetter entspricht Stufe 3.',
+      super: 'Spektral',
+      heads: [['Blau, Grün,', 'SWIR'], ['Rot, NIR,', 'NDBI, Albedo'], ['NDVI,', 'NDWI'], ['Morphologie'], ['Schatten'], ['Wetter']],
+      target: ['Trainingsziel'],
+      targetNote: 'thermalsensitiv',
       groups: [
-        { name: 'Gruppen hinzufügen', rows: [['Stufe 1', [0]], ['Stufe 2', [0, 1]], ['Stufe 3', [0, 1, 2]], ['Stufe 4', [0, 1, 2, 3]]] },
-        { name: 'Je eine Gruppe weglassen', rows: [['ohne Morphologie', [0, 2, 3]], ['ohne Schatten', [0, 1, 3]], ['ohne Wetter', [0, 1, 2]]] },
-        { name: 'Gegenprobe', rows: [['Embeddings statt Morphologie', 'und Schatten', [0, 3, 4]]] },
+        { name: 'Gruppen hinzufügen', rows: [
+          [['Stufe 1'], [1, 1, 1, 0, 0, 0]],
+          [['Stufe 2'], [1, 1, 1, 1, 0, 0]],
+          [['Stufe 3'], [1, 1, 1, 1, 1, 0]],
+          [['Stufe 4'], [1, 1, 1, 1, 1, 1]],
+          [['Stufe 5'], [1, 1, 1, 1, 1, 1], true],
+        ] },
+        { name: 'Je eine Gruppe weglassen', rows: [
+          [['ohne Morphologie'], [1, 1, 1, 0, 1, 1]],
+          [['ohne Schatten'], [1, 1, 1, 1, 0, 1]],
+          [['ohne NDVI und NDWI'], [1, 1, 0, 1, 1, 1]],
+          [['ohne Rot, NIR', 'und Indizes'], [1, 0, 0, 1, 1, 1]],
+        ] },
       ],
-      net: 'U-Net', netSub: 'in allen Läufen gleich',
+      net: 'U-Net', netSub: ['in allen Läufen', 'gleich'],
+      note: 'Ohne Wetter entspricht Stufe 3.',
     },
     en: {
       title: 'One fixed model, changing inputs',
-      desc: 'Matrix with five columns: spectral, morphology, shadows, weather, embeddings. Nine rows in three groups. Adding groups: stage 1 uses spectral, stage 2 spectral and morphology, stage 3 adds shadows, stage 4 adds weather. Leaving one group out: without morphology uses spectral, shadows and weather; without shadows uses spectral, morphology and weather; without weather uses spectral, morphology and shadows. Cross-check: embeddings instead of morphology and shadows uses spectral, weather and embeddings. A filled square means included, an empty square means not included. On the right a highlighted box spans all rows: the same U-Net in every run, each row joined to it by a thin line.',
-      heads: ['Spectral', 'Morphology', 'Shadows', 'Weather', 'Embeddings'],
+      desc: 'Matrix with nine rows and six columns for groups of input data, plus a narrow column for the training target on the right. The first three columns share the header Spectral: blue, green and SWIR; red, NIR, NDBI and albedo; NDVI and NDWI. Morphology, shadows and weather follow. The rows sit in two groups; a filled square means included, an outline means not included. Adding groups: stage 1 uses the three spectral columns, stage 2 adds morphology, stage 3 adds shadows, stage 4 adds weather, stage 5 uses all six groups with a thermal-aware training target. Leaving one group out: without morphology, without shadows, without NDVI and NDWI, and without red, NIR and indices. On the right a highlighted box spans all rows: the same U-Net in every run, each row joined to it by a thin line. Below it: without weather is the same as stage 3.',
+      super: 'Spectral',
+      heads: [['Blue,', 'green, SWIR'], ['Red, NIR,', 'NDBI, albedo'], ['NDVI,', 'NDWI'], ['Morphology'], ['Shadows'], ['Weather']],
+      target: ['Training', 'target'],
+      targetNote: 'thermal-aware',
       groups: [
-        { name: 'Adding groups', rows: [['Stage 1', [0]], ['Stage 2', [0, 1]], ['Stage 3', [0, 1, 2]], ['Stage 4', [0, 1, 2, 3]]] },
-        { name: 'Leaving one group out', rows: [['without morphology', [0, 2, 3]], ['without shadows', [0, 1, 3]], ['without weather', [0, 1, 2]]] },
-        { name: 'Cross-check', rows: [['Embeddings instead of', 'morphology and shadows', [0, 3, 4]]] },
+        { name: 'Adding groups', rows: [
+          [['Stage 1'], [1, 1, 1, 0, 0, 0]],
+          [['Stage 2'], [1, 1, 1, 1, 0, 0]],
+          [['Stage 3'], [1, 1, 1, 1, 1, 0]],
+          [['Stage 4'], [1, 1, 1, 1, 1, 1]],
+          [['Stage 5'], [1, 1, 1, 1, 1, 1], true],
+        ] },
+        { name: 'Leaving one group out', rows: [
+          [['without morphology'], [1, 1, 1, 0, 1, 1]],
+          [['without shadows'], [1, 1, 1, 1, 0, 1]],
+          [['without NDVI', 'and NDWI'], [1, 1, 0, 1, 1, 1]],
+          [['without red, NIR', 'and indices'], [1, 0, 0, 1, 1, 1]],
+        ] },
       ],
-      net: 'U-Net', netSub: 'the same in every run',
+      net: 'U-Net', netSub: ['the same in', 'every run'],
+      note: 'Without weather is the same as stage 3.',
     },
   }
-  const cx = [276, 346, 416, 486, 556]
+  // column centres follow the 12 px header widths; the target column and the U-Net box sit right of them
+  const cx = [203, 289, 355, 417, 490, 549], tgtX = 634, lineX0 = 690, boxX = 710, boxW = 126
+  const rowH = 32, cellS = 18, firstTop = 80
   for (const [lang, t] of Object.entries(L)) {
     const p = []
-    let y = 40
-    t.heads.forEach((head, i) => p.push(`<text class="fig-hd" x="${cx[i]}" y="14" text-anchor="middle">${esc(head)}</text>`))
-    t.groups.forEach((group) => {
-      p.push(`<text class="fig-hd" x="8" y="${y - 8}">${esc(group.name)}</text>`)
-      for (const row of group.rows) {
-        const lines = row.length === 3 ? row.slice(0, 2) : [row[0]]
-        const on = row[row.length - 1]
-        p.push(label(8, y + 16, lines, 'fig-t', 15, 'start'))
-        for (let i = 0; i < 5; i++) {
-          const cls = on.includes(i) ? 'fig-cell' : 'fig-box-quiet'
-          p.push(`<rect class="${cls}" x="${cx[i] - 9}" y="${y + 7}" width="18" height="18" rx="3"/>`)
-        }
-        p.push(`<path class="fig-ln" d="M568 ${y + 16}H598"/>`)
-        y += 32
+    // headers bottom-align on one baseline, so one- and two-line heads share their last line
+    const head = (x, lines, base = 53) => lines.map((l, i) =>
+      `<text class="fig-hd" x="${x}" y="${base - (lines.length - 1 - i) * 15}" text-anchor="middle">${esc(l)}</text>`)
+    p.push(...head((cx[0] + cx[2]) / 2, [t.super], 16))
+    t.heads.forEach((lines, i) => p.push(...head(cx[i], lines)))
+    p.push(...head(tgtX, t.target))
+    let y = firstTop
+    t.groups.forEach((group, gi) => {
+      if (gi > 0) y += 34
+      p.push(`<text class="fig-hd" x="8" y="${y - 8}" text-anchor="start">${esc(group.name)}</text>`)
+      for (const [lines, on, thermal] of group.rows) {
+        p.push(label(8, y + rowH / 2, lines, 'fig-t', 15, 'start'))
+        on.forEach((filled, i) => {
+          const cls = filled ? 'fig-cell' : 'fig-box-quiet'
+          p.push(`<rect class="${cls}" x="${cx[i] - cellS / 2}" y="${y + 7}" width="${cellS}" height="${cellS}" rx="3"/>`)
+        })
+        if (thermal) p.push(`<text class="fig-t-s" x="${tgtX}" y="${y + 20}" text-anchor="middle">${esc(t.targetNote)}</text>`)
+        p.push(`<path class="fig-ln" d="M${lineX0} ${y + rowH / 2}H${boxX}"/>`)
+        y += rowH
       }
-      y += 26
     })
-    p.push(box(604, 40, 232, 308, 'fig-focus'))
-    p.push(`<text class="fig-t-on" x="720" y="188" text-anchor="middle">${esc(t.net)}</text>`)
-    p.push(`<text class="fig-t-on-s" x="720" y="208" text-anchor="middle">${esc(t.netSub)}</text>`)
-    write(`berlin-lst-downscaling/ablation.${lang}.svg`, svg({ id: 'fig-lst-ablation', w: 840, h: 360, title: t.title, desc: t.desc, body: p.join('\n  ') }))
+    const bcy = (firstTop + y) / 2, bcx = boxX + boxW / 2
+    p.push(box(boxX, firstTop, boxW, y - firstTop, 'fig-focus'))
+    p.push(`<text class="fig-t-on" x="${bcx}" y="${bcy - 13}" text-anchor="middle">${esc(t.net)}</text>`)
+    p.push(label(bcx, bcy + 11, t.netSub, 'fig-t-on-s', 15))
+    p.push(`<text class="fig-t-s" x="8" y="${y + 20}">${esc(t.note)}</text>`)
+    write(`berlin-lst-downscaling/ablation.${lang}.svg`, svg({ id: 'fig-lst-ablation', w: 840, h: 430, title: t.title, desc: t.desc, body: p.join('\n  ') }))
   }
 }
 
