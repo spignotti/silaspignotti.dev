@@ -1,11 +1,11 @@
 ---
 lang: "en"
 slug: "kpi-reference"
-kind: "case"
+kind: "small"
 order: 4
-title: "KPI Reference"
-seoTitle: "KPI Reference · Silas Pignotti"
-description: "For a plastics sorting company I built KPI logic and a volume forecast as a reference implementation and matched production against it."
+title: "Metrics and volume forecasting"
+seoTitle: "Metrics and volume forecasting for a plastics sorting company · Silas Pignotti"
+description: "For a plastics sorting company, I built metrics and a volume forecast as a reference in Python and SQL and checked the production version against it."
 role: "Working student, data analytics: requirements, reference implementation, matching, handover"
 period: "2025 to 2026"
 status: "completed"

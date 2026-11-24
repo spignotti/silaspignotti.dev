@@ -2,8 +2,8 @@
 lang: "en"
 slug: "data-analysis"
 order: 2
-title: "Collecting, preparing and analysing data"
-summary: "I find out which data really exists, prepare it and define the calculation logic. The result is KPIs and forecasts that can be checked against a reference."
-tools: "Python, SQL, relational databases"
-proof: "[KPI Reference](/en/projects/kpi-reference)"
+title: "Data analysis and automation"
+summary: "I calculate metrics and check what I can infer or predict from existing data. I write analyses so they follow the same rules with new data and run automatically where possible."
+tools: "Python, SQL"
+proof: "[Metrics and volume forecasting](/en/projects/kpi-reference), [Master's thesis](/en/projects/berlin-lst-downscaling)"
 ---
