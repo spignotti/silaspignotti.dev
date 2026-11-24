@@ -21,7 +21,7 @@ keyFigures:
   - value: "about 50 %"
     label: "more maintenance jobs per route"
 figures:
-  - { n: 1, placeholder: "Screenshot of the planning view, to be added by Silas", caption: "The Tourengenie planning view.", section: "What Tourengenie does" }
+  - { n: 1, shot: "tourengenie/planning", alt: "Tourengenie planning view for December: on the left the month's tours by status, on the right tour 3 with six stops, driving and arrival times. Five stops are confirmed and locked, one is still open.", caption: "The planning view: tour 3 is being agreed with customers; five of six appointments are confirmed and fixed.", section: "What Tourengenie does" }
   - { n: 2, file: "tourengenie/objective", caption: "The goals in a fixed order. A level only counts when all levels above it are equal.", section: "Planning" }
   - { n: 3, file: "tourengenie/travel-cache", caption: "A new stop only adds its own row and column to the travel time matrix.", section: "Travel time cache" }
   - { n: 4, file: "tourengenie/release", caption: "From development to production. If a deploy fails, the previous version runs again.", section: "Operations and infrastructure" }

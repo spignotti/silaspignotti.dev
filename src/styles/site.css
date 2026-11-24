@@ -212,6 +212,19 @@ p { text-wrap: pretty; }
 @media (max-width: 639px) { .fig-art .figure-svg.fig-wide { min-width: 600px; } }
 figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--color-muted); max-width: var(--text-column); }
 .fig-n { font: 500 12px var(--font-mono); color: var(--color-text); margin-right: 8px; }
+.shot-art { overflow-x: auto; overscroll-behavior-x: contain; }
+@media (max-width: 639px) { .shot-art img { min-width: 640px; } }
+.shot-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-card); border: 1px solid var(--color-border); }
+/* With both variants the page theme picks one; a light-only app screenshot stays light, slightly dimmed on the dark page. */
+.shot-art.has-both .shot-dark { display: none; }
+[data-theme='dark'] .shot-art.has-both .shot-dark { display: block; }
+[data-theme='dark'] .shot-art.has-both .shot-light { display: none; }
+[data-theme='dark'] .shot-art:not(.has-both) .shot-light { filter: brightness(0.88); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .shot-art.has-both .shot-dark { display: block; }
+  :root:not([data-theme='light']) .shot-art.has-both .shot-light { display: none; }
+  :root:not([data-theme='light']) .shot-art:not(.has-both) .shot-light { filter: brightness(0.88); }
+}
 .fig-ph .ph-box { aspect-ratio: 16 / 9; border-radius: var(--radius-card); border: 1.5px dashed var(--color-border-strong); background: var(--color-surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; }
 .fig-ph .ph-tag { font: 500 var(--text-label) var(--font-mono); color: var(--color-accent-text); }
 .fig-ph .ph-text { font-size: 15px; color: var(--color-muted); max-width: 32em; }

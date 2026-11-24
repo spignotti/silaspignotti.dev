@@ -1,6 +1,7 @@
 ---
 import ArticleSchema from '@/components/ArticleSchema.astro'
 import Figure from '@/components/Figure.astro'
+import Shot from '@/components/Shot.astro'
 import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
 import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
@@ -114,7 +115,9 @@ if (unplaced.length > 0) {
               ))}
             </div>
             {(bySection.get(sectionIndex) ?? []).map((figure) =>
-              figure.placeholder ? (
+              figure.shot ? (
+                <Shot shot={figure.shot} alt={figure.alt ?? ''} lang={lang} n={figure.n} caption={figure.caption} />
+              ) : figure.placeholder ? (
                 <figure class="fig fig-ph">
                   <div class="ph-box" role="img" aria-label={`${ui.placeholder}: ${figure.placeholder}`}>
                     <span class="ph-tag">{ui.placeholder}</span>

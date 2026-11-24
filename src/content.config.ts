@@ -44,9 +44,12 @@ const figure = z
     caption: z.string(),
     section: z.string().optional(),
     placeholder: z.string().optional(),
+    /** Screenshot base path under src/assets/shots, e.g. tourengenie/planning (-dark and optional -light). */
+    shot: z.string().optional(),
+    alt: z.string().optional(),
   })
-  .refine((value) => Boolean(value.file || value.placeholder), {
-    message: 'a figure needs a file or a placeholder',
+  .refine((value) => Boolean(value.file || value.placeholder || (value.shot && value.alt)), {
+    message: 'a figure needs a file, a placeholder, or a shot with alt text',
   })
 
 const projects = defineCollection({

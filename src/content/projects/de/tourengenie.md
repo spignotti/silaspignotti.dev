@@ -21,7 +21,7 @@ keyFigures:
   - value: "rund 50 %"
     label: "mehr Wartungen je Tour"
 figures:
-  - { n: 1, placeholder: "Screenshot der Planungsansicht, von Silas einzufügen", caption: "Die Planungsansicht von Tourengenie.", section: "Was Tourengenie tut" }
+  - { n: 1, shot: "tourengenie/planning", alt: "Planungsansicht von Tourengenie für Dezember: links die Touren des Monats nach Status, rechts Tour 3 mit sechs Stopps, Fahrzeiten und Ankunftszeiten. Fünf Stopps sind bestätigt und mit einem Schloss fixiert, einer ist noch offen.", caption: "Die Planungsansicht: Tour 3 ist in Abstimmung, fünf von sechs Terminen sind bestätigt und stehen fest.", section: "Was Tourengenie tut" }
   - { n: 2, file: "tourengenie/objective", caption: "Die Ziele in fester Rangfolge. Eine Stufe zählt erst, wenn alle Stufen darüber gleich sind.", section: "Planung" }
   - { n: 3, file: "tourengenie/travel-cache", caption: "Ein neuer Stopp ergänzt nur seine eigene Zeile und Spalte der Fahrzeitmatrix.", section: "Fahrzeit-Cache" }
   - { n: 4, file: "tourengenie/release", caption: "Von der Entwicklung in den Betrieb. Schlägt ein Deploy fehl, läuft wieder die vorherige Version.", section: "Betrieb und Infrastruktur" }
