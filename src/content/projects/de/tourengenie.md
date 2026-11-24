@@ -20,7 +20,11 @@ keyFigures:
     label: "weniger Touren"
   - value: "rund 50 %"
     label: "mehr Wartungen je Tour"
-figures: []
+figures:
+  - { n: 1, placeholder: "Screenshot der Planungsansicht, von Silas einzufügen", caption: "Die Planungsansicht von Tourengenie.", section: "Was Tourengenie tut" }
+  - { n: 2, file: "tourengenie/objective", caption: "Die Ziele in fester Rangfolge. Eine Stufe zählt erst, wenn alle Stufen darüber gleich sind.", section: "Planung" }
+  - { n: 3, file: "tourengenie/travel-cache", caption: "Ein neuer Stopp ergänzt nur seine eigene Zeile und Spalte der Fahrzeitmatrix.", section: "Fahrzeit-Cache" }
+  - { n: 4, file: "tourengenie/release", caption: "Von der Entwicklung in den Betrieb. Schlägt ein Deploy fehl, läuft wieder die vorherige Version.", section: "Betrieb und Infrastruktur" }
 ---
 
 ## Ausgangslage

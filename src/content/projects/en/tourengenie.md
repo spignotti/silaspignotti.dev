@@ -20,7 +20,11 @@ keyFigures:
     label: "fewer routes"
   - value: "about 50 %"
     label: "more maintenance jobs per route"
-figures: []
+figures:
+  - { n: 1, placeholder: "Screenshot of the planning view, to be added by Silas", caption: "The Tourengenie planning view.", section: "What Tourengenie does" }
+  - { n: 2, file: "tourengenie/objective", caption: "The goals in a fixed order. A level only counts when all levels above it are equal.", section: "Planning" }
+  - { n: 3, file: "tourengenie/travel-cache", caption: "A new stop only adds its own row and column to the travel time matrix.", section: "Travel time cache" }
+  - { n: 4, file: "tourengenie/release", caption: "From development to production. If a deploy fails, the previous version runs again.", section: "Operations and infrastructure" }
 ---
 
 ## Background
