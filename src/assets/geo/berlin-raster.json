@@ -1,0 +1,20 @@
+{
+  "about": "Berlin land and water from berlin.json, rasterised as a resolution motif. Not a measurement.",
+  "image": "berlin-raster.png",
+  "grid": [
+    250,
+    207
+  ],
+  "frame": [
+    0,
+    0,
+    1000,
+    828
+  ],
+  "frameUnits": "berlin.json map units",
+  "range": [
+    0,
+    1
+  ],
+  "unit": "land share of the cell (1 = land, 0 = water)"
+}

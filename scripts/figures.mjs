@@ -1,6 +1,6 @@
 // Writes the diagram and chart figures (DE + EN) and the non-raster cover into
 // src/assets/figures. Geometry is authored here by hand; the script only swaps the language strings.
-// Usage: node scripts/figures.mjs .   (raster figures: scripts/heat.mjs)
+// Usage: node scripts/figures.mjs .   (raster figures: scripts/raster.mjs)
 import fs from 'node:fs'
 import path from 'node:path'
 const ROOT = process.argv[2]

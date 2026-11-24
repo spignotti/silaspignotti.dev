@@ -1,6 +1,6 @@
 import berlinUrl from '../assets/geo/berlin.json?url'
-import heatJson from '../assets/geo/heat-illustrative.json?url'
-import heatPng from '../assets/geo/heat-illustrative.png?url'
+import rasterJson from '../assets/geo/berlin-raster.json?url'
+import rasterPng from '../assets/geo/berlin-raster.png?url'
 import { Hero, createScrollScheduler, loadRaster, startHero, type RasterData } from './heat-raster'
 
 type Berlin = { outline: string; w: number; h: number }
@@ -67,15 +67,15 @@ export function initMotion(): void {
   const heroEl = document.querySelector<HTMLElement>('[data-hero]')
   if (!heroEl) return
 
-  void Promise.all([fetch(berlinUrl).then((response) => response.json() as Promise<Berlin>), loadRaster(heatJson, heatPng)])
-    .then(([berlin, heat]) => mountHero(heroEl, berlin, heat, isReduced, track))
+  void Promise.all([fetch(berlinUrl).then((response) => response.json() as Promise<Berlin>), loadRaster(rasterJson, rasterPng)])
+    .then(([berlin, raster]) => mountHero(heroEl, berlin, raster, isReduced, track))
     .catch(() => {})
 }
 
 function mountHero(
   heroEl: HTMLElement,
   berlin: Berlin,
-  heat: RasterData,
+  raster: RasterData,
   isReduced: () => boolean,
   track: (el: Element, update: (end: boolean) => void) => void,
 ) {
@@ -86,7 +86,7 @@ function mountHero(
   const desk = () => pinnedHero.matches
   const hero = new Hero({
     canvas,
-    data: heat,
+    data: raster,
     outline: berlin.outline,
     base: 4,
     levels: [10, 6, 4, 2, 1],

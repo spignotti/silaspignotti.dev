@@ -5,21 +5,21 @@
 
 /* ---------- graphic tokens (derived from the brand tokens) ---------- */
 :root {
-  --heat-lo: #3b3e45; /* graphite, coolest */
-  --heat-hi: #d4724a; /* terracotta, warmest */
-  --heat-out: #e9e6e0; /* outside the study area */
+  --heat-lo: #3b3e45; /* graphite, water */
+  --heat-hi: #d4724a; /* terracotta, land */
+  --heat-out: #e9e6e0; /* outside Berlin */
   --band-tint: color-mix(in oklab, var(--color-accent) 16%, var(--color-bg));
   --fig-bar: color-mix(in oklab, var(--color-text) 22%, var(--color-bg));
 }
 [data-theme='dark'] {
-  --heat-lo: #26282e;
+  --heat-lo: #3b3e45;
   --heat-hi: #e08a62;
   --heat-out: #121317;
   --band-tint: color-mix(in oklab, var(--color-accent) 14%, var(--color-bg));
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --heat-lo: #26282e;
+    --heat-lo: #3b3e45;
     --heat-hi: #e08a62;
     --heat-out: #121317;
     --band-tint: color-mix(in oklab, var(--color-accent) 14%, var(--color-bg));
