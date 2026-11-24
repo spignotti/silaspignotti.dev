@@ -2,11 +2,9 @@
 lang: "de"
 page: "projects"
 title: "Projekte · Silas Pignotti"
-description: "Fallstudien zu Geodaten, Datenauswertung und Automatisierung: Tourenplanung, agentische Entwicklung, Hitze in Berlin auf 10 m und eine KPI-Referenz."
+description: "Projekte zu Geodaten, Fernerkundung, Datenauswertung und Softwareentwicklung, jeweils mit Aufgabe, Technik und Ergebnis."
 ---
 
 # Projekte
 
-Die Fallstudien beschreiben je eine Arbeit im Detail: Problem, Vorgehen, System, Ergebnis und Grenzen. Darunter stehen weitere Arbeiten in kurzer Form.
-
-## Weitere Arbeiten
+Zu jedem Projekt beschreibe ich die Aufgabe, die Technik und das Ergebnis.

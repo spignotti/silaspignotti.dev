@@ -1,11 +1,11 @@
 ---
 lang: "de"
 slug: "kpi-reference"
-kind: "case"
+kind: "small"
 order: 4
-title: "KPI-Referenz"
-seoTitle: "KPI-Referenz · Silas Pignotti"
-description: "Für einen Sortierbetrieb für Kunststoffe habe ich Kennzahlenlogik und eine Mengenprognose als Referenz gebaut und mit der Produktion abgeglichen."
+title: "Kennzahlen und Mengenprognose"
+seoTitle: "Kennzahlen und Mengenprognose für einen Sortierbetrieb · Silas Pignotti"
+description: "Für einen Sortierbetrieb für Kunststoffe habe ich Kennzahlen und eine Mengenprognose als Referenz in Python und SQL gebaut und die Produktion dagegen abgeglichen."
 role: "Werkstudent Datenanalyse: Anforderungen, Referenzimplementierung, Abgleich, Übergabe"
 period: "2025 bis 2026"
 status: "completed"
