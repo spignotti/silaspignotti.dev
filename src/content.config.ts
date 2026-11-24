@@ -13,7 +13,7 @@ const pages = defineCollection({
   }),
   schema: z.object({
     lang,
-    page: z.enum(['home', 'projects', 'about', 'imprint', 'privacy']),
+    page: z.enum(['home', 'projects', 'imprint', 'privacy']),
     title: z.string(),
     description: z.string(),
     portrait: z.string().optional(),
