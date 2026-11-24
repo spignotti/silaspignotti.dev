@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SKIP = new Set(['node_modules', 'dist', '.git', '.astro'])
-const CASES = ['tourengenie', 'berlin-lst-downscaling']
+const CASES = ['tourengenie', 'berlin-lst-downscaling', 'urban-tree-transfer']
 
 function copyRepo(dest) {
   fs.cpSync(root, dest, {

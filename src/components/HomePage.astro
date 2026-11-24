@@ -102,7 +102,7 @@ const rest = cases.slice(1)
       {small.length > 0 && (
         <div class="rows--home">
           {small.map((item) => (
-            <div class="row-small">
+            <div class="row-small" id={item.data.slug}>
               <b>{item.data.title}</b>
               <span class="mono">{item.data.year}</span>
               <p>{item.data.description}</p>

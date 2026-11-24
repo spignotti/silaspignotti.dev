@@ -307,8 +307,15 @@ function drawShape(c, kind, attrs, matrix) {
   if (kind === 'circle') {
     const [cx, cy] = pt(attrs.cx, attrs.cy)
     const r = (Number(attrs.r) || 0) * scaleOf(matrix)
-    if (st.stroke) fillRect(c, cx - r - (st.width * scaleOf(matrix)) / 2, cy - r - (st.width * scaleOf(matrix)) / 2, (r + (st.width * scaleOf(matrix)) / 2) * 2, (r + (st.width * scaleOf(matrix)) / 2) * 2, r + (st.width * scaleOf(matrix)) / 2, st.stroke)
+    const sw = (st.width || 1) * scaleOf(matrix)
+    if (st.stroke && st.fill) fillRect(c, cx - r - sw / 2, cy - r - sw / 2, (r + sw / 2) * 2, (r + sw / 2) * 2, r + sw / 2, st.stroke)
     if (st.fill) fillRect(c, cx - r, cy - r, r * 2, r * 2, r, st.fill)
+    // A stroke-only circle is a ring: trace its outline so the artwork underneath stays visible.
+    if (st.stroke && !st.fill) {
+      const n = Math.max(24, Math.ceil(r))
+      const ring = Array.from({ length: n + 1 }, (_, i) => [cx + r * Math.cos((i / n) * 2 * Math.PI), cy + r * Math.sin((i / n) * 2 * Math.PI)])
+      strokePoly(c, ring, sw, st.stroke)
+    }
   }
   if (kind === 'path') {
     const subs = parsePath(attrs.d || '')
