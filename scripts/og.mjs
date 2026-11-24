@@ -428,16 +428,9 @@ function caseSlugs() {
 }
 
 function cases() {
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/assets/geo/heat-illustrative.json'), 'utf8'))
   for (const slug of caseSlugs()) {
     const file = path.join(root, 'src/assets/figures', slug, 'cover.svg')
-    const rendered = renderSvg(file, 1200, 675)
-    const image = crop(rendered)
-    if (slug === 'berlin-lst-downscaling' && manifest.illustrative === true) {
-      const label = 'Illustrativ, keine Messdaten'
-      fillRect(image, 36, 560, label.length * 4 * 6 + 24, 44, 6, BG)
-      text(image, label, 48, 572, 4, TEXT)
-    }
+    const image = crop(renderSvg(file, 1200, 675))
     fs.writeFileSync(path.join(outDir, `${slug}.png`), png(1200, 630, image.data))
   }
 }

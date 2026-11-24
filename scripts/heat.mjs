@@ -1,9 +1,9 @@
-// Heat rasters and the raster SVG figures (thesis Fig. 3 and the thesis cover).
+// Heat raster and the thesis cover.
 // Usage:
-//   node scripts/heat.mjs .              write the illustrative PNGs + manifests, then the SVGs
-//   node scripts/heat.mjs . --from-png   keep the PNGs as they are (e.g. the real thesis result) and
-//                                        only regenerate resolution-compare.*.svg and cover.svg from them
-// Manifests: src/assets/geo/heat-illustrative.json and heat-compare-illustrative.json (see docs/design-spec.md).
+//   node scripts/heat.mjs .              write the heat PNG and manifest, then the cover
+//   node scripts/heat.mjs . --from-png   keep the PNG as it is (e.g. the real thesis result) and
+//                                        only regenerate cover.svg from it
+// Manifest: src/assets/geo/heat-illustrative.json (see docs/design-spec.md).
 import fs from 'node:fs'
 import zlib from 'node:zlib'
 import path from 'node:path'
@@ -104,63 +104,6 @@ function rasterPaths(cls, indent) {
 }
 const range = (f) => { const v = f.flat().filter((x) => x !== null).sort((a, b) => a - b); return [v[Math.floor(v.length * 0.03)], v[Math.floor(v.length * 0.97)]] }
 
-// ---- compare raster: a crop at a finer cell size, for the 100 m / 10 m slider ----
-const CM = FROM_PNG ? JSON.parse(fs.readFileSync(GEO('heat-compare-illustrative.json'), 'utf8')) : null
-const CMP = FROM_PNG ? { frame: CM.frame, cols: CM.grid[0], rows: CM.grid[1], factor: CM.factor } : { frame: [300, 330, 288, 108], cols: 320, rows: 120, factor: 10 }
-const cw = CMP.frame[2] / CMP.cols
-const cmp = FROM_PNG ? readGray(GEO(CM.image)).v : new Uint8Array(CMP.cols * CMP.rows)
-if (!FROM_PNG) for (let j = 0; j < CMP.rows; j++) for (let i = 0; i < CMP.cols; i++) {
-  const mx = CMP.frame[0] + (i + 0.5) * cw, my = CMP.frame[1] + (j + 0.5) * cw
-  cmp[j * CMP.cols + i] = inRings(OUT, mx, my) ? 1 + Math.round(field(mx, my, cw) * 254) : 0
-}
-const encodePng = (data, w, h) => { const hd = Buffer.alloc(13); hd.writeUInt32BE(w, 0); hd.writeUInt32BE(h, 4); hd[8] = 8; hd[9] = 0
-  const rw = Buffer.alloc((w + 1) * h); for (let j = 0; j < h; j++) Buffer.from(data.subarray(j * w, (j + 1) * w)).copy(rw, j * (w + 1) + 1)
-  return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', hd), chunk('IDAT', zlib.deflateSync(rw, { level: 9 })), chunk('IEND', Buffer.alloc(0))]) }
-if (!FROM_PNG) fs.writeFileSync(path.join(ROOT, 'src/assets/geo/heat-compare-illustrative.png'), encodePng(cmp, CMP.cols, CMP.rows))
-if (!FROM_PNG) fs.writeFileSync(path.join(ROOT, 'src/assets/geo/heat-compare-illustrative.json'), JSON.stringify({
-  illustrative: true,
-  about: 'Illustrative crop for the 100 m / 10 m compare slider. Fine grid = the 10 m side; the 100 m side is the block mean over factor x factor fine cells. Not measured data. Replace with a 10 m crop of the thesis result and set illustrative to false.',
-  image: 'heat-compare-illustrative.png',
-  encoding: '8-bit grayscale PNG, row-major, top row = north. 0 = no data. 1..255 map linearly to range.',
-  grid: [CMP.cols, CMP.rows],
-  factor: CMP.factor,
-  frame: CMP.frame,
-  frameUnits: 'berlin.json map units',
-  range: [0, 1],
-  unit: 'relative (0 = coolest, 1 = hottest)'
-}, null, 2) + '\n')
-
-// ---- Fig. 3 thesis: same area at 100 m and 10 m (centre 60 x 40 of the compare crop) ----
-// The figure shows a 60 x 40 window of the compare grid; i0/j0 pick it. Re-pick after swapping the data.
-const sub = []; const i0 = 160, j0 = 40
-for (let j = 0; j < 40; j++) { const r = []; for (let i = 0; i < 60; i++) { const v = cmp[(j0 + j) * CMP.cols + i0 + i]; r.push(v ? (v - 1) / 254 : null) } sub.push(r) }
-const fine = sub, coarse = coarsen(fine, 10)
-const [lo, hi] = range(fine)
-const T = {
-  de: { t: 'Derselbe Ausschnitt auf 100 m und auf 10 m', d: 'Zwei gleich große Ausschnitte der Berliner Innenstadt als Wärmeraster, links in 100-m-Zellen, rechts in 10-m-Zellen. Die Farbskala reicht von Graphit (kühler) bis Terrakotta (wärmer). Illustrativ, keine Messdaten.' },
-  en: { t: 'The same area at 100 m and at 10 m', d: 'Two equal views of inner Berlin as a heat raster, 100 m cells on the left and 10 m cells on the right. The colour scale runs from graphite (cooler) to terracotta (warmer). Illustrative, not measured data.' },
-}
-for (const lang of ['de', 'en']) {
-  const id = 'fig-lst-res'
-  const svg = `<svg class="figure-svg fig-wide" width="840" height="274" viewBox="0 0 840 274" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="${id}-t ${id}-d">
-  <title id="${id}-t">${T[lang].t}</title>
-  <desc id="${id}-d">${T[lang].d}</desc>
-  <!-- Generated from src/assets/geo/heat-illustrative.png (illustrative grid). Regenerate when the thesis result replaces it. -->
-  <g transform="scale(68.3333)" shape-rendering="crispEdges">
-${rasterPaths(classes(coarse, lo, hi), '    ')}
-  </g>
-  <g transform="translate(430 0) scale(6.8333)" shape-rendering="crispEdges">
-${rasterPaths(classes(fine, lo, hi), '    ')}
-  </g>
-  <rect class="fig-chip" x="12" y="12" width="62" height="28" rx="6"/>
-  <text class="fig-num" x="43" y="31" text-anchor="middle">100 m</text>
-  <rect class="fig-chip" x="442" y="12" width="52" height="28" rx="6"/>
-  <text class="fig-num" x="468" y="31" text-anchor="middle">10 m</text>
-</svg>
-`
-  fs.writeFileSync(path.join(ROOT, `src/assets/figures/berlin-lst-downscaling/resolution-compare.${lang}.svg`), svg)
-}
-
 // ---- thesis cover: one area, coarse on the left, fine on the right ----
 {
   const c = [300, 262, 400, 225] // 16:9 in map units
@@ -181,4 +124,4 @@ ${rasterPaths(fc, '    ')}
 `
   fs.writeFileSync(path.join(ROOT, 'src/assets/figures/berlin-lst-downscaling/cover.svg'), svg)
 }
-console.log(FROM_PNG ? 'from png' : 'generated', 'grid', GW, GH, 'range', lo.toFixed(2), hi.toFixed(2))
+console.log(FROM_PNG ? 'from png' : 'generated', 'grid', GW, GH)

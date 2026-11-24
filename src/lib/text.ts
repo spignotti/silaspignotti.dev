@@ -29,16 +29,6 @@ export function headingNbsp(text: string): string {
   return text.replace(/ ·/g, '\u00A0·')
 }
 
-const NOTE: Record<Lang, string> = {
-  de: 'Illustrativ, keine Messdaten',
-  en: 'Illustrative, not measured data',
-}
-
-/** The raster note is rendered only while the manifest says the data is illustrative. */
-export function illustrativeNote(manifest: { illustrative?: boolean }, lang: Lang): string | null {
-  return manifest.illustrative === true ? NOTE[lang] : null
-}
-
 export function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
@@ -120,14 +110,4 @@ export function pruneDeadCaseLinks(proof: string, slugs: readonly string[], lang
   return proofItems(proof)
     .filter((item) => !linksMissingCase(item, known, lang))
     .join(', ')
-}
-
-/** Link the "how I work" phrase. The visible words stay as written. */
-export function linkifySectionPhrase(html: string, lang: Lang): string {
-  const phrase = lang === 'de' ? 'Abschnitt „So arbeite ich“' : 'section "How I work"'
-  const href = lang === 'de' ? '#so-arbeite-ich' : '#how-i-work'
-  if (html.includes(`href="${href}"`)) return html
-  const escaped = escapeHtml(phrase)
-  if (!html.includes(escaped)) return html
-  return html.replace(escaped, `<a class="tl tl-acc" href="${href}">${escaped}</a>`)
 }

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const SKIP = new Set(['node_modules', 'dist', '.git', '.astro'])
-const CASES = ['routing-engine-solver', 'routing-engine-agentic', 'berlin-lst-downscaling', 'kpi-reference']
+const CASES = ['tourengenie', 'berlin-lst-downscaling']
 
 function copyRepo(dest) {
   fs.cpSync(root, dest, {
@@ -152,4 +152,4 @@ function scenario(label, slugs) {
 const arg = process.argv[2]
 const rounds = arg ? [[arg]] : CASES.map((slug) => [slug])
 for (const slugs of rounds) scenario(`remove ${slugs[0]}`, slugs)
-scenario('remove all four cases', CASES)
+scenario('remove all cases', CASES)

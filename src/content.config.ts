@@ -37,6 +37,18 @@ const areas = defineCollection({
   }),
 })
 
+const figure = z
+  .object({
+    n: z.number(),
+    file: z.string().optional(),
+    caption: z.string(),
+    section: z.string().optional(),
+    placeholder: z.string().optional(),
+  })
+  .refine((value) => Boolean(value.file || value.placeholder), {
+    message: 'a figure needs a file or a placeholder',
+  })
+
 const projects = defineCollection({
   loader: glob({
     pattern: '**/*.md',
@@ -57,9 +69,7 @@ const projects = defineCollection({
     year: z.number().optional(),
     links: z.array(link).default([]),
     keyFigures: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
-    figures: z
-      .array(z.object({ n: z.number(), file: z.string(), caption: z.string() }))
-      .default([]),
+    figures: z.array(figure).default([]),
   }),
 })
 

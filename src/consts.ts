@@ -10,12 +10,6 @@ export const SITE: Site = {
   email: 'mail@silaspignotti.dev',
 }
 
-export const NAV_LINKS: SocialLink[] = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-]
-
 export const SOCIAL_LINKS: SocialLink[] = [
   { href: 'https://github.com/spignotti', label: 'GitHub', icon: 'github' },
   { href: 'https://www.linkedin.com/in/silas-pignotti/', label: 'LinkedIn', icon: 'linkedin' },

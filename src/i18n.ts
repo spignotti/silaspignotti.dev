@@ -6,21 +6,19 @@ export const HTML_LANG: Record<Lang, string> = { de: 'de', en: 'en' }
 export const OG_LOCALE: Record<Lang, string> = { de: 'de_DE', en: 'en_US' }
 export const JSON_LANG: Record<Lang, string> = { de: 'de-DE', en: 'en-US' }
 
-export type PageKey = 'home' | 'projects' | 'about' | 'imprint' | 'privacy'
-export type NavKey = 'home' | 'projects' | 'about'
+export type PageKey = 'home' | 'projects' | 'imprint' | 'privacy'
+export type NavKey = 'home' | 'projects'
 
 const PATHS: Record<Lang, Record<PageKey, string>> = {
   de: {
     home: '/',
     projects: '/projekte',
-    about: '/ueber-mich',
     imprint: '/impressum',
     privacy: '/datenschutz',
   },
   en: {
     home: '/en/',
     projects: '/en/projects',
-    about: '/en/about',
     imprint: '/en/legal-notice',
     privacy: '/en/privacy',
   },
@@ -46,15 +44,17 @@ export function switchPath(lang: Lang, alternate: string | undefined): string {
 
 export const SECTION_IDS = {
   de: {
-    cases: 'fallstudien',
-    areas: 'arbeitsfelder',
-    steps: 'so-arbeite-ich',
+    profile: 'profil',
+    areas: 'bereiche',
+    projects: 'projekte',
+    about: 'ueber-mich',
     contact: 'kontakt',
   },
   en: {
-    cases: 'case-studies',
-    areas: 'areas-of-work',
-    steps: 'how-i-work',
+    profile: 'profile',
+    areas: 'areas',
+    projects: 'projects',
+    about: 'about',
     contact: 'contact',
   },
 } as const
@@ -63,7 +63,7 @@ export const UI = {
   de: {
     skip: 'Zum Inhalt springen',
     navLabel: 'Hauptnavigation',
-    nav: { home: 'Start', projects: 'Projekte', about: 'Über mich' },
+    nav: { home: 'Start', projects: 'Projekte' },
     wordmarkLabel: 'Silas Pignotti, zur Startseite',
     switchLang: 'English',
     switchLangLabel: 'Sprache wechseln',
@@ -87,19 +87,18 @@ export const UI = {
     tools: 'Werkzeuge',
     proof: 'Beleg',
     figure: 'Abb.',
-    moreAbout: 'Mehr über mich',
+    placeholder: 'Platzhalter',
     notFoundTitle: 'Seite nicht gefunden',
     notFoundText:
       'Diese Seite gibt es nicht oder nicht mehr. Vielleicht hilft die Startseite oder die Übersicht der Projekte.',
     notFoundHome: 'Zur Startseite',
     notFoundSeo: 'Seite nicht gefunden · Silas Pignotti',
     legalNote: 'Der rechtliche Text folgt.',
-    homeFigureLabel: { 'routing-engine-agentic': 'gemergte Pull Requests' },
   },
   en: {
     skip: 'Skip to content',
     navLabel: 'Main navigation',
-    nav: { home: 'Home', projects: 'Projects', about: 'About' },
+    nav: { home: 'Home', projects: 'Projects' },
     wordmarkLabel: 'Silas Pignotti, go to home page',
     switchLang: 'Deutsch',
     switchLangLabel: 'Change language',
@@ -123,13 +122,12 @@ export const UI = {
     tools: 'Tools',
     proof: 'Evidence',
     figure: 'Fig.',
-    moreAbout: 'More about me',
+    placeholder: 'Placeholder',
     notFoundTitle: 'Page not found',
     notFoundText: 'This page does not exist or no longer exists. The home page or the project overview may help.',
     notFoundHome: 'Go to home page',
     notFoundSeo: 'Page not found · Silas Pignotti',
     legalNote: 'Der rechtliche Text folgt.',
-    homeFigureLabel: { 'routing-engine-agentic': 'merged pull requests' },
   },
 } as const
 

@@ -1,15 +1,12 @@
 ---
-import compareHeat from '@/assets/geo/heat-compare-illustrative.json'
-import heat from '@/assets/geo/heat-illustrative.json'
 import ArticleSchema from '@/components/ArticleSchema.astro'
-import Compare from '@/components/Compare.astro'
 import Figure from '@/components/Figure.astro'
 import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
 import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
 import { getCase, getCases } from '@/lib/content'
-import { isPlaceholder, parseSections, type CaseSection } from '@/lib/prose'
-import { headingNbsp, illustrativeNote, inlineHtml } from '@/lib/text'
+import { isPlaceholder, parseSections } from '@/lib/prose'
+import { headingNbsp, inlineHtml } from '@/lib/text'
 
 interface Props {
   lang: Lang
@@ -22,45 +19,24 @@ const sections = parseSections(project.body ?? '')
 const cases = await getCases(lang)
 const index = cases.findIndex((item) => item.data.slug === slug)
 const next = index >= 0 && cases.length > 1 ? cases[(index + 1) % cases.length] : undefined
-const coverNote = illustrativeNote(heat, lang)
+const isLead = cases[0]?.data.slug === slug
 const ids = SECTION_IDS[lang]
 const imagePath = `/og/${slug}.png`
-const variant =
-  slug === 'routing-engine-solver' ? 'band band--accent cs-head' : slug === 'routing-engine-agentic' ? 'band band--tint cs-head' : 'band cs-head'
-const drawOnce = slug === 'routing-engine-solver' || slug === 'routing-engine-agentic'
 
-type Block = { kind: 'p'; html: string; ph: boolean } | { kind: 'fig'; n: number } | { kind: 'compare' }
-
-function blocks(section: CaseSection): Block[] {
-  const paras: Block[] = section.paragraphs.map((paragraph) => ({ kind: 'p', html: inlineHtml(paragraph), ph: isPlaceholder(paragraph) }))
-  const has = (n: number) => project.data.figures.some((figure) => figure.n === n)
-  if (slug === 'routing-engine-solver' && section.id === 'approach') {
-    const out: Block[] = []
-    paras.forEach((paragraph, index) => {
-      out.push(paragraph)
-      if (index === 0 && has(1)) out.push({ kind: 'fig', n: 1 })
-      if (index === 1 && has(2)) out.push({ kind: 'fig', n: 2 })
-    })
-    return out
-  }
-  const end = (id: string, n: number): Block[] | null => (section.id === id && has(n) ? [...paras, { kind: 'fig', n }] : null)
-  if (slug === 'routing-engine-agentic') return end('approach', 1) ?? end('result', 2) ?? paras
-  if (slug === 'kpi-reference') return end('approach', 1) ?? end('system', 2) ?? end('result', 3) ?? paras
-  if (slug === 'berlin-lst-downscaling' && section.id === 'system') {
-    const figs: Block[] = project.data.figures.filter((figure) => figure.n === 1 || figure.n === 2).map((figure) => ({ kind: 'fig', n: figure.n }))
-    const compare: Block[] = has(3) ? [{ kind: 'compare' }] : []
-    return [...paras, ...figs, ...compare]
-  }
-  return paras
-}
-
-const compareCaption = project.data.figures.find((figure) => figure.n === 3 && slug === 'berlin-lst-downscaling')?.caption ?? ''
-// The illustrative disclaimer comes from the raster manifest (compareNote), not from the caption.
-const compareLabel = compareCaption.replace(/\.$/, '')
-const compareLead = compareCaption
-const compareNote = illustrativeNote(compareHeat, lang)
-function figureOf(n: number) {
-  return project.data.figures.find((figure) => figure.n === n)
+const figures = [...project.data.figures].sort((a, b) => a.n - b.n)
+const used = new Set<(typeof figures)[number]>()
+const bySection = new Map<number, (typeof figures)[number][]>()
+sections.forEach((section, sectionIndex) => {
+  const matched = figures.filter((figure) => !used.has(figure) && figure.section?.trim() === section.heading.trim())
+  if (matched.length === 0) return
+  for (const figure of matched) used.add(figure)
+  bySection.set(sectionIndex, matched)
+})
+const unplaced = figures.filter((figure) => !used.has(figure))
+if (unplaced.length > 0) {
+  let target = sections.findIndex((section) => section.id === 'vorgehen' || section.id === 'approach')
+  if (target < 0) target = sections.length - 1
+  if (target >= 0) bySection.set(target, [...(bySection.get(target) ?? []), ...unplaced].sort((a, b) => a.n - b.n))
 }
 ---
 
@@ -75,16 +51,15 @@ function figureOf(n: number) {
   ogType="article"
   motion
 >
-  <header class={variant}>
+  <header class:list={['band', 'cs-head', { 'band--accent': isLead }]}>
     <div class="wrap band-grid">
-      <div class="band-text" data-reveal>
-        <a class="cs-back tl" href={`${pagePath(lang, 'home')}#${ids.cases}`}>{ui.back}</a>
+      <div class="band-text">
+        <a class="cs-back tl" href={`${pagePath(lang, 'home')}#${ids.projects}`}>{ui.back}</a>
         <h1 class="cs-title">{headingNbsp(project.data.title)}</h1>
         <p class="cs-sum">{project.data.description}</p>
       </div>
-      <div class="band-fig" data-draw-once={drawOnce ? '' : undefined}>
+      <div class="band-fig" data-draw-once={isLead ? '' : undefined}>
         <Figure file={`${slug}/cover`} lang={lang} instance="cover" decorative bare />
-        {slug === 'berlin-lst-downscaling' && coverNote && <span class="note">{coverNote}</span>}
       </div>
     </div>
   </header>
@@ -123,35 +98,31 @@ function figureOf(n: number) {
       </dl>
     )}
     <article class="cs-body">
-      {sections.map((section) => (
-        <section class="cs-sec" id={section.id} data-reveal>
+      {sections.map((section, sectionIndex) => (
+        <section class="cs-sec" id={section.id}>
           <h2>{headingNbsp(section.heading)}</h2>
           <div class="cs-main">
-          {blocks(section).map((block) => {
-            if (block.kind === 'p') return <div class="cs-prose"><p class={block.ph ? 'ph' : undefined} set:html={block.html} /></div>
-            if (block.kind === 'compare') {
-              const figure = figureOf(3)
-              return (
-                <figure class="fig">
-                  <Compare lang={lang} label={compareLabel} describedBy={compareNote ? 'compare-note' : undefined} />
-                  {figure && (
-                    <figcaption>
-                      <span class="fig-n">{`${ui.figure} ${figure.n}`}</span>
-                      {compareLead}
-                      {compareNote && (
-                        <>
-                          {' '}
-                          <span class="note" id="compare-note">{compareNote}</span>.
-                        </>
-                      )}
-                    </figcaption>
-                  )}
+            <div class="cs-prose">
+              {section.paragraphs.map((paragraph) => (
+                <p class={isPlaceholder(paragraph) ? 'ph' : undefined} set:html={inlineHtml(paragraph)} />
+              ))}
+            </div>
+            {(bySection.get(sectionIndex) ?? []).map((figure) =>
+              figure.placeholder ? (
+                <figure class="fig fig-ph">
+                  <div class="ph-box" role="img" aria-label={`${ui.placeholder}: ${figure.placeholder}`}>
+                    <span class="ph-tag">{ui.placeholder}</span>
+                    <p class="ph-text">{figure.placeholder}</p>
+                  </div>
+                  <figcaption>
+                    <span class="fig-n">{`${ui.figure} ${figure.n}`}</span>
+                    {figure.caption}
+                  </figcaption>
                 </figure>
-              )
-            }
-            const figure = figureOf(block.n)
-            return figure ? <Figure file={figure.file} lang={lang} instance={`f${figure.n}`} n={figure.n} caption={figure.caption} /> : null
-          })}
+              ) : (
+                <Figure file={figure.file ?? ''} lang={lang} instance={`f${figure.n}`} n={figure.n} caption={figure.caption} />
+              ),
+            )}
           </div>
         </section>
       ))}

@@ -1,9 +1,5 @@
 // Heat raster engine. Logic ported from the prototype; the canvas is built only
 // after it has a non-zero size, and requestAnimationFrame runs only during a sweep.
-import { illustrativeNote } from '@/lib/text'
-
-export { illustrativeNote }
-
 const DPR_MAX = 2
 const MAX_BACKING_PX = 4_000_000
 
@@ -11,7 +7,6 @@ type Lab = [number, number, number]
 type Rgb = [number, number, number]
 
 export type RasterData = {
-  illustrative?: boolean
   w: number
   h: number
   v: Float32Array
@@ -352,39 +347,6 @@ export function createScrollScheduler(update: () => void): () => void {
   }
 }
 
-export function paintCompare(canvasCoarse: CanvasLike, canvasFine: CanvasLike, data: RasterData, crop: number[]) {
-  const col = ramp()
-  const factor = data.factor ?? 1
-  for (const [c, n] of [
-    [canvasCoarse, factor],
-    [canvasFine, 1],
-  ] as const) {
-    const W = c.clientWidth
-    const H = c.clientHeight
-    if (!(W > 0) || !(H > 0)) continue
-    const dpr = dprFor(W, H)
-    c.width = Math.round(W * dpr)
-    c.height = Math.round(H * dpr)
-    const [i0, j0, cols, rows] = crop
-    if (!cols || !rows) continue
-    const vals = new Float32Array(cols * rows)
-    for (let j = 0; j < rows; j++) {
-      for (let i = 0; i < cols; i++) vals[j * cols + i] = data.v[((j0 ?? 0) + j) * data.w + (i0 ?? 0) + i] ?? NaN
-    }
-    const img = levelImage(vals, cols, rows, n, col, true)
-    const x = c.getContext('2d')
-    if (!x || img.width === 0) continue
-    x.imageSmoothingEnabled = false
-    x.drawImage(img, 0, 0, img.width * n * (c.width / cols), img.height * n * (c.height / rows))
-    if (n > 1) {
-      const cw = (c.width / cols) * n
-      const chh = (c.height / rows) * n
-      for (let X = cw; X < c.width; X += cw) x.clearRect(Math.round(X) - dpr, 0, dpr, c.height)
-      for (let Y = chh; Y < c.height; Y += chh) x.clearRect(0, Math.round(Y) - dpr, c.width, dpr)
-    }
-  }
-}
-
 export async function loadRaster(manifestUrl: string, imageUrl?: string): Promise<RasterData> {
   const man = (await (await fetch(manifestUrl)).json()) as RasterData & { image: string }
   const src = imageUrl ?? new URL(man.image, new URL(manifestUrl, location.href)).href
@@ -403,8 +365,4 @@ export async function loadRaster(manifestUrl: string, imageUrl?: string): Promis
     v[i] = g === 0 ? NaN : (g - 1) / 254
   }
   return { ...man, w: bmp.width, h: bmp.height, v }
-}
-
-export function lut(): Uint8ClampedArray {
-  return ramp().lut
 }

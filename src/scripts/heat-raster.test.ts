@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
 import test from 'node:test'
-import { Hero, createScrollScheduler, dprFor, illustrativeNote, startHero, watchCanvas } from './heat-raster.ts'
+import { Hero, createScrollScheduler, dprFor, startHero, watchCanvas } from './heat-raster.ts'
 
 type Fake = {
   width: number
@@ -213,21 +212,6 @@ test('the scroll scheduler queues one frame and does not requeue it', () => {
   queued?.(0)
   assert.equal(updates, 1)
   assert.equal(frames, 1)
-})
-
-test('the note follows the illustrative flag on the real manifests', () => {
-  const heat = JSON.parse(readFileSync(new URL('../assets/geo/heat-illustrative.json', import.meta.url), 'utf8')) as { illustrative?: boolean }
-  const compare = JSON.parse(readFileSync(new URL('../assets/geo/heat-compare-illustrative.json', import.meta.url), 'utf8')) as { illustrative?: boolean }
-  for (const manifest of [heat, compare]) {
-    const note = illustrativeNote(manifest, 'de')
-    if (manifest.illustrative === true) assert.equal(note, 'Illustrativ, keine Messdaten')
-    else assert.equal(note, null)
-    const english = illustrativeNote(manifest, 'en')
-    if (manifest.illustrative === true) assert.equal(english, 'Illustrative, not measured data')
-    else assert.equal(english, null)
-  }
-  assert.equal(illustrativeNote({ illustrative: false }, 'de'), null)
-  assert.equal(illustrativeNote({ illustrative: true }, 'en'), 'Illustrative, not measured data')
 })
 
 test('startHero builds on the first non-zero size and ignores later observer notifications', () => {

@@ -1,16 +1,13 @@
 ---
-import compareHeat from '@/assets/geo/heat-compare-illustrative.json'
-import heat from '@/assets/geo/heat-illustrative.json'
 import CaseBand from '@/components/CaseBand.astro'
-import Compare from '@/components/Compare.astro'
-import Figure from '@/components/Figure.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
 import PersonSchema from '@/components/PersonSchema.astro'
 import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
-import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
+import { SECTION_IDS, UI, pagePath } from '@/i18n'
 import { getAreas, getCases, getPage, getSmallProjects } from '@/lib/content'
 import { parseHome } from '@/lib/prose'
-import { headingNbsp, illustrativeNote, inlineHtml, linkifySectionPhrase, pruneDeadCaseLinks } from '@/lib/text'
+import { headingNbsp, inlineHtml, pruneDeadCaseLinks } from '@/lib/text'
 
 interface Props {
   lang: Lang
@@ -24,32 +21,8 @@ const areas = await getAreas(lang)
 const cases = await getCases(lang)
 const caseSlugs = cases.map((item) => item.data.slug)
 const small = await getSmallProjects(lang)
-const heroNote = illustrativeNote(heat, lang)
-const compareNote = illustrativeNote(compareHeat, lang)
-const bySlug = new Map(cases.map((item) => [item.data.slug, item]))
-const solver = bySlug.get('routing-engine-solver')
-const agentic = bySlug.get('routing-engine-agentic')
-const thesis = bySlug.get('berlin-lst-downscaling')
-const kpi = bySlug.get('kpi-reference')
-
-const cells = [1, 2, 3, 5, 7]
-function glyph(n: number) {
-  const gap = n === 1 ? 0 : 0.8
-  const size = (14 - gap * (n - 1)) / n
-  let out = ''
-  for (let y = 0; y < n; y++) {
-    for (let x = 0; x < n; x++) {
-      const px = (x * (size + gap)).toFixed(2)
-      const py = (y * (size + gap)).toFixed(2)
-      const w = size.toFixed(2)
-      out += `<rect x="${px}" y="${py}" width="${w}" height="${w}"/>`
-    }
-  }
-  return out
-}
-
-const thesisCaption = thesis?.data.figures.find((figure) => figure.n === 3)?.caption ?? ''
-const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
+const lead = cases[0]
+const rest = cases.slice(1)
 ---
 
 <Layout
@@ -65,19 +38,11 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
   <section class="hero" data-hero>
     <div class="hero-pin">
       <canvas class="hero-canvas" aria-hidden="true"></canvas>
-      <div class="hero-legend">
-        <span class="scale" aria-hidden="true">
-          100 m
-          {cells.map((n) => <svg class="lv" viewBox="0 0 14 14" set:html={glyph(n)} />)}
-          10 m
-        </span>
-        {heroNote && <span class="note">{heroNote}</span>}
-      </div>
       <div class="hero-copy">
-        <h1 class="hero-name">{headingNbsp(home.heroTitle)}</h1>
-        <p class="hero-lead">{home.heroLead}</p>
+        <h1 class="hero-name">{headingNbsp(home.name)}</h1>
+        <p class="hero-lead">{headingNbsp(home.fieldLine)}</p>
         <div class="hero-actions">
-          <a class="btn" href={`#${ids.cases}`}>{ui.viewProjects}</a>
+          <a class="btn" href={`#${ids.projects}`}>{ui.viewProjects}</a>
           <span class="links">
             {home.contactLinks.map((link) => (
               <a class="tl" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
@@ -90,82 +55,26 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
     </div>
   </section>
 
-  <section id={ids.cases} aria-labelledby={`h-${ids.cases}`}>
-    <div class="wrap section" style="padding-bottom:40px">
-      <div class="section-head" data-reveal style="margin-bottom:0">
-        <h2 class="h2" id={`h-${ids.cases}`}>{headingNbsp(home.casesTitle)}</h2>
-        <p class="intro">{home.casesIntro}</p>
-      </div>
-    </div>
-
-    {solver && <CaseBand project={solver} lang={lang} variant="accent" labelAbove draw />}
-    {agentic && <CaseBand project={agentic} lang={lang} variant="tint" valueFirst draw />}
-
-    {thesis && (
-      <article class="band band--heat">
-        <div class="wrap band-grid">
-          <div class="band-text" data-reveal>
-            <h3 class="band-title"><a href={projectPath(lang, thesis.data.slug)}>{headingNbsp(thesis.data.title)}</a></h3>
-            <p class="band-sum">{thesis.data.description}</p>
-            {thesis.data.role && (
-              <dl class="band-role"><dt>{ui.role}</dt><dd>{thesis.data.role}</dd></dl>
-            )}
-          </div>
-          <div class="band-kf"><div class="kf"><span class="kf-v">{thesis.data.keyFigures[0]?.value}</span></div></div>
-        </div>
-        <Compare lang={lang} label={thesisLabel} describedBy={compareNote ? 'compare-note' : undefined} />
-        <div class="wrap cmp-foot">
-          {compareNote && <span class="note" id="compare-note">{compareNote}</span>}
-          <a class="tl tl-strong tl-acc" href={projectPath(lang, thesis.data.slug)}>{ui.readCase}</a>
-        </div>
-      </article>
-    )}
-
-    <div class="wrap">
-      {kpi && (
-        <article class="entry">
-          <div class="entry-grid">
-            <div>
-              <h3 class="entry-title"><a href={projectPath(lang, kpi.data.slug)}>{headingNbsp(kpi.data.title)}</a></h3>
-              <p class="band-sum">{kpi.data.description}</p>
-              {kpi.data.role && (
-                <dl class="band-role"><dt>{ui.role}</dt><dd>{kpi.data.role}</dd></dl>
-              )}
-              <a class="band-link tl tl-acc" href={projectPath(lang, kpi.data.slug)}>{ui.readCase}</a>
-            </div>
-            <div class="band-fig">
-              <Figure file="kpi-reference/forecast-error" lang={lang} instance="home" bare />
-            </div>
-          </div>
-        </article>
-      )}
-      {small.map((item) => (
-        <div class="row-small" data-reveal>
-          <b>{item.data.title}</b>
-          <span class="mono">{item.data.year}</span>
-          <p>{item.data.description}</p>
-          {item.data.links[0] && (
-            <a class="tl tl-acc" href={item.data.links[0].href} target="_blank" rel="noopener noreferrer">{item.data.links[0].label}</a>
-          )}
-        </div>
-      ))}
-      <div class="all-link"><a class="tl tl-strong" href={pagePath(lang, 'projects')}>{ui.allProjects}</a></div>
+  <section class="wrap section split" id={ids.profile} aria-labelledby={`h-${ids.profile}`}>
+    <h2 class="h2" id={`h-${ids.profile}`}>{headingNbsp(home.profileTitle)}</h2>
+    <div class="split-body">
+      {home.profile.map((paragraph) => <p class="lead-text">{paragraph}</p>)}
     </div>
   </section>
 
   <section class="wrap section" id={ids.areas} aria-labelledby={`h-${ids.areas}`}>
-    <div class="section-head" data-reveal><h2 class="h2" id={`h-${ids.areas}`}>{headingNbsp(home.areasTitle)}</h2></div>
+    <div class="section-head"><h2 class="h2" id={`h-${ids.areas}`}>{headingNbsp(home.areasTitle)}</h2></div>
     <div class="fields">
       {areas.map((area) => {
         const proof = pruneDeadCaseLinks(area.data.proof, caseSlugs, lang)
         return (
-          <div class="field" data-reveal>
+          <div class="field">
             <h3>{headingNbsp(area.data.title)}</h3>
             <p>{area.data.summary}</p>
             <dl>
               <div><dt>{ui.tools}</dt><dd>{area.data.tools}</dd></div>
               {proof && (
-                <div><dt>{ui.proof}</dt><dd set:html={linkifySectionPhrase(inlineHtml(proof, 'tl tl-acc'), lang)} /></div>
+                <div><dt>{ui.proof}</dt><dd set:html={inlineHtml(proof, 'tl tl-acc')} /></div>
               )}
             </dl>
           </div>
@@ -174,33 +83,60 @@ const thesisLabel = thesisCaption.split('. ')[0] ?? thesisCaption
     </div>
   </section>
 
-  <section class="wrap section" id={ids.steps} aria-labelledby={`h-${ids.steps}`}>
-    <div class="section-head" data-reveal><h2 class="h2" id={`h-${ids.steps}`}>{headingNbsp(home.stepsTitle)}</h2></div>
-    <ol class="steps">
-      {home.steps.map((step, index) => (
-        <li class="step" data-reveal>
-          <canvas aria-hidden="true"></canvas>
-          <div>
-            <span class="step-n">{index + 1}</span>
-            <b>{step.title}</b>
-            <span class="d">{step.text}</span>
-          </div>
-        </li>
-      ))}
-    </ol>
+  <section id={ids.projects} aria-labelledby={`h-${ids.projects}`}>
+    <div class="wrap section" style="padding-bottom:40px">
+      <div class="section-head" style="margin-bottom:0">
+        <h2 class="h2" id={`h-${ids.projects}`}>{headingNbsp(home.projectsTitle)}</h2>
+        <p class="intro">{home.projectsIntro}</p>
+      </div>
+    </div>
+
+    {lead && <CaseBand project={lead} lang={lang} />}
+
+    <div class="wrap">
+      {rest.length > 0 && (
+        <div class="cards cards--home">
+          {rest.map((project) => <ProjectCard project={project} lang={lang} as="h3" />)}
+        </div>
+      )}
+      {small.length > 0 && (
+        <div class="rows--home">
+          {small.map((item) => (
+            <div class="row-small">
+              <b>{item.data.title}</b>
+              <span class="mono">{item.data.year}</span>
+              <p>{item.data.description}</p>
+              {item.data.links[0] && (
+                <a class="tl tl-acc" href={item.data.links[0].href} target="_blank" rel="noopener noreferrer">{item.data.links[0].label}</a>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      <div class="all-link"><a class="tl tl-strong" href={pagePath(lang, 'projects')}>{ui.allProjects}</a></div>
+    </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="h-timeline">
-    <div class="section-head" data-reveal><h2 class="h2" id="h-timeline">{headingNbsp(home.timelineTitle)}</h2></div>
-    <ol class="tline">
-      {home.timeline.map((item) => (
-        <li data-reveal><span class="y">{item.year}</span><p>{item.text}</p></li>
-      ))}
-    </ol>
-    {home.more && <p class="more-link"><a class="tl tl-strong" href={home.more.href}>{home.more.label}</a></p>}
+  <section class="wrap section split" id={ids.about} aria-labelledby={`h-${ids.about}`}>
+    <h2 class="h2" id={`h-${ids.about}`}>{headingNbsp(home.aboutTitle)}</h2>
+    <div class="split-body">
+      {home.about.map((paragraph) => <p set:html={inlineHtml(paragraph)} />)}
+      {home.aboutLink && (
+        <p class="more-link">
+          <a
+            class="tl tl-strong"
+            href={home.aboutLink.href}
+            target={home.aboutLink.href.startsWith('http') ? '_blank' : undefined}
+            rel={home.aboutLink.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            {home.aboutLink.label}
+          </a>
+        </p>
+      )}
+    </div>
   </section>
 
-  <section class="wrap section" id={ids.contact} data-reveal aria-labelledby={`h-${ids.contact}`}>
+  <section class="wrap section" id={ids.contact} aria-labelledby={`h-${ids.contact}`}>
     <h2 class="h2" id={`h-${ids.contact}`}>{headingNbsp(home.contactTitle)}</h2>
     <p class="intro contact-lead">{home.contactLead}</p>
     <p class="contact-links">
