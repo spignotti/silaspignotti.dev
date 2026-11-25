@@ -7,7 +7,7 @@ description: "I analyse geodata and satellite data in Berlin, automate analyses 
 
 # Silas Pignotti
 
-Geodata · Data analysis · Software development · Berlin
+Geodata, data analysis and software development in Berlin.
 
 ## Profile
 

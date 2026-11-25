@@ -41,16 +41,6 @@ const rest = cases.slice(1)
       <div class="hero-copy">
         <h1 class="hero-name">{headingNbsp(home.name)}</h1>
         <p class="hero-lead">{headingNbsp(home.fieldLine)}</p>
-        <div class="hero-actions">
-          <a class="btn" href={`#${ids.projects}`}>{ui.viewProjects}</a>
-          <span class="links">
-            {home.contactLinks.map((link) => (
-              <a class="tl" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
-                {link.label}
-              </a>
-            ))}
-          </span>
-        </div>
       </div>
     </div>
   </section>

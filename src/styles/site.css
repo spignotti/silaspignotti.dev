@@ -65,36 +65,19 @@ p { text-wrap: pretty; }
 
 .hero { position: relative; }
 .hero-pin { position: relative; }
-.hero-canvas { display: block; width: 100%; aspect-ratio: 1; max-height: 64svh; }
+.hero-canvas { display: block; width: 100%; aspect-ratio: 1; max-height: 64svh; pointer-events: none; }
 .hero-copy { padding: 28px var(--page-pad) 8px; }
 .hero-name { font-size: clamp(48px, 8.6vw, 112px); line-height: 0.95; letter-spacing: -0.05em; margin-bottom: 20px; margin-left: -0.04em; }
-.hero-lead { font-size: var(--text-lead); line-height: var(--leading-lead); max-width: 34em; margin-bottom: 28px; }
-.hero-actions { display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
-.hero-actions .links { display: flex; gap: 20px; font-size: 15px; }
-/* Pinned copy sits 48px from the bottom of a 100svh clip, under the 64px nav.
-   Worst case here: name 112×0.95 + 20, lead 5×18×1.55 + 28, actions 44.
-   64 + 106.4 + 20 + 139.5 + 28 + 44 + 48 + 4 = 454. Below that the headline
-   meets the nav, so the in-flow hero is used instead. */
-@media (min-width: 768px) and (min-height: 454px) {
-  .hero-pin { height: 100svh; overflow: clip; }
-  .js .hero { height: 190svh; }
-  .js .hero-pin { position: sticky; top: 0; }
+.hero-lead { font-size: var(--text-lead); line-height: var(--leading-lead); max-width: 34em; }
+@media (min-width: 768px) {
+  .hero { height: min(100svh, 860px); }
+  .hero-pin { height: 100%; }
   .hero-canvas { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; max-height: none; }
   .hero-copy { position: absolute; left: var(--page-pad); bottom: 48px; padding: 0; }
   .hero-name { width: max-content; max-width: calc(100vw - 2 * var(--page-pad)); }
   .hero-lead { max-width: 32em; }
-  .hero-actions { width: max-content; }
 }
 @media (min-width: 1280px) { .hero-copy { left: calc((100vw - var(--container)) / 2); } }
-/* Reduced motion: not pinned. Height follows the canvas and the copy (spec §7). */
-.js.rm .hero { height: auto; }
-@media (min-width: 768px) {
-  .js.rm .hero-pin { position: relative; height: auto; overflow: visible; }
-  .js.rm .hero-canvas { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1; max-height: 64svh; }
-  .js.rm .hero-copy { position: relative; left: auto; right: auto; bottom: auto; padding: 28px var(--page-pad) 8px; }
-  .js.rm .hero-name { width: auto; }
-  .js.rm .hero-actions { width: auto; }
-}
 
 .section { padding-block: var(--section-gap); }
 .section-head { display: grid; gap: 12px; margin-bottom: 40px; max-width: 46em; }
@@ -126,8 +109,8 @@ p { text-wrap: pretty; }
 .kf-row .kf-v { font-size: clamp(24px, 2.2vw, 30px); white-space: nowrap; }
 .kf-row .kf-l { font-size: 14px; }
 .band-link { display: inline-block; margin-top: 28px; font-size: 16px; font-weight: 500; }
-:is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .hero-actions > .btn)::after { content: ''; display: inline-block; width: 0.8em; height: 0.8em; min-width: 12px; min-height: 12px; max-width: 16px; max-height: 16px; margin-left: 0.35em; vertical-align: -0.1em; background: currentColor; -webkit-mask: var(--ico-go) center / contain no-repeat; mask: var(--ico-go) center / contain no-repeat; transition: transform var(--motion-base) var(--ease-standard); }
-:is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .hero-actions > .btn):is(:hover, :focus-visible)::after { transform: translateX(3px); }
+:is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a)::after { content: ''; display: inline-block; width: 0.8em; height: 0.8em; min-width: 12px; min-height: 12px; max-width: 16px; max-height: 16px; margin-left: 0.35em; vertical-align: -0.1em; background: currentColor; -webkit-mask: var(--ico-go) center / contain no-repeat; mask: var(--ico-go) center / contain no-repeat; transition: transform var(--motion-base) var(--ease-standard); }
+:is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a):is(:hover, :focus-visible)::after { transform: translateX(3px); }
 .band-fig { min-width: 0; }
 .band-fig .figure-svg { border-radius: var(--radius-card); }
 @media (min-width: 768px) {
@@ -174,8 +157,6 @@ p { text-wrap: pretty; }
 .contact-links a:hover, .contact-links a:focus-visible { color: var(--color-accent); }
 .contact-links svg { width: 30px; height: 30px; display: block; }
 .contact-lead { margin-top: 12px; }
-.hero-actions .links a::after { content: ''; display: inline-block; width: max(12px, 0.55em); height: max(12px, 0.55em); margin-left: 0.28em; vertical-align: -0.08em; background: currentColor; -webkit-mask: var(--ico-ne) center / contain no-repeat; mask: var(--ico-ne) center / contain no-repeat; transition: transform var(--motion-base) var(--ease-standard); }
-.hero-actions .links a:is(:hover, :focus-visible)::after { transform: translate(2px, -2px); }
 
 .foot { border-top: 1px solid var(--color-border); padding-block: 32px 48px; font-size: 14px; color: var(--color-muted); }
 .foot a:hover, .foot a:focus-visible { color: var(--color-text); }
@@ -304,8 +285,8 @@ figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--c
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   :is(.btn, .theme-btn svg, .row-small b),
-  :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .hero-actions > .btn, .hero-actions .links a, .nav-links a)::after { transform: none !important; }
+  :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .nav-links a)::after { transform: none !important; }
 }
 .rm *, .rm *::before, .rm *::after { transition: none !important; animation: none !important; }
 .rm :is(.btn, .theme-btn svg, .row-small b),
-.rm :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .hero-actions > .btn, .hero-actions .links a, .nav-links a)::after { transform: none !important; }
+.rm :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .nav-links a)::after { transform: none !important; }

@@ -7,7 +7,7 @@ description: "Ich werte in Berlin Geodaten und Satellitendaten aus, automatisier
 
 # Silas Pignotti
 
-Geodaten · Datenauswertung · Softwareentwicklung · Berlin
+Geodaten, Datenauswertung und Softwareentwicklung in Berlin.
 
 ## Profil
 

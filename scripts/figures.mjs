@@ -1,7 +1,7 @@
 // Writes the diagram and chart figures for tourengenie, berlin-lst-downscaling and
 // urban-tree-transfer (DE + EN) and the non-raster covers into src/assets/figures.
 // Geometry is authored here by hand; the script only swaps the language strings.
-// Usage: node scripts/figures.mjs .   (raster figures: scripts/raster.mjs)
+// Usage: node scripts/figures.mjs .
 import fs from 'node:fs'
 import path from 'node:path'
 const ROOT = process.argv[2]

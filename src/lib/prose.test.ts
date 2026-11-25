@@ -39,7 +39,7 @@ test('the home page is read by section position', () => {
   const body = [
     '# Silas Pignotti',
     '',
-    'Geodaten · Datenauswertung · Softwareentwicklung · Berlin',
+    'Geodaten, Datenauswertung und Softwareentwicklung in Berlin.',
     '',
     '## Profil',
     '',
@@ -71,7 +71,7 @@ test('the home page is read by section position', () => {
   ].join('\n')
   assert.deepEqual(parseHome(body), {
     name: 'Silas Pignotti',
-    fieldLine: 'Geodaten · Datenauswertung · Softwareentwicklung · Berlin',
+    fieldLine: 'Geodaten, Datenauswertung und Softwareentwicklung in Berlin.',
     profileTitle: 'Profil',
     profile: ['Erster Absatz.', 'Zweiter Absatz.'],
     areasTitle: 'Bereiche',

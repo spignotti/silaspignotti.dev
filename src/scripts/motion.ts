@@ -1,13 +1,10 @@
-import berlinUrl from '../assets/geo/berlin.json?url'
-import rasterJson from '../assets/geo/berlin-raster.json?url'
-import rasterPng from '../assets/geo/berlin-raster.png?url'
-import { Hero, createScrollScheduler, loadRaster, startHero, type RasterData } from './heat-raster'
-
-type Berlin = { outline: string; w: number; h: number }
+import berlin from '../assets/geo/berlin.json'
+import { mountHalftoneHero } from './hero-halftone'
+import { createScrollScheduler } from './scroll'
 
 const clamp = (value: number, min = 0, max = 1) => Math.max(min, Math.min(max, value))
 
-/** Scroll-linked motion for the hero and the line drawing. */
+/** Scroll-linked line drawing, plus the one-shot hero. */
 export function initMotion(): void {
   const root = document.documentElement
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -66,71 +63,5 @@ export function initMotion(): void {
 
   const heroEl = document.querySelector<HTMLElement>('[data-hero]')
   if (!heroEl) return
-
-  void Promise.all([fetch(berlinUrl).then((response) => response.json() as Promise<Berlin>), loadRaster(rasterJson, rasterPng)])
-    .then(([berlin, raster]) => mountHero(heroEl, berlin, raster, isReduced, track))
-    .catch(() => {})
-}
-
-function mountHero(
-  heroEl: HTMLElement,
-  berlin: Berlin,
-  raster: RasterData,
-  isReduced: () => boolean,
-  track: (el: Element, update: (end: boolean) => void) => void,
-) {
-  const canvas = heroEl.querySelector('canvas')
-  if (!canvas) return
-  // Same height threshold as the pinned hero in site.css (copy height + nav).
-  const pinnedHero = window.matchMedia('(min-width: 768px) and (min-height: 454px)')
-  const desk = () => pinnedHero.matches
-  const hero = new Hero({
-    canvas,
-    data: raster,
-    outline: berlin.outline,
-    base: 4,
-    levels: [10, 6, 4, 2, 1],
-    fit(width, height) {
-      const scale = Math.min(width / berlin.w, height / berlin.h) * (desk() ? 0.92 : 1.12)
-      return {
-        s: scale,
-        ox: width * (desk() ? 0.6 : 0.5) - (berlin.w / 2) * scale,
-        oy: height * (desk() ? 0.53 : 0.5) - (berlin.h / 2) * scale,
-      }
-    },
-    clear: () =>
-      desk()
-        ? [...heroEl.querySelectorAll('.hero-name, .hero-lead, .hero-actions')].map((el) => el.getBoundingClientRect())
-        : [],
-  })
-  const levelNow = () => {
-    if (isReduced()) return 4
-    let amount: number
-    if (desk()) {
-      const rect = heroEl.getBoundingClientRect()
-      amount = clamp(-rect.top / (rect.height - window.innerHeight) / 0.85)
-    } else amount = clamp(window.scrollY / (canvas.offsetHeight * 0.6))
-    return Math.min(4, Math.floor(amount * 5))
-  }
-  startHero(hero, { reducedMotion: isReduced, level: levelNow })
-  track(heroEl, (end) => {
-    if (hero.W > 0) hero.show(levelNow(), end || isReduced() ? { instant: true } : undefined)
-  })
-  let lastW = window.innerWidth
-  let lastH = window.innerHeight
-  let lastPinned = desk()
-  let timer = 0
-  window.addEventListener('resize', () => {
-    window.clearTimeout(timer)
-    timer = window.setTimeout(() => {
-      const pinned = desk()
-      const crossed = pinned !== lastPinned
-      if (window.innerWidth === lastW && !crossed && (!pinned || Math.abs(window.innerHeight - lastH) < 120)) return
-      lastW = window.innerWidth
-      lastH = window.innerHeight
-      lastPinned = pinned
-      hero.redraw()
-    }, 150)
-  })
-  window.addEventListener('themechange', () => hero.redraw())
+  mountHalftoneHero(heroEl, berlin, isReduced)
 }
