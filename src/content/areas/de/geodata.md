@@ -3,7 +3,7 @@ lang: "de"
 slug: "geodata"
 order: 1
 title: "Geodaten und Fernerkundung"
-summary: "Ich werte Satellitendaten aus und verknüpfe sie mit Daten zur Stadtstruktur und zum Wetter. Ich prüfe, welche Daten einem Modell helfen und wie gut sich Modelle auf andere Städte übertragen lassen."
+summary: "Ich werte Geodaten und Satellitendaten aus und trainiere und prüfe Modelle darauf (Geospatial Data Science). Mit räumlichen Werkzeugen beantworte ich Planungsfragen, etwa in der Tourenplanung und im Routing."
 tools: "Python, PyTorch, Google Earth Engine, Google Cloud, Landsat, Sentinel-2"
-proof: "[Masterarbeit](/projekte/berlin-lst-downscaling), [Urban Tree Transfer](/projekte/urban-tree-transfer)"
+proof: "[Masterarbeit](/projekte/berlin-lst-downscaling), [Urban Tree Transfer](/projekte/urban-tree-transfer), [Tourengenie](/projekte/tourengenie)"
 ---
