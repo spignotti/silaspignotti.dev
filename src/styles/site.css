@@ -213,7 +213,8 @@ p { text-wrap: pretty; }
 figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--color-muted); max-width: var(--text-column); }
 .fig-n { font: 500 12px var(--font-mono); color: var(--color-text); margin-right: 8px; }
 .shot-art { overflow-x: auto; overscroll-behavior-x: contain; }
-@media (max-width: 639px) { .shot-art img { min-width: 640px; } }
+@media (max-width: 639px) { .fig:not(.fig-tall) .shot-art img { min-width: 640px; } }
+.fig-tall .shot-art { max-width: 560px; }
 .shot-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-card); border: 1px solid var(--color-border); }
 /* With both variants the page theme picks one; a light-only app screenshot stays light, slightly dimmed on the dark page. */
 .shot-art.has-both .shot-dark { display: none; }

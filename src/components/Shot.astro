@@ -18,12 +18,15 @@ const dark = images[`/src/assets/shots/${shot}-dark.png`]?.default
 const light = images[`/src/assets/shots/${shot}-light.png`]?.default
 if (!dark && !light) throw new Error(`missing screenshot: src/assets/shots/${shot}-light.png or -dark.png`)
 const both = Boolean(dark && light)
-const widths = [900, 1800]
+// A tall shot such as a dialog would fill the screen at full column width.
+const base = (light ?? dark)!
+const tall = base.height > base.width * 0.9
+const widths = tall ? [560, 1120] : [900, 1800]
 // The hidden variant is display:none, so it is neither loaded (lazy) nor read out.
-const sizes = '(min-width: 1024px) 890px, 100vw'
+const sizes = tall ? '(min-width: 640px) 560px, 100vw' : '(min-width: 1024px) 890px, 100vw'
 ---
 
-<figure class="fig">
+<figure class:list={['fig', { 'fig-tall': tall }]}>
   <div class:list={['shot-art', { 'has-both': both }]}>
     {light && <Image class="shot-light" src={light} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}
     {dark && <Image class="shot-dark" src={dark} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}

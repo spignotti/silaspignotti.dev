@@ -23,8 +23,9 @@ keyFigures:
 figures:
   - { n: 1, shot: "tourengenie/planning", alt: "Tourengenie planning view for December: on the left the month's tours by status, on the right tour 3 with six stops, driving and arrival times. Five stops are confirmed and locked, one is still open.", caption: "The planning view: tour 3 is being agreed with customers; five of six appointments are confirmed and fixed.", section: "What Tourengenie does" }
   - { n: 2, file: "tourengenie/objective", caption: "The goals in a fixed order. A level only counts when all levels above it are equal.", section: "Planning" }
-  - { n: 3, file: "tourengenie/travel-cache", caption: "A new stop only adds its own row and column to the travel time matrix.", section: "Travel time cache" }
-  - { n: 4, file: "tourengenie/release", caption: "From development to production. If a deploy fails, the previous version runs again.", section: "Operations and infrastructure" }
+  - { n: 3, shot: "tourengenie/reschedule", alt: "Dialog for moving an appointment at Hotel Seidel, currently Friday 4 December on tour 4. The recommendation is Thursday 3 December on the existing tour 5 with one minute of extra driving. The other days in the two weeks would each need a new tour with 66 to 76 minutes of extra driving.", caption: "Moving an appointment: Tourengenie suggests days and tours and shows the extra driving time for each option.", section: "Replanning" }
+  - { n: 4, file: "tourengenie/travel-cache", caption: "A new stop only adds its own row and column to the travel time matrix.", section: "Travel time cache" }
+  - { n: 5, file: "tourengenie/release", caption: "From development to production. If a deploy fails, the previous version runs again.", section: "Operations and infrastructure" }
 ---
 
 ## Background
