@@ -6,5 +6,3 @@ description: "Projekte zu Geodaten, Fernerkundung, Datenauswertung und Softwaree
 ---
 
 # Projekte
-
-Zu jedem Projekt beschreibe ich die Aufgabe, die Technik und das Ergebnis.

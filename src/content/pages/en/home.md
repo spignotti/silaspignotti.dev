@@ -17,8 +17,6 @@ I work in geoinformatics and analyse geodata and satellite data. I set up analys
 
 ## Projects
 
-For each project, I describe the task, how I tackled it and what the result was.
-
 ## About
 
 I studied urban and regional planning at TU Berlin and then moved into geoinformatics. In my master's programme at Berliner Hochschule für Technik, I focus on remote sensing, geospatial data science and machine learning. I will submit my master's thesis in December 2026. Working with geodata and models led me to build software for day-to-day operations as well.

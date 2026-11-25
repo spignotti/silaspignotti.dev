@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { isPlaceholder, parseHome, parseSections, slugifyHeading } from './prose.ts'
+import { isPlaceholder, parseHome, parsePageIntro, parseSections, slugifyHeading } from './prose.ts'
 
 test('a result placeholder stays, a link line does not', () => {
   const body = ['## Ergebnis', '', 'Die Pipeline ist fertig.', '', '[Platzhalter: Endergebnis]', '', '[Mehr](/projekte)', ''].join('\n')
@@ -87,6 +87,43 @@ test('the home page is read by section position', () => {
       { label: 'GitHub', href: 'https://github.com/spignotti' },
     ],
   })
+})
+
+test('an empty projects section leaves no intro and keeps the sections after it', () => {
+  const body = [
+    '# Silas Pignotti',
+    '',
+    'Zeile',
+    '',
+    '## Profil',
+    '',
+    'Absatz.',
+    '',
+    '## Bereiche',
+    '',
+    '## Projekte',
+    '',
+    '## Über mich',
+    '',
+    'Text.',
+    '',
+    '## Kontakt',
+    '',
+    'Offen.',
+    '',
+    '- [E-Mail](mailto:mail@silaspignotti.dev)',
+    '',
+  ].join('\n')
+  const home = parseHome(body)
+  assert.equal(home.projectsTitle, 'Projekte')
+  assert.equal(home.projectsIntro, '')
+  assert.equal(home.aboutTitle, 'Über mich')
+  assert.deepEqual(home.about, ['Text.'])
+  assert.equal(home.contactLead, 'Offen.')
+  assert.deepEqual(home.contactLinks, [{ label: 'E-Mail', href: 'mailto:mail@silaspignotti.dev' }])
+  const projects = parsePageIntro('# Projekte\n')
+  assert.equal(projects.title, 'Projekte')
+  assert.equal(projects.intro, '')
 })
 
 test('an incomplete home page yields empty parts', () => {

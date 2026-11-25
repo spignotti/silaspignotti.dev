@@ -17,8 +17,6 @@ Ich bin Geoinformatiker und werte Geodaten und Satellitendaten aus. Ich baue Aus
 
 ## Projekte
 
-Zu jedem Projekt beschreibe ich die Aufgabe, wie ich sie gelöst habe und was dabei herauskam.
-
 ## Über mich
 
 Ich habe Stadt- und Regionalplanung an der TU Berlin studiert und bin danach zur Geoinformation gewechselt. Im Master an der Berliner Hochschule für Technik beschäftige ich mich mit Fernerkundung, Geo Data Science und maschinellem Lernen und gebe meine Masterarbeit im Dezember 2026 ab. Aus der Arbeit mit Geodaten und Modellen bin ich dazu gekommen, auch Software für den Betrieb zu bauen.

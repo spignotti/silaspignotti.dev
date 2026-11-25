@@ -40,3 +40,7 @@ Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (A
 ## Beschwerde
 
 Sie können sich bei einer Aufsichtsbehörde beschweren. Für Berlin zuständig ist die Berliner Beauftragte für Datenschutz und Informationsfreiheit (BlnBDI).
+
+## Kartendaten
+
+Die Berlin-Karte auf der Startseite nutzt: Landesgrenze: Geoportal Berlin, dl-de/zero-2.0; Gewässer: © OpenStreetMap-Mitwirkende, ODbL.

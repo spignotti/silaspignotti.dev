@@ -27,7 +27,7 @@ const small = await getSmallProjects(lang)
 >
   <div class="wrap page-top">
     <h1>{headingNbsp(intro.title)}</h1>
-    <p class="intro">{intro.intro}</p>
+    {intro.intro && <p class="intro">{intro.intro}</p>}
     <div class="cards" style="margin-top:40px">
       {cases.map((project, index) => <ProjectCard project={project} lang={lang} lead={index === 0} />)}
     </div>

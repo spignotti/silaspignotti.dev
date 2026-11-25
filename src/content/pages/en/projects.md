@@ -6,5 +6,3 @@ description: "Projects in geodata, remote sensing, data analysis and software de
 ---
 
 # Projects
-
-For each project, I describe the task, the methods and the result.

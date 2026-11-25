@@ -1,5 +1,4 @@
 ---
-import berlin from '@/assets/geo/berlin.json'
 import type { Lang } from '@/i18n'
 import { UI, pagePath } from '@/i18n'
 
@@ -20,6 +19,5 @@ const ui = UI[lang]
         <a class="tl" href={pagePath(lang, 'privacy')}>{ui.privacy}</a>
       </nav>
     </div>
-    <p class="foot-src">{berlin.attribution[lang]}</p>
   </div>
 </footer>

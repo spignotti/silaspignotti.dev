@@ -40,3 +40,7 @@ You have the right of access (Art. 15), rectification (Art. 16), erasure (Art. 1
 ## Complaint
 
 You may complain to a supervisory authority. Competent for Berlin is the Berliner Beauftragte für Datenschutz und Informationsfreiheit (BlnBDI).
+
+## Map data
+
+The Berlin map on the home page uses: State boundary: Geoportal Berlin, dl-de/zero-2.0; water: © OpenStreetMap contributors, ODbL.
