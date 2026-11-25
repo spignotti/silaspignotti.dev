@@ -2,31 +2,38 @@
 import { SITE } from '@/consts'
 import { withBasePath } from '@/lib/paths'
 import Favicons from './Favicons.astro'
-import PostHog from './PostHog.astro'
+
+interface Props {
+  robots?: string
+}
+
+const { robots = 'index, follow, max-image-preview:large' } = Astro.props
 ---
 
 <head>
   <script is:inline>
     ;(function () {
-      var key = 'theme'
       var root = document.documentElement
+      root.classList.add('js')
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) root.classList.add('rm')
+      } catch (error) {}
       function systemDark() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches
       }
-      function apply(theme) {
-        root.setAttribute('data-theme', theme)
-        root.style.colorScheme = theme
+      function apply(mode) {
+        if (mode === 'light' || mode === 'dark') {
+          root.setAttribute('data-theme', mode)
+          root.style.colorScheme = mode
+        } else {
+          root.removeAttribute('data-theme')
+          root.style.colorScheme = ''
+        }
       }
       try {
-        var stored = localStorage.getItem(key)
-        if (stored === 'dark' || stored === 'light') {
-          apply(stored)
-        } else {
-          apply(systemDark() ? 'dark' : 'light')
-          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (event) {
-            if (!localStorage.getItem(key)) apply(event.matches ? 'dark' : 'light')
-          })
-        }
+        var stored = localStorage.getItem('theme')
+        if (stored === 'dark' || stored === 'light' || stored === 'system') apply(stored)
+        else apply('system')
       } catch (error) {
         apply(systemDark() ? 'dark' : 'light')
       }
@@ -35,7 +42,7 @@ import PostHog from './PostHog.astro'
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="generator" content={Astro.generator} />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="robots" content={robots} />
   <meta name="author" content={SITE.author} />
   <meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0B0C0F" media="(prefers-color-scheme: dark)" />
@@ -43,5 +50,8 @@ import PostHog from './PostHog.astro'
   <link rel="preload" href={withBasePath('/fonts/Geist-SemiBold.woff2')} as="font" type="font/woff2" crossorigin />
   <Favicons />
   <slot />
-  <PostHog />
 </head>
+<script>
+  import { initTheme } from '@/scripts/theme'
+  initTheme()
+</script>

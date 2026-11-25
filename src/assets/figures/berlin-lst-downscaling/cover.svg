@@ -1,0 +1,23 @@
+<svg class="figure-svg fig-cover" width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect class="fig-cover-out" width="1600" height="900"/>
+  <g transform="scale(100)" shape-rendering="crispEdges">
+    <path class="fig-h0" d="M7 3h1v1h-1zM6 4h2v1h-2zM5 5h3v1h-3zM2 6h3v1h-3zM7 6h1v1h-1zM2 7h1v1h-1zM0 8h1v1h-1z"/>
+    <path class="fig-h1" d="M4 5h1v1h-1zM7 8h1v1h-1z"/>
+    <path class="fig-h2" d="M3 7h1v1h-1zM7 7h1v1h-1z"/>
+    <path class="fig-h3" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM5 6h1v1h-1z"/>
+    <path class="fig-h4" d="M5 4h1v1h-1zM4 7h1v1h-1z"/>
+    <path class="fig-h5" d="M6 3h1v1h-1zM3 5h1v1h-1zM6 6h1v1h-1zM1 8h1v1h-1z"/>
+    <path class="fig-h6" d="M3 0h5v1h-5zM3 1h5v1h-5zM3 2h5v1h-5zM2 3h4v1h-4zM2 4h3v1h-3zM2 5h1v1h-1zM5 7h2v1h-2zM2 8h5v1h-5z"/>
+  </g>
+  <g transform="translate(800 0) scale(25)" shape-rendering="crispEdges">
+    <path class="fig-h0" d="M5 0h2v1h-2zM5 1h2v1h-2zM5 2h2v1h-2zM5 3h2v1h-2zM5 4h2v1h-2zM4 5h3v1h-3zM4 6h5v1h-5zM3 7h5v1h-5zM3 8h5v1h-5zM3 9h4v1h-4zM3 10h3v1h-3zM1 11h5v1h-5zM0 12h6v1h-6zM0 13h6v1h-6zM0 14h6v1h-6zM0 15h5v1h-5zM0 16h5v1h-5zM0 17h6v1h-6zM0 18h6v1h-6zM0 19h2v1h-2zM0 20h1v1h-1zM0 21h1v1h-1zM0 22h1v1h-1zM0 23h1v1h-1zM15 23h1v1h-1zM0 24h1v1h-1zM11 24h1v1h-1zM0 25h1v1h-1zM0 26h1v1h-1zM0 27h1v1h-1zM0 28h2v1h-2zM0 29h3v1h-3zM0 30h3v1h-3zM0 31h2v1h-2zM0 32h2v1h-2zM0 33h1v1h-1zM0 34h1v1h-1z"/>
+    <path class="fig-h1" d="M4 1h1v1h-1zM4 2h1v1h-1zM7 5h1v1h-1zM7 9h1v1h-1zM5 15h1v1h-1zM17 21h2v1h-2zM16 22h1v1h-1zM10 25h1v1h-1zM2 31h1v1h-1z"/>
+    <path class="fig-h2" d="M7 0h1v1h-1zM6 10h1v1h-1zM12 24h1v1h-1z"/>
+    <path class="fig-h3" d="M4 0h1v1h-1zM4 3h1v1h-1zM4 4h1v1h-1zM7 4h1v1h-1zM3 6h1v1h-1zM8 7h1v1h-1zM8 8h1v1h-1zM2 10h1v1h-1zM5 16h1v1h-1zM16 21h1v1h-1zM15 22h1v1h-1zM18 22h2v1h-2zM16 23h1v1h-1zM13 24h1v1h-1zM1 33h1v1h-1z"/>
+    <path class="fig-h4" d="M7 1h1v1h-1zM7 3h1v1h-1zM0 11h1v1h-1zM6 11h1v1h-1zM1 20h1v1h-1zM12 23h1v1h-1zM14 23h1v1h-1zM10 24h1v1h-1zM9 26h2v1h-2zM1 27h1v1h-1zM2 28h1v1h-1zM0 35h1v1h-1z"/>
+    <path class="fig-h5" d="M8 5h1v1h-1zM2 8h1v1h-1zM31 8h1v1h-1zM2 9h1v1h-1zM8 9h1v1h-1zM6 12h1v1h-1zM6 17h1v1h-1zM2 19h1v1h-1zM19 21h1v1h-1zM1 23h1v1h-1zM13 23h1v1h-1zM14 24h1v1h-1zM11 25h1v1h-1zM3 29h1v1h-1zM3 30h1v1h-1z"/>
+    <path class="fig-h6" d="M0 0h4v1h-4zM8 0h24v1h-24zM0 1h4v1h-4zM8 1h24v1h-24zM0 2h4v1h-4zM7 2h25v1h-25zM0 3h4v1h-4zM8 3h24v1h-24zM0 4h4v1h-4zM8 4h24v1h-24zM0 5h4v1h-4zM9 5h23v1h-23zM0 6h3v1h-3zM9 6h23v1h-23zM0 7h3v1h-3zM9 7h23v1h-23zM0 8h2v1h-2zM9 8h22v1h-22zM0 9h2v1h-2zM9 9h23v1h-23zM0 10h2v1h-2zM7 10h25v1h-25zM7 11h25v1h-25zM7 12h25v1h-25zM6 13h26v1h-26zM6 14h26v1h-26zM6 15h26v1h-26zM6 16h26v1h-26zM7 17h25v1h-25zM6 18h26v1h-26zM3 19h29v1h-29zM2 20h30v1h-30zM1 21h15v1h-15zM20 21h12v1h-12zM1 22h14v1h-14zM17 22h1v1h-1zM20 22h12v1h-12zM2 23h10v1h-10zM17 23h15v1h-15zM1 24h9v1h-9zM15 24h17v1h-17zM1 25h9v1h-9zM12 25h20v1h-20zM1 26h8v1h-8zM11 26h21v1h-21zM2 27h30v1h-30zM3 28h29v1h-29zM4 29h28v1h-28zM4 30h28v1h-28zM3 31h29v1h-29zM2 32h30v1h-30zM2 33h30v1h-30zM1 34h31v1h-31zM1 35h31v1h-31z"/>
+  </g>
+  <path class="fig-cover-grid" d="M100 0V900M200 0V900M300 0V900M400 0V900M500 0V900M600 0V900M700 0V900M0 100H800M0 200H800M0 300H800M0 400H800M0 500H800M0 600H800M0 700H800M0 800H800"/>
+  <path class="fig-cover-split" d="M800 0V900"/>
+</svg>

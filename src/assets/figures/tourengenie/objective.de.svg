@@ -1,0 +1,24 @@
+<svg class="figure-svg fig-wide" width="840" height="224" viewBox="0 0 840 224" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-tg-objective-t fig-tg-objective-d">
+  <title id="fig-tg-objective-t">Feste Rangfolge im Ziel</title>
+  <desc id="fig-tg-objective-d">Vier Zeilen untereinander, jede mit einer Rangzahl, einem Ziel und einer Notiz, wann diese Stufe entscheidet. Rang 1: alle fälligen Aufträge eingeplant, zählt immer zuerst. Rang 2: möglichst wenige Touren, bei gleich vielen eingeplanten Aufträgen. Rang 3: möglichst wenig Fahrzeit, bei gleicher Tourenzahl. Rang 4: möglichst kurze Distanz, bei gleicher Fahrzeit. Eine Klammer rechts fasst die vier Zeilen zusammen: eine ganzzahlige Zielfunktion, jede Stufe wiegt mehr als alle darunter. Hervorgehoben ist Rang 1.</desc>
+  <text class="fig-num" x="12" y="35" text-anchor="middle">1</text>
+  <rect class="fig-focus" x="24.8" y="8.8" width="298.5" height="42.5" rx="6"/>
+  <text class="fig-t-on" x="174" y="35" text-anchor="middle">Alle fälligen Aufträge eingeplant</text>
+  <text class="fig-t-s" x="336" y="35" text-anchor="start">zählt immer zuerst</text>
+  <text class="fig-num" x="12" y="87" text-anchor="middle">2</text>
+  <rect class="fig-box" x="24.8" y="60.8" width="298.5" height="42.5" rx="6"/>
+  <text class="fig-t" x="174" y="87" text-anchor="middle">Möglichst wenige Touren</text>
+  <text class="fig-t-s" x="336" y="79.5" text-anchor="start">bei gleich vielen</text>
+  <text class="fig-t-s" x="336" y="94.5" text-anchor="start">eingeplanten Aufträgen</text>
+  <text class="fig-num" x="12" y="139" text-anchor="middle">3</text>
+  <rect class="fig-box" x="24.8" y="112.8" width="298.5" height="42.5" rx="6"/>
+  <text class="fig-t" x="174" y="139" text-anchor="middle">Möglichst wenig Fahrzeit</text>
+  <text class="fig-t-s" x="336" y="139" text-anchor="start">bei gleicher Tourenzahl</text>
+  <text class="fig-num" x="12" y="191" text-anchor="middle">4</text>
+  <rect class="fig-box" x="24.8" y="164.8" width="298.5" height="42.5" rx="6"/>
+  <text class="fig-t" x="174" y="191" text-anchor="middle">Möglichst kurze Distanz</text>
+  <text class="fig-t-s" x="336" y="191" text-anchor="start">bei gleicher Fahrzeit</text>
+  <path class="fig-ln" d="M545 8H552V208H545"/>
+  <text class="fig-t-s" x="564" y="105.5" text-anchor="start">Eine ganzzahlige Zielfunktion:</text>
+  <text class="fig-t-s" x="564" y="120.5" text-anchor="start">jede Stufe wiegt mehr als alle darunter</text>
+</svg>

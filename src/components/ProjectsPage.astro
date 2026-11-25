@@ -1,0 +1,48 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import type { Lang } from '@/i18n'
+import { pagePath } from '@/i18n'
+import { getCases, getPage, getSmallProjects } from '@/lib/content'
+import { parsePageIntro } from '@/lib/prose'
+import { headingNbsp } from '@/lib/text'
+
+interface Props {
+  lang: Lang
+}
+const { lang } = Astro.props
+const page = await getPage(lang, 'projects')
+const intro = parsePageIntro(page.body ?? '')
+const cases = await getCases(lang)
+const small = await getSmallProjects(lang)
+---
+
+<Layout
+  lang={lang}
+  path={pagePath(lang, 'projects')}
+  title={page.data.title}
+  description={page.data.description}
+  current="projects"
+  alternate={pagePath(lang === 'de' ? 'en' : 'de', 'projects')}
+>
+  <div class="wrap page-top">
+    <h1>{headingNbsp(intro.title)}</h1>
+    {intro.intro && <p class="intro">{intro.intro}</p>}
+    <div class="cards" style="margin-top:40px">
+      {cases.map((project, index) => <ProjectCard project={project} lang={lang} lead={index === 0} />)}
+    </div>
+    <div class="further">
+      <h2>{headingNbsp(intro.furtherTitle)}</h2>
+      {small.map((item) => (
+        <div class="row-small">
+          <b>{item.data.title}</b>
+          <span class="mono">{item.data.year}</span>
+          <p>{item.data.description}</p>
+          {item.data.links[0] && (
+            <a class="tl tl-acc" href={item.data.links[0].href} target="_blank" rel="noopener noreferrer">{item.data.links[0].label}</a>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

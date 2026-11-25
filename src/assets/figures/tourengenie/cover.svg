@@ -1,0 +1,22 @@
+<svg class="figure-svg fig-cover" width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect class="fig-cover-acc" width="1600" height="900"/>
+  <path class="fig-cover-hair" d="M100 0V900M200 0V900M300 0V900M400 0V900M500 0V900M600 0V900M700 0V900M800 0V900M900 0V900M1000 0V900M1100 0V900M1200 0V900M1300 0V900M1400 0V900M1500 0V900M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600"/>
+  <path class="fig-ink-thin" d="M800 470L560 560L330 600L300 760L560 780L800 470"/>
+  <path class="fig-ink fig-draw" pathLength="1" d="M800 470L560 380L430 250L620 160L900 210L1010 330L800 470"/>
+  <path class="fig-ink fig-draw" pathLength="1" d="M800 470L1040 560L1240 500L1330 680L1080 760L880 690L800 470"/>
+  <circle class="fig-stop" cx="560" cy="380" r="17"/>
+  <circle class="fig-stop" cx="430" cy="250" r="17"/>
+  <circle class="fig-stop" cx="620" cy="160" r="17"/>
+  <circle class="fig-stop" cx="900" cy="210" r="17"/>
+  <circle class="fig-stop" cx="1010" cy="330" r="17"/>
+  <circle class="fig-stop" cx="1040" cy="560" r="17"/>
+  <circle class="fig-stop" cx="1240" cy="500" r="17"/>
+  <circle class="fig-stop" cx="1330" cy="680" r="17"/>
+  <circle class="fig-stop" cx="1080" cy="760" r="17"/>
+  <circle class="fig-stop" cx="880" cy="690" r="17"/>
+  <circle class="fig-stop" cx="560" cy="560" r="17"/>
+  <circle class="fig-stop" cx="330" cy="600" r="17"/>
+  <circle class="fig-stop" cx="300" cy="760" r="17"/>
+  <circle class="fig-stop" cx="560" cy="780" r="17"/>
+  <rect class="fig-ink-fill" x="774" y="444" width="52" height="52" rx="6"/>
+</svg>

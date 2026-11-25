@@ -1,0 +1,29 @@
+---
+import { SITE } from '@/consts'
+import type { Lang } from '@/i18n'
+import { JSON_LANG } from '@/i18n'
+
+interface Props {
+  lang: Lang
+  path: string
+  title: string
+  description: string
+  imagePath: string
+}
+
+const { lang, path, title, description, imagePath } = Astro.props
+const url = new URL(path, SITE.href).href
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  inLanguage: JSON_LANG[lang],
+  mainEntityOfPage: url,
+  url,
+  image: new URL(imagePath, SITE.href).href,
+  author: { '@id': `${SITE.href}#person` },
+}
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(article)} />

@@ -1,0 +1,26 @@
+---
+import Figure from '@/components/Figure.astro'
+import type { Lang } from '@/i18n'
+import { UI, projectPath } from '@/i18n'
+import type { ProjectEntry } from '@/lib/content'
+import { headingNbsp } from '@/lib/text'
+
+interface Props {
+  project: ProjectEntry
+  lang: Lang
+  lead?: boolean
+  as?: 'h2' | 'h3'
+}
+
+const { project, lang, lead = false, as: Heading = 'h2' } = Astro.props as Props
+const ui = UI[lang]
+const status = project.data.status ? ui.statusValue[project.data.status] : ''
+const line = project.data.year && status ? headingNbsp(`${project.data.year} · ${status}`) : ''
+---
+
+<a class:list={['card', { 'card--lead': lead }]} href={projectPath(lang, project.data.slug)}>
+  <Figure file={`${project.data.slug}/cover`} lang={lang} instance="card" decorative bare />
+  <Heading>{headingNbsp(project.data.title)}</Heading>
+  <p class="sum">{project.data.description}</p>
+  {line && <span class="st">{line}</span>}
+</a>

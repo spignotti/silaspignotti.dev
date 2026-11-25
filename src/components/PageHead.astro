@@ -1,41 +1,53 @@
 ---
 import { SITE } from '@/consts'
+import type { Lang } from '@/i18n'
+import { HTML_LANG, OG_LOCALE, otherLang } from '@/i18n'
+import { headingNbsp } from '@/lib/text'
 
 interface Props {
-  title?: string
-  description?: string
+  lang: Lang
+  path: string
+  title: string
+  description: string
+  /** Path of the other language. Omitted on pages that have no translation. */
+  alternate?: string
   imagePath?: string
+  ogType?: 'website' | 'article'
 }
 
-const { title = SITE.title, description = SITE.description, imagePath = '/ogImage.svg' } = Astro.props
-const image = new URL(imagePath, Astro.site).toString()
-const descTrimmed = description.trim()
-const optimizedDescription = descTrimmed.length > 155 ? `${descTrimmed.slice(0, 152)}...` : descTrimmed
-const path = Astro.url.pathname.replace(/\/$/, '') || '/'
-const rawTitle = path === '/' || title === SITE.title ? SITE.title : `${title} | ${SITE.title}`
-const pageTitle = rawTitle.length > 60 ? `${rawTitle.slice(0, 57)}...` : rawTitle
+const { lang, path, title, description, alternate, imagePath = '/og/site.png', ogType = 'website' } = Astro.props
+const abs = (value: string) => new URL(value, SITE.href).href
+const canonical = abs(path)
+const alternateUrl = alternate ? abs(alternate) : undefined
+const deUrl = lang === 'de' ? canonical : alternateUrl
+const image = abs(imagePath)
+const pageTitle = headingNbsp(title)
 ---
 
 <title>{pageTitle}</title>
-<meta name="description" content={optimizedDescription} />
-<link rel="canonical" href={Astro.url} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang={HTML_LANG[lang]} href={canonical} />
+{alternateUrl && <link rel="alternate" hreflang={HTML_LANG[otherLang(lang)]} href={alternateUrl} />}
+{deUrl && <link rel="alternate" hreflang="x-default" href={deUrl} />}
 
-<meta property="og:title" content={title} />
-<meta property="og:description" content={optimizedDescription} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
 <meta property="og:image" content={image} />
-<meta property="og:image:alt" content={title} />
+<meta property="og:image:alt" content={pageTitle} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:type" content="website" />
-<meta property="og:locale" content={SITE.locale} />
+<meta property="og:type" content={ogType} />
+<meta property="og:locale" content={OG_LOCALE[lang]} />
+{alternateUrl && <meta property="og:locale:alternate" content={OG_LOCALE[otherLang(lang)]} />}
 <meta property="og:site_name" content={SITE.title} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonical} />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={optimizedDescription} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
-<meta name="twitter:image:alt" content={title} />
+<meta name="twitter:image:alt" content={pageTitle} />
 
 <script
   type="application/ld+json"
@@ -46,12 +58,7 @@ const pageTitle = rawTitle.length > 60 ? `${rawTitle.slice(0, 57)}...` : rawTitl
     '@id': `${SITE.href}#website`,
     url: SITE.href,
     name: SITE.title,
-    description: SITE.description,
-    inLanguage: SITE.locale,
-    publisher: {
-      '@type': 'Person',
-      name: SITE.author,
-      url: SITE.href,
-    },
+    inLanguage: ['de-DE', 'en-US'],
+    publisher: { '@id': `${SITE.href}#person` },
   })}
 />

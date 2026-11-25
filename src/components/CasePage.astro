@@ -1,0 +1,153 @@
+---
+import ArticleSchema from '@/components/ArticleSchema.astro'
+import Figure from '@/components/Figure.astro'
+import Shot from '@/components/Shot.astro'
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { SECTION_IDS, UI, pagePath, projectPath } from '@/i18n'
+import { getCase, getCases } from '@/lib/content'
+import { isPlaceholder, parseSections } from '@/lib/prose'
+import { headingNbsp, inlineHtml } from '@/lib/text'
+
+interface Props {
+  lang: Lang
+  slug: string
+}
+const { lang, slug } = Astro.props
+const ui = UI[lang]
+const project = await getCase(lang, slug)
+const sections = parseSections(project.body ?? '')
+const cases = await getCases(lang)
+const index = cases.findIndex((item) => item.data.slug === slug)
+const next = index >= 0 && cases.length > 1 ? cases[(index + 1) % cases.length] : undefined
+const isLead = cases[0]?.data.slug === slug
+const ids = SECTION_IDS[lang]
+const imagePath = `/og/${slug}.png`
+
+const figures = [...project.data.figures].sort((a, b) => a.n - b.n)
+const used = new Set<(typeof figures)[number]>()
+const bySection = new Map<number, (typeof figures)[number][]>()
+sections.forEach((section, sectionIndex) => {
+  const matched = figures.filter((figure) => !used.has(figure) && figure.section?.trim() === section.heading.trim())
+  if (matched.length === 0) return
+  for (const figure of matched) used.add(figure)
+  bySection.set(sectionIndex, matched)
+})
+const unplaced = figures.filter((figure) => !used.has(figure))
+if (unplaced.length > 0) {
+  let target = sections.findIndex((section) => section.id === 'vorgehen' || section.id === 'approach')
+  if (target < 0) target = sections.length - 1
+  if (target >= 0) bySection.set(target, [...(bySection.get(target) ?? []), ...unplaced].sort((a, b) => a.n - b.n))
+}
+---
+
+<Layout
+  lang={lang}
+  path={projectPath(lang, slug)}
+  title={project.data.seoTitle}
+  description={project.data.description}
+  current="projects"
+  alternate={projectPath(lang === 'de' ? 'en' : 'de', slug)}
+  imagePath={imagePath}
+  ogType="article"
+  motion
+>
+  <header class:list={['band', 'cs-head', { 'band--accent': isLead }]}>
+    <div class="wrap band-grid">
+      <div class="band-text">
+        <a class="cs-back tl" href={`${pagePath(lang, 'home')}#${ids.projects}`}>{ui.back}</a>
+        <h1 class="cs-title">{headingNbsp(project.data.title)}</h1>
+        <p class="cs-sum">{project.data.description}</p>
+      </div>
+      <div class="band-fig" data-draw-once={isLead ? '' : undefined}>
+        <Figure file={`${slug}/cover`} lang={lang} instance="cover" decorative bare />
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <dl class="cs-meta">
+      {project.data.role && <div><dt>{ui.role}</dt><dd>{project.data.role}</dd></div>}
+      {project.data.period && <div><dt>{ui.period}</dt><dd>{project.data.period}</dd></div>}
+      {project.data.status && (
+        <div>
+          <dt>{ui.status}</dt>
+          <dd><span class="badge">{ui.statusValue[project.data.status]}</span></dd>
+        </div>
+      )}
+      {project.data.links.length > 0 && (
+        <div>
+          <dt>{ui.links}</dt>
+          <dd>
+            {project.data.links.map((link) => (
+              <a
+                class="tl"
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
+                rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                download={/\.pdf$/i.test(link.href) ? '' : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
+          </dd>
+        </div>
+      )}
+    </dl>
+    {project.data.keyFigures.length > 0 && (
+      <dl class="cs-kf" aria-label={ui.keyFigures}>
+        {project.data.keyFigures.map((figure) => (
+          <div class="kf">
+            <dt class="kf-l">{figure.label}</dt>
+            <dd class="kf-v">{figure.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+    <article class="cs-body">
+      {sections.map((section, sectionIndex) => (
+        <section class="cs-sec" id={section.id}>
+          <h2>{headingNbsp(section.heading)}</h2>
+          <div class="cs-main">
+            <div class="cs-prose">
+              {section.paragraphs.map((paragraph) => (
+                <p class={isPlaceholder(paragraph) ? 'ph' : undefined} set:html={inlineHtml(paragraph)} />
+              ))}
+            </div>
+            {(bySection.get(sectionIndex) ?? []).map((figure) =>
+              figure.shot ? (
+                <Shot shot={figure.shot} alt={figure.alt ?? ''} lang={lang} n={figure.n} caption={figure.caption} />
+              ) : figure.placeholder ? (
+                <figure class="fig fig-ph">
+                  <div class="ph-box" role="img" aria-label={`${ui.placeholder}: ${figure.placeholder}`}>
+                    <span class="ph-tag">{ui.placeholder}</span>
+                    <p class="ph-text">{figure.placeholder}</p>
+                  </div>
+                  <figcaption>
+                    <span class="fig-n">{`${ui.figure} ${figure.n}`}</span>
+                    {figure.caption}
+                  </figcaption>
+                </figure>
+              ) : (
+                <Figure file={figure.file ?? ''} lang={lang} instance={`f${figure.n}`} n={figure.n} caption={figure.caption} />
+              ),
+            )}
+          </div>
+        </section>
+      ))}
+    </article>
+  </div>
+
+  <section class="cs-next" aria-labelledby={next ? 'next-label' : undefined}>
+    <div class="wrap">
+      {next && (
+        <>
+          <p class="label" id="next-label">{ui.nextCase}</p>
+          <a class="cs-next-title" href={projectPath(lang, next.data.slug)}>{headingNbsp(next.data.title)}</a>
+        </>
+      )}
+      <div class="links"><a class="tl tl-strong" href={pagePath(lang, 'projects')}>{ui.allProjects}</a></div>
+    </div>
+  </section>
+  <ArticleSchema slot="jsonld" lang={lang} path={projectPath(lang, slug)} title={project.data.title} description={project.data.description} imagePath={imagePath} />
+</Layout>

@@ -1,0 +1,45 @@
+---
+import Figure from '@/components/Figure.astro'
+import type { Lang } from '@/i18n'
+import { UI, projectPath } from '@/i18n'
+import type { ProjectEntry } from '@/lib/content'
+import { headingNbsp } from '@/lib/text'
+
+interface Props {
+  project: ProjectEntry
+  lang: Lang
+}
+
+const { project, lang } = Astro.props
+const ui = UI[lang]
+const href = projectPath(lang, project.data.slug)
+---
+
+<article class="band band--accent band--lead">
+  <div class="wrap band-grid">
+    <div class="band-text">
+      <h3 class="band-title"><a href={href}>{headingNbsp(project.data.title)}</a></h3>
+      <p class="band-sum">{project.data.description}</p>
+      {project.data.role && (
+        <dl class="band-role">
+          <dt>{ui.role}</dt>
+          <dd>{project.data.role}</dd>
+        </dl>
+      )}
+      {project.data.keyFigures.length > 0 && (
+        <dl class="kf-row">
+          {project.data.keyFigures.map((figure) => (
+            <div class="kf">
+              <dt class="kf-l">{figure.label}</dt>
+              <dd class="kf-v">{figure.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      <a class="band-link tl" href={href}>{ui.readCase}</a>
+    </div>
+    <div class="band-fig" data-draw="" data-decorative>
+      <Figure file={`${project.data.slug}/cover`} lang={lang} instance="band" decorative bare />
+    </div>
+  </div>
+</article>

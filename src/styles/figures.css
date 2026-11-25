@@ -1,0 +1,142 @@
+/* Figures and graphics. One stylesheet for every inline SVG in src/assets/figures
+   and for the canvas rasters. No <style> or hex fills inside SVG files: they use
+   these classes, so light and dark mode come from the page tokens.
+   Spec: docs/design-spec.md, section "Figures". */
+
+/* ---------- graphic tokens (derived from the brand tokens) ---------- */
+:root {
+  --heat-lo: #3b3e45; /* graphite, water */
+  --heat-hi: #d4724a; /* terracotta, land */
+  --heat-out: #e9e6e0; /* outside Berlin */
+  --band-tint: color-mix(in oklab, var(--color-accent) 16%, var(--color-bg));
+  --fig-bar: color-mix(in oklab, var(--color-text) 22%, var(--color-bg));
+}
+[data-theme='dark'] {
+  --heat-lo: #3b3e45;
+  --heat-hi: #e08a62;
+  --heat-out: #121317;
+  --band-tint: color-mix(in oklab, var(--color-accent) 14%, var(--color-bg));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --heat-lo: #3b3e45;
+    --heat-hi: #e08a62;
+    --heat-out: #121317;
+    --band-tint: color-mix(in oklab, var(--color-accent) 14%, var(--color-bg));
+  }
+}
+
+/* ---------- frame ---------- */
+.figure-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--font-sans);
+}
+.figure-svg.fig-cover {
+  width: 100%;
+}
+
+/* ---------- boxes and lines ---------- */
+.fig-box { fill: var(--color-surface); stroke: var(--color-border-strong); stroke-width: 1.5; }
+.fig-box-quiet { fill: none; stroke: var(--color-border-strong); stroke-width: 1; }
+.fig-focus { fill: var(--color-accent); }
+.fig-focus-ring { fill: none; stroke: var(--color-accent); stroke-width: 2; }
+.fig-ln { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.fig-ln-acc { fill: none; stroke: var(--color-accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fig-grid { fill: none; stroke: var(--color-border); stroke-width: 1; }
+.fig-dash { stroke-dasharray: 5 4; }
+.fig-head { fill: var(--color-text); }
+.fig-head-muted { fill: var(--color-border-strong); }
+.fig-dot { fill: var(--color-text); }
+.fig-dot-open { fill: none; stroke: var(--color-border-strong); stroke-width: 1.5; }
+.fig-dot-on { fill: none; stroke: var(--color-on-accent); stroke-width: 1.5; }
+.fig-cell { fill: var(--color-text); }
+
+/* ---------- text ---------- */
+.fig-t { font-size: 14px; fill: var(--color-text); }
+.fig-t-b { font-size: 14px; font-weight: 600; fill: var(--color-text); }
+.fig-t-s { font-size: 12px; fill: var(--color-muted); }
+.fig-t-sm { font-size: 12px; fill: var(--color-text); }
+.fig-t-on { font-size: 14px; font-weight: 600; fill: var(--color-on-accent); }
+.fig-t-on-s { font-size: 12px; fill: var(--color-on-accent); }
+.fig-hd { font-size: 12px; font-weight: 500; fill: var(--color-muted); letter-spacing: 0.01em; }
+.fig-num { font-family: var(--font-mono); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; fill: var(--color-text); }
+.fig-num-s { font-family: var(--font-mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; fill: var(--color-text); }
+
+/* ---------- charts ---------- */
+.fig-bar { fill: var(--fig-bar); }
+.fig-bar-acc { fill: var(--color-accent); }
+.fig-base { fill: none; stroke: var(--color-text); stroke-width: 1; }
+
+/* ---------- heat ramp: 7 classes, graphite to terracotta ---------- */
+.fig-h0 { fill: var(--heat-lo); }
+.fig-h1 { fill: color-mix(in oklab, var(--heat-hi) 17%, var(--heat-lo)); }
+.fig-h2 { fill: color-mix(in oklab, var(--heat-hi) 33%, var(--heat-lo)); }
+.fig-h3 { fill: color-mix(in oklab, var(--heat-hi) 50%, var(--heat-lo)); }
+.fig-h4 { fill: color-mix(in oklab, var(--heat-hi) 67%, var(--heat-lo)); }
+.fig-h5 { fill: color-mix(in oklab, var(--heat-hi) 83%, var(--heat-lo)); }
+.fig-h6 { fill: var(--heat-hi); }
+
+/* ---------- covers (16:9, wordless, aria-hidden) ---------- */
+.fig-cover-acc { fill: var(--color-accent); }
+.fig-cover-bg { fill: var(--color-bg); }
+.fig-cover-out { fill: var(--heat-out); }
+.fig-cover-grid { fill: none; stroke: var(--color-bg); stroke-width: 3; }
+.fig-cover-hair { fill: none; stroke: color-mix(in oklab, var(--color-on-accent) 16%, transparent); stroke-width: 2; }
+.fig-cover-hair-t { fill: none; stroke: color-mix(in oklab, var(--color-text) 10%, transparent); stroke-width: 2; }
+.fig-cover-split { fill: none; stroke: var(--color-bg); stroke-width: 8; }
+.fig-cover-ring { fill: none; stroke: var(--color-border-strong); stroke-width: 2; }
+.fig-cover-flow { fill: none; stroke: var(--color-accent); stroke-width: 10; stroke-linecap: round; }
+.fig-ink { fill: none; stroke: var(--color-on-accent); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+.fig-ink-thin { fill: none; stroke: var(--color-on-accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 14; }
+.fig-ink-fill { fill: var(--color-on-accent); }
+.fig-stop { fill: var(--color-accent); stroke: var(--color-on-accent); stroke-width: 6; }
+
+/* Scroll-linked line drawing: the page script sets --draw from 1 (hidden) to 0 (drawn)
+   on elements with pathLength="1". Reduced motion and no-JS keep it at 0. */
+.fig-draw { stroke-dasharray: 1; stroke-dashoffset: var(--draw, 0); }
+
+/* Build-up. The script adds .fig-build and sets --d (0 to 700ms) from each child's
+   box centre. Without that class, or without motion, every part stays in its final state. */
+.js:not(.rm) figure.fig.fig-build > .fig-art { padding-block: 10px; }
+.js:not(.rm) figure.fig.fig-build:not(.is-in) > .fig-art > svg > :not(title):not(desc) { opacity: 0; }
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > :not(title):not(desc) {
+  animation: fig-rise 450ms ease-out var(--d, 0ms) both;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > :is(.fig-ln, .fig-ln-acc) {
+  animation-name: fig-fade;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > rect:is(.fig-bar, .fig-bar-acc) {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation-name: fig-grow-y;
+}
+.js:not(.rm) figure.fig.fig-build.is-in > .fig-art > svg > rect:is(.fig-bar, .fig-bar-acc)[data-grow='x'] {
+  transform-origin: left center;
+  animation-name: fig-grow-x;
+}
+@keyframes fig-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fig-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fig-grow-y {
+  from { opacity: 0; transform: scaleY(0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fig-grow-x {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  figure.fig.fig-build > .fig-art > svg > :not(title):not(desc) {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,41 @@
+<svg class="figure-svg fig-wide" width="840" height="348" viewBox="0 0 840 348" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-utt-transfer-t fig-utt-transfer-d">
+  <title id="fig-utt-transfer-t">Leipzig: Ergebnis nach Anteil lokaler Daten</title>
+  <desc id="fig-utt-transfer-d">Liniendiagramm: gewichteter F1 des Berlin-Modells in Leipzig, nachtrainiert mit 0, 10, 25, 50 und 100 Prozent der Leipziger Trainingsdaten; die fünf Stufen stehen in gleichem Abstand. Werte: ohne Leipziger Daten (Zero-Shot) 0,38, bei 10 Prozent 0,50, bei 25 Prozent 0,57, bei 50 Prozent 0,66, bei 100 Prozent 0,77. Zwei gestrichelte Vergleichslinien: ein Modell nur mit Leipziger Daten, von Grund auf trainiert, 0,79, und das Berlin-Modell im Berliner Test, 0,75. Hervorgehoben ist die Linie des nachtrainierten Berlin-Modells.</desc>
+  <path class="fig-grid" d="M64 241.8H784"/>
+  <path class="fig-grid" d="M64 191.6H784"/>
+  <path class="fig-grid" d="M64 141.5H784"/>
+  <path class="fig-grid" d="M64 91.3H784"/>
+  <path class="fig-grid" d="M64 41.1H784"/>
+  <path class="fig-ln fig-dash" d="M64 46.1H784"/>
+  <path class="fig-ln fig-dash" d="M64 66.2H784"/>
+  <path class="fig-base" d="M64 292H784"/>
+  <text class="fig-num-s" x="54" y="296" text-anchor="end">0,3</text>
+  <text class="fig-num-s" x="54" y="245.8" text-anchor="end">0,4</text>
+  <text class="fig-num-s" x="54" y="195.6" text-anchor="end">0,5</text>
+  <text class="fig-num-s" x="54" y="145.5" text-anchor="end">0,6</text>
+  <text class="fig-num-s" x="54" y="95.3" text-anchor="end">0,7</text>
+  <text class="fig-num-s" x="54" y="45.1" text-anchor="end">0,8</text>
+  <text class="fig-num-s" x="116" y="312" text-anchor="middle">0 %</text>
+  <text class="fig-num-s" x="276" y="312" text-anchor="middle">10 %</text>
+  <text class="fig-num-s" x="436" y="312" text-anchor="middle">25 %</text>
+  <text class="fig-num-s" x="596" y="312" text-anchor="middle">50 %</text>
+  <text class="fig-num-s" x="736" y="312" text-anchor="middle">100 %</text>
+  <text class="fig-t-s" x="426" y="336" text-anchor="middle">Anteil Leipziger Trainingsdaten</text>
+  <text class="fig-t-s" x="16" y="166.5" text-anchor="middle" transform="rotate(-90 16 166.5)">Gewichteter F1</text>
+  <text class="fig-t-sm" x="72" y="39.1">Nur Leipzig, von Grund auf: 0,79</text>
+  <text class="fig-t-sm" x="72" y="82.2">Berlin-Modell im Berliner Test: 0,75</text>
+  <path class="fig-ln-acc" d="M116 251.9L276 191.6L436 156.5L596 111.3L736 56.1"/>
+  <circle class="fig-bar-acc" cx="116" cy="251.9" r="4.5"/>
+  <text class="fig-num-s" x="116" y="239.9" text-anchor="middle">0,38</text>
+  <circle class="fig-bar-acc" cx="276" cy="191.6" r="4.5"/>
+  <text class="fig-num-s" x="276" y="179.6" text-anchor="middle">0,50</text>
+  <circle class="fig-bar-acc" cx="436" cy="156.5" r="4.5"/>
+  <text class="fig-num-s" x="436" y="144.5" text-anchor="middle">0,57</text>
+  <circle class="fig-bar-acc" cx="596" cy="111.3" r="4.5"/>
+  <text class="fig-num-s" x="596" y="99.3" text-anchor="middle">0,66</text>
+  <circle class="fig-bar-acc" cx="736" cy="56.1" r="4.5"/>
+  <text class="fig-num-s" x="748" y="60.1">0,77</text>
+  <text class="fig-t-s" x="116" y="273.9" text-anchor="middle">Zero-Shot</text>
+  <text class="fig-t-sm" x="602" y="142.8" text-anchor="start">Berlin-Modell,</text>
+  <text class="fig-t-sm" x="602" y="157.8" text-anchor="start">in Leipzig nachtrainiert</text>
+</svg>

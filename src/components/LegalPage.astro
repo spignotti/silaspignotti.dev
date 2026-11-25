@@ -1,0 +1,53 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import type { Lang } from '@/i18n'
+import { pagePath } from '@/i18n'
+import { getPage } from '@/lib/content'
+import { isPlaceholder } from '@/lib/prose'
+import { headingNbsp, inlineHtml } from '@/lib/text'
+
+interface Props {
+  lang: Lang
+  page: 'imprint' | 'privacy'
+}
+
+const { lang, page: pageKey } = Astro.props
+const page = await getPage(lang, pageKey)
+
+type Block = { kind: 'h1' | 'h2' | 'h3'; text: string } | { kind: 'p'; html: string; ph: boolean }
+
+function blocks(body: string): Block[] {
+  return body
+    .trim()
+    .split(/\n\n+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0)
+    .map((text): Block => {
+      if (text.startsWith('### ')) return { kind: 'h3', text: text.slice(4).trim() }
+      if (text.startsWith('## ')) return { kind: 'h2', text: text.slice(3).trim() }
+      if (text.startsWith('# ')) return { kind: 'h1', text: text.slice(2).trim() }
+      return { kind: 'p', html: inlineHtml(text), ph: isPlaceholder(text) }
+    })
+}
+
+const parts = blocks(page.body ?? '')
+---
+
+<Layout
+  lang={lang}
+  path={pagePath(lang, pageKey)}
+  title={page.data.title}
+  description={page.data.description}
+  current={null}
+  robots="noindex"
+  alternate={pagePath(lang === 'de' ? 'en' : 'de', pageKey)}
+>
+  <div class="wrap page-top legal">
+    {parts.map((block) => {
+      if (block.kind === 'p') return <p class={block.ph ? 'ph' : undefined} set:html={block.html} />
+      if (block.kind === 'h1') return <h1>{headingNbsp(block.text)}</h1>
+      if (block.kind === 'h2') return <h2>{headingNbsp(block.text)}</h2>
+      return <h3>{headingNbsp(block.text)}</h3>
+    })}
+  </div>
+</Layout>

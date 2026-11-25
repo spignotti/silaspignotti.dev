@@ -2,23 +2,49 @@
 import '@/styles/global.css'
 
 import Head from '@/components/Head.astro'
+import PageHead from '@/components/PageHead.astro'
 import SiteFooter from '@/components/SiteFooter.astro'
 import SiteNav from '@/components/SiteNav.astro'
-import { SITE } from '@/consts'
+import type { Lang, NavKey } from '@/i18n'
+import { HTML_LANG } from '@/i18n'
+
+interface Props {
+  lang: Lang
+  path: string
+  title: string
+  description: string
+  current: NavKey | null
+  alternate?: string
+  imagePath?: string
+  ogType?: 'website' | 'article'
+  robots?: string
+  mainClass?: string
+  motion?: boolean
+}
+
+const { lang, path, title, description, current, alternate, imagePath, ogType, robots, mainClass, motion = false } = Astro.props
 ---
 
 <!doctype html>
-<html lang={SITE.locale}>
-  <Head>
+<html lang={HTML_LANG[lang]}>
+  <Head robots={robots}>
+    <PageHead lang={lang} path={path} title={title} description={description} alternate={alternate} imagePath={imagePath} ogType={ogType} />
     <slot name="head" />
   </Head>
   <body>
-    <SiteNav />
-    <main id="main" class="page">
-      <div class="wrap">
-        <slot />
-      </div>
+    <SiteNav lang={lang} current={current} alternate={alternate} />
+    <main id="main" class={mainClass}>
+      <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter lang={lang} />
+    <slot name="jsonld" />
   </body>
 </html>
+{motion && (
+  <script>
+    import { initFigureAnim } from '@/scripts/figure-anim'
+    import { initMotion } from '@/scripts/motion'
+    initFigureAnim()
+    initMotion()
+  </script>
+)}

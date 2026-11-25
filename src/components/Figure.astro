@@ -1,0 +1,55 @@
+---
+import type { Lang } from '@/i18n'
+import { UI } from '@/i18n'
+
+interface Props {
+  file: string
+  lang: Lang
+  instance?: string
+  decorative?: boolean
+  /** Cover or other inline SVG with no caption. */
+  bare?: boolean
+  n?: number
+  caption?: string
+}
+
+const { file, lang, instance = 'a', decorative = false, bare = false, n, caption } = Astro.props
+
+const files = import.meta.glob<string>('/src/assets/figures/**/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
+const raw = files[`/src/assets/figures/${file}.${lang}.svg`] ?? files[`/src/assets/figures/${file}.svg`]
+const suffix = `${file.replace(/[^a-z0-9]+/gi, '-')}-${instance}`
+let svg = raw
+  ? raw
+      .replace(/\bid="([^"]+)"/g, `id="$1-${suffix}"`)
+      .replace(/aria-labelledby="([^"]+)"/g, (_, ids: string) => `aria-labelledby="${ids.split(/\s+/).map((id) => `${id}-${suffix}`).join(' ')}"`)
+  : undefined
+if (svg && decorative) {
+  svg = svg.replace(/\srole="img"/, ' aria-hidden="true"').replace(/\saria-labelledby="[^"]+"/, '')
+}
+---
+
+{
+  svg && bare && (
+    <div set:html={svg} />
+  )
+}
+{
+  svg && !bare && (
+    <figure class="fig">
+      <div class="fig-art" set:html={svg} />
+      {caption && (
+        <figcaption>
+          {n !== undefined && (
+            <span class="fig-n">{`${UI[lang].figure} ${n}`}</span>
+          )}
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
