@@ -1,0 +1,41 @@
+<svg class="figure-svg fig-wide" width="840" height="348" viewBox="0 0 840 348" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-utt-transfer-t fig-utt-transfer-d">
+  <title id="fig-utt-transfer-t">Leipzig: score by share of local data</title>
+  <desc id="fig-utt-transfer-d">Line chart: weighted F1 of the Berlin model in Leipzig, fine-tuned with 0, 10, 25, 50 and 100 percent of the Leipzig training data; the five steps are evenly spaced. Values: without Leipzig data (zero-shot) 0.38, at 10 percent 0.50, at 25 percent 0.57, at 50 percent 0.66, at 100 percent 0.77. Two dashed reference lines: a model trained from scratch on Leipzig data only, 0.79, and the Berlin model on the Berlin test set, 0.75. The line of the fine-tuned Berlin model is highlighted.</desc>
+  <path class="fig-grid" d="M64 241.8H784"/>
+  <path class="fig-grid" d="M64 191.6H784"/>
+  <path class="fig-grid" d="M64 141.5H784"/>
+  <path class="fig-grid" d="M64 91.3H784"/>
+  <path class="fig-grid" d="M64 41.1H784"/>
+  <path class="fig-ln fig-dash" d="M64 46.1H784"/>
+  <path class="fig-ln fig-dash" d="M64 66.2H784"/>
+  <path class="fig-base" d="M64 292H784"/>
+  <text class="fig-num-s" x="54" y="296" text-anchor="end">0.3</text>
+  <text class="fig-num-s" x="54" y="245.8" text-anchor="end">0.4</text>
+  <text class="fig-num-s" x="54" y="195.6" text-anchor="end">0.5</text>
+  <text class="fig-num-s" x="54" y="145.5" text-anchor="end">0.6</text>
+  <text class="fig-num-s" x="54" y="95.3" text-anchor="end">0.7</text>
+  <text class="fig-num-s" x="54" y="45.1" text-anchor="end">0.8</text>
+  <text class="fig-num-s" x="116" y="312" text-anchor="middle">0 %</text>
+  <text class="fig-num-s" x="276" y="312" text-anchor="middle">10 %</text>
+  <text class="fig-num-s" x="436" y="312" text-anchor="middle">25 %</text>
+  <text class="fig-num-s" x="596" y="312" text-anchor="middle">50 %</text>
+  <text class="fig-num-s" x="736" y="312" text-anchor="middle">100 %</text>
+  <text class="fig-t-s" x="426" y="336" text-anchor="middle">Share of Leipzig training data</text>
+  <text class="fig-t-s" x="16" y="166.5" text-anchor="middle" transform="rotate(-90 16 166.5)">Weighted F1</text>
+  <text class="fig-t-sm" x="72" y="39.1">Leipzig only, from scratch: 0.79</text>
+  <text class="fig-t-sm" x="72" y="82.2">Berlin model on the Berlin test: 0.75</text>
+  <path class="fig-ln-acc" d="M116 251.9L276 191.6L436 156.5L596 111.3L736 56.1"/>
+  <circle class="fig-bar-acc" cx="116" cy="251.9" r="4.5"/>
+  <text class="fig-num-s" x="116" y="239.9" text-anchor="middle">0.38</text>
+  <circle class="fig-bar-acc" cx="276" cy="191.6" r="4.5"/>
+  <text class="fig-num-s" x="276" y="179.6" text-anchor="middle">0.50</text>
+  <circle class="fig-bar-acc" cx="436" cy="156.5" r="4.5"/>
+  <text class="fig-num-s" x="436" y="144.5" text-anchor="middle">0.57</text>
+  <circle class="fig-bar-acc" cx="596" cy="111.3" r="4.5"/>
+  <text class="fig-num-s" x="596" y="99.3" text-anchor="middle">0.66</text>
+  <circle class="fig-bar-acc" cx="736" cy="56.1" r="4.5"/>
+  <text class="fig-num-s" x="748" y="60.1">0.77</text>
+  <text class="fig-t-s" x="116" y="273.9" text-anchor="middle">zero-shot</text>
+  <text class="fig-t-sm" x="602" y="142.8" text-anchor="start">Berlin model,</text>
+  <text class="fig-t-sm" x="602" y="157.8" text-anchor="start">fine-tuned in Leipzig</text>
+</svg>

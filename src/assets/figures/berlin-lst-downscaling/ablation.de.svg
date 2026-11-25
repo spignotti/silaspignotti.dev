@@ -1,0 +1,96 @@
+<svg class="figure-svg fig-wide" width="840" height="430" viewBox="0 0 840 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-lst-ablation-t fig-lst-ablation-d">
+  <title id="fig-lst-ablation-t">Ein festes Modell, wechselnde Eingänge</title>
+  <desc id="fig-lst-ablation-d">Matrix mit neun Zeilen und sechs Spalten für Gruppen von Eingangsdaten, rechts daneben eine schmale Spalte für das Trainingsziel. Die ersten drei Spalten tragen die gemeinsame Überschrift Spektral: Blau, Grün und SWIR; Rot, NIR, NDBI und Albedo; NDVI und NDWI. Es folgen Morphologie, Schatten und Wetter. Die Zeilen stehen in zwei Gruppen; ein gefülltes Quadrat heißt enthalten, ein Umriss heißt nicht enthalten. Gruppen hinzufügen: Stufe 1 nutzt die drei spektralen Spalten, Stufe 2 zusätzlich Morphologie, Stufe 3 zusätzlich Schatten, Stufe 4 zusätzlich Wetter, Stufe 5 alle sechs Gruppen mit thermalsensitivem Trainingsziel. Je eine Gruppe weglassen: ohne Morphologie, ohne Schatten, ohne NDVI und NDWI sowie ohne Rot, NIR und Indizes. Rechts spannt ein hervorgehobener Kasten über alle Zeilen: dasselbe U-Net in allen Läufen, jede Zeile ist mit einer dünnen Linie verbunden. Darunter steht: Ohne Wetter entspricht Stufe 3.</desc>
+  <text class="fig-hd" x="279" y="16" text-anchor="middle">Spektral</text>
+  <text class="fig-hd" x="203" y="38" text-anchor="middle">Blau, Grün,</text>
+  <text class="fig-hd" x="203" y="53" text-anchor="middle">SWIR</text>
+  <text class="fig-hd" x="289" y="38" text-anchor="middle">Rot, NIR,</text>
+  <text class="fig-hd" x="289" y="53" text-anchor="middle">NDBI, Albedo</text>
+  <text class="fig-hd" x="355" y="38" text-anchor="middle">NDVI,</text>
+  <text class="fig-hd" x="355" y="53" text-anchor="middle">NDWI</text>
+  <text class="fig-hd" x="417" y="53" text-anchor="middle">Morphologie</text>
+  <text class="fig-hd" x="490" y="53" text-anchor="middle">Schatten</text>
+  <text class="fig-hd" x="549" y="53" text-anchor="middle">Wetter</text>
+  <text class="fig-hd" x="634" y="53" text-anchor="middle">Trainingsziel</text>
+  <text class="fig-hd" x="8" y="72" text-anchor="start">Gruppen hinzufügen</text>
+  <text class="fig-t" x="8" y="101" text-anchor="start">Stufe 1</text>
+  <rect class="fig-cell" x="194" y="87" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="87" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="87" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="408" y="87" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="481" y="87" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="540" y="87" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 96H710"/>
+  <text class="fig-t" x="8" y="133" text-anchor="start">Stufe 2</text>
+  <rect class="fig-cell" x="194" y="119" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="119" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="119" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="119" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="481" y="119" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="540" y="119" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 128H710"/>
+  <text class="fig-t" x="8" y="165" text-anchor="start">Stufe 3</text>
+  <rect class="fig-cell" x="194" y="151" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="151" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="151" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="151" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="151" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="540" y="151" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 160H710"/>
+  <text class="fig-t" x="8" y="197" text-anchor="start">Stufe 4</text>
+  <rect class="fig-cell" x="194" y="183" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="183" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="183" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="183" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="183" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="183" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 192H710"/>
+  <text class="fig-t" x="8" y="229" text-anchor="start">Stufe 5</text>
+  <rect class="fig-cell" x="194" y="215" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="215" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="215" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="215" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="215" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="215" width="18" height="18" rx="3"/>
+  <text class="fig-t-s" x="634" y="228" text-anchor="middle">thermalsensitiv</text>
+  <path class="fig-ln" d="M690 224H710"/>
+  <text class="fig-hd" x="8" y="266" text-anchor="start">Je eine Gruppe weglassen</text>
+  <text class="fig-t" x="8" y="295" text-anchor="start">ohne Morphologie</text>
+  <rect class="fig-cell" x="194" y="281" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="281" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="281" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="408" y="281" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="281" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="281" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 290H710"/>
+  <text class="fig-t" x="8" y="327" text-anchor="start">ohne Schatten</text>
+  <rect class="fig-cell" x="194" y="313" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="313" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="346" y="313" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="313" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="481" y="313" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="313" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 322H710"/>
+  <text class="fig-t" x="8" y="359" text-anchor="start">ohne NDVI und NDWI</text>
+  <rect class="fig-cell" x="194" y="345" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="280" y="345" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="346" y="345" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="345" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="345" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="345" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 354H710"/>
+  <text class="fig-t" x="8" y="383.5" text-anchor="start">ohne Rot, NIR</text>
+  <text class="fig-t" x="8" y="398.5" text-anchor="start">und Indizes</text>
+  <rect class="fig-cell" x="194" y="377" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="280" y="377" width="18" height="18" rx="3"/>
+  <rect class="fig-box-quiet" x="346" y="377" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="408" y="377" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="481" y="377" width="18" height="18" rx="3"/>
+  <rect class="fig-cell" x="540" y="377" width="18" height="18" rx="3"/>
+  <path class="fig-ln" d="M690 386H710"/>
+  <rect class="fig-focus" x="710.8" y="80.8" width="124.5" height="320.5" rx="6"/>
+  <text class="fig-t-on" x="773" y="228" text-anchor="middle">U-Net</text>
+  <text class="fig-t-on-s" x="773" y="249.5" text-anchor="middle">in allen Läufen</text>
+  <text class="fig-t-on-s" x="773" y="264.5" text-anchor="middle">gleich</text>
+  <text class="fig-t-s" x="8" y="422">Ohne Wetter entspricht Stufe 3.</text>
+</svg>

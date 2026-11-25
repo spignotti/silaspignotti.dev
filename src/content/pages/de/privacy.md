@@ -15,7 +15,7 @@ Verantwortlicher bin ich, Silas Pignotti, Berlin. Anschrift und E-Mail stehen im
 
 Die Website wird auf GitHub Pages gehostet (GitHub, Inc., USA). Beim Aufruf verarbeitet der Hoster die IP-Adresse und den Zeitpunkt des Zugriffs, um die Website auszuliefern und für die Sicherheit. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren, funktionierenden Website).
 
-[Platzhalter: Auftragsverarbeitung mit GitHub und Drittlandübermittlung klären, kein eigener Vertrag gefunden]
+Für GitHub Pages gilt das Data Protection Agreement von GitHub als Teil der GitHub-Nutzungsbedingungen. GitHub ist unter dem EU-US Data Privacy Framework zertifiziert; die Übermittlung in die USA stützt sich auf diesen Angemessenheitsbeschluss (Art. 45 DSGVO).
 
 ## Keine Cookies, kein Tracking
 
@@ -29,7 +29,7 @@ Die Schriften werden auf dieser Website selbst gehostet. Es gibt keine Verbindun
 
 Wenn Sie mir per E-Mail schreiben, verarbeite ich Ihre Adresse und Ihre Nachricht, um Ihnen zu antworten (Art. 6 Abs. 1 lit. b oder f DSGVO).
 
-[Platzhalter: E-Mail-Anbieter nennen]
+E-Mails an die Adressen dieser Domain leitet Cloudflare (Cloudflare, Inc., USA) über seinen Dienst Email Routing an mein Postfach bei Google (Gmail) weiter. Beide Anbieter sind unter dem EU-US Data Privacy Framework zertifiziert.
 
 Anfragen per E-Mail lösche ich sechs Monate nach dem letzten Kontakt, es sei denn, es kommt ein Vertrag zustande. Dann gelten die gesetzlichen Aufbewahrungsfristen (§ 147 AO, § 257 HGB).
 
@@ -40,3 +40,7 @@ Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (A
 ## Beschwerde
 
 Sie können sich bei einer Aufsichtsbehörde beschweren. Für Berlin zuständig ist die Berliner Beauftragte für Datenschutz und Informationsfreiheit (BlnBDI).
+
+## Kartendaten
+
+Die Berlin-Karte auf der Startseite nutzt: Landesgrenze: Geoportal Berlin, dl-de/zero-2.0; Gewässer: © OpenStreetMap-Mitwirkende, ODbL.

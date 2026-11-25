@@ -13,18 +13,15 @@ Silas Pignotti
 
 Sole trader
 
-[Placeholder: Street and house number, postal code]
+Danziger Straße 195
 
-Berlin
+10407 Berlin
 
 ## Contact
 
-[Placeholder: E-mail address]
+Email: [mail@silaspignotti.dev](mailto:mail@silaspignotti.dev)
 
-[Placeholder: Telephone number]
 
 ## VAT
 
 Small entrepreneur according to § 19 UStG. No VAT is shown.
-
-[Placeholder: Economic identification number (W-IdNr.), once assigned by the Federal Central Tax Office]

@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+import type { Lang } from '@/i18n'
+import { UI } from '@/i18n'
+
+interface Props {
+  shot: string
+  alt: string
+  lang: Lang
+  n: number
+  caption: string
+}
+
+const { shot, alt, lang, n, caption } = Astro.props
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/shots/**/*.png', { eager: true })
+const dark = images[`/src/assets/shots/${shot}-dark.png`]?.default
+const light = images[`/src/assets/shots/${shot}-light.png`]?.default
+if (!dark && !light) throw new Error(`missing screenshot: src/assets/shots/${shot}-light.png or -dark.png`)
+const both = Boolean(dark && light)
+// A tall shot such as a dialog would fill the screen at full column width.
+const base = (light ?? dark)!
+const tall = base.height > base.width * 0.9
+const widths = tall ? [560, 1120] : [900, 1800]
+// The hidden variant is display:none, so it is neither loaded (lazy) nor read out.
+// Below 640px a wide shot is drawn at 640px (site.css), so the source must match that, not 100vw.
+const sizes = tall ? '(min-width: 640px) 560px, 100vw' : '(min-width: 1024px) 890px, (min-width: 640px) 100vw, 640px'
+const scrolls = !tall
+const regionLabel = alt || UI[lang].shotScroll
+---
+
+<figure class:list={['fig', { 'fig-tall': tall }]}>
+  <div
+    class:list={['shot-art', { 'has-both': both }]}
+    tabindex={scrolls ? 0 : undefined}
+    role={scrolls ? 'region' : undefined}
+    aria-label={scrolls ? regionLabel : undefined}
+  >
+    {light && <Image class="shot-light" src={light} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}
+    {dark && <Image class="shot-dark" src={dark} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}
+  </div>
+  <figcaption>
+    <span class="fig-n">{`${UI[lang].figure} ${n}`}</span>
+    {caption}
+  </figcaption>
+</figure>

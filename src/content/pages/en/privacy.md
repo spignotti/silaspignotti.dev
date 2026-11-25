@@ -15,7 +15,7 @@ I am the controller, Silas Pignotti, Berlin. Address and e-mail are in the [lega
 
 The site is hosted on GitHub Pages (GitHub, Inc., USA). When the site is opened, the host processes the IP address and the time of access in order to deliver the site and for security. The legal basis is Art. 6(1)(f) GDPR (legitimate interest in a secure, working site).
 
-[Placeholder: Clarify commissioned processing with GitHub and the third-country transfer, no own contract found]
+For GitHub Pages, GitHub's Data Protection Agreement applies as part of the GitHub terms of service. GitHub is certified under the EU-US Data Privacy Framework; the transfer to the USA is based on this adequacy decision (Art. 45 GDPR).
 
 ## No cookies, no tracking
 
@@ -29,7 +29,7 @@ The fonts are hosted on this site itself. There is no connection to Google or ot
 
 If you write to me by e-mail, I process your address and your message in order to answer you (Art. 6(1)(b) or (f) GDPR).
 
-[Placeholder: Name the e-mail provider]
+E-mails to addresses on this domain are forwarded by Cloudflare (Cloudflare, Inc., USA) through its Email Routing service to my Google (Gmail) mailbox. Both providers are certified under the EU-US Data Privacy Framework.
 
 I delete contact requests six months after the last contact, unless a contract results. In that case the statutory retention periods apply (§ 147 AO, § 257 HGB).
 
@@ -40,3 +40,7 @@ You have the right of access (Art. 15), rectification (Art. 16), erasure (Art. 1
 ## Complaint
 
 You may complain to a supervisory authority. Competent for Berlin is the Berliner Beauftragte für Datenschutz und Informationsfreiheit (BlnBDI).
+
+## Map data
+
+The Berlin map on the home page uses: State boundary: Geoportal Berlin, dl-de/zero-2.0; water: © OpenStreetMap contributors, ODbL.

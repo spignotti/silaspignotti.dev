@@ -17,6 +17,7 @@ const BG = [0xf7, 0xf7, 0xf5, 255]
 const TEXT = [0x15, 0x19, 0x22, 255]
 const MUTED = [0x62, 0x5d, 0x57, 255]
 const ACCENT = [0xd4, 0x72, 0x4a, 255]
+const BORDER_STRONG = [0x8a, 0x85, 0x7e, 255]
 const ON = [0x15, 0x19, 0x22, 255]
 const HEAT_LO = [0x3b, 0x3e, 0x45, 255]
 const HEAT_HI = [0xd4, 0x72, 0x4a, 255]
@@ -60,6 +61,8 @@ const STYLE = {
   'fig-cover-hair': { stroke: fade(ON, 0.16), width: 2 },
   'fig-cover-hair-t': { stroke: fade(TEXT, 0.1), width: 2 },
   'fig-cover-split': { stroke: BG, width: 8 },
+  'fig-cover-ring': { stroke: BORDER_STRONG, width: 2 },
+  'fig-cover-flow': { stroke: ACCENT, width: 10, cap: 'round' },
   'fig-ink': { stroke: ON, width: 10, cap: 'round' },
   'fig-ink-thin': { stroke: ON, width: 4, dash: [2, 14], cap: 'round' },
   'fig-ink-fill': { fill: ON },
@@ -68,6 +71,7 @@ const STYLE = {
   'fig-lane-acc': { stroke: ACCENT, width: 28 },
   'fig-gate': { fill: TEXT },
   'fig-pr': { fill: TEXT },
+  'fig-dot': { fill: TEXT },
   'fig-bar': { fill: BAR },
   'fig-bar-acc': { fill: ACCENT },
   'fig-base': { stroke: TEXT, width: 1 },
@@ -303,8 +307,15 @@ function drawShape(c, kind, attrs, matrix) {
   if (kind === 'circle') {
     const [cx, cy] = pt(attrs.cx, attrs.cy)
     const r = (Number(attrs.r) || 0) * scaleOf(matrix)
-    if (st.stroke) fillRect(c, cx - r - (st.width * scaleOf(matrix)) / 2, cy - r - (st.width * scaleOf(matrix)) / 2, (r + (st.width * scaleOf(matrix)) / 2) * 2, (r + (st.width * scaleOf(matrix)) / 2) * 2, r + (st.width * scaleOf(matrix)) / 2, st.stroke)
+    const sw = (st.width || 1) * scaleOf(matrix)
+    if (st.stroke && st.fill) fillRect(c, cx - r - sw / 2, cy - r - sw / 2, (r + sw / 2) * 2, (r + sw / 2) * 2, r + sw / 2, st.stroke)
     if (st.fill) fillRect(c, cx - r, cy - r, r * 2, r * 2, r, st.fill)
+    // A stroke-only circle is a ring: trace its outline so the artwork underneath stays visible.
+    if (st.stroke && !st.fill) {
+      const n = Math.max(24, Math.ceil(r))
+      const ring = Array.from({ length: n + 1 }, (_, i) => [cx + r * Math.cos((i / n) * 2 * Math.PI), cy + r * Math.sin((i / n) * 2 * Math.PI)])
+      strokePoly(c, ring, sw, st.stroke)
+    }
   }
   if (kind === 'path') {
     const subs = parsePath(attrs.d || '')
@@ -428,16 +439,9 @@ function caseSlugs() {
 }
 
 function cases() {
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'src/assets/geo/heat-illustrative.json'), 'utf8'))
   for (const slug of caseSlugs()) {
     const file = path.join(root, 'src/assets/figures', slug, 'cover.svg')
-    const rendered = renderSvg(file, 1200, 675)
-    const image = crop(rendered)
-    if (slug === 'berlin-lst-downscaling' && manifest.illustrative === true) {
-      const label = 'Illustrativ, keine Messdaten'
-      fillRect(image, 36, 560, label.length * 4 * 6 + 24, 44, 6, BG)
-      text(image, label, 48, 572, 4, TEXT)
-    }
+    const image = crop(renderSvg(file, 1200, 675))
     fs.writeFileSync(path.join(outDir, `${slug}.png`), png(1200, 630, image.data))
   }
 }

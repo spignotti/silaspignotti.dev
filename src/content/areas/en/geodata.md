@@ -2,8 +2,8 @@
 lang: "en"
 slug: "geodata"
 order: 1
-title: "Geodata and geo data science"
-summary: "I turn satellite data and geodata into datasets that can be used for analysis, and I train models on them. This covers spatial questions from a single address to a 10 m raster, including routes and tours."
-tools: "Python, PyTorch, Landsat and Sentinel-2 satellite data, Google Cloud"
-proof: "[Master's Thesis · Berlin's Heat at 10 m](/en/projects/berlin-lst-downscaling), [Routing Engine · Planning and Solver](/en/projects/routing-engine-solver), [urban-tree-transfer](https://github.com/spignotti/urban-tree-transfer)"
+title: "Geodata and remote sensing"
+summary: "I analyse geodata and satellite data, and I train and test models on them (geospatial data science). I use spatial tools to answer planning questions, for example in route planning and vehicle routing."
+tools: "Python, PyTorch, Google Earth Engine, Google Cloud, Landsat, Sentinel-2"
+proof: "[Master's thesis](/en/projects/berlin-lst-downscaling), [Urban Tree Transfer](/en/projects/urban-tree-transfer), [Tourengenie](/en/projects/tourengenie)"
 ---

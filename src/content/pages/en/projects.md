@@ -2,11 +2,7 @@
 lang: "en"
 page: "projects"
 title: "Projects · Silas Pignotti"
-description: "Case studies in geodata, data analysis and automation: route planning, agent-based development, Berlin heat at 10 m and a KPI reference."
+description: "Projects in geodata, remote sensing, data analysis and software development, each with a description of the task, the methods and the result."
 ---
 
 # Projects
-
-Each case study describes one piece of work in detail: problem, approach, system, result and limits. Further work follows below in short form.
-
-## Further work

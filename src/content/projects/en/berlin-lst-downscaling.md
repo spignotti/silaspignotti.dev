@@ -2,56 +2,85 @@
 lang: "en"
 slug: "berlin-lst-downscaling"
 kind: "case"
-order: 3
-title: "Master's Thesis · Berlin's Heat at 10 m"
-seoTitle: "Master's Thesis · Berlin's Heat at 10 m · Silas Pignotti"
-description: "My master's thesis tests which urban data help to reconstruct land surface temperature in Berlin from 100 m to 10 m resolution."
-role: "Master's thesis: research question, data pipeline, models, evaluation"
+order: 2
+title: "Master's thesis · Berlin heat at 10 m"
+seoTitle: "Master's thesis: Berlin land surface temperature from 100 m to 10 m · Silas Pignotti"
+description: "In my master's thesis, I test which urban data help a deep learning model downscale land surface temperature in Berlin from 100 m to 10 m."
+role: "Preparing geospatial data, training and evaluating models"
 period: "2026, submission in December 2026"
 status: "ongoing"
 year: 2026
-links:
-  - { label: "Code on GitHub", href: "https://github.com/spignotti/berlin-lst-downscaling" }
+links: []
 keyFigures:
-  - { value: "100 m → 10 m", label: "Resolution" }
-  - { value: "2017 to 2025", label: "Data period" }
-  - { value: "Berlin, warm season May to September", label: "Study area" }
+  - value: "100 m → 10 m"
+    label: "Resolution"
+  - value: "2017 to 2025"
+    label: "Training and test years"
+  - value: "27"
+    label: "Model runs in the ablation"
 figures:
-  - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "From raw data to temperature at 10 m." }
-  - { n: 2, file: "berlin-lst-downscaling/ablation-stages", caption: "Five stages on one fixed model. Each stage adds one group of inputs." }
-  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "The same area at 100 m and at 10 m." }
+  - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "From source data through the feature stack to temperature at 10 m.", section: "Data pipeline" }
+  - { n: 2, file: "berlin-lst-downscaling/pseudo-pairs", caption: "The model learns to downscale from 1000 m to 100 m and applies what it learns to go from 100 m to 10 m. I evaluate it at 100 m.", section: "Pseudo-pair design" }
+  - { n: 3, file: "berlin-lst-downscaling/ablation", caption: "The nine ablation variants. I keep the model fixed and vary only the inputs and, in stage 5, the training target.", section: "Ablation" }
+  - { n: 4, file: "berlin-lst-downscaling/season-map", caption: "Land surface temperature difference from the mean of each overpass, May to September 2025, at 10 m. Preliminary, master's thesis status (not yet reviewed).", section: "Maps" }
 ---
 
-## Problem
+## Background
 
-Landsat measures land surface temperature at about 100 m resolution. That is enough for large patterns, but not for questions at the level of blocks and streets. There, buildings, trees, sealed surfaces and shade decide the temperature. Sentinel-2 and Berlin's geodata show these structures at 10 m, but they do not measure temperature. Downscaling connects the two levels. The open question is which urban data actually help. There is also no independent thermal reference at 10 m that could measure the result directly.
+The Landsat satellites measure land surface temperature at a resolution of about 100 m. This is too coarse to show differences within Berlin's city blocks and streets. At that scale, temperature depends on where buildings and trees stand, which surfaces are sealed and where shadows fall.
 
-## Approach
+Sentinel-2 imagery and Berlin's geospatial data show these features on a 10 m grid. Independent measurements of land surface temperature at this resolution are unavailable.
 
-**The model stays fixed; only the inputs change.** A residual 2D U-Net predicts temperature at 10 m as a correction of a coarse starting value. Architecture and training stay the same in all stages. Five stages add information step by step: Sentinel-2 spectral data, urban morphology, shading, weather data from ERA5-Land, and finally a training loss that gives more weight to temperature structure. Extra runs leave single groups out. This shows the contribution of each group on its own. Developing a new architecture was not the goal.
+## Research question
 
-**Learned features as a cross-check.** An extra comparison arm replaces the hand-built morphology and shadow channels with learned annual embeddings from Sentinel-1 and Sentinel-2 that contain no temperature data. It shows whether building my own context groups is worth the effort, or whether general embeddings do the same.
+I test which urban data help a model derive a 10 m map from temperature measurements at 100 m. This increase in spatial resolution is called downscaling. I examine the contribution of buildings, vegetation, shadows and weather. I also test a temperature-sensitive training method that explicitly takes temperature patterns into account during learning.
 
-**One spectral source, strict data rules.** Landsat provides only the target temperature; all optical inputs come from Sentinel-2. This avoids a sensor change between training and application. A 100 m cell counts only if the Landsat value and all 100 matching 10 m pixels are valid. I do not fill missing values, and I fit the scaling on the training years only. I do not select scenes by temperature, because a selection of hot days says nothing about the quality of the downscaling.
+The model produces temperature maps at 10 m. In the test, urban context improves the predictions. The difference is larger in areas the model never saw during training. To compare the maps with the measurements, I aggregate them back to 100 m.
 
-**Separate years and separate areas.** Training uses 2017 to 2023, model selection uses 2024, and 2025 is tested once, after the model is fixed. Because the model has seen the validation areas during training, a spatial test is added: whole blocks of the city are left out of training.
+## Data pipeline
 
-**Evaluate where the measurement is.** I compare models at 100 m, after aggregating the 10 m prediction back. A naive upsampling of the coarse value and a random forest serve as references, with the same mask and the same metric. Statements about 10 m are an assessment, not a measured result.
+I use thermal imagery from Landsat 8 and 9 for land surface temperature. I also use Sentinel-2 imagery and Berlin's 3D building data at LoD2, a level of detail that includes roof shapes. I derive shadows and the sky view factor from the building data. The sky view factor describes how much of the sky is visible from a given location.
 
-**Recompute everything after a data fix.** During the work I found an offset in the Sentinel-2 reflectances of newer processing versions and an error in the building data. I fixed both, rebuilt the features and recomputed all model runs instead of keeping the old numbers.
+I add vegetation height, surface sealing and weather data from ERA5-Land, a weather reanalysis. I align all data to the same 10 m grid in the EPSG:25833 coordinate reference system. For training and evaluation, I use imagery from the warm season, from May to September, in the years 2017 to 2025.
 
-## System
+I record the data in a STAC catalogue that lists spatial datasets and their metadata. The metadata include information about where the data came from. A manifest specifies which data the pipeline processes. Validation scripts check the preprocessing. I can repeat the preprocessing with the same manifest. I run training on Vertex AI in Google Cloud.
 
-A versioned selection defines which Landsat scenes enter the study and which Sentinel-2 image belongs to each. Of 290 pairs, 286 remain; four drop out because Sentinel-2 does not cover part of Berlin. From this, the pipeline builds analysis-ready rasters on one shared 10 m grid in EPSG:25833. From Berlin geodata, including LoD2 buildings, terrain, vegetation height and imperviousness, it computes heights, cover fractions, sky view factor and shadows. ERA5-Land adds weather values per scene. The result is one stack per scene with 22 channels and a mask of valid pixels. For training, the pipeline cuts these into patches of 160 × 160 pixels, 8,078 in the current release.
+## Pseudo-pair design
 
-Every product is published with a STAC item, provenance data and a completion marker that is written last. Without this marker a product does not count as published. Separate validation scripts check every stage. Data is stored in Google Cloud Storage, training runs on Vertex AI, and Weights & Biases tracks the runs.
+Because temperature measurements at 10 m are unavailable, I train the model one resolution level coarser. I aggregate the Landsat measurements to 1000 m and use this grid as the input. I use the Landsat measurements at 100 m as the target. At this scale, the model can learn from measured temperatures how temperature varies within the coarser grid cells.
 
-## Result
+To produce the maps, I use the measurements at 100 m as the input and have the model estimate values at 10 m. This assumes that what the model learns from 1000 m to 100 m also applies to the step from 100 m to 10 m. For evaluation, I average the predicted values back onto the exact 100 m grid. I then compare them with the Landsat measurements.
 
-The data pipeline is complete and reproducible, from scene selection to the training dataset for the summer months of 2017 to 2025. All stages have since been trained on the corrected data release; the one-time test on 2025 stays sealed until submission. The final model is meant to produce a multi-year 10 m time series of land surface temperature for Berlin.
+## Split by year
 
-[Placeholder: Final result after submission on 22.12., model RMSE against the baseline, 2 to 3 sentences]
+I train on data from 2017 to 2023. I use data from 2024 for validation. I use these data to assess my modelling choices. I hold back 2025 for testing. I accessed the test set once, after I had finalised all decisions.
 
-## Limits
+## Ablation
 
-There is no independent temperature measurement at 10 m. Evaluation therefore happens at 100 m, and the 10 m patterns are a reconstruction, not a measurement. The coarse starting value comes from the same scene. The data covers only the warm season from May to September and the time of the satellite overpass. A comparison with ECOSTRESS as an independent source is not yet a result. Berlin is one case study; the findings may not transfer to other cities.
+In the ablation, I add or remove groups of input data to measure their contribution. I use the same 2D U-Net in all nine variants. This neural network processes patterns in the grids at several resolutions. I train each variant with three seeds. A seed determines the sequence of random numbers for a run. This gives me 27 model runs.
+
+For the baseline, I upsample the coarse temperature measurements directly to the finer grid. I also compare the U-Net with a random forest, which estimates temperature using predictions from many decision trees.
+
+## Statistics
+
+I use a paired bootstrap across scenes. I sample scenes with replacement and compare the models on the same sampled scenes each time. I repeat this 10,000 times. Before the evaluation, I define the criterion for deciding whether a difference is statistically reliable.
+
+I also evaluate the models using a spatial holdout. I exclude areas from training and evaluate the predictions for those areas separately. This lets me check how the models perform in places they never saw during training.
+
+## Results
+
+The U-Net is substantially more accurate than naive upsampling and the random forest. In the test year, urban context gives a small, statistically reliable improvement. Building structure, weather and a separate group of indices derived from red and near-infrared bands contribute to the result. The NDVI and NDWI indices for vegetation and water provide no further improvement. I find no statistically reliable benefit from temperature-sensitive training.
+
+Urban context helps substantially more in areas the model never saw during training. The split by year alone does not reveal this difference.
+
+## Maps
+
+I produced temperature maps at 10 m for 39 scenes from 2025 and 42 scenes from the 2026 warm season. The model did not see the 2026 imagery during training or testing. I also produced difference maps. They show where the estimated temperature changes when I include urban context in the model.
+
+## Limitations
+
+The evaluation checks agreement with Landsat at 100 m. Different temperature patterns at 10 m can give the same value when averaged back to 100 m. Without independent temperature measurements at 10 m, I cannot validate individual values at this resolution. The transfer to the finer scale remains an assumption.
+
+## Status
+
+I will submit my master's thesis in December 2026. The numerical results will follow after submission.

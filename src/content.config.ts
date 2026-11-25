@@ -13,7 +13,7 @@ const pages = defineCollection({
   }),
   schema: z.object({
     lang,
-    page: z.enum(['home', 'projects', 'about', 'imprint', 'privacy']),
+    page: z.enum(['home', 'projects', 'imprint', 'privacy']),
     title: z.string(),
     description: z.string(),
     portrait: z.string().optional(),
@@ -37,6 +37,21 @@ const areas = defineCollection({
   }),
 })
 
+const figure = z
+  .object({
+    n: z.number(),
+    file: z.string().optional(),
+    caption: z.string(),
+    section: z.string().optional(),
+    placeholder: z.string().optional(),
+    /** Screenshot base path under src/assets/shots, e.g. tourengenie/planning (-dark and optional -light). */
+    shot: z.string().optional(),
+    alt: z.string().optional(),
+  })
+  .refine((value) => Boolean(value.file || value.placeholder || (value.shot && value.alt)), {
+    message: 'a figure needs a file, a placeholder, or a shot with alt text',
+  })
+
 const projects = defineCollection({
   loader: glob({
     pattern: '**/*.md',
@@ -57,9 +72,7 @@ const projects = defineCollection({
     year: z.number().optional(),
     links: z.array(link).default([]),
     keyFigures: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
-    figures: z
-      .array(z.object({ n: z.number(), file: z.string(), caption: z.string() }))
-      .default([]),
+    figures: z.array(figure).default([]),
   }),
 })
 

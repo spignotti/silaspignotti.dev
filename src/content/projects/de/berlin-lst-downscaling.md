@@ -2,56 +2,85 @@
 lang: "de"
 slug: "berlin-lst-downscaling"
 kind: "case"
-order: 3
+order: 2
 title: "Masterarbeit · Berliner Hitze auf 10 m"
-seoTitle: "Masterarbeit · Berliner Hitze auf 10 m · Silas Pignotti"
-description: "Meine Masterarbeit prüft, welche Stadtdaten helfen, die Oberflächentemperatur in Berlin von 100 m auf 10 m Auflösung zu rekonstruieren."
-role: "Masterarbeit: Fragestellung, Datenpipeline, Modelle, Auswertung"
+seoTitle: "Masterarbeit: Oberflächentemperatur in Berlin von 100 m auf 10 m · Silas Pignotti"
+description: "In meiner Masterarbeit prüfe ich, welche Stadtdaten einem Deep-Learning-Modell helfen, die Oberflächentemperatur in Berlin von 100 m auf 10 m zu verfeinern."
+role: "Geodaten aufbereiten, Modelle trainieren und auswerten"
 period: "2026, Abgabe im Dezember 2026"
 status: "ongoing"
 year: 2026
-links:
-  - { label: "Code auf GitHub", href: "https://github.com/spignotti/berlin-lst-downscaling" }
+links: []
 keyFigures:
-  - { value: "100 m → 10 m", label: "Auflösung" }
-  - { value: "2017 bis 2025", label: "Datenzeitraum" }
-  - { value: "Berlin, Warmsaison Mai bis September", label: "Untersuchungsgebiet" }
+  - value: "100 m → 10 m"
+    label: "Auflösung"
+  - value: "2017 bis 2025"
+    label: "Trainings- und Testjahre"
+  - value: "27"
+    label: "Modellläufe in der Ablation"
 figures:
-  - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "Von den Rohdaten zur Temperatur auf 10 m." }
-  - { n: 2, file: "berlin-lst-downscaling/ablation-stages", caption: "Fünf Stufen auf einem festen Modell. Jede Stufe fügt eine Informationsgruppe hinzu." }
-  - { n: 3, file: "berlin-lst-downscaling/resolution-compare", caption: "Derselbe Ausschnitt auf 100 m und auf 10 m." }
+  - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "Von den Quelldaten über den Feature-Stack zur Temperatur auf 10 m.", section: "Datenpipeline" }
+  - { n: 2, file: "berlin-lst-downscaling/pseudo-pairs", caption: "Das Modell lernt den Schritt von 1000 m auf 100 m und wendet ihn von 100 m auf 10 m an. Geprüft wird auf 100 m.", section: "Pseudo-Paar-Design" }
+  - { n: 3, file: "berlin-lst-downscaling/ablation", caption: "Die neun Varianten der Ablation. Das Modell bleibt gleich, nur die Eingänge und in Stufe 5 das Trainingsziel wechseln.", section: "Ablation" }
+  - { n: 4, file: "berlin-lst-downscaling/season-map", caption: "Abweichung der Oberflächentemperatur vom Mittel je Überflug, Mai bis September 2025, auf 10 m. Vorläufig, Stand Masterarbeit (nicht begutachtet).", section: "Karten" }
 ---
 
-## Problem
+## Ausgangslage
 
-Landsat misst die Oberflächentemperatur mit etwa 100 m Auflösung. Das reicht für große Muster, aber nicht für Fragen auf der Ebene von Blöcken und Straßenräumen. Dort entscheiden Gebäude, Bäume, Versiegelung und Schatten über die Temperatur. Sentinel-2 und die Berliner Geodaten zeigen diese Strukturen mit 10 m, messen aber keine Temperatur. Downscaling verbindet beide Ebenen. Offen ist, welche Stadtdaten dabei wirklich helfen. Es gibt außerdem keine unabhängige thermale Referenz auf 10 m, an der man das Ergebnis direkt messen könnte.
+Die Landsat-Satelliten messen die Temperatur der Erdoberfläche mit einer Auflösung von rund 100 m. Das ist zu grob, um Unterschiede innerhalb von Berliner Häuserblöcken und Straßenräumen zu erkennen. Dort kommt es darauf an, wo Gebäude und Bäume stehen, welche Flächen versiegelt sind und wo Schatten fällt.
 
-## Vorgehen
+Die Aufnahmen von Sentinel-2 und die Berliner Geodaten zeigen diese Strukturen auf einem Raster von 10 m. Eine unabhängige Messung der Oberflächentemperatur in dieser Auflösung fehlt.
 
-**Das Modell bleibt fest, nur die Eingänge ändern sich.** Ein residuales 2D-U-Net sagt die Temperatur auf 10 m voraus, als Korrektur eines groben Ausgangswerts. Architektur und Training bleiben über alle Stufen gleich. In fünf Stufen kommen Informationen dazu: Spektraldaten von Sentinel-2, Stadtmorphologie, Verschattung, Wetterdaten aus ERA5-Land und zuletzt ein Trainingsziel, das Temperaturstrukturen stärker gewichtet. Zusätzliche Läufe lassen einzelne Gruppen weg. So lässt sich der Beitrag jeder Gruppe getrennt ablesen. Eine neue Architektur zu entwickeln war nicht das Ziel.
+## Fragestellung
 
-**Gelernte Merkmale als Gegenprobe.** Ein zusätzlicher Vergleichsarm ersetzt die handgebauten Morphologie- und Schattenkanäle durch gelernte Jahres-Embeddings aus Sentinel-1 und Sentinel-2, die keine Temperaturdaten enthalten. Er zeigt, ob sich der Aufwand für eigene Kontextgruppen lohnt oder ob allgemeine Embeddings dasselbe leisten.
+Ich prüfe, welche Stadtdaten einem Modell helfen, aus der Temperaturmessung auf 100 m eine Karte auf 10 m abzuleiten. Diese räumliche Verfeinerung heißt Downscaling. Dazu untersuche ich den Beitrag von Gebäuden, Vegetation, Schatten und Wetter. Ich prüfe auch ein thermalsensitives Training, das die Temperaturmuster beim Lernen eigens berücksichtigt.
 
-**Eine Spektralquelle, strenge Datenregeln.** Landsat liefert nur die Zieltemperatur, alle optischen Eingänge kommen von Sentinel-2. So gibt es keinen Sensorwechsel zwischen Training und Anwendung. Eine 100-m-Zelle zählt nur, wenn der Landsat-Wert und alle 100 zugehörigen 10-m-Pixel gültig sind. Fehlende Werte fülle ich nicht auf, und die Skalierung schätze ich nur aus den Trainingsjahren. Szenen wähle ich nicht nach Temperatur aus, denn eine Auswahl von Hitzetagen sagt nichts über die Güte des Downscalings.
+Aus dem Modell entstehen Temperaturkarten auf 10 m. Im Test verbessert der Stadtkontext die Vorhersage. Der Unterschied ist größer auf Flächen, die das Modell im Training nie gesehen hat. Für den Vergleich mit den Messungen fasse ich die Karten wieder auf 100 m zusammen.
 
-**Getrennte Jahre und getrennte Flächen.** Trainiert wird auf 2017 bis 2023, ausgewählt auf 2024, getestet einmal auf 2025, nachdem das Modell feststeht. Weil das Modell die Validierungsflächen aus dem Training kennt, kommt ein räumlicher Test dazu: Ganze Blöcke der Stadt bleiben im Training außen vor.
+## Datenpipeline
 
-**Bewertung dort, wo gemessen wurde.** Ich vergleiche die Modelle auf 100 m, nachdem die 10-m-Vorhersage wieder zusammengefasst wurde. Eine naive Hochrechnung des groben Werts und ein Random Forest dienen als Referenzen, mit derselben Maske und derselben Kennzahl. Aussagen über 10 m sind eine Einordnung, kein Messergebnis.
+Für die Oberflächentemperatur verwende ich die thermalen Aufnahmen von Landsat 8 und 9. Dazu kommen Sentinel-2-Aufnahmen und Berliner 3D-Gebäudedaten in LoD2, einer Detailstufe, die auch die Dachform abbildet. Aus den Gebäudedaten leite ich den Schatten und den Sky-View-Factor ab. Der Sky-View-Factor gibt an, welcher Anteil des Himmels von einem Ort aus sichtbar ist.
 
-**Nach einer Datenkorrektur alles neu rechnen.** Während der Arbeit zeigte sich ein Versatz in den Sentinel-2-Reflektanzen neuerer Verarbeitungsstände und ein Fehler in den Gebäudedaten. Ich habe beides korrigiert, die Merkmale neu erzeugt und alle Modellläufe neu gerechnet, statt die alten Zahlen weiterzuverwenden.
+Ich ergänze Vegetationshöhe, Versiegelung und Wetterdaten aus ERA5-Land, einer rückblickenden Berechnung des Wetters. Alle Daten bringe ich auf dasselbe 10-m-Gitter im Koordinatensystem EPSG:25833. Für Training und Auswertung nutze ich Aufnahmen aus der Warmsaison von Mai bis September in den Jahren 2017 bis 2025.
 
-## System
+Ich erfasse die Daten in einem STAC-Katalog, der räumliche Datensätze mit ihren Metadaten verzeichnet. Dazu gehören Angaben zur Herkunft. Ein Manifest legt fest, welche Daten die Pipeline verarbeitet. Prüfskripte kontrollieren die Aufbereitung. Mit demselben Manifest kann ich sie wiederholen. Das Training läuft auf Vertex AI in Google Cloud.
 
-Eine versionierte Auswahl legt fest, welche Landsat-Szenen in die Arbeit eingehen und welche Sentinel-2-Aufnahme zu jeder gehört. Von 290 Paaren bleiben 286; vier fallen heraus, weil Sentinel-2 einen Teil Berlins nicht abdeckt. Daraus entstehen analysefertige Raster auf einem gemeinsamen 10-m-Gitter in EPSG:25833. Aus Berliner Geodaten, darunter LoD2-Gebäude, Gelände, Vegetationshöhe und Versiegelung, berechnet die Pipeline Höhen, Bedeckungsgrade, Sky-View-Factor und Schatten. Je Szene kommen Wetterwerte aus ERA5-Land dazu. Am Ende steht je Szene ein Stapel mit 22 Kanälen und einer Maske der gültigen Pixel. Für das Training schneidet die Pipeline daraus Ausschnitte von 160 × 160 Pixeln, im aktuellen Datenstand insgesamt 8.078 Stück.
+## Pseudo-Paar-Design
 
-Jedes Produkt erscheint mit einem STAC-Eintrag, Herkunftsangaben und einer Fertigmeldung, die zuletzt geschrieben wird. Ohne diese Meldung gilt ein Produkt als nicht veröffentlicht. Eigene Prüfskripte kontrollieren jede Stufe. Die Daten liegen in Google Cloud Storage, trainiert wird auf Vertex AI, die Läufe protokolliert Weights & Biases.
+Weil es auf 10 m keine gemessene Temperatur gibt, lasse ich das Modell eine Auflösungsstufe gröber lernen. Dazu fasse ich die Landsat-Messung auf 1000 m zusammen und verwende dieses Raster als Eingang. Als Ziel dient die Landsat-Messung auf 100 m. Auf dieser Stufe kann das Modell an einer gemessenen Temperatur lernen, wie sich die Temperatur innerhalb der gröberen Rasterzellen verteilt.
+
+Für die Karten verwende ich die Messung auf 100 m als Eingang und lasse das Modell Werte auf 10 m schätzen. Das setzt voraus, dass sich das Gelernte von 1000 m auf 100 m auch auf den Schritt von 100 m auf 10 m übertragen lässt. Für die Auswertung mittle ich die vorhergesagten Werte exakt auf das 100-m-Gitter zurück. Dort vergleiche ich sie mit der Landsat-Messung.
+
+## Aufteilung nach Jahren
+
+Ich trainiere mit den Jahren 2017 bis 2023. Für die Validierung nutze ich das Jahr 2024. An diesen Daten prüfe ich die Entscheidungen für das Modell. Das Jahr 2025 halte ich für den Test zurück. Ich habe den Test einmal geöffnet, nachdem alle Entscheidungen feststanden.
+
+## Ablation
+
+In der Ablation füge ich Gruppen von Eingangsdaten hinzu oder lasse sie weg, um ihren Beitrag zu messen. In allen neun Varianten verwende ich dasselbe 2D-U-Net, ein neuronales Netz, das Muster in den Rastern auf mehreren Auflösungsstufen verarbeitet. Ich trainiere jede Variante mit drei Seeds. Ein Seed legt die Folge der Zufallszahlen für einen Lauf fest. So komme ich auf 27 Modellläufe.
+
+Als Baseline, also als Vergleichsverfahren, rechne ich die grobe Temperaturmessung direkt auf das feinere Gitter hoch. Außerdem vergleiche ich das U-Net mit einem Random Forest, der die Temperatur aus den Vorhersagen vieler Entscheidungsbäume schätzt.
+
+## Statistik
+
+Ich verwende einen gepaarten Bootstrap über Szenen. Dazu ziehe ich Szenen mit Zurücklegen und vergleiche die Modelle jeweils auf denselben gezogenen Szenen. Ich wiederhole das 10.000-mal. Wann ein Unterschied als belastbar gilt, lege ich vor der Auswertung fest.
+
+Zusätzlich prüfe ich die Modelle mit einem räumlichen Holdout. Dafür halte ich Flächen aus dem Training heraus und werte die Vorhersagen für diese Flächen gesondert aus. So kann ich prüfen, wie sich die Modelle an Orten verhalten, die sie im Training nie gesehen haben.
 
 ## Ergebnis
 
-Die Datenpipeline ist fertig und reproduzierbar, von der Szenenauswahl bis zum Trainingsdatensatz für die Sommermonate 2017 bis 2025. Alle Stufen sind inzwischen auf dem korrigierten Datenstand trainiert; der einmalige Test auf 2025 bleibt bis zur Abgabe verschlossen. Mit dem fertigen Modell soll eine mehrjährige 10-m-Zeitreihe der Oberflächentemperatur für Berlin entstehen.
+Das U-Net ist deutlich genauer als die naive Hochrechnung und der Random Forest. Im Testjahr ist der Gewinn durch den Stadtkontext klein, aber belastbar. Gebäudestruktur, Wetter und eine eigene Gruppe von Indizes aus Rot und nahem Infrarot tragen zum Ergebnis bei. Die Indizes NDVI und NDWI für Vegetation und Wasser bringen darüber hinaus nichts. Für das thermalsensitive Training finde ich keinen belastbaren Vorteil.
 
-[Platzhalter: Endergebnis nach Abgabe am 22.12., RMSE Modell gegen Baseline, 2 bis 3 Sätze]
+Auf den Flächen, die das Modell im Training nie gesehen hat, hilft der Stadtkontext deutlich stärker. Bei der Aufteilung nach Jahren allein bleibt dieser Unterschied verborgen.
+
+## Karten
+
+Ich habe Temperaturkarten auf 10 m für 39 Szenen aus 2025 und 42 Szenen aus der Warmsaison 2026 erstellt. Die Aufnahmen von 2026 hat das Modell weder im Training noch im Test gesehen. Dazu kommen Differenzkarten. Sie zeigen, an welchen Stellen sich die geschätzte Temperatur verändert, wenn ich den Stadtkontext in das Modell aufnehme.
 
 ## Grenzen
 
-Es gibt keine unabhängige Temperaturmessung auf 10 m. Die Bewertung findet deshalb auf 100 m statt, und die 10-m-Muster sind eine Rekonstruktion, keine Messung. Der grobe Ausgangswert stammt aus derselben Szene. Die Daten decken nur die Warmsaison von Mai bis September und den Zeitpunkt des Satellitenüberflugs ab. Ein Vergleich mit ECOSTRESS als unabhängiger Quelle ist geplant, aber noch kein Ergebnis. Berlin ist eine Fallstudie; auf andere Städte lassen sich die Befunde nicht ohne Weiteres übertragen.
+Die Auswertung prüft die Übereinstimmung mit Landsat auf 100 m. Unterschiedliche Temperaturmuster auf 10 m können beim Rückmitteln denselben Wert ergeben. Ohne unabhängige Temperaturmessungen auf 10 m kann ich die einzelnen Werte auf dieser Auflösung nicht validieren. Die Übertragung auf den feineren Maßstab bleibt eine Annahme.
+
+## Stand
+
+Ich gebe die Masterarbeit im Dezember 2026 ab. Die Ergebniszahlen folgen nach der Abgabe.

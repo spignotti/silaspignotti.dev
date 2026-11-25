@@ -1,0 +1,23 @@
+<svg class="figure-svg fig-wide" width="840" height="190" viewBox="0 0 840 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-tg-release-t fig-tg-release-d">
+  <title id="fig-tg-release-t">From development to production</title>
+  <desc id="fig-tg-release-d">Three boxes from left to right: development, staging, production. Above the first arrow: tests and security scans; above the second: signed release, shipped nightly. Below production lies the previous version in a dashed box. A dashed path runs from production down and back up with two arrow heads, labelled deploy fails: automatic rollback. Production is highlighted.</desc>
+  <rect class="fig-box" x="8.8" y="24.8" width="194.5" height="62.5" rx="6"/>
+  <text class="fig-t" x="106" y="61" text-anchor="middle">Development</text>
+  <rect class="fig-box" x="322.8" y="24.8" width="194.5" height="62.5" rx="6"/>
+  <text class="fig-t" x="420" y="61" text-anchor="middle">Staging</text>
+  <rect class="fig-focus" x="636.8" y="24.8" width="194.5" height="62.5" rx="6"/>
+  <text class="fig-t-on" x="734" y="61" text-anchor="middle">Production</text>
+  <path class="fig-ln" d="M207 56H311"/>
+  <path class="fig-head-muted" d="M316 56l-7 -4.5v9z"/>
+  <path class="fig-ln" d="M521 56H625"/>
+  <path class="fig-head" d="M630 56l-7 -4.5v9z"/>
+  <text class="fig-t-s" x="261" y="18" text-anchor="middle">Tests and security scans</text>
+  <text class="fig-t-s" x="575" y="18" text-anchor="middle">Signed release, shipped nightly</text>
+  <rect class="fig-box-quiet fig-dash" x="636.8" y="130.8" width="194.5" height="42.5" rx="6"/>
+  <text class="fig-t" x="734" y="157" text-anchor="middle">Previous version</text>
+  <path class="fig-ln fig-dash" d="M714 92V120"/>
+  <path class="fig-head-muted" d="M714 127l-4.5 -7h9z"/>
+  <path class="fig-ln fig-dash" d="M754 126V98"/>
+  <path class="fig-head-muted" d="M754 91l-4.5 7h9z"/>
+  <text class="fig-t-s" x="694" y="114" text-anchor="end">Deploy fails: automatic rollback</text>
+</svg>

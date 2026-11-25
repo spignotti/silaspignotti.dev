@@ -9,7 +9,7 @@ export const GET: APIRoute = async () => {
   const abs = (path: string) => new URL(path, SITE.href).href
   const entries: Entry[] = []
 
-  for (const page of ['home', 'projects', 'about'] as const) {
+  for (const page of ['home', 'projects'] as const) {
     const alternates = {
       de: abs(pagePath('de', page)),
       en: abs(pagePath('en', page)),

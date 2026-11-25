@@ -13,18 +13,15 @@ Silas Pignotti
 
 Einzelunternehmer
 
-[Platzhalter: Straße und Hausnummer, PLZ]
+Danziger Straße 195
 
-Berlin
+10407 Berlin
 
 ## Kontakt
 
-[Platzhalter: E-Mail-Adresse]
+E-Mail: [mail@silaspignotti.dev](mailto:mail@silaspignotti.dev)
 
-[Platzhalter: Telefonnummer]
 
 ## Umsatzsteuer
 
 Kleinunternehmer gemäß § 19 UStG. Es wird keine Umsatzsteuer ausgewiesen.
-
-[Platzhalter: Wirtschafts-Identifikationsnummer (W-IdNr.), sobald vom Bundeszentralamt für Steuern zugeteilt]
