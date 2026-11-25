@@ -4,7 +4,7 @@ import ProjectCard from '@/components/ProjectCard.astro'
 import PersonSchema from '@/components/PersonSchema.astro'
 import Layout from '@/layouts/Layout.astro'
 import type { Lang } from '@/i18n'
-import { SECTION_IDS, UI, pagePath } from '@/i18n'
+import { LEGACY_SECTION_IDS, SECTION_IDS, UI, pagePath } from '@/i18n'
 import { getAreas, getCases, getPage, getSmallProjects } from '@/lib/content'
 import { parseHome } from '@/lib/prose'
 import { headingNbsp, inlineHtml, pruneDeadCaseLinks } from '@/lib/text'
@@ -15,6 +15,7 @@ interface Props {
 const { lang } = Astro.props
 const ui = UI[lang]
 const ids = SECTION_IDS[lang]
+const legacy = LEGACY_SECTION_IDS[lang]
 const page = await getPage(lang, 'home')
 const home = parseHome(page.body ?? '')
 const areas = await getAreas(lang)
@@ -52,7 +53,8 @@ const rest = cases.slice(1)
     </div>
   </section>
 
-  <section class="wrap section" id={ids.areas} aria-labelledby={`h-${ids.areas}`}>
+  <section class="wrap section anchor-host" id={ids.areas} aria-labelledby={`h-${ids.areas}`}>
+    <div id={legacy.areas} class="alias-anchor"></div>
     <div class="section-head"><h2 class="h2" id={`h-${ids.areas}`}>{headingNbsp(home.areasTitle)}</h2></div>
     <div class="fields">
       {areas.map((area) => {
@@ -73,7 +75,8 @@ const rest = cases.slice(1)
     </div>
   </section>
 
-  <section id={ids.projects} aria-labelledby={`h-${ids.projects}`}>
+  <section class="anchor-host" id={ids.projects} aria-labelledby={`h-${ids.projects}`}>
+    <div id={legacy.projects} class="alias-anchor"></div>
     <div class="wrap section" style="padding-bottom:40px">
       <div class="section-head" style="margin-bottom:0">
         <h2 class="h2" id={`h-${ids.projects}`}>{headingNbsp(home.projectsTitle)}</h2>

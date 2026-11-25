@@ -80,6 +80,8 @@ p { text-wrap: pretty; }
 @media (min-width: 1280px) { .hero-copy { left: calc((100vw - var(--container)) / 2); } }
 
 .section { padding-block: var(--section-gap); }
+.anchor-host { position: relative; }
+.alias-anchor { position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none; }
 .section-head { display: grid; gap: 12px; margin-bottom: 40px; max-width: 46em; }
 .h2 { font-size: clamp(32px, 4vw, 48px); line-height: 1.05; letter-spacing: -0.035em; }
 .intro { color: var(--color-muted); font-size: var(--text-lead); line-height: var(--leading-lead); }
@@ -205,6 +207,7 @@ p { text-wrap: pretty; }
 figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--color-muted); max-width: var(--text-column); }
 .fig-n { font: 500 12px var(--font-mono); color: var(--color-text); margin-right: 8px; }
 .shot-art { overflow-x: auto; overscroll-behavior-x: contain; }
+.shot-art:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
 @media (max-width: 639px) { .fig:not(.fig-tall) .shot-art img { min-width: 640px; } }
 .fig-tall .shot-art { max-width: 560px; }
 .shot-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-card); border: 1px solid var(--color-border); }

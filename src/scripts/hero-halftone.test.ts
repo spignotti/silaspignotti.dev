@@ -1,6 +1,17 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { dotRadius, dotStep, easeOutCubic, heatScale, placeMap, sideFade, waveAmount } from './hero-halftone.ts'
+import {
+  TEXT_CLEARANCE,
+  dotRadius,
+  dotStep,
+  easeOutCubic,
+  expandBox,
+  heatScale,
+  placeMap,
+  sideFade,
+  textClearanceFade,
+  waveAmount,
+} from './hero-halftone.ts'
 
 test('desktop placement is the full-bleed box shifted right', () => {
   const mapW = 1000
@@ -50,4 +61,15 @@ test('the left fade is only used on the desktop layout', () => {
   assert.ok(Math.abs(sideFade(420, 1000, true) - 0.5) < 1e-12)
   assert.equal(sideFade(620, 1000, true), 1)
   assert.equal(sideFade(900, 1000, true), 1)
+})
+
+test('desktop dots inside the headline clearance fade out on top of the left ramp', () => {
+  const box = expandBox({ x: 480, y: 520, w: 280, h: 48 }, TEXT_CLEARANCE)
+  assert.equal(box.x, 480 - TEXT_CLEARANCE)
+  assert.equal(box.w, 280 + TEXT_CLEARANCE * 2)
+  assert.equal(textClearanceFade(500, 540, [box], true), 0)
+  assert.equal(textClearanceFade(500, 540, [box], false), 1)
+  assert.equal(textClearanceFade(900, 200, [box], true), 1)
+  assert.equal(sideFade(800, 1000, true) * textClearanceFade(500, 540, [box], true), 0)
+  assert.equal(sideFade(800, 1000, true) * textClearanceFade(900, 200, [box], true), 1)
 })

@@ -59,6 +59,18 @@ export const SECTION_IDS = {
   },
 } as const
 
+/** Previous home hashes. The sections moved; these ids still scroll to them. */
+export const LEGACY_SECTION_IDS = {
+  de: {
+    areas: 'arbeitsfelder',
+    projects: 'fallstudien',
+  },
+  en: {
+    areas: 'areas-of-work',
+    projects: 'case-studies',
+  },
+} as const
+
 export const UI = {
   de: {
     skip: 'Zum Inhalt springen',
@@ -87,6 +99,7 @@ export const UI = {
     tools: 'Werkzeuge',
     proof: 'Projekte',
     figure: 'Abb.',
+    shotScroll: 'Abbildung, seitlich verschiebbar',
     placeholder: 'Platzhalter',
     notFoundTitle: 'Seite nicht gefunden',
     notFoundText:
@@ -122,6 +135,7 @@ export const UI = {
     tools: 'Tools',
     proof: 'Projects',
     figure: 'Fig.',
+    shotScroll: 'Figure, scrolls sideways',
     placeholder: 'Placeholder',
     notFoundTitle: 'Page not found',
     notFoundText: 'This page does not exist or no longer exists. The home page or the project overview may help.',

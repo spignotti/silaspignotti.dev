@@ -23,11 +23,19 @@ const base = (light ?? dark)!
 const tall = base.height > base.width * 0.9
 const widths = tall ? [560, 1120] : [900, 1800]
 // The hidden variant is display:none, so it is neither loaded (lazy) nor read out.
-const sizes = tall ? '(min-width: 640px) 560px, 100vw' : '(min-width: 1024px) 890px, 100vw'
+// Below 640px a wide shot is drawn at 640px (site.css), so the source must match that, not 100vw.
+const sizes = tall ? '(min-width: 640px) 560px, 100vw' : '(min-width: 1024px) 890px, (min-width: 640px) 100vw, 640px'
+const scrolls = !tall
+const regionLabel = alt || UI[lang].shotScroll
 ---
 
 <figure class:list={['fig', { 'fig-tall': tall }]}>
-  <div class:list={['shot-art', { 'has-both': both }]}>
+  <div
+    class:list={['shot-art', { 'has-both': both }]}
+    tabindex={scrolls ? 0 : undefined}
+    role={scrolls ? 'region' : undefined}
+    aria-label={scrolls ? regionLabel : undefined}
+  >
     {light && <Image class="shot-light" src={light} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}
     {dark && <Image class="shot-dark" src={dark} alt={alt} widths={widths} sizes={sizes} format="webp" quality={82} />}
   </div>

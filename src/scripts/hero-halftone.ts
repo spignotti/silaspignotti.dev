@@ -63,6 +63,29 @@ export function sideFade(x: number, width: number, desktop: boolean): number {
   return Math.min(1, Math.max(0, (x / width - 0.22) / 0.4))
 }
 
+/** Extra space around the headline and lead so dots do not sit in the type. */
+export const TEXT_CLEARANCE = 24
+
+export type CssBox = { x: number; y: number; w: number; h: number }
+
+/** Grow a canvas-relative box by `margin` on every side. */
+export function expandBox(box: CssBox, margin: number): CssBox {
+  return { x: box.x - margin, y: box.y - margin, w: box.w + margin * 2, h: box.h + margin * 2 }
+}
+
+function hitsBox(x: number, y: number, box: CssBox): boolean {
+  return x >= box.x && y >= box.y && x <= box.x + box.w && y <= box.y + box.h
+}
+
+/** 0 when a desktop dot sits in the headline or lead clearance. Mobile stays 1. */
+export function textClearanceFade(x: number, y: number, boxes: readonly CssBox[], desktop: boolean): number {
+  if (!desktop) return 1
+  for (const box of boxes) {
+    if (hitsBox(x, y, box)) return 0
+  }
+  return 1
+}
+
 export function dotRadius(step: number, inside: boolean, dist: number): number {
   if (!inside) return Math.max(0.6, step * 0.08)
   return step * 0.5 * heatScale(dist)
@@ -124,8 +147,28 @@ export function mountHalftoneHero(hero: HTMLElement, berlin: BerlinPaths, reduce
   let lastH = -1
   let lastDpr = -1
   let lastDesktop = false
+  let lastClearance = ''
   let viewW = 0
   let viewH = 0
+
+  const measureClearance = (desktop: boolean): CssBox[] => {
+    if (!desktop) return []
+    const origin = canvas.getBoundingClientRect()
+    const boxes: CssBox[] = []
+    for (const name of ['.hero-name', '.hero-lead']) {
+      const el = hero.querySelector(name)
+      if (!(el instanceof HTMLElement)) continue
+      const box = el.getBoundingClientRect()
+      if (!(box.width > 0) || !(box.height > 0)) continue
+      boxes.push(
+        expandBox(
+          { x: box.left - origin.left, y: box.top - origin.top, w: box.width, h: box.height },
+          TEXT_CLEARANCE,
+        ),
+      )
+    }
+    return boxes
+  }
 
   const rebuild = (): boolean => {
     const rect = canvas.getBoundingClientRect()
@@ -134,13 +177,18 @@ export function mountHalftoneHero(hero: HTMLElement, berlin: BerlinPaths, reduce
     if (!(width > 0) || !(height > 0)) return false
     const dpr = window.devicePixelRatio || 1
     const desktop = window.matchMedia(DESKTOP).matches
+    const clearance = measureClearance(desktop)
+    const clearanceKey = clearance
+      .map((box) => `${Math.round(box.x)}:${Math.round(box.y)}:${Math.round(box.w)}:${Math.round(box.h)}`)
+      .join('|')
     const wKey = Math.round(width)
     const hKey = Math.round(height)
-    if (wKey === lastW && hKey === lastH && dpr === lastDpr && desktop === lastDesktop && played) return true
+    if (wKey === lastW && hKey === lastH && dpr === lastDpr && desktop === lastDesktop && clearanceKey === lastClearance && played) return true
     lastW = wKey
     lastH = hKey
     lastDpr = dpr
     lastDesktop = desktop
+    lastClearance = clearanceKey
     viewW = width
     viewH = height
 
@@ -163,7 +211,7 @@ export function mountHalftoneHero(hero: HTMLElement, berlin: BerlinPaths, reduce
         const v = (y - placed.oy) / placed.s
         const land = inside(mask, u, v)
         const dist = reach > 0 ? Math.hypot(x - cx, y - cy) / reach : 0
-        const fade = sideFade(px, width, desktop)
+        const fade = sideFade(px, width, desktop) * textClearanceFade(x, y, clearance, desktop)
         const dot = { x, y, r: dotRadius(step, land, dist), fade, dist }
         if (land) nextInside.push(dot)
         else nextOutside.push(dot)
@@ -241,6 +289,8 @@ export function mountHalftoneHero(hero: HTMLElement, berlin: BerlinPaths, reduce
   kick(0)
   const observer = new ResizeObserver(() => kick(played ? RESIZE_MS : 0))
   observer.observe(canvas)
+  const copy = hero.querySelector('.hero-copy')
+  if (copy) observer.observe(copy)
   window.addEventListener('resize', () => kick(RESIZE_MS))
   window.addEventListener('themechange', () => {
     if (played) paint()
