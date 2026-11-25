@@ -22,7 +22,7 @@ figures:
   - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "From source data through the feature stack to temperature at 10 m.", section: "Data pipeline" }
   - { n: 2, file: "berlin-lst-downscaling/pseudo-pairs", caption: "The model learns to downscale from 1000 m to 100 m and applies what it learns to go from 100 m to 10 m. I evaluate it at 100 m.", section: "Pseudo-pair design" }
   - { n: 3, file: "berlin-lst-downscaling/ablation", caption: "The nine ablation variants. I keep the model fixed and vary only the inputs and, in stage 5, the training target.", section: "Ablation" }
-  - { n: 4, placeholder: "Two-year time series of land surface temperature from model inference, to be inserted by Silas", caption: "Estimated land surface temperature over two warm seasons.", section: "Maps" }
+  - { n: 4, file: "berlin-lst-downscaling/season-map", caption: "Land surface temperature difference from the mean of each overpass, May to September 2025, at 10 m. Preliminary, master's thesis status (not yet reviewed).", section: "Maps" }
 ---
 
 ## Background

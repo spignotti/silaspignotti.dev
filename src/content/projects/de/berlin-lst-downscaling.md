@@ -22,7 +22,7 @@ figures:
   - { n: 1, file: "berlin-lst-downscaling/data-flow", caption: "Von den Quelldaten über den Feature-Stack zur Temperatur auf 10 m.", section: "Datenpipeline" }
   - { n: 2, file: "berlin-lst-downscaling/pseudo-pairs", caption: "Das Modell lernt den Schritt von 1000 m auf 100 m und wendet ihn von 100 m auf 10 m an. Geprüft wird auf 100 m.", section: "Pseudo-Paar-Design" }
   - { n: 3, file: "berlin-lst-downscaling/ablation", caption: "Die neun Varianten der Ablation. Das Modell bleibt gleich, nur die Eingänge und in Stufe 5 das Trainingsziel wechseln.", section: "Ablation" }
-  - { n: 4, placeholder: "Zeitreihe der Oberflächentemperatur über zwei Jahre aus der Modellinferenz, von Silas einzufügen", caption: "Die geschätzte Oberflächentemperatur über zwei Warmsaisons.", section: "Karten" }
+  - { n: 4, file: "berlin-lst-downscaling/season-map", caption: "Abweichung der Oberflächentemperatur vom Mittel je Überflug, Mai bis September 2025, auf 10 m. Vorläufig, Stand Masterarbeit (nicht begutachtet).", section: "Karten" }
 ---
 
 ## Ausgangslage
