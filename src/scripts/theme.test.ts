@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { initTheme } from './theme.ts'
 
-type Listener = (event: { target?: DomEl; relatedTarget?: DomEl | null; key?: string; preventDefault?: () => void }) => void
+type Evt = { type: string; target: DomEl; key?: string; preventDefault: () => void; prevented: boolean }
+type Listener = (event: Evt) => void
 
 class DomEl {
   parent: DomEl | null = null
@@ -26,26 +27,13 @@ class DomEl {
     this.listeners.set(type, list)
   }
   matches(selector: string): boolean {
-    if (selector.startsWith('.') && !selector.includes(' ')) return this.className.split(/\s+/).includes(selector.slice(1))
+    if (selector.startsWith('.')) return this.className.split(/\s+/).includes(selector.slice(1))
     if (selector === '[data-mode]') return this.dataset.mode !== undefined
-    if (selector === '[aria-checked="true"]') return this.getAttribute('aria-checked') === 'true'
-    if (selector === '.theme-menu [data-mode]') return this.dataset.mode !== undefined && this.hasAncestor('theme-menu')
-    return false
-  }
-  hasAncestor(className: string): boolean {
-    let parent = this.parent
-    while (parent) {
-      if (parent.className.split(/\s+/).includes(className)) return true
-      parent = parent.parent
-    }
+    if (selector === '[role^="menuitem"]') return (this.getAttribute('role') ?? '').startsWith('menuitem')
     return false
   }
   closest(selector: string): DomEl | null {
-    let current: DomEl | null = this
-    while (current) {
-      if (current.matches(selector)) return current
-      current = current.parent
-    }
+    for (let el: DomEl | null = this; el; el = el.parent) if (el.matches(selector)) return el
     return null
   }
   querySelectorAll(selector: string): DomEl[] {
@@ -65,128 +53,135 @@ class DomEl {
   append(child: DomEl) {
     child.parent = this
     this.children.push(child)
+    return child
   }
   focus() {
     active = this
+    dispatch('focusin', this)
   }
   contains(node: unknown): boolean {
-    if (node === this) return true
-    return this.children.some((child) => child.contains(node))
+    return node === this || this.children.some((child) => child.contains(node))
   }
 }
 
 let active: DomEl | null = null
 const docListeners = new Map<string, Listener[]>()
-let frames: FrameRequestCallback[] = []
 
-class FocusEvt {
-  relatedTarget: DomEl | null
-  constructor(_type: string, init?: { relatedTarget?: DomEl | null }) {
-    this.relatedTarget = init?.relatedTarget ?? null
-  }
+function dispatch(type: string, target: DomEl, key?: string): boolean {
+  const event: Evt = { type, target, key, prevented: false, preventDefault: () => (event.prevented = true) }
+  for (let el: DomEl | null = target; el; el = el.parent) for (const fn of el.listeners.get(type) ?? []) fn(event)
+  for (const fn of docListeners.get(type) ?? []) fn(event)
+  return event.prevented
+}
+
+/** A hidden element cannot be hit; the click lands on whatever is behind it. */
+function click(target: DomEl) {
+  for (let el: DomEl | null = target; el; el = el.parent) if (el.hidden && el.parent) target = el.parent
+  dispatch('click', target)
+}
+
+/** Safari on mousedown: the focused element blurs, nothing else takes focus. */
+function blurToBody() {
+  active = null
 }
 
 function install() {
   active = null
   docListeners.clear()
-  frames = []
   const root = new DomEl()
-  const theme = new DomEl()
+  const theme = root.append(new DomEl())
   theme.className = 'theme'
-  const btn = new DomEl()
-  btn.className = 'theme-btn'
+  const btn = theme.append(new DomEl())
+  btn.className = 'menu-btn'
   btn.setAttribute('aria-expanded', 'false')
-  const menu = new DomEl()
-  menu.className = 'theme-menu'
+  const menu = theme.append(new DomEl())
+  menu.className = 'menu-list'
   menu.hidden = true
   for (const mode of ['light', 'dark', 'system']) {
-    const item = new DomEl()
+    const item = menu.append(new DomEl())
     item.dataset.mode = mode
-    item.setAttribute('aria-checked', mode === 'system' ? 'true' : 'false')
-    menu.append(item)
+    item.setAttribute('role', 'menuitemradio')
   }
-  theme.append(btn)
-  theme.append(menu)
-  root.append(theme)
-  const outside = new DomEl()
-  root.append(outside)
+  const outside = root.append(new DomEl())
 
-  const documentStub = {
-    documentElement: root,
-    get activeElement() {
-      return active
-    },
-    querySelector: (selector: string) => root.querySelector(selector),
-    addEventListener(type: string, fn: Listener) {
-      const list = docListeners.get(type) ?? []
-      list.push(fn)
-      docListeners.set(type, list)
-    },
-  }
+  let stored: string | null = 'light'
   Object.assign(globalThis, {
     Element: DomEl,
     Node: DomEl,
-    FocusEvent: FocusEvt,
-    document: documentStub,
-    localStorage: { getItem: () => null, setItem() {} },
-    requestAnimationFrame: (cb: FrameRequestCallback) => {
-      frames.push(cb)
-      return frames.length
+    document: {
+      documentElement: root,
+      get activeElement() {
+        return active
+      },
+      querySelector: (selector: string) => root.querySelector(selector),
+      addEventListener(type: string, fn: Listener) {
+        const list = docListeners.get(type) ?? []
+        list.push(fn)
+        docListeners.set(type, list)
+      },
+    },
+    localStorage: {
+      getItem: () => stored,
+      setItem: (_key: string, value: string) => {
+        stored = value
+      },
     },
     dispatchEvent: () => true,
+    Event: class {
+      constructor(public type: string) {}
+    },
     matchMedia: () => ({ matches: false, addEventListener() {} }),
   })
   ;(globalThis as { window?: unknown }).window = globalThis
   initTheme()
-  return { btn, menu, theme, outside, items: menu.querySelectorAll('[data-mode]') }
+  const [light, dark, system] = menu.querySelectorAll('[data-mode]') as [DomEl, DomEl, DomEl]
+  return { root, btn, menu, outside, light, dark, system, stored: () => stored }
 }
 
-function click(target: DomEl) {
-  for (const fn of docListeners.get('click') ?? []) fn({ target })
-}
+test('a click on an option applies it even when the click never moved focus (Safari)', () => {
+  const { root, btn, menu, dark, system, stored } = install()
+  assert.equal(root.dataset.theme, 'light')
 
-function key(name: string) {
-  let prevented = false
-  for (const fn of docListeners.get('keydown') ?? []) {
-    fn({ key: name, preventDefault: () => { prevented = true } })
-  }
-  return prevented
-}
-
-function focusOut(from: DomEl, related: DomEl | null) {
-  const event = new FocusEvt('focusout', { relatedTarget: related })
-  for (const fn of from.listeners.get('focusout') ?? []) fn(event)
-}
-
-function flush() {
-  const queued = frames.splice(0)
-  for (const cb of queued) cb(0)
-}
-
-test('the theme menu closes when focus leaves and ignores arrows outside it', () => {
-  const { btn, menu, theme, outside, items } = install()
   click(btn)
   assert.equal(menu.hidden, false)
-  assert.equal(btn.getAttribute('aria-expanded'), 'true')
-
-  outside.focus()
-  focusOut(theme, items[1] ?? null)
-  flush()
-  assert.equal(menu.hidden, false)
-
-  focusOut(theme, outside)
-  flush()
+  blurToBody()
+  click(dark)
+  assert.equal(root.dataset.theme, 'dark')
+  assert.equal(stored(), 'dark')
   assert.equal(menu.hidden, true)
   assert.equal(btn.getAttribute('aria-expanded'), 'false')
 
   click(btn)
-  outside.focus()
-  assert.equal(key('ArrowDown'), false)
-  assert.equal(active, outside)
+  blurToBody()
+  click(system)
+  assert.equal(root.dataset.theme, undefined)
+  assert.equal(system.getAttribute('aria-checked'), 'true')
+})
 
-  items[0]?.focus()
-  assert.equal(key('ArrowDown'), true)
-  assert.equal(active, items[1])
-  assert.equal(key('ArrowUp'), true)
-  assert.equal(active, items[0])
+test('the menu closes on a click outside, on focus outside and on Escape', () => {
+  const { btn, menu, outside } = install()
+  click(btn)
+  click(outside)
+  assert.equal(menu.hidden, true)
+
+  click(btn)
+  outside.focus()
+  assert.equal(menu.hidden, true)
+
+  click(btn)
+  assert.equal(dispatch('keydown', active ?? btn, 'Escape'), true)
+  assert.equal(menu.hidden, true)
+  assert.equal(active, btn)
+})
+
+test('arrow keys move between options inside the open menu', () => {
+  const { btn, light, dark, system } = install()
+  click(btn)
+  assert.equal(active, light)
+  dispatch('keydown', light, 'ArrowDown')
+  assert.equal(active, dark)
+  dispatch('keydown', dark, 'ArrowUp')
+  assert.equal(active, light)
+  dispatch('keydown', light, 'ArrowUp')
+  assert.equal(active, system)
 })

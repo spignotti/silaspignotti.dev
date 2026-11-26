@@ -2,6 +2,7 @@ export const LANGS = ['de', 'en'] as const
 export type Lang = (typeof LANGS)[number]
 export const DEFAULT_LANG: Lang = 'de'
 
+export const LANG_NAMES: Record<Lang, string> = { de: 'Deutsch', en: 'English' }
 export const HTML_LANG: Record<Lang, string> = { de: 'de', en: 'en' }
 export const OG_LOCALE: Record<Lang, string> = { de: 'de_DE', en: 'en_US' }
 export const JSON_LANG: Record<Lang, string> = { de: 'de-DE', en: 'en-US' }
@@ -77,7 +78,6 @@ export const UI = {
     navLabel: 'Hauptnavigation',
     nav: { home: 'Start', projects: 'Projekte' },
     wordmarkLabel: 'Silas Pignotti, zur Startseite',
-    switchLang: 'English',
     switchLangLabel: 'Sprache wechseln',
     themeLabel: 'Farbmodus wechseln',
     theme: { light: 'Hell', dark: 'Dunkel', system: 'System' },
@@ -113,7 +113,6 @@ export const UI = {
     navLabel: 'Main navigation',
     nav: { home: 'Home', projects: 'Projects' },
     wordmarkLabel: 'Silas Pignotti, go to home page',
-    switchLang: 'Deutsch',
     switchLangLabel: 'Change language',
     themeLabel: 'Change colour mode',
     theme: { light: 'Light', dark: 'Dark', system: 'System' },

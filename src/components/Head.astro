@@ -52,6 +52,8 @@ const { robots = 'index, follow, max-image-preview:large' } = Astro.props
   <slot />
 </head>
 <script>
+  import { bindMenu } from '@/scripts/menu'
   import { initTheme } from '@/scripts/theme'
   initTheme()
+  bindMenu(document.querySelector<HTMLElement>('.lang'))
 </script>

@@ -36,14 +36,14 @@ p { text-wrap: pretty; }
 .nav-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 56px auto; align-items: center; column-gap: 16px; }
 .wordmark { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap; }
 .nav-links { display: flex; gap: 24px; font-size: 15px; grid-column: 1 / -1; grid-row: 2; padding-bottom: 12px; }
-.nav-links a, .nav-lang { color: var(--color-muted); text-decoration: none; transition: color var(--motion-base) var(--ease-standard); }
+.nav-links a { color: var(--color-muted); text-decoration: none; transition: color var(--motion-base) var(--ease-standard); }
 .nav-links a { position: relative; }
-.nav-links a:hover, .nav-links a:focus-visible, .nav-lang:hover, .nav-lang:focus-visible { color: var(--color-text); }
+.nav-links a:hover, .nav-links a:focus-visible { color: var(--color-text); }
 .nav-links a[aria-current='page'] { color: var(--color-text); }
 .nav-links a[aria-current='page']::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 100%; height: 1px; background: var(--color-accent); transform: scaleX(1); transform-origin: left; }
 .js:not(.rm) .nav-links a[aria-current='page']::after { animation: nav-underline var(--motion-base) var(--ease-standard) both; }
 @keyframes nav-underline { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.nav-tools { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+.nav-tools { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 @media (min-width: 640px) {
   .nav { position: fixed; inset: 0 0 auto; background: color-mix(in srgb, var(--color-bg) 72%, transparent); --nav-blur: blur(16px); -webkit-backdrop-filter: var(--nav-blur); backdrop-filter: var(--nav-blur); }
   .nav-bar { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: var(--nav-h); }
@@ -52,16 +52,16 @@ p { text-wrap: pretty; }
   main.has-hero { padding-top: 0; }
 }
 
-.theme { position: relative; }
-.theme-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: none; color: var(--color-text); cursor: pointer; }
-.theme-btn svg { width: 14px; height: 14px; transition: transform var(--motion-base) var(--ease-standard); }
-.theme-btn:hover svg, .theme-btn:focus-visible svg { transform: rotate(20deg); }
-.theme-menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; padding: 4px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-overlay); display: grid; }
-.theme-menu[hidden] { display: none; }
-.theme-menu button { all: unset; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-control); font-size: 14px; cursor: pointer; }
-.theme-menu button:hover, .theme-menu button:focus-visible { background: var(--color-surface-2); outline: none; }
-.theme-menu button[aria-checked='true']::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); }
-.theme-menu button[aria-checked='false']::before { content: ''; width: 6px; height: 6px; }
+.menu { position: relative; }
+.menu-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-control); background: none; color: var(--color-text); cursor: pointer; }
+.menu-btn svg { width: 14px; height: 14px; transition: transform var(--motion-base) var(--ease-standard); }
+.menu-btn:hover svg, .menu-btn:focus-visible svg { transform: rotate(20deg); }
+.menu-list { position: absolute; right: 0; top: calc(100% + 8px); min-width: 140px; padding: 4px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-overlay); display: grid; }
+.menu-list[hidden] { display: none; }
+.menu-list [role^='menuitem'] { all: unset; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-control); font-size: 14px; cursor: pointer; }
+.menu-list [role^='menuitem']:hover, .menu-list [role^='menuitem']:focus-visible { background: var(--color-surface-2); outline: none; }
+.menu-list [role^='menuitem']::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+.menu-list [aria-checked='true']::before { background: var(--color-accent); }
 
 .hero { position: relative; }
 .hero-pin { position: relative; }
@@ -287,9 +287,9 @@ figcaption { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--c
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-  :is(.btn, .theme-btn svg, .row-small b),
+  :is(.btn, .menu-btn svg, .row-small b),
   :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .nav-links a)::after { transform: none !important; }
 }
 .rm *, .rm *::before, .rm *::after { transition: none !important; animation: none !important; }
-.rm :is(.btn, .theme-btn svg, .row-small b),
+.rm :is(.btn, .menu-btn svg, .row-small b),
 .rm :is(.band-link, .all-link > a, .more-link > a, .cs-next-title, .cs-next .links > a, .nav-links a)::after { transform: none !important; }
