@@ -9,10 +9,6 @@ description: "Ich werte in Berlin Geodaten und Satellitendaten aus, automatisier
 
 Geodaten, Datenauswertung und Softwareentwicklung in Berlin.
 
-## Profil
-
-Ich bin Geoinformatiker und werte Geodaten und Satellitendaten aus. Ich baue Auswertungen so, dass sie wiederholbar sind und möglichst automatisch laufen. Wo daraus ein Werkzeug für den Alltag werden soll, entwickle ich die Software dazu und betreibe sie.
-
 ## Bereiche
 
 ## Projekte

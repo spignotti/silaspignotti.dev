@@ -45,14 +45,12 @@ export function switchPath(lang: Lang, alternate: string | undefined): string {
 
 export const SECTION_IDS = {
   de: {
-    profile: 'profil',
     areas: 'bereiche',
     projects: 'projekte',
     about: 'ueber-mich',
     contact: 'kontakt',
   },
   en: {
-    profile: 'profile',
     areas: 'areas',
     projects: 'projects',
     about: 'about',
