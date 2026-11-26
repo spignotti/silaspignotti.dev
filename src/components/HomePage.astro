@@ -1,4 +1,5 @@
 ---
+import LinkIcon from '@/components/LinkIcon.astro'
 import CaseBand from '@/components/CaseBand.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import PersonSchema from '@/components/PersonSchema.astro'
@@ -43,13 +44,6 @@ const rest = cases.slice(1)
         <h1 class="hero-name">{headingNbsp(home.name)}</h1>
         <p class="hero-lead">{headingNbsp(home.fieldLine)}</p>
       </div>
-    </div>
-  </section>
-
-  <section class="wrap section split" id={ids.profile} aria-labelledby={`h-${ids.profile}`}>
-    <h2 class="h2" id={`h-${ids.profile}`}>{headingNbsp(home.profileTitle)}</h2>
-    <div class="split-body">
-      {home.profile.map((paragraph) => <p class="lead-text">{paragraph}</p>)}
     </div>
   </section>
 
@@ -100,7 +94,7 @@ const rest = cases.slice(1)
               <span class="mono">{item.data.year}</span>
               <p>{item.data.description}</p>
               {item.data.links[0] && (
-                <a class="tl tl-acc" href={item.data.links[0].href} target="_blank" rel="noopener noreferrer">{item.data.links[0].label}</a>
+                <a class="tl tl-acc" href={item.data.links[0].href} target="_blank" rel="noopener noreferrer"><LinkIcon href={item.data.links[0].href} />{item.data.links[0].label}</a>
               )}
             </div>
           ))}

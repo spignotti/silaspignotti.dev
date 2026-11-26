@@ -14,8 +14,6 @@ links:
   - label: "tourengenie.de"
     href: "https://tourengenie.de"
 keyFigures:
-  - value: "über 100"
-    label: "Kunden im festen Wartungsturnus"
   - value: "rund 30 %"
     label: "weniger Touren"
   - value: "rund 50 %"
@@ -42,11 +40,9 @@ Der Betrieb plant damit jeden Tag seine Touren. Nach Angaben des Betriebs fährt
 
 ## Planung
 
-Ich bilde den ganzen Monat als ein Tourenplanungsmodell ab, ein Vehicle Routing Problem (VRP): welches Fahrzeug welche Stopps in welcher Reihenfolge anfährt. Ich löse es mit dem Open-Source-Solver PyVRP. Im Modell ist jede Kombination aus Wochentag und Fahrzeugklasse ein eigenes Fahrzeug, so verteilt ein einziger Lauf die Wartungen auf alle Tage des Monats. Die Fahrzeit zwischen zwei Stopps geht für jede Fahrzeugklasse gesondert in die Planung ein.
+Ich bilde den ganzen Monat als ein Tourenplanungsmodell ab, ein Vehicle Routing Problem (VRP): welches Fahrzeug welche Stopps in welcher Reihenfolge anfährt. Ich löse es mit dem Open-Source-Solver PyVRP. Ein Lauf verteilt die Wartungen auf alle Tage des Monats.
 
 Die lexikografische Zielfunktion gibt den Zielen eine feste Rangfolge. Zuerst soll der Plan alle fälligen Aufträge enthalten. Danach soll er möglichst wenige Touren brauchen. Bei gleicher Tourenzahl zählt die Fahrzeit. Erst bei gleicher Fahrzeit entscheidet die Distanz. Überfällige Wartungen plane ich zusätzlich nach Dringlichkeitsstufen vorrangig ein.
-
-PyVRP optimiert nur eine einzige ganzzahlige Zielfunktion. Deshalb skaliere ich die Ziele so gestaffelt, dass ein zusätzlich eingeplanter Auftrag immer mehr zählt als jede eingesparte Tour und eine eingesparte Tour immer mehr als jede eingesparte Fahrzeit. So bleibt die Rangfolge auch in der einen Zahl erhalten.
 
 Ein unabhängiger Prüfer rechnet jedes Ergebnis nach. Findet er einen Fehler, veröffentlicht Tourengenie den Plan nicht.
 
@@ -58,9 +54,9 @@ Die Berechnung läuft im Hintergrund. Kommen mehrere Änderungen kurz nacheinand
 
 ## Fahrzeit-Cache
 
-Für die Planung brauche ich die Fahrzeit zwischen den Stopps. Ich speichere diese Fahrzeitmatrix als Cache in PostgreSQL. Die Einträge sind gerichtete Kanten, also ein eigener Eintrag für jede Fahrtrichtung zwischen zwei Stopps. Ich speichere sie je Mandant und Fahrzeugprofil dauerhaft, ohne Ablaufdatum.
+Für die Planung brauche ich die Fahrzeit zwischen den Stopps. Ich speichere diese Fahrzeitmatrix als Cache in PostgreSQL. Die Einträge sind gerichtete Kanten, also ein eigener Eintrag für jede Fahrtrichtung zwischen zwei Stopps.
 
-Beim Speichern eines Standorts wärmt Tourengenie den Cache im Hintergrund auf. Kommt zu n vorhandenen Stopps ein neuer hinzu, braucht die Software nur 2n weitere Kanten. Das sind die Fahrten vom neuen Stopp zu den vorhandenen Stopps und die Fahrten zurück. Die ganze Matrix neu zu berechnen hieße n² Kanten. Die Fahrzeiten kommen vom Routing-Dienst Geoapify. Die Abrufe dort plane ich als Rechtecke aus Start- und Zielpunkten, so dass sie nach dem Preismodell des Anbieters möglichst wenig kosten.
+Beim Speichern eines Standorts wärmt Tourengenie den Cache im Hintergrund auf. Kommt zu n vorhandenen Stopps ein neuer hinzu, braucht die Software nur 2n weitere Kanten. Das sind die Fahrten vom neuen Stopp zu den vorhandenen Stopps und die Fahrten zurück. Die ganze Matrix neu zu berechnen hieße n² Kanten. Die Fahrzeiten kommen von einem externen Routing-Dienst. Die Abrufe bündle ich so, dass sie möglichst wenig kosten.
 
 Mit den gespeicherten Fahrzeiten dauert das Neuplanen wenige Sekunden. Bei der Messung im Oktober dauerte ein Lauf mit warmem Cache unter zwei Sekunden. Mit kaltem Cache waren es rund 16 Sekunden.
 

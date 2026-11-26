@@ -1,6 +1,6 @@
 ---
 import type { Lang, NavKey } from '@/i18n'
-import { HTML_LANG, UI, otherLang, pagePath, switchPath } from '@/i18n'
+import { HTML_LANG, LANGS, LANG_NAMES, UI, pagePath, switchPath } from '@/i18n'
 
 interface Props {
   lang: Lang
@@ -10,7 +10,6 @@ interface Props {
 
 const { lang, current, alternate } = Astro.props
 const ui = UI[lang]
-const other = otherLang(lang)
 const items: { key: NavKey; href: string }[] = [
   { key: 'home', href: pagePath(lang, 'home') },
   { key: 'projects', href: pagePath(lang, 'projects') },
@@ -31,17 +30,38 @@ const items: { key: NavKey; href: string }[] = [
       }
     </nav>
     <div class="nav-tools">
-      <a class="nav-lang" href={switchPath(lang, alternate)} hreflang={HTML_LANG[other]} lang={HTML_LANG[other]} aria-label={ui.switchLangLabel}>
-        {ui.switchLang}
-      </a>
-      <div class="theme">
-        <button class="theme-btn" type="button" aria-label={ui.themeLabel} aria-expanded="false" aria-controls="theme-menu">
+      <div class="menu lang">
+        <button class="menu-btn" type="button" aria-label={ui.switchLangLabel} aria-expanded="false" aria-controls="lang-menu">
+          <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.25">
+            <circle cx="8" cy="8" r="6.25"></circle>
+            <ellipse cx="8" cy="8" rx="2.75" ry="6.25"></ellipse>
+            <path d="M1.75 8h12.5"></path>
+          </svg>
+        </button>
+        <div class="menu-list" id="lang-menu" role="menu" hidden>
+          {
+            LANGS.map((code) => (
+              <a
+                role="menuitemradio"
+                aria-checked={code === lang ? "true" : "false"}
+                href={code === lang ? Astro.url.pathname : switchPath(lang, alternate)}
+                hreflang={HTML_LANG[code]}
+                lang={HTML_LANG[code]}
+              >
+                {LANG_NAMES[code]}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+      <div class="menu theme">
+        <button class="menu-btn" type="button" aria-label={ui.themeLabel} aria-expanded="false" aria-controls="theme-menu">
           <svg viewBox="0 0 16 16" aria-hidden="true">
             <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
             <path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"></path>
           </svg>
         </button>
-        <div class="theme-menu" id="theme-menu" role="menu" hidden>
+        <div class="menu-list" id="theme-menu" role="menu" hidden>
           <button type="button" role="menuitemradio" data-mode="light" aria-checked="false">{ui.theme.light}</button>
           <button type="button" role="menuitemradio" data-mode="dark" aria-checked="false">{ui.theme.dark}</button>
           <button type="button" role="menuitemradio" data-mode="system" aria-checked="true">{ui.theme.system}</button>

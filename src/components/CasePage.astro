@@ -1,4 +1,5 @@
 ---
+import LinkIcon from '@/components/LinkIcon.astro'
 import ArticleSchema from '@/components/ArticleSchema.astro'
 import Figure from '@/components/Figure.astro'
 import Shot from '@/components/Shot.astro'
@@ -87,6 +88,7 @@ if (unplaced.length > 0) {
                 rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 download={/\.pdf$/i.test(link.href) ? '' : undefined}
               >
+                <LinkIcon href={link.href} />
                 {link.label}
               </a>
             ))}

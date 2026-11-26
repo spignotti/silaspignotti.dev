@@ -9,10 +9,6 @@ description: "I analyse geodata and satellite data in Berlin, automate analyses 
 
 Geodata, data analysis and software development in Berlin.
 
-## Profile
-
-I work in geoinformatics and analyse geodata and satellite data. I set up analyses so they can be repeated and run automatically where possible. When an analysis needs to become a tool for everyday use, I develop and run the software.
-
 ## Areas
 
 ## Projects

@@ -3,8 +3,6 @@ export type LinkItem = { label: string; href: string }
 export type HomeContent = {
   name: string
   fieldLine: string
-  profileTitle: string
-  profile: string[]
   areasTitle: string
   projectsTitle: string
   projectsIntro: string
@@ -68,13 +66,11 @@ export function parseHome(body: string): HomeContent {
   const name = body.match(/^# (.+)$/m)?.[1]?.trim() ?? ''
   const heads = headings(body)
 
-  const profile = paragraphs(sliceSection(body, 0))
-
-  const aboutParagraphs = paragraphs(sliceSection(body, 3))
+  const aboutParagraphs = paragraphs(sliceSection(body, 2))
   const aboutLink = aboutParagraphs.map(onlyLink).find((link) => link !== null) ?? null
   const about = aboutParagraphs.filter((paragraph) => onlyLink(paragraph) === null)
 
-  const contactBlock = sliceSection(body, 4)
+  const contactBlock = sliceSection(body, 3)
   const contactLines = contactBlock.split('\n').map((line) => line.trim()).filter(Boolean)
   const contactLead = contactLines.find((line) => !line.startsWith('-')) ?? ''
   const contactLinks = linksIn(contactLines.filter((line) => line.startsWith('-')).join('\n'))
@@ -82,15 +78,13 @@ export function parseHome(body: string): HomeContent {
   return {
     name,
     fieldLine: firstLine(leadBlock(body)),
-    profileTitle: heads[0] ?? '',
-    profile,
-    areasTitle: heads[1] ?? '',
-    projectsTitle: heads[2] ?? '',
-    projectsIntro: paragraphs(sliceSection(body, 2)).join(' '),
-    aboutTitle: heads[3] ?? '',
+    areasTitle: heads[0] ?? '',
+    projectsTitle: heads[1] ?? '',
+    projectsIntro: paragraphs(sliceSection(body, 1)).join(' '),
+    aboutTitle: heads[2] ?? '',
     about,
     aboutLink,
-    contactTitle: heads[4] ?? '',
+    contactTitle: heads[3] ?? '',
     contactLead,
     contactLinks,
   }

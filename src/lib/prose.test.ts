@@ -41,12 +41,6 @@ test('the home page is read by section position', () => {
     '',
     'Geodaten, Datenauswertung und Softwareentwicklung in Berlin.',
     '',
-    '## Profil',
-    '',
-    'Erster Absatz.',
-    '',
-    'Zweiter Absatz.',
-    '',
     '## Bereiche',
     '',
     '## Projekte',
@@ -72,8 +66,6 @@ test('the home page is read by section position', () => {
   assert.deepEqual(parseHome(body), {
     name: 'Silas Pignotti',
     fieldLine: 'Geodaten, Datenauswertung und Softwareentwicklung in Berlin.',
-    profileTitle: 'Profil',
-    profile: ['Erster Absatz.', 'Zweiter Absatz.'],
     areasTitle: 'Bereiche',
     projectsTitle: 'Projekte',
     projectsIntro: 'Zu jedem Projekt beschreibe ich die Aufgabe.',
@@ -94,10 +86,6 @@ test('an empty projects section leaves no intro and keeps the sections after it'
     '# Silas Pignotti',
     '',
     'Zeile',
-    '',
-    '## Profil',
-    '',
-    'Absatz.',
     '',
     '## Bereiche',
     '',
@@ -130,8 +118,6 @@ test('an incomplete home page yields empty parts', () => {
   const home = parseHome('# Silas Pignotti')
   assert.equal(home.name, 'Silas Pignotti')
   assert.equal(home.fieldLine, '')
-  assert.equal(home.profileTitle, '')
-  assert.deepEqual(home.profile, [])
   assert.equal(home.projectsTitle, '')
   assert.equal(home.projectsIntro, '')
   assert.equal(home.aboutLink, null)
