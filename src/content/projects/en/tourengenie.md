@@ -14,8 +14,6 @@ links:
   - label: "tourengenie.de"
     href: "https://tourengenie.de"
 keyFigures:
-  - value: "over 100"
-    label: "customers on a fixed maintenance schedule"
   - value: "about 30 %"
     label: "fewer routes"
   - value: "about 50 %"
@@ -42,11 +40,9 @@ The company uses Tourengenie to plan its routes every day. The company reports t
 
 ## Planning
 
-I model the whole month as a Vehicle Routing Problem (VRP). The model represents which vehicle visits which stops and in what order. I solve it with PyVRP, an open-source solver. In the model, each combination of a day of the week and a vehicle class is a separate vehicle. This lets a single run assign maintenance jobs across all days of the month. The model accounts for travel time between stops separately for each vehicle class.
+I model the whole month as a Vehicle Routing Problem (VRP). The model represents which vehicle visits which stops and in what order. I solve it with PyVRP, an open-source solver. A single run assigns maintenance jobs across all days of the month.
 
 The lexicographic objective ranks the goals in a fixed order. First, the plan should include all jobs that are due. Next, it should use as few routes as possible. If plans use the same number of routes, travel time decides. Distance only decides if travel time is also equal. I also give overdue maintenance jobs priority according to their urgency levels.
-
-PyVRP optimizes a single integer objective function. I scale the objectives so that scheduling one more job always counts more than any reduction in the number of routes, and removing one route always counts more than any savings in travel time. This preserves the ranking in a single number.
 
 An independent checker verifies each result by recalculating it. If the checker finds an error, Tourengenie does not publish the plan.
 
@@ -58,9 +54,9 @@ The calculation runs in the background. If several changes arrive close together
 
 ## Travel time cache
 
-I need travel times between stops to plan the routes. I cache this travel time matrix in PostgreSQL. The entries are directed edges, with a separate entry for each direction between two stops. I store them by tenant and vehicle profile without an expiry date.
+I need travel times between stops to plan the routes. I cache this travel time matrix in PostgreSQL. The entries are directed edges, with a separate entry for each direction between two stops.
 
-When a location is saved, Tourengenie warms the cache in the background. If a new stop is added to n existing stops, the software only needs 2n more edges. These cover trips from the new stop to the existing stops and trips back. Recalculating the entire matrix would require n² edges. The travel times come from Geoapify, a routing service. I group requests into rectangles of origins and destinations to keep costs as low as possible under the provider's pricing model.
+When a location is saved, Tourengenie warms the cache in the background. If a new stop is added to n existing stops, the software only needs 2n more edges. These cover trips from the new stop to the existing stops and trips back. Recalculating the entire matrix would require n² edges. The travel times come from an external routing service. I batch the requests to keep costs as low as possible.
 
 With cached travel times, replanning takes a few seconds. In the October measurement, a run with a warm cache took under two seconds. With a cold cache, it took about 16 seconds.
 
