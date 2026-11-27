@@ -7,7 +7,7 @@ Personal site at https://silaspignotti.dev. Static Astro site on GitHub Pages.
 This repository is the only source for all site copy: pages in `src/content/pages/`, projects in `src/content/projects/`. There is no Notion mirror, no CMS, and no sync.
 
 - A project is published when its file exists in `src/content/projects/`. Projects that are not on the site have no file here.
-- Important repo: every change goes through its own branch and a pull request. CI must be green and Silas gives his OK before any PR is merged.
+- Small repo, but `main` is live: a visible change is built on a side branch and goes live only after Silas has seen it (screenshots).
 - German at `/`, English at `/en/`. One file per language with the same slug.
 - Voice: sober and factual, first person, no slogans, no numbers in the hero, no em dashes; see .grok/skills/portfolio-writer. Publish steps live in `site-deploy`.
 
